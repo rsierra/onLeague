@@ -1,0 +1,38 @@
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+      <div class="container">
+      <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+        <span class="i-bar"></span>
+        <span class="i-bar"></span>
+        <span class="i-bar"></span>
+      </a>
+      <a class="brand" href="#">onLeague</a>
+      <div class="container nav-collapse">
+        <ul class="nav">
+            <li><%= link_to t('.home'), root_path, :class => "active"  %></li>
+        </ul>
+
+        <ul class="nav pull-right">
+          <% unless user_signed_in? %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-user"></i> Do you have an account?
+              <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <%= form_for :user, :url => user_session_path, :html => { :class => "" } do |f| %>
+                  <%= f.email_field :email, :placeholder => :email %>
+                  <%= f.password_field :password, :placeholder => :password %>
+                  <%= f.submit "Sign in", :class => "btn" %>
+                <% end %>
+              </ul>
+            </li>
+          <% else %>
+            <li><%= link_to t('.logout'), destroy_user_session_path, :method => :delete %></li>
+          <% end %>
+        <ul/>
+
+
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+
+es:
+  errors:
+    messages:
+      expired: "ha expirado, por favor solicite otra"
+      not_found: "no encontrado"
+      already_confirmed: "ya fue confirmado"
+      not_locked: "no ha sido desbloqueado"
+      not_saved:
+        one: "1 error impide guardar este %{resource}:"
+        other: "%{count} errores impiden guardar este %{resource}:"
+
+  devise:
+    failure:
+      already_authenticated: 'Ya estas identificado.'
+      unauthenticated: 'Necesita ingresar o registrarse para continuar.'
+      unconfirmed: 'Necesita confirmar su cuenta antes de continuar.'
+      locked: 'Su cuenta ha sido bloqueada.'
+      invalid: "Email o Contraseña invalido."
+      invalid_token: "Llave de Autenticación invalida."
+      timeout: "Su sesión ha expirado, por favor ingrese nuevamente para continuar."
+      inactive: 'Su cuenta aun no ha sido activada.'
+    sessions:
+      signed_in: "Sesión iniciada satifactoriamente."
+      signed_out: 'Sesión cerrada satifactoriamente.'
+    passwords:
+      send_instructions: "Usted recibirá un email con instrucciones sobre como re establecer su contraseña en unos minutos."
+      updated: "Su contraseña ha sido cambiada exitosamente. Ahora usted puede ingresar."
+      updated_not_active: 'Tu contraseña se ha cambiado correctamente.'
+      send_paranoid_instructions: "Si su correo ya existe, reciviras un correo para recuperar su contraseña"
+    confirmations:
+      send_instructions: 'Usted recibirá un email con instrucciones de como confirmar su cuenta en unos minutos.'
+      send_paranoid_instructions: 'Si su correo ya existe, recivirás un correo con instrucciones para confirmar.'
+      confirmed: 'Su cuenta ha sido confirmada exitosamente. Ahora usted puede ingresar.'
+    registrations:
+      signed_up: "Se ha registrado con exito. Si está activado, la confirmación será enviada a su correo electrónico."
+      signed_up_but_unconfirmed: 'Te hemos enviado un correo de confirmación. Consulta el enlace para activar su cuenta.'
+      signed_up_but_inactive: 'Te has identificado correctamente, pero su cuenta aún no ha sido activada.'
+      signed_up_but_locked: 'Te has identificado correctamente, pero su cuenta está bloqueada.'
+      updated: 'Ha actualizado su cuenta correctamente.'
+      update_needs_confirmation: "Ha actualizado su cuenta correctamente, pero encesitamos que confirmes su correo. Por favor, consulta su correo y sigue el enlace para activar su cuenta."
+      destroyed: 'Adios! Su cuenta ha sido cancelada exitosamente. Esperamos verlo pronto.'
+    unlocks:
+      send_instructions: "Usted recibirá un email con instrucciones sobre como des bloquear su cuenta en unos minutos."
+      unlocked: 'Su cuenta ha sido des bloqueada exitosamente. Ahora usted ingresar.'
+      send_paranoid_instructions: 'Si su cuenta ya existe, recivirás un correo con instrucciones para confirmar.'
+    omniauth_callbacks:
+      success: 'Identificado desde su cuenta de %{kind}.'
+      failure: 'No podemos identificarle desde %{kind} porque "%{reason}".'
+    mailer:
+      confirmation_instructions:
+        subject: "Instrucciones de confirmación"
+      reset_password_instructions:
+        subject: "Instrucciones para reestablecer contraseña"
+      unlock_instructions:
+        subject: 'Instrucciones de desbloqueo'
+
+    texts:
+      sign_in: Identificarse
+      sign_up: Registrarse
+      sign_out: Desconectarse
+      forgot_password: ¿Olvidaste su contraseña?
+      didnt_receive_confirmation: ¿No has recibido instrucciones de confirmación?
+      didnt_receive_unlock: ¿No has recibido instrucciones de desbloqueo?
+      password_leave_blank: déjela en blanco si no desea cambiarla
+      need_current_password: necesitamos su contraseña actual para confirmar los cambios
+      cancel_account: Cancelar mi cuenta
+      resend_confirmation: Reenviar instrucciones de confirmación
+      resend_unlock: Reenviar instrucciones de desbloqueo
+      recover_password: Recuperar contraseña
+      change_password: Cambiar contraseña
