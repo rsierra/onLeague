@@ -1,2 +1,33 @@
-<h1><%= t '.title'  %></h1>
-<p><%= t '.welcome' %></p>
+<div class="row">
+  <div class="span12">
+    <h1><%= t '.title'  %></h1>
+    <p><%= t '.welcome' %></p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span4">
+    col1
+  </div>
+  <div class="span4">
+    col2
+  </div>
+  <div class="span4">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th></th>
+          <th><%= User.model_name.human.pluralize %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+        <tr>
+          <td><%= image_tag user.avatar_url %></td>
+          <td><%= user.email %></td>
+        </tr>
+        <% end -%>
+      </tbody>
+    </table>
+  </div>
+</div>
