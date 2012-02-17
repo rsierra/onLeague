@@ -1,0 +1,6 @@
+es:
+  shared:
+    navbar:
+      sign_in: Identificarse
+      close: Cerrar
+      logout: Desconectarse
