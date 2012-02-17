@@ -24,7 +24,7 @@
         <% @users.each do |user| %>
         <tr>
           <td><%= image_tag user.avatar_url %></td>
-          <td><%= user.email %></td>
+          <td><%= user.alias %></td>
         </tr>
         <% end -%>
       </tbody>

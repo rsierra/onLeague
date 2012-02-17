@@ -4,6 +4,7 @@ es:
       user: Usuario
     attributes:
       user:
+        alias: Alias
         email: Email
         password: Contraseña
         password_confirmation: Confirmación de contraseña

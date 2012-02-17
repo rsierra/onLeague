@@ -8,11 +8,13 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 (1..20).each do |n|
+  user_alias = "testuser#{n}"
   user_params =
   {
-    :email => "user#{n}@mail.com",
-    :password => n.to_s * 6,
-    :password_confirmation => n.to_s * 6
+    :email => "#{user_alias}@mail.com",
+    :alias => "#{user_alias}",
+    :password => "#{user_alias}",
+    :password_confirmation => "#{user_alias}"
   }
   user = User.new user_params
   user.skip_confirmation! # Sets confirmed_at to Time.now, activating the account
