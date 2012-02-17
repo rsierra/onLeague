@@ -7,4 +7,14 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
+
+  # Gravatar configuration
+  include Gravtastic
+  gravtastic  :email, :secure => true, :filetype => :gif, :size => 32
+
+  scope :latest, ->(n=10) { order("created_at DESC").limit(n) }
+
+  def avatar_url
+    gravatar_url
+  end
 end
