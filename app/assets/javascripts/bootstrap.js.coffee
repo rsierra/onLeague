@@ -11,3 +11,4 @@ jQuery ->
   $(".tooltip").tooltip()
   $(".typeahead").typeahead()
   $("a[rel=tooltip]").tooltip()
+  $(".oauth_btn").tooltip({ placement: 'bottom' })
