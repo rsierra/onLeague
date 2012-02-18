@@ -37,12 +37,12 @@ gem 'jquery-rails'
 # Deploy with Capistrano
 # gem 'capistrano'
 
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
-
 group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+
+  # To use debugger
+  # gem 'ruby-debug19', :require => 'ruby-debug'
 end
 
 group :production do
@@ -51,3 +51,7 @@ end
 
 gem 'devise'
 gem 'gravtastic'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
