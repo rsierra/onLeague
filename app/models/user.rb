@@ -1,9 +1,12 @@
 class User < ActiveRecord::Base
+
+  has_many :oauth_providers
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable, :timeoutable
+         :confirmable, :lockable, :timeoutable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :alias, :email, :password, :password_confirmation, :remember_me
@@ -17,4 +20,5 @@ class User < ActiveRecord::Base
   def avatar_url
     gravatar_url
   end
+
 end

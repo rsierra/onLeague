@@ -10,6 +10,19 @@
       <%= f.email_field :email %>
       <%= f.label User.human_attribute_name(:password) %>
       <%= f.password_field :password %>
+
+      <div class="omniauth_providers">
+        <%= link_to image_tag("icons/g-plus-icon-48x48.png", size: "48x48", alt: "Google plus"),
+                    user_omniauth_authorize_path(:google),
+                    :class => 'oauth_btn', :title => "Google plus" %>
+        <%= link_to image_tag("icons/twitter-icon-48x48.png", size: "48x48", alt: "Twitter"),
+                    user_omniauth_authorize_path(:twitter),
+                    :class => 'oauth_btn', :title => "Twitter" %>
+        <%= link_to image_tag("icons/facebook-icon-48x48.png", size: "48x48", alt: "Facebook"),
+                    user_omniauth_authorize_path(:facebook),
+                    :class => 'oauth_btn', :title => "Facebook" %>
+      </div>
+
   </div>
   <div class="modal-footer">
     <a href="#" class="btn btn-danger" data-dismiss="modal"><%= t '.close' %></a>
