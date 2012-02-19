@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
          :confirmable, :lockable, :timeoutable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :alias, :email, :password, :password_confirmation, :remember_me
+  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
   # Gravatar configuration
   include Gravtastic

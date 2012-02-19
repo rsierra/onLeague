@@ -8,11 +8,11 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 (1..20).each do |n|
-  user_alias = "testuser#{n}"
+  user_name = "testuser#{n}"
   user_params =
   {
     :email => "#{user_alias}@mail.com",
-    :alias => "#{user_alias}",
+    :name => "#{user_alias}",
     :password => "#{user_alias}",
     :password_confirmation => "#{user_alias}"
   }
