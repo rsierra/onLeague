@@ -11,6 +11,8 @@
     <![endif]-->
 
     <%= stylesheet_link_tag "application", :media => "all" %>
+
+    <link href="assets/favicon.ico" rel="shortcut icon">
   </head>
   <body>
 
@@ -21,6 +23,7 @@
       <% if notice %>
       <div class="alert alert-success fade in">
         <a class="close fade" data-dismiss="alert" href="#">x</a>
+        <i class="icon-ok"></i>
         <%= notice %>
       </div>
       <% end -%>
@@ -28,26 +31,13 @@
       <% if alert %>
       <div class="alert alert-error fade in">
         <a class="close" data-dismiss="alert" href="#">x</a>
+        <i class="icon-warning-sign"></i>
         <%= alert %>
       </div>
       <% end -%>
 
         <div class="content">
-          <div class="row">
-            <div class="span9">
-            <%= yield %>
-            </div>
-            <div class="span1">&nbsp;</div>
-            <div class="span3">
-              <div class="well sidebar-nav">
-                <h3>onLeague</h3>
-                 <ul class="nav nav-list">
-                    <li class="nav-header">Sidebar</li>
-                    <li><%= link_to t('.home'), root_path %></li>
-                </ul>
-            </div>
-           </div>
-          </div>
+          <%= yield %>
         </div>
 
       <footer>

@@ -4,10 +4,11 @@ jQuery ->
   $(".carousel").carousel()
   $(".collapse").collapse()
   $(".dropdown-toggle").dropdown()
-  $(".modal").modal()
+# $(".modal").modal()
   $("a[rel=popover]").popover()
   $(".navbar").scrollspy()
   $(".tab").tab "show"
   $(".tooltip").tooltip()
   $(".typeahead").typeahead()
   $("a[rel=tooltip]").tooltip()
+  $(".oauth_btn").tooltip({ placement: 'bottom' })

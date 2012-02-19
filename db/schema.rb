@@ -11,7 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120214223639) do
+ActiveRecord::Schema.define(:version => 20120217201515) do
+
+  create_table "oauth_providers", :force => true do |t|
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "uname"
+    t.string   "uemail"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "oauth_providers", ["uid"], :name => "index_oauth_providers_on_uid"
+  add_index "oauth_providers", ["user_id"], :name => "index_oauth_providers_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -33,6 +46,7 @@ ActiveRecord::Schema.define(:version => 20120214223639) do
     t.datetime "locked_at"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.string   "alias"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
