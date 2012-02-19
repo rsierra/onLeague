@@ -85,7 +85,6 @@ capybara-*html
 .rvmrc.*
 
 # Ignore configurations.
-/config/environments/production.rb
 /config/environments/development.rb
 /config/environments/test.rb
 /config/database.yml
