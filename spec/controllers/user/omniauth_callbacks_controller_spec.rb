@@ -23,11 +23,18 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
 ############
 
   describe "with facebook connect" do
+    before(:all) do
+      @provider = 'facebook'
+      @uid = 'facebook_uid'
+      @email = 'facebook@mail.com'
+      @name = 'Facebook Name'
+    end
+
     context "when user not exists" do
       before(:each) do
         mock_omniauth :facebook
         get :facebook
-        @user = User.where(:email => "facebook@mail.com").first
+        @user = User.where(:email => @email).first
       end
 
       after(:each) do
@@ -37,13 +44,15 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
       it { @user.should_not be_nil }
 
       it "should create authentication with facebook id" do
-        oauth_provider = @user.oauth_providers.where(:provider => "facebook", :uid => "facebook_uid").first
+        oauth_provider = @user.oauth_providers.where(:provider => @provider, :uid => @uid).first
         oauth_provider.should_not be_nil
       end
 
       it { should be_user_signed_in }
 
       it { response.should redirect_to root_path }
+
+      it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.user_created', :provider => @provider) }
     end
 
     describe "and user exists" do
@@ -62,13 +71,15 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
           end
 
           it "should create authentication with facebook id" do
-            oauth_provider = @user.oauth_providers.where(:provider => "facebook", :uid => "facebook_uid").first
+            oauth_provider = @user.oauth_providers.where(:provider => @provider, :uid => @uid).first
             oauth_provider.should_not be_nil
           end
 
           it { should be_user_signed_in }
 
-          it { response.should redirect_to root_path }
+          it { response.should redirect_to edit_user_registration_path }
+
+          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_linked', :provider => @provider) }
         end
       end
 
@@ -76,7 +87,7 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
         context "when provider not exists but user email matches" do
           before(:each) do
             mock_omniauth :facebook
-            @user = FactoryGirl.create(:user, :email => 'facebook@mail.com')
+            @user = FactoryGirl.create(:user, :email => @email)
             get :facebook
           end
 
@@ -85,13 +96,15 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
           end
 
           it "should create authentication with facebook id" do
-            oauth_provider = @user.oauth_providers.where(:provider => "facebook", :uid => "facebook_uid").first
+            oauth_provider = @user.oauth_providers.where(:provider => @provider, :uid => @uid).first
             oauth_provider.should_not be_nil
           end
 
           it { should be_user_signed_in }
 
-          it { response.should redirect_to root_path }
+          it { response.should redirect_to edit_user_registration_path }
+
+          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_linked', :provider => @provider) }
         end
 
         context "when provider exists" do
@@ -101,13 +114,15 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
             get :facebook
           end
 
+          after(:each) do
+            User.destroy_all
+          end
+
           it { should be_user_signed_in }
 
           it { response.should redirect_to root_path }
 
-          after(:each) do
-            User.destroy_all
-          end
+          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_success', :provider => @provider) }
         end
       end
     end
@@ -118,11 +133,18 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
 ##########
 
   describe "with google connect" do
+    before(:all) do
+      @provider = 'google'
+      @uid = 'google_uid'
+      @email = 'google@mail.com'
+      @name = 'Google Name'
+    end
+
     context "when user not exists" do
       before(:each) do
         mock_omniauth :google
         get :google
-        @user = User.where(:email => "google@mail.com").first
+        @user = User.where(:email => @email).first
       end
 
       after(:each) do
@@ -132,13 +154,15 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
       it { @user.should_not be_nil }
 
       it "should create authentication with facebook id" do
-        oauth_provider = @user.oauth_providers.where(:provider => "google", :uid => "google_uid").first
+        oauth_provider = @user.oauth_providers.where(:provider => @provider, :uid => @uid).first
         oauth_provider.should_not be_nil
       end
 
       it { should be_user_signed_in }
 
       it { response.should redirect_to root_path }
+
+      it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.user_created', :provider => @provider) }
     end
 
     describe "and user exists" do
@@ -157,13 +181,15 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
           end
 
           it "should create authentication with google id" do
-            oauth_provider = @user.oauth_providers.where(:provider => "google", :uid => "google_uid").first
+            oauth_provider = @user.oauth_providers.where(:provider => @provider, :uid => @uid).first
             oauth_provider.should_not be_nil
           end
 
           it { should be_user_signed_in }
 
-          it { response.should redirect_to root_path }
+          it { response.should redirect_to edit_user_registration_path }
+
+          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_linked', :provider => @provider) }
         end
       end
 
@@ -171,7 +197,7 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
         context "when provider not exists but user email matches" do
           before(:each) do
             mock_omniauth :google
-            @user = FactoryGirl.create(:user, :email => 'google@mail.com')
+            @user = FactoryGirl.create(:user, :email => @email)
             get :google
           end
 
@@ -180,13 +206,15 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
           end
 
           it "should create authentication with facebook id" do
-            oauth_provider = @user.oauth_providers.where(:provider => "google", :uid => "google_uid").first
+            oauth_provider = @user.oauth_providers.where(:provider => @provider, :uid => @uid).first
             oauth_provider.should_not be_nil
           end
 
           it { should be_user_signed_in }
 
-          it { response.should redirect_to root_path }
+          it { response.should redirect_to edit_user_registration_path }
+
+          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_linked', :provider => @provider) }
         end
 
         context "when provider exists" do
@@ -196,13 +224,15 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
             get :google
           end
 
+          after(:each) do
+            User.destroy_all
+          end
+
           it { should be_user_signed_in }
 
           it { response.should redirect_to root_path }
 
-          after(:each) do
-            User.destroy_all
-          end
+          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_success', :provider => @provider) }
         end
       end
     end

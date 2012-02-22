@@ -1,0 +1,6 @@
+en:
+  devise:
+    omniauth_callbacks:
+      user_created: "You've created a new user account through %{provider}."
+      provider_linked: "You've linked your user with your %{provider} account."
+      provider_success: "You've been sign in successfully with %{provider}."
