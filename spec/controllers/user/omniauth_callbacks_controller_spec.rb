@@ -2,17 +2,17 @@ require 'spec_helper'
 
 OmniAuth.config.test_mode = true
 OmniAuth.config.add_mock(:twitter, {
-  :user_info => {:name => 'Twitter Name', :nickname => 'twitter_nick'},
+  :info => {:name => 'Twitter Name', :nickname => 'twitter_nick'},
   :uid => 'twitter_uid'
 })
 
 OmniAuth.config.add_mock(:facebook, {
-  :user_info => { :email => 'facebook@mail.com', :name => 'Facebook Name', :nickname => 'facebook_nick'},
+  :info => { :email => 'facebook@mail.com', :name => 'Facebook Name', :nickname => 'facebook_nick'},
   :uid => 'facebook_uid'
 })
 
 OmniAuth.config.add_mock(:google, {
-  :user_info => { :email => 'google@mail.com', :name => 'Google Name', :nickname => 'google_nick'},
+  :info => { :email => 'google@mail.com', :name => 'Google Name', :nickname => 'google_nick'},
   :uid => 'google_uid'
 })
 
