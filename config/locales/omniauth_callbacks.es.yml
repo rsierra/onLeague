@@ -1,6 +1,7 @@
 es:
   devise:
     omniauth_callbacks:
-      user_created: "Has creado una nueva cuenta de usuario a través de %{provider}."
+      cant_delete: "No puedes eliminar la conexión con %{provider}."
       provider_linked: "Has asociado tu usuario con tu cuenta de %{provider}."
       provider_success: "Te has identificado correctamente con %{provider}."
+      user_created: "Has creado una nueva cuenta de usuario a través de %{provider}."
