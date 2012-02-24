@@ -3,6 +3,6 @@ es:
     links:
       recover_password: Recuperar contraseña
       resend_confirmation: Reenviar confirmación
-      resend_unlock: Reenviar desbloqueo
+      resend_unlock: Desbloquear cuenta
       sign_up: Registrarse
       sign_with: "Identifícate con %{provider}"
