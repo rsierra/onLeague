@@ -21,4 +21,7 @@ class User < ActiveRecord::Base
     gravatar_url
   end
 
+  def has_provider?(provider)
+    oauth_providers.exists?(:provider => provider)
+  end
 end
