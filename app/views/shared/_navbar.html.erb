@@ -6,22 +6,28 @@
   </div>
   <%= form_for :user, :url => user_session_path do |f| %>
   <div class="modal-body">
-      <%= f.label User.human_attribute_name(:email) %>
-      <%= f.email_field :email %>
-      <%= f.label User.human_attribute_name(:password) %>
-      <%= f.password_field :password %>
-
-      <div class="omniauth_providers">
-        <%- User.omniauth_providers.each do |provider| %>
-          <%= provider_button provider %>
-        <% end -%>
+    <div class="row">
+      <div class="span3 well">
+        <%= f.label User.human_attribute_name(:email) %>
+        <%= f.email_field :email %>
+        <%= f.label User.human_attribute_name(:password) %>
+        <%= f.password_field :password %>
+        <%= f.submit t('.sign_in'), :class => "btn btn-success" %>
       </div>
+      <div class="span3 well">
+        <div class="omniauth_providers">
+          <h2><%= t '.sign_in_with' %></h2>
+          <%- User.omniauth_providers.each do |provider| %>
+          <%= provider_button provider %>
+          <% end -%>
+      </div>
+      </div>
+    </div>
 
   </div>
   <div class="modal-footer">
-    <%= link_to t('.sign_up'), new_registration_path(:user), :class => "btn btn-primary" %>
     <a href="#" class="btn btn-danger" data-dismiss="modal"><%= t '.close' %></a>
-    <%= f.submit t('.sign_in'), :class => "btn btn-success" %>
+    <%= link_to t('.sign_up'), new_registration_path(:user), :class => "btn btn-primary" %>
   </div>
   <% end %>
 </div>
