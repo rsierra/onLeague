@@ -1,0 +1,5 @@
+en:
+  users:
+    confirmations:
+      new:
+        resend_confirmation: Resend confirmation instructions
