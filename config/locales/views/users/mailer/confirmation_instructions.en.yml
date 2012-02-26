@@ -1,0 +1,7 @@
+en:
+  users:
+    mailer:
+      confirmation_instructions:
+        confirm_account: Confirm account
+        welcome: "Welcome %{name}"
+        can_confirm_your_account: "You can confirm your account email through the link below."

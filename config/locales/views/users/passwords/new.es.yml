@@ -1,0 +1,6 @@
+es:
+  users:
+    passwords:
+      new:
+        forgot_password: ¿Has olvidado tu contraseña?
+        send_reset_password: Enviar instrucciones para cambiar la contraseña

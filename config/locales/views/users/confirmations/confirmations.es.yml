@@ -1,0 +1,6 @@
+es:
+  users:
+    confirmations:
+      new:
+        resend_confirmation: Reenviar instrucciones de confirmación
+

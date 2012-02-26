@@ -1,6 +1,11 @@
 es:
   shared:
     navbar:
-      sign_in: Identificarse
       close: Cerrar
+      config: Configurar
+      forgot_password: ¿Olvidaste tu contraseña?
+      home: Inicio
       logout: Desconectarse
+      sign_in: Identificarse
+      sign_in_with: O identifícate con
+      sign_up: Registrarse

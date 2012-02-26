@@ -1,0 +1,5 @@
+en:
+  users:
+    unlocks:
+      new:
+        resend_unlock: Resend unlock instructions

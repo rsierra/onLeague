@@ -1,0 +1,15 @@
+en:
+  users:
+    registrations:
+      edit:
+        already_connect_with: Connected with
+        blank_for_no_change: leave blank if you don't want to change it
+        cancel_account: Cancel my account
+        connect_with: Connect your account with
+        connected_with: "Connected to %{provider}"
+        delete_connection: "Delete conection"
+        edit_account: Edit your account
+        set_to_confirm: we need your current password to confirm your changes
+        sure_cancel_account: Are you sure do you want cancel your account?
+        sure_delete_provider: "Are you sure do you want delete connection with %{provider}?"
+        update: Update

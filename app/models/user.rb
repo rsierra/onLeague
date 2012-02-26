@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
 
-  has_many :oauth_providers
+  has_many :oauth_providers, :dependent => :destroy
+
+  validate :name, :presence => true
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
@@ -9,7 +11,7 @@ class User < ActiveRecord::Base
          :confirmable, :lockable, :timeoutable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :alias, :email, :password, :password_confirmation, :remember_me
+  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
   # Gravatar configuration
   include Gravtastic
@@ -21,4 +23,7 @@ class User < ActiveRecord::Base
     gravatar_url
   end
 
+  def has_provider?(provider)
+    oauth_providers.exists?(:provider => provider)
+  end
 end

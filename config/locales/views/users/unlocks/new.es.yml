@@ -1,0 +1,5 @@
+es:
+  users:
+    unlocks:
+      new:
+        resend_unlock: Reenviar instrucciones de desbloqueo

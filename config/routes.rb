@@ -1,6 +1,9 @@
 OnLeague::Application.routes.draw do
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  as :user do
+    delete 'users/auth/:provider/delete' => 'users/omniauth_callbacks#delete', :as => :user_omniauth_delete
+  end
 
   resources :auth_providers
 

@@ -1,0 +1,7 @@
+en:
+  devise:
+    omniauth_callbacks:
+      cant_delete: "You can't delete your %{provider} connection."
+      provider_linked: "You've linked your user with your %{provider} account."
+      provider_success: "You've been sign in successfully with %{provider}."
+      user_created: "You've created a new user account through %{provider}."

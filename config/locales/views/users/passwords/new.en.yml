@@ -1,0 +1,6 @@
+en:
+  users:
+    passwords:
+      new:
+        forgot_password: Forgot your password?
+        send_reset_password: Send me reset password instructions
