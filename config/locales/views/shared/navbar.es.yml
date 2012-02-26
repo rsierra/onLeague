@@ -2,7 +2,9 @@ es:
   shared:
     navbar:
       close: Cerrar
+      config: Configurar
       forgot_password: ¿Olvidaste tu contraseña?
+      home: Inicio
       logout: Desconectarse
       sign_in: Identificarse
       sign_in_with: O identifícate con

@@ -5,7 +5,7 @@
     <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post, :class => "well" }) do |f| %>
       <%= devise_error_messages! %>
 
-      <div><%= f.label :email %><br />
+      <div><%= f.label :email %>
       <%= f.email_field :email %></div>
 
       <div><%= f.submit t('.resend_confirmation'), :class => "btn btn-success" %></div>
