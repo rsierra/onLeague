@@ -5,7 +5,7 @@
         <i class="icon-user"></i> <%= t('.sign_up') %>
       <% end -%>
     </li>
-    <li <%= "class='active'" if controller_name == 'password' %>>
+    <li <%= "class='active'" if controller_name == 'passwords' %>>
       <%= link_to new_password_path(resource_name) do %>
         <i class="icon-refresh"></i> <%= t('.recover_password') %>
       <% end -%>

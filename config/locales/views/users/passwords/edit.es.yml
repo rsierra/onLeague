@@ -1,0 +1,7 @@
+es:
+  users:
+    passwords:
+      edit:
+        change_password: Cambiar la contraseña
+        new_password: Nueva contraseña
+        confirm_new_password: Confirmar nueva contraseña

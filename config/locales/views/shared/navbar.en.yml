@@ -3,6 +3,7 @@ en:
     navbar:
       close: Close
       logout: Logout
+      forgot_password: Forgot your password?
       sign_in: Sign in
       sign_in_with: Or sign in with
       sign_up: Sign up

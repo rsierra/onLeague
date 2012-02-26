@@ -2,6 +2,7 @@ es:
   shared:
     navbar:
       close: Cerrar
+      forgot_password: ¿Olvidaste tu contraseña?
       logout: Desconectarse
       sign_in: Identificarse
       sign_in_with: O identifícate con
