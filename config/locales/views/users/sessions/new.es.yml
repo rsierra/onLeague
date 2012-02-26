@@ -1,0 +1,6 @@
+es:
+  users:
+    sessions:
+      new:
+        sign_in: Identificarse
+        sign_in_with: O identifícate con

@@ -1,0 +1,6 @@
+en:
+  users:
+    sessions:
+      new:
+        sign_in: Sign in
+        sign_in_with: Or sign in with
