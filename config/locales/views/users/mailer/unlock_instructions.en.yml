@@ -1,0 +1,7 @@
+en:
+  users:
+    mailer:
+      unlock_instructions:
+        hello: "Hello %{name}"
+        unlock_account: Unlock account
+        your_account_as_been_locked: "Your account has been locked due to an excessive amount of unsuccessful sign in attempts. Click the link below to unlock your account."

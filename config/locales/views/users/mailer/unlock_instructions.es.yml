@@ -1,0 +1,7 @@
+es:
+  users:
+    mailer:
+      unlock_instructions:
+        hello: "Hola %{name}"
+        unlock_account: Desbloquear cuenta
+        your_account_as_been_locked: "Tu cuenta ha sido bloqueada por exceso de intentos de identificación fallidos. Pincha el siguiente enlace para desbloquearla."
