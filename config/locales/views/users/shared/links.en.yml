@@ -1,0 +1,9 @@
+es:
+  users:
+    shared:
+      links:
+        recover_password: Recover password
+        resend_confirmation: Resend confirmation
+        resend_unlock: Unlock account
+        sign_up: Sign up
+        sign_with: "Sign with %{provider}"
