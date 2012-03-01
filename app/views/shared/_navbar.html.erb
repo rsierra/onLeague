@@ -15,7 +15,7 @@
         <%= f.check_box :remember_me %> <%= f.label :remember_me %>
         <%= f.submit t('.sign_in'), :class => "btn btn-success" %>
       </div>
-      <div class="span3 well">
+      <div class="span2 well">
         <div class="omniauth_providers">
           <h3><%= t '.sign_in_with' %></h3>
           <%- User.omniauth_providers.each do |provider| %>
@@ -37,20 +37,29 @@
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
-      <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
-        <span class="i-bar"></span>
-        <span class="i-bar"></span>
-        <span class="i-bar"></span>
+
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
       </a>
+
+      <!-- Be sure to leave the brand out there if you want it shown -->
       <a class="brand" href="#">onLeague</a>
-      <div class="container nav-collapse">
+
+      <!-- Everything you want hidden at 940px or less, place within here -->
+      <div class="nav-collapse">
+        <!-- .nav, .navbar-search, .navbar-form, etc -->
         <ul class="nav">
             <li class="active"><%= link_to t('.home'), root_path %></li>
         </ul>
 
         <ul class="nav pull-right">
           <% unless user_signed_in? %>
-            <li><a data-toggle="modal" data-target="#sign_in_modal" ><i class="icon-user icon-white"></i> <%= t '.sign_in' %></a></li>
+            <li><a data-toggle="modal" data-target="#sign_in_modal" >
+              <i class="icon-user icon-white"></i> <%= t '.sign_in' %>
+            </a></li>
           <% else %>
             <li>
               <%= link_to edit_user_registration_path, :title => t('.config') do %>
@@ -61,7 +70,8 @@
             <li><%= link_to t('.logout'), destroy_user_session_path, :method => :delete %></li>
           <% end %>
         <ul/>
-      </div><!--/.nav-collapse -->
+      </div>
+
     </div>
   </div>
 </div>
