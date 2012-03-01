@@ -26,4 +26,15 @@ class User < ActiveRecord::Base
   def has_provider?(provider)
     oauth_providers.exists?(:provider => provider)
   end
+
+  def apply_omniauth(omniauth)
+    self.email = omniauth.info.email if email.blank?
+    self.name = omniauth.info.name if name.blank?
+    if self.new_record?
+      oauth_providers.build(:provider => omniauth.provider, :uid => omniauth.uid, :uemail => omniauth.info.email, :uname => omniauth.info.name)
+      skip_confirmation! # Sets confirmed_at to Time.now, activating the account
+    else
+      oauth_providers.create(:provider => omniauth.provider, :uid => omniauth.uid, :uemail => omniauth.info.email, :uname => omniauth.info.name)
+    end
+  end
 end

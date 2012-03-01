@@ -31,12 +31,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:notice] = t('devise.omniauth_callbacks.provider_success', :provider => omniauth.provider)
       sign_in_and_redirect(:user, oauth_provider.user)
     elsif current_user
-      current_user.oauth_providers.create(:provider => omniauth.provider, :uid => omniauth.uid)
+      current_user.apply_omniauth(omniauth)
       flash[:notice] = t('devise.omniauth_callbacks.provider_linked', :provider => omniauth.provider)
       redirect_to edit_user_registration_path
     elsif User.exists? :email => omniauth.info.email
       user = User.find_by_email(omniauth.info.email)
-      user.oauth_providers.create(:provider => omniauth.provider, :uid => omniauth.uid)
+      user.apply_omniauth(omniauth)
       flash[:notice] = t('devise.omniauth_callbacks.provider_linked', :provider => omniauth.provider)
       sign_in user
       redirect_to edit_user_registration_path
@@ -49,8 +49,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         :password_confirmation => password
       }
       user = User.new user_params
-      user.skip_confirmation! # Sets confirmed_at to Time.now, activating the account
-      user.oauth_providers.build(:provider => omniauth.provider, :uid => omniauth.uid)
+      user.apply_omniauth(omniauth)
       if user.save
         flash[:notice] = t('devise.omniauth_callbacks.user_created', :provider => omniauth.provider)
         sign_in_and_redirect(:user, user)
