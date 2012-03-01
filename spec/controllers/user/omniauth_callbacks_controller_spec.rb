@@ -238,6 +238,88 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
     end
   end
 
+###########
+# TWITTER #
+###########
+
+  describe "with twitter connect" do
+    before(:all) do
+      @provider = 'twitter'
+      @uid = 'twitter_uid'
+      @email = 'twitter@mail.com'
+      @name = 'Twitter Name'
+    end
+
+    context "when user not exists" do
+      before(:each) do
+        mock_omniauth :twitter
+        get :twitter
+        @user = User.where(:email => @email).first
+      end
+
+      after(:each) do
+        @user = User.destroy_all
+      end
+
+      it { @user.should be_nil }
+
+      it { should_not be_user_signed_in }
+
+      it { response.should redirect_to new_user_registration_path }
+
+      it { flash[:alert].should == I18n.t('devise.omniauth_callbacks.no_email', :provider => @provider.capitalize) }
+    end
+
+    describe "and user exists" do
+
+      describe "logged in" do
+        context "when provider not exists" do
+          before(:each) do
+            mock_omniauth :twitter
+            @user = FactoryGirl.create(:user)
+            sign_in @user
+            get :twitter
+          end
+
+          after(:each) do
+            User.destroy_all
+          end
+
+          it "should create authentication with twitter id" do
+            oauth_provider = @user.oauth_providers.where(:provider => @provider, :uid => @uid).first
+            oauth_provider.should_not be_nil
+          end
+
+          it { should be_user_signed_in }
+
+          it { response.should redirect_to edit_user_registration_path }
+
+          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_linked', :provider => @provider) }
+        end
+      end
+
+      describe "not logged in" do
+        context "when provider exists" do
+          before(:each) do
+            mock_omniauth :twitter
+            @user = FactoryGirl.create(:user_with_twitter)
+            get :twitter
+          end
+
+          after(:each) do
+            User.destroy_all
+          end
+
+          it { should be_user_signed_in }
+
+          it { response.should redirect_to root_path }
+
+          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_success', :provider => @provider) }
+        end
+      end
+    end
+  end
+
 end
 
 def mock_omniauth(provider = :facebook)

@@ -5,3 +5,4 @@ es:
       provider_linked: "Has asociado tu usuario con tu cuenta de %{provider}."
       provider_success: "Te has identificado correctamente con %{provider}."
       user_created: "Has creado una nueva cuenta de usuario a través de %{provider}."
+      no_email: "%{provider} no proporciona una dirección de correo y es necesaria para crear tu cuenta. Por favor, introduce un correo y una contraseña, después podrás acceder tanto por %{provider} como con esta cuenta."

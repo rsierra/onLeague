@@ -55,6 +55,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         sign_in_and_redirect(:user, user)
       else
         session[:omniauth] = omniauth.except('extra')
+        flash[:alert] = t('devise.omniauth_callbacks.no_email', :provider => omniauth.provider.capitalize) if omniauth.info.email.blank?
         redirect_to new_user_registration_url
       end
     end
