@@ -11,10 +11,10 @@
   user_name = "testuser#{n}"
   user_params =
   {
-    :email => "#{user_alias}@mail.com",
-    :name => "#{user_alias}",
-    :password => "#{user_alias}",
-    :password_confirmation => "#{user_alias}"
+    :email => "#{user_name}@mail.com",
+    :name => "#{user_name}",
+    :password => "#{user_name}",
+    :password_confirmation => "#{user_name}"
   }
   user = User.new user_params
   user.skip_confirmation! # Sets confirmed_at to Time.now, activating the account
