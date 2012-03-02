@@ -1,7 +1,51 @@
-@import "twitter/bootstrap";
+@import "twitter/bootstrap/bootstrap";
+/* 60px to make the container go all the way to the bottom of the topbar */
+body { padding-top: 60px; }
 
-// import responsive layout
 @import "twitter/bootstrap/responsive";
 
-// Your custom stylesheets goes here (override Less here)
-@import "layout"
+// Set the correct sprite paths
+@iconSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings.png');
+@iconWhiteSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings-white.png');
+
+// Your custom LESS stylesheets goes here
+//
+// Since bootstrap was imported above you have access to its mixins which
+// you may use and inherit here
+//
+// If you'd like to override bootstrap's own variables, you can do so here as well
+// See http://twitter.github.com/bootstrap/less.html for their names and documentation
+//
+// Example:
+// @linkColor: #ff0000;
+
+@darkgreen: #00CC00;
+@darkestgreen: #003300;
+
+.navbar {
+  .navbar-inner {
+    #gradient > .vertical(@darkgreen, @darkestgreen);
+  }
+
+  img.avatar {
+    margin-top: 3px;
+  }
+}
+
+#sign_in_modal.modal {
+  width: 582px;
+}
+
+#main_home {
+  padding: 10px;
+  background-color: @successBackground;
+  .border-radius(20px);
+
+  #home_logo {
+    float: right;
+  }
+}
+
+footer {
+  text-align: right;
+}
