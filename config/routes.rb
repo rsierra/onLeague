@@ -1,4 +1,8 @@
 OnLeague::Application.routes.draw do
+  # Engine rout should be different to /admin, becouse crashes with devise routes
+  mount RailsAdmin::Engine => '/administration', :as => 'rails_admin'
+
+  devise_for :admins
 
   devise_for :users, :controllers => { :registrations => 'users/registrations', :omniauth_callbacks => "users/omniauth_callbacks" }
   as :user do

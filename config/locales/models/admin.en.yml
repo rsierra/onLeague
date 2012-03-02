@@ -1,0 +1,13 @@
+en:
+  activerecord:
+    models:
+      admin: Admin
+    attributes:
+      admin:
+        email: Email
+        password: Password
+        password_confirmation: Password confirmation
+        current_password: Current password
+        remember_me: Remember me
+        created_at: Created at
+        updated_at: Updated at
