@@ -55,3 +55,6 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+
+gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
+gem 'cancan'
