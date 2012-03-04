@@ -1,0 +1,13 @@
+es:
+  activerecord:
+    models:
+      oauth_provider: Proveedor OAuth
+    attributes:
+      oauth_provider:
+        created_at: Creado en
+        provider: Nombre del proveedor
+        uemail: Email en proveedor
+        uid: Id en proveedor
+        uname: Nombre en proveedor
+        updated_at: Actualizado en
+        user: Usuario
