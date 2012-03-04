@@ -1,0 +1,6 @@
+es:
+  admins:
+    sessions:
+      new:
+        administration: Administración
+        sign_in: Identificarse
