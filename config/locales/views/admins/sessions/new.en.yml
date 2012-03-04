@@ -1,0 +1,6 @@
+en:
+  admins:
+    sessions:
+      new:
+        administration: Administration
+        sign_in: Sign in

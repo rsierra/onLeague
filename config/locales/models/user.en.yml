@@ -4,11 +4,20 @@ en:
       user: User
     attributes:
       user:
-        name: Name
+        confirmed_at: Confirmed_at
+        created_at: Created at
+        current_password: Current password
+        current_sign_in_at: Current sign in at
+        current_sign_in_ip: Current sign in ip
         email: Email
+        failed_attempts: Failed attempts
+        last_sign_in_at: Last sign in at
+        last_sign_in_ip: Last sign in ip
+        locked_at: Locked at
+        name: Name
         password: Password
         password_confirmation: Password confirmation
-        current_password: Current password
+        oauth_providers: OAuth providers
         remember_me: Remember me
-        created_at: Created at
+        sign_in_count: Sign in count
         updated_at: Updated at

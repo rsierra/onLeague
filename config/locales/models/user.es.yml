@@ -4,11 +4,20 @@ es:
       user: Usuario
     attributes:
       user:
-        name: Nombre
+        confirmed_at: Confirmado en
+        created_at: Creado en
+        current_password: Contraseña actual
+        current_sign_in_at: Actualmente identificado en
+        current_sign_in_ip: Actualmente identificado desde
         email: Email
+        failed_attempts: Fallos en identifición
+        last_sign_in_at: Última identificación en
+        last_sign_in_ip: Última identificación desde
+        locked_at: Bloqueado en
+        name: Nombre
+        oauth_providers: Proveedores OAuth
         password: Contraseña
         password_confirmation: Confirmación de contraseña
-        current_password: Contraseña actual
         remember_me: Recordarme
-        created_at: Creado en
+        sign_in_count: Número de identificaciones
         updated_at: Actualizado en

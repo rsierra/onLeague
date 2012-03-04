@@ -1,0 +1,8 @@
+es:
+  activerecord:
+    models:
+      admin: Administrador
+    attributes:
+      admin:
+        email: Email
+        password: Contraseña
