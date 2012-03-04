@@ -175,6 +175,7 @@ RailsAdmin.config do |config|
       field :confirmed_at
       field :created_at
       field :updated_at
+      field :locked_at
     end
     edit do
       field :name
