@@ -12,6 +12,7 @@ class Ability
       can :history, :all              # allow everyone to history everything
 
       can :write, User
+      can :write, League
     end
 
     # Define abilities for the passed in user here. For example:

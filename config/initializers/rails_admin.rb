@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
   # config.excluded_models = [Admin, OauthProvider, User]
 
   # Add models here if you want to go 'whitelist mode':
-  config.included_models = [User, OauthProvider]
+  config.included_models = [User, OauthProvider, League]
 
   # Application wide tried label methods for models' instances
   # config.label_methods << :description # Default is [:name, :title]
@@ -114,8 +114,9 @@ RailsAdmin.config do |config|
       field :uname
       field :uemail
       field :uid
-      field :created_at
-      field :updated_at
+      field :created_at do
+        visible true
+      end
     end
     edit do; end
     create do; end
@@ -157,7 +158,9 @@ RailsAdmin.config do |config|
       field :email
       field :sign_in_count
       field :failed_attempts
-      field :created_at
+      field :created_at do
+        visible true
+      end
 
       filters [:name, :email]
     end
@@ -173,9 +176,13 @@ RailsAdmin.config do |config|
       field :last_sign_in_at
       field :last_sign_in_ip
       field :confirmed_at
-      field :created_at
-      field :updated_at
       field :locked_at
+      field :created_at do
+        visible true
+      end
+      field :updated_at do
+        visible true
+      end
     end
     edit do
       field :name
@@ -183,6 +190,42 @@ RailsAdmin.config do |config|
       field :password
       field :password_confirmation
     end
+    create do; end
+    update do; end
+  end
+
+  config.model League do
+    object_label_method :name
+
+    # Found columns:
+    configure :id, :integer
+    configure :name, :string
+    configure :week, :integer
+    configure :season, :integer
+    configure :created_at, :datetime
+    configure :updated_at, :datetime
+
+    # Sections:
+    list do
+      field :name
+      field :week
+      field :season
+
+      filters [:name]
+    end
+    export do; end
+    show do
+      field :name
+      field :week
+      field :season
+      field :created_at do
+        visible true
+      end
+      field :updated_at do
+        visible true
+      end
+    end
+    edit do; end
     create do; end
     update do; end
   end
