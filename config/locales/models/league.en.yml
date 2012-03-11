@@ -1,0 +1,11 @@
+en:
+  activerecord:
+    models:
+      league: League
+    attributes:
+      league:
+        created_at: Created at
+        name: Name
+        season: Season
+        updated_at: Updated at
+        week: Week
