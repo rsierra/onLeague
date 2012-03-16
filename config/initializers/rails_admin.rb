@@ -202,6 +202,7 @@ RailsAdmin.config do |config|
     configure :name, :string
     configure :week, :integer
     configure :season, :integer
+    configure :active, :boolean
     configure :created_at, :datetime
     configure :updated_at, :datetime
 
@@ -210,6 +211,7 @@ RailsAdmin.config do |config|
       field :name
       field :week
       field :season
+      field :active
 
       filters [:name]
     end
@@ -218,6 +220,7 @@ RailsAdmin.config do |config|
       field :name
       field :week
       field :season
+      field :active
       field :created_at do
         visible true
       end

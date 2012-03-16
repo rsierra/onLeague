@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120311204449) do
+ActiveRecord::Schema.define(:version => 20120316185546) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -35,8 +35,9 @@ ActiveRecord::Schema.define(:version => 20120311204449) do
     t.string   "name"
     t.integer  "week",       :limit => 2
     t.integer  "season"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+    t.boolean  "active",                  :default => false
   end
 
   create_table "oauth_providers", :force => true do |t|
