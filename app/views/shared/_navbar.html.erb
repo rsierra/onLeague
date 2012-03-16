@@ -56,6 +56,20 @@
         </ul>
 
         <ul class="nav pull-right">
+          <% unless @league.blank? %>
+          <li class="dropdown">
+            <% if League.active.count > 1 %>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= @league.name %> <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <% League.except(@league.id).active.each do |league| %>
+                <li><%= link_to league.name, change_league_path(league.id) %></li>
+                <% end %>
+              </ul>
+            <% else %>
+              <a href="#"><%= @league.name %></a>
+            <% end %>
+          </li>
+          <% end %>
           <% unless user_signed_in? %>
             <li><a data-toggle="modal" data-target="#sign_in_modal" >
               <i class="icon-user icon-white"></i> <%= t '.sign_in' %>
