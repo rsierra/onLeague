@@ -6,9 +6,9 @@ class ApplicationController < ActionController::Base
   def set_league
     if League.active.count > 0
       session[:league_id] ||= League.active.first.id
-      @league = League.active.exists?(session[:league_id]) ? League.active.find(session[:league_id]) : League.active.first
+      @current_league = League.active.exists?(session[:league_id]) ? League.active.find(session[:league_id]) : League.active.first
     else
-      @league = League.new # If there aren´t leagues, we create an empty one to avoid errors
+      @current_league = League.new # If there aren´t leagues, we create an empty one to avoid errors
     end
   end
 end
