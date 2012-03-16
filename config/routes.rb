@@ -1,4 +1,6 @@
 OnLeague::Application.routes.draw do
+  match 'leagues/:id/change' => 'leagues#change', :via => :get, :as => 'change_league'
+
   # Engine rout should be different to /admin, becouse crashes with devise routes
   mount RailsAdmin::Engine => '/administration', :as => 'rails_admin'
 

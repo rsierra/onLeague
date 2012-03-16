@@ -7,7 +7,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-(1..20).each do |n|
+(1..10).each do |n|
   user_name = "testuser#{n}"
   user_params =
   {
@@ -20,3 +20,19 @@
   user.skip_confirmation! # Sets confirmed_at to Time.now, activating the account
   user.save
 end
+
+admin_params =
+{
+  :email => "amin@mail.com",
+  :password => "metadmin",
+  :password_confirmation => "metadmin"
+}
+admin = Admin.create admin_params
+
+league_params =
+{
+  :name => "Test League",
+  :week => 1,
+  :season => 2000
+}
+league = League.create league_params

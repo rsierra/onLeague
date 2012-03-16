@@ -6,3 +6,4 @@ OnLeague::Application.config.session_store :cookie_store, key: '_onLeague_sessio
 # which shouldn't be used to store highly confidential information
 # (create the session table with "rails generate session_migration")
 # OnLeague::Application.config.session_store :active_record_store
+OnLeague::Application.config.session_store :redis_store, :servers => ENV["REDISTOGO_URL"]
