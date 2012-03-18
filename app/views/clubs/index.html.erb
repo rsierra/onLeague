@@ -1,0 +1,21 @@
+<div class="row">
+  <div id="clubs_index" class="span12">
+    <h1><%= t '.title', :league => @current_league.name %></h1>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th><%= Club.human_attribute_name(:name) %></th>
+          <th><%= Club.human_attribute_name(:short_name) %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @clubs.each do |club| %>
+        <tr>
+          <td><%= link_to club.name, club_path(club) %></td>
+          <td><%= club.short_name %></td>
+        </tr>
+        <% end -%>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -53,6 +53,7 @@
         <!-- .nav, .navbar-search, .navbar-form, etc -->
         <ul class="nav">
             <li class="active"><%= link_to t('.home'), root_path %></li>
+            <li><%= link_to Club.model_name.human.pluralize, clubs_path %></li>
         </ul>
 
         <ul class="nav pull-right">
