@@ -2,10 +2,18 @@
 
 FactoryGirl.define do
   factory :league do
-    sequence :name do |n|
-      "League #{n}"
-    end
+    sequence(:name) { |n| "League #{n}" }
     week 1
     season 1111
+    active true
+
+    factory :with_clubs do
+      ignore do
+        clubs_count 20
+      end
+      after_create do |league, evaluator|
+        FactoryGirl.create_list(:club, evaluator.clubs_count, :league => league)
+      end
+    end
   end
 end
