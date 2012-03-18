@@ -159,6 +159,8 @@ GEM
       activesupport (= 3.2.1)
       bundler (~> 1.0)
       railties (= 3.2.1)
+    rails-translate-routes (0.0.5)
+      rails (>= 3.0)
     railties (3.2.1)
       actionpack (= 3.2.1)
       activesupport (= 3.2.1)
@@ -253,6 +255,7 @@ DEPENDENCIES
   omniauth-twitter
   pg
   rails (= 3.2.1)
+  rails-translate-routes
   rails_admin!
   redis-rails
   rspec-rails
