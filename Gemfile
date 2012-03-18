@@ -60,3 +60,7 @@ gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
 gem 'cancan'
 
 gem 'redis-rails'
+
+gem "friendly_id", "~> 4.0.1"
+
+gem 'rails-translate-routes'

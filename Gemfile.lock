@@ -81,6 +81,7 @@ GEM
       addressable (~> 2.2)
       multipart-post (~> 1.1)
       rack (~> 1.1)
+    friendly_id (4.0.3)
     gravtastic (3.2.6)
     haml (3.1.4)
     hashie (1.2.0)
@@ -158,6 +159,8 @@ GEM
       activesupport (= 3.2.1)
       bundler (~> 1.0)
       railties (= 3.2.1)
+    rails-translate-routes (0.0.5)
+      rails (>= 3.0)
     railties (3.2.1)
       actionpack (= 3.2.1)
       activesupport (= 3.2.1)
@@ -242,6 +245,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   devise
   factory_girl_rails
+  friendly_id (~> 4.0.1)
   gravtastic
   heroku
   jquery-rails
@@ -251,6 +255,7 @@ DEPENDENCIES
   omniauth-twitter
   pg
   rails (= 3.2.1)
+  rails-translate-routes
   rails_admin!
   redis-rails
   rspec-rails

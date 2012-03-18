@@ -10,13 +10,25 @@ describe League do
   end
 
   describe "should not be valid" do
-    context "without email" do
+    context "without name" do
       let(:league) { FactoryGirl.build(:league, :name => nil) }
       before { league.valid? }
       subject { league }
       it { should_not be_valid }
       it { should have(1).error_on(:name) }
       it { league.error_on(:name).should include I18n.t('errors.messages.blank') }
+    end
+
+    context "with duplicate name" do
+      let(:league) { FactoryGirl.build(:league, :name => "League name") }
+      before do
+        FactoryGirl.create(:league, :name => "League name")
+        league.valid?
+      end
+      subject { league }
+      it { should_not be_valid }
+      it { should have(1).error_on(:name) }
+      it { league.error_on(:name).should include I18n.t('errors.messages.taken') }
     end
 
     context "without week" do

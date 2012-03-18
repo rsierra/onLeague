@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
   # config.excluded_models = [Admin, OauthProvider, User]
 
   # Add models here if you want to go 'whitelist mode':
-  config.included_models = [User, OauthProvider, League]
+  config.included_models = [User, OauthProvider, League, Club]
 
   # Application wide tried label methods for models' instances
   # config.label_methods << :description # Default is [:name, :title]
@@ -197,6 +197,8 @@ RailsAdmin.config do |config|
   config.model League do
     object_label_method :name
 
+    # Found associations:
+    configure :clubs, :has_and_belongs_to_many_association
     # Found columns:
     configure :id, :integer
     configure :name, :string
@@ -221,6 +223,45 @@ RailsAdmin.config do |config|
       field :week
       field :season
       field :active
+      field :clubs
+      field :created_at do
+        visible true
+      end
+      field :updated_at do
+        visible true
+      end
+    end
+    edit do; end
+    create do; end
+    update do; end
+  end
+
+  config.model Club do
+    object_label_method :name
+
+    # Found associations:
+    configure :leagues, :has_and_belongs_to_many_association
+    # Found columns:
+    configure :id, :integer
+    configure :name, :string
+    configure :short_name, :string
+    configure :description, :text
+    configure :created_at, :datetime
+    configure :updated_at, :datetime
+
+    # Sections:
+    list do
+      field :name
+      field :short_name
+
+      filters [:name, :short_name]
+    end
+    export do; end
+    show do
+      field :name
+      field :short_name
+      field :leagues
+      field :description
       field :created_at do
         visible true
       end
