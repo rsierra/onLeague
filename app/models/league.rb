@@ -1,4 +1,6 @@
 class League < ActiveRecord::Base
+  has_and_belongs_to_many :clubs
+
   validates :name, :presence => true, :uniqueness => true
   validates :week, :presence => true,
                   :numericality => { :only_integer => true },
