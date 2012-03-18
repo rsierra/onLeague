@@ -3,9 +3,6 @@ OnLeague::Application.routes.draw do
 
   match 'leagues/:id/change' => 'leagues#change', :via => :get, :as => 'change_league'
 
-  # Engine rout should be different to /admin, becouse crashes with devise routes
-  mount RailsAdmin::Engine => '/administration', :as => 'rails_admin'
-
   devise_for :admins
 
   devise_for :users, :controllers => { :registrations => 'users/registrations', :omniauth_callbacks => "users/omniauth_callbacks" }
@@ -73,4 +70,14 @@ OnLeague::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+end
+
+ActionDispatch::Routing::Translator.translate_from_file('config/locales/routes.yml')
+
+# To avoid conflicts, rails admin routes should be declared out of translate routes
+# and local routes should be added by hand
+OnLeague::Application.routes.draw do
+  # Engine rout should be different to /admin, becouse crashes with devise routes
+  mount RailsAdmin::Engine => '/administracion', :as => 'rails_admin', :locale => :es
+  mount RailsAdmin::Engine => '/en/administration', :as => 'rails_admin', :locale => :en
 end
