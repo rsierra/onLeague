@@ -82,6 +82,10 @@ GEM
       multipart-post (~> 1.1)
       rack (~> 1.1)
     friendly_id (4.0.3)
+    globalize3 (0.2.0)
+      activemodel (>= 3.0.0)
+      activerecord (>= 3.0.0)
+      paper_trail (~> 2)
     gravtastic (3.2.6)
     haml (3.1.4)
     hashie (1.2.0)
@@ -139,6 +143,8 @@ GEM
     omniauth-twitter (0.0.8)
       omniauth-oauth (~> 1.0)
     orm_adapter (0.0.6)
+    paper_trail (2.6.2)
+      rails (~> 3)
     pg (0.13.0)
     polyglot (0.3.3)
     rack (1.4.1)
@@ -246,6 +252,7 @@ DEPENDENCIES
   devise
   factory_girl_rails
   friendly_id (~> 4.0.1)
+  globalize3
   gravtastic
   heroku
   jquery-rails
