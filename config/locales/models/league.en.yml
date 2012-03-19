@@ -4,6 +4,7 @@ en:
       league: League
     attributes:
       league:
+        active: Active
         created_at: Created at
         name: Name
         season: Season

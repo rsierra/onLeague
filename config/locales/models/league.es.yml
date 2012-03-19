@@ -4,9 +4,9 @@ es:
       league: Liga
     attributes:
       league:
+        active: Activa
         created_at: Creado en
         name: Nombre
         season: Temporada
         updated_at: Actualizado en
         week: Jornada
-        active: Activa
