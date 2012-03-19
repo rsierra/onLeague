@@ -1,0 +1,4 @@
+es:
+  clubs:
+    index:
+      title: Clubs de la %{league}

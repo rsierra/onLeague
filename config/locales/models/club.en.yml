@@ -1,0 +1,11 @@
+en:
+  activerecord:
+    models:
+      club: Club
+    attributes:
+      club:
+        created_at: Created at
+        name: Name
+        short_name: Short name
+        updated_at: Updated at
+        description: Description
