@@ -66,3 +66,5 @@ gem "friendly_id", "~> 4.0.1"
 gem 'rails-translate-routes'
 
 gem 'globalize3'
+
+gem 'simple-navigation'

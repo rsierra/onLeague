@@ -51,10 +51,7 @@
       <!-- Everything you want hidden at 940px or less, place within here -->
       <div class="nav-collapse">
         <!-- .nav, .navbar-search, .navbar-form, etc -->
-        <ul class="nav">
-            <li class="active"><%= link_to t('.home'), root_path %></li>
-            <li><%= link_to Club.model_name.human.pluralize, clubs_path %></li>
-        </ul>
+        <%= render_navigation %>
 
         <ul class="nav pull-right">
           <% unless @current_league.blank? %>
