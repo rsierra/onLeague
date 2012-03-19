@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
   # config.excluded_models = [Admin, OauthProvider, User]
 
   # Add models here if you want to go 'whitelist mode':
-  config.included_models = [User, OauthProvider, League, Club]
+  config.included_models = [User, OauthProvider, League, Club, ClubTranslation]
 
   # Application wide tried label methods for models' instances
   # config.label_methods << :description # Default is [:name, :title]
@@ -241,6 +241,7 @@ RailsAdmin.config do |config|
 
     # Found associations:
     configure :leagues, :has_and_belongs_to_many_association
+    configure :club_translations, :has_many_association
     # Found columns:
     configure :id, :integer
     configure :name, :string
@@ -261,6 +262,7 @@ RailsAdmin.config do |config|
       field :name
       field :short_name
       field :leagues
+      field :club_translations
       field :description
       field :created_at do
         visible true
@@ -270,7 +272,67 @@ RailsAdmin.config do |config|
       end
     end
     edit do; end
-    create do; end
-    update do; end
+    create do
+      field :name
+      field :short_name
+      field :leagues
+      field :description
+    end
+    update do
+      field :name
+      field :short_name
+      field :leagues
+      field :club_translations
+    end
+  end
+
+  config.model ClubTranslation do
+    object_label_method :locale
+
+    parent Club
+    # Found associations:
+    configure :club, :belongs_to_association
+    # Found columns:
+    configure :description, :text
+    configure :locale, :enum do
+    # if your model has a method that sends back the options:
+      enum_method do
+        :locale_enum
+      end
+    end
+
+    # Sections:
+    list do
+      field :locale
+      field :club
+
+      filters [:club, :locale]
+    end
+    export do; end
+    show do
+      field :locale
+      field :club
+      field :description
+      field :created_at do
+        visible true
+      end
+      field :updated_at do
+        visible true
+      end
+    end
+    create do
+      field :club
+      field :locale
+      field :description
+    end
+    update do
+      field :club do
+        read_only true
+      end
+      field :locale do
+        read_only true
+      end
+      field :description
+    end
   end
 end
