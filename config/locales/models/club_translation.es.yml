@@ -1,0 +1,16 @@
+es:
+  activerecord:
+    models:
+      club_translation: Traduccion de Club
+    attributes:
+      club_translation:
+        created_at: Creado en
+        description: Descripción
+        locale: Idioma
+        updated_at: Actualizado en
+    errors:
+      models:
+        club_translation:
+          attributes:
+            locale:
+              only_one_locale: sólo uno por equipo equipo
