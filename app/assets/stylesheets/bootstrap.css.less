@@ -36,16 +36,63 @@ body { padding-top: 60px; }
   width: 582px;
 }
 
+//---------------------------------------------------------
+// LAYAOUT
+
+footer {
+  text-align: right;
+}
+
+//---------------------------------------------------------
+// HOME
+
 #main_home {
   padding: 10px;
   background-color: @successBackground;
   .border-radius(20px);
 
-  #home_logo {
+  img#home_logo {
     float: right;
   }
 }
 
-footer {
-  text-align: right;
+//---------------------------------------------------------
+// CLUBS
+
+#clubs_index {
+  h1 {
+    margin-bottom: 20px;
+  }
+  .club {
+    float:left;
+    margin: 10px 30px;
+    padding: 10px 0;
+    width: 170px;
+    background-color: @successBackground;
+    .border-radius(20px);
+    img {
+      .center-block()
+    }
+    p {
+      text-align: center;
+    }
+    a {
+      text-decoration: none;
+    }
+  }
+}
+
+#club_show {
+  h1 {
+    margin-bottom: 20px;
+  }
+  #club_info {
+    padding: 30px;
+    background-color: @successBackground;
+    .border-radius(20px);
+
+    img#club_logo {
+      float: right;
+    }
+  }
 }
