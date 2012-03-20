@@ -68,3 +68,5 @@ gem 'rails-translate-routes'
 gem 'globalize3'
 
 gem 'simple-navigation'
+
+gem 'paperclip', :git => 'git://github.com/thoughtbot/paperclip.git', :branch => 'rails3'

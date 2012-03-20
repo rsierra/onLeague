@@ -63,3 +63,5 @@ module OnLeague
     config.assets.version = '1.0'
   end
 end
+
+Paperclip::Railtie.insert
