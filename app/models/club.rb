@@ -9,6 +9,14 @@ class Club < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  #attr_accessible :logo
+  has_attached_file :logo,  :styles => { :medium => "200x200>", :small => "100x100>", :thumb => "50x50#" },
+                            :default_url => "/assets/missings/:class/:attachment/:style/missing.png"
+
+  validates_attachment_content_type :logo, :content_type => /image/, :message => :incorrect_format
+
+  validates_attachment_size :logo, :less_than => 500.kilobytes
+
   validates :name,  :presence => true, :uniqueness => true,
                     :length => { :maximum => 25 }
   validates :short_name,  :presence => true,

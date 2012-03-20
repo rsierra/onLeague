@@ -15,6 +15,18 @@ GIT
       remotipart (~> 1.0)
       sass-rails (~> 3.1)
 
+GIT
+  remote: git://github.com/thoughtbot/paperclip.git
+  revision: 98e64b25f31fb585c72a572e94341f37768a650e
+  branch: rails3
+  specs:
+    paperclip (2.7.0)
+      activemodel (>= 3.0.0)
+      activerecord (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      cocaine (>= 0.0.2)
+      mime-types
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -52,6 +64,7 @@ GEM
     bootstrap-sass (2.0.1)
     builder (3.0.0)
     cancan (1.6.7)
+    cocaine (0.2.1)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -262,6 +275,7 @@ DEPENDENCIES
   omniauth-facebook
   omniauth-google-oauth2
   omniauth-twitter
+  paperclip!
   pg
   rails (= 3.2.1)
   rails-translate-routes
