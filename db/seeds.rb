@@ -45,12 +45,42 @@ admin = Admin.create admin_params
       :name => "#{league.name} Club #{n}",
       :short_name => "C#{n}",
       :description => <<-eos
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel libero tellus. Proin pharetra imperdiet felis, et feugiat sapien porta et. Praesent malesuada molestie auctor. Duis ut libero ultricies enim semper molestie id ac quam. Mauris in varius velit. Morbi sed justo viverra mi fringilla molestie. Aliquam erat volutpat. Mauris in fermentum libero. Vestibulum in sapien vel nisl suscipit lobortis. Vestibulum a egestas odio. Pellentesque convallis sodales est, non porta dolor tristique eu. Curabitur lobortis porttitor felis, nec consequat mauris vehicula vitae. Curabitur diam enim, malesuada imperdiet porttitor sed, rutrum non ipsum. Praesent eu massa lorem.
-  <br/><br/>
-  Ut feugiat posuere velit, at aliquam augue consectetur sed. Praesent volutpat varius est eget faucibus. Nunc congue auctor tortor, vel ultrices lacus pretium blandit. Mauris semper lacinia leo, bibendum elementum erat sollicitudin sit amet. Nulla tellus enim, egestas a lobortis nec, mattis porttitor purus. Phasellus quis venenatis ante. Nulla rutrum ullamcorper mi, sed mollis turpis cursus id. Curabitur eget metus et nunc mattis porta. Vivamus quam arcu, luctus ut mattis non, congue et justo. Vivamus ultrices mollis lorem, non tristique nisi sodales at. Phasellus mattis, elit at dignissim condimentum, sem neque placerat augue, non accumsan augue sapien sed arcu.
-  eos
+<dl>
+<dt><strong>Fundado:</strong></dt>
+<dd>1900</dd>
+<dt><strong>Estadio:</strong></dt>
+<dd>Gran Estadio</dd>
+<dt><strong>Capacidad:</strong></dt>
+<dd>80.000</dd>
+<dt><strong>Presidente:</strong></dt>
+<dd>Presidencio perez</dd>
+<dt><strong>Entrenador:</strong></dt>
+<dd>Entrenancio Gonzalez</dd>
+</dl>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel libero tellus. Proin pharetra imperdiet felis, et feugiat sapien porta et. Praesent malesuada molestie auctor. Duis ut libero ultricies enim semper molestie id ac quam. Mauris in varius velit. Morbi sed justo viverra mi fringilla molestie. Aliquam erat volutpat. Mauris in fermentum libero. Vestibulum in sapien vel nisl suscipit lobortis. Vestibulum a egestas odio. Pellentesque convallis sodales est, non porta dolor tristique eu. Curabitur lobortis porttitor felis, nec consequat mauris vehicula vitae. Curabitur diam enim, malesuada imperdiet porttitor sed, rutrum non ipsum. Praesent eu massa lorem.
+</p>
+eos
     }
     club = Club.create club_params
+    description_en = <<-eos
+<dl>
+<dt><strong>Founded:</strong></dt>
+<dd>1900</dd>
+<dt><strong>Stadium:</strong></dt>
+<dd>Gran Estadio</dd>
+<dt><strong>Capacity:</strong></dt>
+<dd>80.000</dd>
+<dt><strong>President:</strong></dt>
+<dd>Presidencio perez</dd>
+<dt><strong>Coach:</strong></dt>
+<dd>Entrenancio Gonzalez</dd>
+</dl>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel libero tellus. Proin pharetra imperdiet felis, et feugiat sapien porta et. Praesent malesuada molestie auctor. Duis ut libero ultricies enim semper molestie id ac quam. Mauris in varius velit. Morbi sed justo viverra mi fringilla molestie. Aliquam erat volutpat. Mauris in fermentum libero. Vestibulum in sapien vel nisl suscipit lobortis. Vestibulum a egestas odio. Pellentesque convallis sodales est, non porta dolor tristique eu. Curabitur lobortis porttitor felis, nec consequat mauris vehicula vitae. Curabitur diam enim, malesuada imperdiet porttitor sed, rutrum non ipsum. Praesent eu massa lorem.
+</p>
+eos
+    club.club_translations.find_by_locale(:en).update_attributes(:description => description_en)
     league.clubs << club
     league.save
   end
