@@ -5,7 +5,14 @@ en:
     attributes:
       club:
         created_at: Created at
+        logo: Logo
         name: Name
         short_name: Short name
         updated_at: Updated at
         description: Description
+    errors:
+      models:
+        club:
+          attributes:
+            logo_content_type:
+              incorrect_format: Incorrect format

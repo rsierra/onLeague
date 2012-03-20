@@ -247,6 +247,7 @@ RailsAdmin.config do |config|
     configure :name, :string
     configure :short_name, :string
     configure :description, :text
+    configure :logo, :paperclip
     configure :created_at, :datetime
     configure :updated_at, :datetime
 
@@ -261,6 +262,7 @@ RailsAdmin.config do |config|
     show do
       field :name
       field :short_name
+      field :logo
       field :leagues
       field :club_translations
       field :description
@@ -275,12 +277,14 @@ RailsAdmin.config do |config|
     create do
       field :name
       field :short_name
+      field :logo
       field :leagues
       field :description
     end
     update do
       field :name
       field :short_name
+      field :logo
       field :leagues
       field :club_translations
     end
