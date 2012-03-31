@@ -1,0 +1,17 @@
+en:
+  activerecord:
+    models:
+      country: Country
+    attributes:
+      country:
+        created_at: Created at
+        eu: Community
+        flag: Flag
+        name: Name
+        updated_at: Updated at
+    errors:
+      models:
+        club:
+          attributes:
+            logo_content_type:
+              incorrect_format: Incorrect format
