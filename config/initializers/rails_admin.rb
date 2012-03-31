@@ -248,6 +248,8 @@ RailsAdmin.config do |config|
     configure :short_name, :string
     configure :description, :text
     configure :logo, :paperclip
+    configure :jersey, :paperclip
+    configure :number_color, :color
     configure :created_at, :datetime
     configure :updated_at, :datetime
 
@@ -263,6 +265,8 @@ RailsAdmin.config do |config|
       field :name
       field :short_name
       field :logo
+      field :jersey
+      field :number_color
       field :leagues
       field :club_translations
       field :description
@@ -277,15 +281,19 @@ RailsAdmin.config do |config|
     create do
       field :name
       field :short_name
-      field :logo
       field :leagues
+      field :logo
+      field :jersey
+      field :number_color
       field :description
     end
     update do
       field :name
       field :short_name
-      field :logo
       field :leagues
+      field :logo
+      field :jersey
+      field :number_color
       field :club_translations
     end
   end
