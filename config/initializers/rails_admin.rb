@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
   # config.excluded_models = [Admin, OauthProvider, User]
 
   # Add models here if you want to go 'whitelist mode':
-  config.included_models = [User, OauthProvider, League, Club, ClubTranslation]
+  config.included_models = [User, OauthProvider, League, Club, ClubTranslation, Country, CountryTranslation]
 
   # Application wide tried label methods for models' instances
   # config.label_methods << :description # Default is [:name, :title]
@@ -345,6 +345,103 @@ RailsAdmin.config do |config|
         read_only true
       end
       field :description
+    end
+  end
+
+  config.model Country do
+    object_label_method :name
+
+    # Found associations:
+    configure :country_translations, :has_many_association
+    # Found columns:
+    configure :id, :integer
+    configure :name, :string
+    configure :eu, :boolean
+    configure :flag, :paperclip
+    configure :created_at, :datetime
+    configure :updated_at, :datetime
+
+    # Sections:
+    list do
+      field :name
+      field :flag
+      field :eu
+
+      filters [:name, :eu]
+    end
+    export do; end
+    show do
+      field :name
+      field :eu
+      field :flag
+      field :country_translations
+      field :created_at do
+        visible true
+      end
+      field :updated_at do
+        visible true
+      end
+    end
+    edit do; end
+    create do
+      field :name
+      field :eu
+      field :flag
+    end
+    update do
+      field :country_translations
+      field :eu
+      field :flag
+    end
+  end
+
+  config.model CountryTranslation do
+    object_label_method :locale
+
+    parent Country
+    # Found associations:
+    configure :country, :belongs_to_association
+    # Found columns:
+    configure :name, :string
+    configure :locale, :enum do
+    # if your model has a method that sends back the options:
+      enum_method do
+        :locale_enum
+      end
+    end
+
+    # Sections:
+    list do
+      field :locale
+      field :club
+
+      filters [:club, :locale]
+    end
+    export do; end
+    show do
+      field :locale
+      field :country
+      field :name
+      field :created_at do
+        visible true
+      end
+      field :updated_at do
+        visible true
+      end
+    end
+    create do
+      field :country
+      field :locale
+      field :name
+    end
+    update do
+      field :country do
+        read_only true
+      end
+      field :locale do
+        read_only true
+      end
+      field :name
     end
   end
 end
