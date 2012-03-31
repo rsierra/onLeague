@@ -8,6 +8,7 @@ class League < ActiveRecord::Base
   validates :season, :presence => true,
                     :numericality => { :only_integer => true },
                     :length => { :is => 4 }
+  validates :status, :presence => true, :inclusion => { :in => [true, false] }
 
   scope :active, where(:active => true)
   scope :except, ->(id) { where(['id != ?',id]) }
