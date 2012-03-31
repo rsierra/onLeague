@@ -47,3 +47,12 @@
     <% end -%>
   </div>
 </div>
+
+<% content_for :javascripts do %>
+  <%= javascript_include_tag "jquery.grayscale" %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".grayscale").grayscale();
+    });
+  </script>
+<% end %>
