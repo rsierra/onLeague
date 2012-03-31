@@ -71,3 +71,19 @@ OnLeague::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 end
+
+# S3 AWS-SDK FIX
+AWS::S3::DEFAULT_HOST = "s3-eu-west-1.amazonaws.com"
+Paperclip.interpolates(:s3_eu_url) { |attachment, style|
+  "#{attachment.s3_protocol}://s3-eu-west-1.amazonaws.com/#{attachment.bucket_name}/#{attachment.path(style).gsub(%r{^/}, "")}"
+}
+
+Paperclip::Attachment.default_options.merge!({
+  :storage => :s3,
+  :s3_credentials => {
+    :access_key_id => ENV['S3_ACCESS_KEY_ID'],
+    :secret_access_key => ENV['S3_SECRET_ACCESS_KEY'],
+    :bucket => ENV['S3_BUCKET'] },
+  :path => "system/:class/:attachment/:id/:style/:filename",
+  :url  => ":s3_eu_url"
+})

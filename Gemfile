@@ -69,4 +69,5 @@ gem 'globalize3'
 
 gem 'simple-navigation'
 
-gem 'paperclip', :git => 'git://github.com/thoughtbot/paperclip.git', :branch => 'rails3'
+gem 'paperclip', "~> 3.0"
+gem 'aws-sdk', '~> 1.3.4'
