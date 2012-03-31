@@ -29,6 +29,7 @@ class Club < ActiveRecord::Base
                     :length => { :maximum => 25 }
   validates :short_name,  :presence => true,
                           :length => { :maximum => 3 }
+  validates :description, :presence => true
   validates :slug,  :presence => true, :uniqueness => true
 
   validates :number_color, :presence => true

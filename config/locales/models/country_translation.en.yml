@@ -1,0 +1,16 @@
+en:
+  activerecord:
+    models:
+      country_translation: Country Translation
+    attributes:
+      country_translation:
+        created_at: Created at
+        name: Name
+        locale: Locale
+        updated_at: Updated at
+    errors:
+      models:
+        club_translation:
+          attributes:
+            locale:
+              only_one_locale: only one per country

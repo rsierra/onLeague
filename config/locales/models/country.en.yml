@@ -1,16 +1,13 @@
 en:
   activerecord:
     models:
-      club: Club
+      country: Country
     attributes:
-      club:
+      country:
         created_at: Created at
-        description: Description
-        jersey: jersey
-        logo: Logo
+        eu: Community
+        flag: Flag
         name: Name
-        number_color: Number Color
-        short_name: Short name
         updated_at: Updated at
     errors:
       models:

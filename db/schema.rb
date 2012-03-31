@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120331150011) do
+ActiveRecord::Schema.define(:version => 20120331171421) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -68,6 +68,28 @@ ActiveRecord::Schema.define(:version => 20120331150011) do
 
   add_index "clubs_leagues", ["club_id", "league_id"], :name => "index_clubs_leagues_on_club_id_and_league_id"
   add_index "clubs_leagues", ["league_id", "club_id"], :name => "index_clubs_leagues_on_league_id_and_club_id"
+
+  create_table "countries", :force => true do |t|
+    t.string   "name"
+    t.boolean  "eu",                :default => false
+    t.string   "flag_file_name"
+    t.string   "flag_content_type"
+    t.integer  "flag_file_size"
+    t.datetime "flag_updated_at"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+  end
+
+  create_table "country_translations", :force => true do |t|
+    t.integer  "country_id"
+    t.string   "locale"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "country_translations", ["country_id"], :name => "index_country_translations_on_country_id"
+  add_index "country_translations", ["locale"], :name => "index_country_translations_on_locale"
 
   create_table "leagues", :force => true do |t|
     t.string   "name"

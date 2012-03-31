@@ -15,6 +15,8 @@ class Ability
       can :write, League
       can :write, Club
       can :write, ClubTranslation
+      can :write, Country
+      can :write, CountryTranslation
     end
 
     # Define abilities for the passed in user here. For example:
