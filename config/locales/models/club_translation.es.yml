@@ -13,4 +13,4 @@ es:
         club_translation:
           attributes:
             locale:
-              only_one_locale: sólo uno por equipo equipo
+              only_one_locale: sólo uno por equipo
