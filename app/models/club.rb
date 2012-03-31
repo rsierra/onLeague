@@ -17,11 +17,21 @@ class Club < ActiveRecord::Base
 
   validates_attachment_size :logo, :less_than => 500.kilobytes
 
+  #attr_accessible :jersey
+  has_attached_file :jersey,  :styles => { :normal => "84x87#", :thumb => "38x39#" },
+                            :default_url => "/assets/missings/:class/:attachment/:style/missing.png"
+
+  validates_attachment_content_type :jersey, :content_type => /image/, :message => :incorrect_format
+
+  validates_attachment_size :jersey, :less_than => 500.kilobytes
+
   validates :name,  :presence => true, :uniqueness => true,
                     :length => { :maximum => 25 }
   validates :short_name,  :presence => true,
                           :length => { :maximum => 3 }
   validates :slug,  :presence => true, :uniqueness => true
+
+  validates :number_color, :presence => true
 
   after_create :default_values
 
