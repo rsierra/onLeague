@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120319165233) do
+ActiveRecord::Schema.define(:version => 20120331150011) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -43,15 +43,20 @@ ActiveRecord::Schema.define(:version => 20120319165233) do
   add_index "club_translations", ["locale"], :name => "index_club_translations_on_locale"
 
   create_table "clubs", :force => true do |t|
-    t.string   "name",              :limit => 25
-    t.string   "short_name",        :limit => 3
+    t.string   "name",                :limit => 25
+    t.string   "short_name",          :limit => 3
     t.string   "slug"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
+    t.string   "jersey_file_name"
+    t.string   "jersey_content_type"
+    t.integer  "jersey_file_size"
+    t.datetime "jersey_updated_at"
+    t.string   "number_color",                      :default => "#000000"
   end
 
   add_index "clubs", ["slug"], :name => "index_clubs_on_slug", :unique => true
