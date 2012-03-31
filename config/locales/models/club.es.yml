@@ -5,11 +5,13 @@ es:
     attributes:
       club:
         created_at: Creado en
-        logo: Logo
+        description: Descripción
+        jersey: Camiseta
+        logo: Escudo
         name: Nombre
+        number_color: Color del dorsal
         short_name: Nombre corto
         updated_at: Actualizado en
-        description: Descripción
     errors:
       models:
         club:

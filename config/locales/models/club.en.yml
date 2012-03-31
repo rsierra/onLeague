@@ -5,11 +5,13 @@ en:
     attributes:
       club:
         created_at: Created at
+        description: Description
+        jersey: jersey
         logo: Logo
         name: Name
+        number_color: Number Color
         short_name: Short name
         updated_at: Updated at
-        description: Description
     errors:
       models:
         club:
