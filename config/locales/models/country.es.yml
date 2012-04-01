@@ -1,0 +1,17 @@
+es:
+  activerecord:
+    models:
+      country: País
+    attributes:
+      country:
+        created_at: Creado en
+        eu: Comunitario
+        flag: Bandera
+        name: Nombre
+        updated_at: Actualizado en
+    errors:
+      models:
+        club:
+          attributes:
+            logo_content_type:
+              incorrect_format: Formato incorrecto

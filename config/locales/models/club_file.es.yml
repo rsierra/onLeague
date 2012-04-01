@@ -1,0 +1,30 @@
+es:
+  activerecord:
+    models:
+      club_file: Ficha de club
+    attributes:
+      club_file:
+        club: Club
+        created_at: Creado en
+        number: Dorsal
+        player: Jugador
+        position: Demarcación
+        season_in: Temporada de entrada
+        season_out: Temporada de salida
+        updated_at: Actualizado en
+        value: Valor
+        week_in: Jornada de entrada
+        week_out: Jornada de salida
+    errors:
+      models:
+        club_file:
+          attributes:
+            player_id:
+              only_one_player: sólo un jugador por equipo y jornada/temporada
+  enumerize:
+    club_file:
+      position:
+        goalkeeper: Portero
+        defender: Defensa
+        midfielder: Centrocampista
+        forward: Delantero

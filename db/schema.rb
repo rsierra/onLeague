@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120318230227) do
+ActiveRecord::Schema.define(:version => 20120401182809) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -31,6 +31,23 @@ ActiveRecord::Schema.define(:version => 20120318230227) do
   add_index "admins", ["email"], :name => "index_admins_on_email", :unique => true
   add_index "admins", ["reset_password_token"], :name => "index_admins_on_reset_password_token", :unique => true
 
+  create_table "club_files", :force => true do |t|
+    t.integer  "club_id"
+    t.integer  "player_id"
+    t.integer  "number"
+    t.string   "position"
+    t.float    "value"
+    t.integer  "week_in"
+    t.integer  "season_in"
+    t.integer  "week_out"
+    t.integer  "season_out"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "club_files", ["club_id"], :name => "index_club_files_on_club_id"
+  add_index "club_files", ["player_id"], :name => "index_club_files_on_player_id"
+
   create_table "club_translations", :force => true do |t|
     t.integer  "club_id"
     t.string   "locale"
@@ -43,11 +60,20 @@ ActiveRecord::Schema.define(:version => 20120318230227) do
   add_index "club_translations", ["locale"], :name => "index_club_translations_on_locale"
 
   create_table "clubs", :force => true do |t|
-    t.string   "name",       :limit => 25
-    t.string   "short_name", :limit => 3
+    t.string   "name",                :limit => 25
+    t.string   "short_name",          :limit => 3
     t.string   "slug"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.string   "jersey_file_name"
+    t.string   "jersey_content_type"
+    t.integer  "jersey_file_size"
+    t.datetime "jersey_updated_at"
+    t.string   "number_color",                      :default => "#000000"
   end
 
   add_index "clubs", ["slug"], :name => "index_clubs_on_slug", :unique => true
@@ -59,6 +85,28 @@ ActiveRecord::Schema.define(:version => 20120318230227) do
 
   add_index "clubs_leagues", ["club_id", "league_id"], :name => "index_clubs_leagues_on_club_id_and_league_id"
   add_index "clubs_leagues", ["league_id", "club_id"], :name => "index_clubs_leagues_on_league_id_and_club_id"
+
+  create_table "countries", :force => true do |t|
+    t.string   "name"
+    t.boolean  "eu",                :default => false
+    t.string   "flag_file_name"
+    t.string   "flag_content_type"
+    t.integer  "flag_file_size"
+    t.datetime "flag_updated_at"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+  end
+
+  create_table "country_translations", :force => true do |t|
+    t.integer  "country_id"
+    t.string   "locale"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "country_translations", ["country_id"], :name => "index_country_translations_on_country_id"
+  add_index "country_translations", ["locale"], :name => "index_country_translations_on_locale"
 
   create_table "leagues", :force => true do |t|
     t.string   "name"
@@ -81,6 +129,19 @@ ActiveRecord::Schema.define(:version => 20120318230227) do
 
   add_index "oauth_providers", ["uid"], :name => "index_oauth_providers_on_uid"
   add_index "oauth_providers", ["user_id"], :name => "index_oauth_providers_on_user_id"
+
+  create_table "players", :force => true do |t|
+    t.string   "name",       :limit => 64
+    t.date     "born",                     :default => '1900-01-01'
+    t.boolean  "active",                   :default => false
+    t.integer  "country_id"
+    t.string   "slug"
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
+  end
+
+  add_index "players", ["country_id"], :name => "index_players_on_country_id"
+  add_index "players", ["slug"], :name => "index_players_on_slug", :unique => true
 
   create_table "rails_admin_histories", :force => true do |t|
     t.text     "message"

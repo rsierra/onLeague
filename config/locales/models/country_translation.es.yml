@@ -1,11 +1,11 @@
 es:
   activerecord:
     models:
-      club_translation: Traduccion de Club
+      country_translation: Traducción de país
     attributes:
-      club_translation:
+      country_translation:
         created_at: Creado en
-        description: Descripción
+        name: Nombre
         locale: Idioma
         updated_at: Actualizado en
     errors:
@@ -13,4 +13,4 @@ es:
         club_translation:
           attributes:
             locale:
-              only_one_locale: sólo uno por equipo
+              only_one_locale: sólo uno por país

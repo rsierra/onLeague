@@ -16,4 +16,5 @@
 
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'proveedor OAuth', 'proveedores OAuth'
+  inflect.irregular 'jugador', 'jugadores'
 end

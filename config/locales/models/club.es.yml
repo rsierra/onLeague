@@ -4,8 +4,20 @@ es:
       club: Club
     attributes:
       club:
+        club_translations: Traducciones
         created_at: Creado en
+        description: Descripción
+        files: Fichas
+        jersey: Camiseta
+        leagues: Ligas
+        logo: Escudo
         name: Nombre
+        number_color: Color del dorsal
         short_name: Nombre corto
         updated_at: Actualizado en
-        description: Descripción
+    errors:
+      models:
+        club:
+          attributes:
+            logo_content_type:
+              incorrect_format: Formato incorrecto

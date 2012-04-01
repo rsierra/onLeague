@@ -1,6 +1,6 @@
 class ClubsController < ApplicationController
   def index
-    @clubs = @current_league.clubs
+    @clubs = @current_league.clubs.order(:name)
   end
 
   def show

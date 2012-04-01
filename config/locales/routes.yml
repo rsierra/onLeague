@@ -10,6 +10,7 @@ es:
   users: usuarios
   sign_up: registro
   sign_in: identificacion
+  sign_out: desconectarse
   confirmation: confirmacion
   unlock: desploqueo
   # Models
