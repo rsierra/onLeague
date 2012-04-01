@@ -6,7 +6,9 @@ es:
       player:
         active: Activo
         born: Fecha de nacimiento
+        club: Club
         country: País
         created_at: Creado en
+        file: Ficha
         name: Nombre
         updated_at: Actualizado en

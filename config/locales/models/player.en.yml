@@ -6,7 +6,9 @@ en:
       player:
         active: Active
         born: Born date
+        club: Club
         country: Country
         created_at: Created at
+        file: File
         name: Name
         updated_at: Updated at
