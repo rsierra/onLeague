@@ -413,9 +413,9 @@ RailsAdmin.config do |config|
     # Sections:
     list do
       field :locale
-      field :club
+      field :country
 
-      filters [:club, :locale]
+      filters [:country, :locale]
     end
     export do; end
     show do
