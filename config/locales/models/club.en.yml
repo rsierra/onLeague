@@ -4,9 +4,12 @@ en:
       club: Club
     attributes:
       club:
+        club_translations: Translations
         created_at: Created at
         description: Description
+        files: Files
         jersey: jersey
+        leagues: Leagues
         logo: Logo
         name: Name
         number_color: Number Color
