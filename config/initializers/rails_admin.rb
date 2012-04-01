@@ -242,6 +242,7 @@ RailsAdmin.config do |config|
     # Found associations:
     configure :leagues, :has_and_belongs_to_many_association
     configure :club_translations, :has_many_association
+    configure :files, :has_many_association
     # Found columns:
     configure :id, :integer
     configure :name, :string
@@ -273,6 +274,7 @@ RailsAdmin.config do |config|
       field :leagues
       field :club_translations
       field :description
+      field :files
       field :created_at do
         visible true
       end
@@ -298,6 +300,7 @@ RailsAdmin.config do |config|
       field :jersey
       field :number_color
       field :club_translations
+      field :files
     end
   end
 
@@ -453,6 +456,8 @@ RailsAdmin.config do |config|
 
     # Found associations:
     configure :country, :belongs_to_association
+    configure :file, :has_one_association
+    configure :club, :has_one_association
     # Found columns:
     configure :id, :integer
     configure :name, :string
@@ -470,6 +475,7 @@ RailsAdmin.config do |config|
       field :born
       field :country
       field :active
+      field :club
 
       filters [:name]
     end
@@ -479,6 +485,8 @@ RailsAdmin.config do |config|
       field :born
       field :country
       field :active
+      field :club
+      field :file
       field :created_at do
         visible true
       end
@@ -546,6 +554,24 @@ RailsAdmin.config do |config|
     end
     edit do; end
     create do; end
-    update do; end
+    update do
+      field :club do
+        read_only true
+      end
+      field :player do
+        read_only true
+      end
+      include_all_fields
+    end
+    nested do
+      field :club do
+        default_value do
+          bindings[:object].club unless bindings[:object].club.blank?
+        end
+        read_only true
+        hide
+      end
+      include_all_fields
+    end
   end
 end
