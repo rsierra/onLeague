@@ -1,0 +1,30 @@
+en:
+  activerecord:
+    models:
+      club_file: Club file
+    attributes:
+      club_file:
+        club: Club
+        created_at: Created at
+        number: Number
+        player: Player
+        position: Position
+        season_in: Season in
+        season_out: Season out
+        updated_at: Updated at
+        value: Value
+        week_in: Week in
+        week_out: Week out
+    errors:
+      models:
+        club_file:
+          attributes:
+            player_id:
+              only_one_player: only one player per club and week/season
+  enumerize:
+    club_file:
+      position:
+        goalkeeper: Goalkeeper
+        defender: Defender
+        midfielder: Midfielder
+        forward: Forward

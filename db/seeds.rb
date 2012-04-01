@@ -39,10 +39,17 @@ admin = Admin.create admin_params
   }
   league = League.create league_params
 
+  country_params =
+  {
+    :name => "Country L#{league.id}",
+    :eu => true,
+  }
+  country = Country.create country_params
+
   (1..20).each do |n|
     club_params =
     {
-      :name => "#{league.name} Club #{n}",
+      :name => "Club #{n} L#{league.id}",
       :short_name => "C#{n}",
       :description => <<-eos
 <dl>
@@ -83,23 +90,27 @@ eos
     club.club_translations.find_by_locale(:en).update_attributes(:description => description_en)
     league.clubs << club
     league.save
+
+    (1..20).each do |n|
+      player_params =
+      {
+        :name => "Player #{n} C#{club.id}",
+        :born => Date.today - 20.years,
+        :active => true,
+        :country_id => country.id
+      }
+      player = Player.create player_params
+
+      club_file_params =
+      {
+        :player_id => player.id,
+        :value => 20,
+        :number => n,
+        :position => ClubFile::POSITIONS.last,
+        :week_in => league.week,
+        :season_in => league.season
+      }
+      club.files.create club_file_params
+    end
   end
-end
-
-country_params =
-{
-  :name => "Country",
-  :eu => true,
-}
-country = Country.create country_params
-
-(1..100).each do |n|
-  player_params =
-  {
-    :name => "Player #{n}",
-    :born => Date.today - 20.years,
-    :active => true,
-    :country_id => country.id
-  }
-  player = Player.create player_params
 end

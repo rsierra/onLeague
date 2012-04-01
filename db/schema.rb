@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120401143635) do
+ActiveRecord::Schema.define(:version => 20120401182809) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -30,6 +30,23 @@ ActiveRecord::Schema.define(:version => 20120401143635) do
 
   add_index "admins", ["email"], :name => "index_admins_on_email", :unique => true
   add_index "admins", ["reset_password_token"], :name => "index_admins_on_reset_password_token", :unique => true
+
+  create_table "club_files", :force => true do |t|
+    t.integer  "club_id"
+    t.integer  "player_id"
+    t.integer  "number"
+    t.string   "position"
+    t.float    "value"
+    t.integer  "week_in"
+    t.integer  "season_in"
+    t.integer  "week_out"
+    t.integer  "season_out"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "club_files", ["club_id"], :name => "index_club_files_on_club_id"
+  add_index "club_files", ["player_id"], :name => "index_club_files_on_player_id"
 
   create_table "club_translations", :force => true do |t|
     t.integer  "club_id"
