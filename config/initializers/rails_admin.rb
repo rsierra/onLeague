@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
   # config.excluded_models = [Admin, OauthProvider, User]
 
   # Add models here if you want to go 'whitelist mode':
-  config.included_models = [User, OauthProvider, League, Club, ClubTranslation, Country, CountryTranslation, Player]
+  config.included_models = [User, OauthProvider, League, Club, ClubTranslation, Country, CountryTranslation, Player, ClubFile]
 
   # Application wide tried label methods for models' instances
   # config.label_methods << :description # Default is [:name, :title]
@@ -479,6 +479,66 @@ RailsAdmin.config do |config|
       field :born
       field :country
       field :active
+      field :created_at do
+        visible true
+      end
+      field :updated_at do
+        visible true
+      end
+    end
+    edit do; end
+    create do; end
+    update do; end
+  end
+
+  config.model ClubFile do
+    object_label_method do
+      :custom_label_method
+    end
+
+    parent Club
+    # Found associations:
+    configure :player, :belongs_to_association
+    configure :club, :belongs_to_association
+    # Found columns:
+    configure :id, :integer
+    configure :number, :integer
+    configure :position, :enum do
+    # if your model has a method that sends back the options:
+      enum_method do
+        :position_enum
+      end
+      pretty_value do # used in form list
+        I18n.t("enumerize.club_file.position.#{value}")
+      end
+    end
+    configure :value, :float
+    configure :week_in, :integer
+    configure :season_in, :integer
+    configure :week_out, :integer
+    configure :season_out, :integer
+    configure :created_at, :datetime
+    configure :updated_at, :datetime
+
+    # Sections:
+    list do
+      field :club
+      field :player
+      field :number
+      field :position
+      field :value
+    end
+    export do; end
+    show do
+      field :club
+      field :player
+      field :number
+      field :position
+      field :value
+      field :week_in
+      field :season_in
+      field :week_out
+      field :season_out
       field :created_at do
         visible true
       end
