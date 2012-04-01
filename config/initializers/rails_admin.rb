@@ -492,9 +492,7 @@ RailsAdmin.config do |config|
   end
 
   config.model ClubFile do
-    object_label_method do
-      :custom_label_method
-    end
+    object_label_method :player_name
 
     parent Club
     # Found associations:

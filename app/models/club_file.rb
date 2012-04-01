@@ -7,6 +7,8 @@ class ClubFile < ActiveRecord::Base
   include Enumerize
   enumerize :position, :in => POSITIONS
 
+  delegate :name, :to => :player, :prefix => true, :allow_nil => true
+
   validates :club_id, :presence => true
   validates :player_id, :presence => true,
     :uniqueness => { :scope => [:club_id, :season_in, :week_in], :message => :only_one_player }
@@ -18,9 +20,5 @@ class ClubFile < ActiveRecord::Base
 
   def position_enum
     ClubFile.position.values
-  end
-
-  def custom_label_method
-    "#{player.name} (#{club.name})" unless player.blank? || club.blank?
   end
 end
