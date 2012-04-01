@@ -71,3 +71,5 @@ gem 'simple-navigation'
 
 gem 'paperclip', "~> 3.0"
 gem 'aws-sdk', '~> 1.3.4'
+
+gem 'enumerize'
