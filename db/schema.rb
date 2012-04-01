@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120331171421) do
+ActiveRecord::Schema.define(:version => 20120401143635) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -112,6 +112,19 @@ ActiveRecord::Schema.define(:version => 20120331171421) do
 
   add_index "oauth_providers", ["uid"], :name => "index_oauth_providers_on_uid"
   add_index "oauth_providers", ["user_id"], :name => "index_oauth_providers_on_user_id"
+
+  create_table "players", :force => true do |t|
+    t.string   "name",       :limit => 64
+    t.date     "born",                     :default => '1900-01-01'
+    t.boolean  "active",                   :default => false
+    t.integer  "country_id"
+    t.string   "slug"
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
+  end
+
+  add_index "players", ["country_id"], :name => "index_players_on_country_id"
+  add_index "players", ["slug"], :name => "index_players_on_slug", :unique => true
 
   create_table "rails_admin_histories", :force => true do |t|
     t.text     "message"

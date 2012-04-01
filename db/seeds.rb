@@ -85,3 +85,21 @@ eos
     league.save
   end
 end
+
+country_params =
+{
+  :name => "Country",
+  :eu => true,
+}
+country = Country.create country_params
+
+(1..100).each do |n|
+  player_params =
+  {
+    :name => "Player #{n}",
+    :born => Date.today - 20.years,
+    :active => true,
+    :country_id => country.id
+  }
+  player = Player.create player_params
+end

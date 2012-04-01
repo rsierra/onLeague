@@ -1,7 +1,7 @@
 class CountryTranslation < ActiveRecord::Base
   belongs_to :country
 
-  validates :country,  :presence => true
+  validates :country_id,  :presence => true
   validates :locale,  :presence => true, :uniqueness => { :scope => :country_id, :message => :only_one_locale }
   validates :name,  :presence => true, :length => { :maximum => 64 }
 

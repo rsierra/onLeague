@@ -1,0 +1,12 @@
+en:
+  activerecord:
+    models:
+      player: Player
+    attributes:
+      player:
+        active: Active
+        born: Born date
+        country: Country
+        created_at: Created at
+        name: Name
+        updated_at: Updated at
