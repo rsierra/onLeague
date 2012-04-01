@@ -12,7 +12,7 @@ class Country < ActiveRecord::Base
   validates_attachment_size :flag, :less_than => 50.kilobytes
 
   validates :name, :presence => true, :length => { :maximum => 64 }
-  validates :eu, :presence => true, :inclusion => { :in => [true, false] }
+  validates :eu, :inclusion => { :in => [true, false] }
 
   after_create :default_values
 
