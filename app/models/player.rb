@@ -9,4 +9,6 @@ class Player < ActiveRecord::Base
   validates :active, :inclusion => { :in => [true, false] }
   validates :country_id, :presence => true
   validates :slug,  :presence => true, :uniqueness => true
+
+  scope :active, where(:active => true)
 end
