@@ -17,7 +17,7 @@ es:
         week_out: Jornada de salida
     errors:
       models:
-        club:
+        club_file:
           attributes:
             player_id:
               only_one_player: sólo un jugador por equipo y jornada/temporada

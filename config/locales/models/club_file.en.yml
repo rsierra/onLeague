@@ -17,7 +17,7 @@ en:
         week_out: Week out
     errors:
       models:
-        club:
+        club_file:
           attributes:
             player_id:
               only_one_player: only one player per club and week/season
