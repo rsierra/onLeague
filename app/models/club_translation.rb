@@ -1,7 +1,7 @@
 class ClubTranslation < ActiveRecord::Base
   belongs_to :club
 
-  validates :club,  :presence => true
+  validates :club_id,  :presence => true
   validates :locale,  :presence => true, :uniqueness => { :scope => :club_id, :message => :only_one_locale }
   validates :description,  :presence => true
 
