@@ -18,6 +18,8 @@ class ClubFile < ActiveRecord::Base
   validates :week_in, :presence => true, :numericality => { :only_integer => true }
   validates :season_in, :presence => true, :numericality => { :only_integer => true }
 
+  scope :active, joins(:player).where(:players => {:active => true})
+
   def position_enum
     ClubFile.position.values
   end
