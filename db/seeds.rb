@@ -106,7 +106,7 @@ eos
         :player_id => player.id,
         :value => 20,
         :number => n,
-        :position => ClubFile::POSITIONS.last,
+        :position => ClubFile.position.values.last,
         :week_in => league.week,
         :season_in => league.season
       }
