@@ -54,6 +54,7 @@ group :development do
   gem 'guard-livereload'
   gem 'yajl-ruby'
   gem 'growl'
+  gem 'rb-fsevent'
 end
 
 group :production do
