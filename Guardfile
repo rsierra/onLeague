@@ -1,6 +1,9 @@
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
+# For singularize
+require 'active_support/inflector'
+
 guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' } do
   watch('config/application.rb')
   watch('config/environment.rb')
@@ -27,6 +30,14 @@ guard 'rspec', :version => 2, :cli => "--color --format nested --fail-fast --drb
   watch('app/controllers/application_controller.rb')  { "spec/controllers" }
   # Capybara request specs
   # watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/requests/#{m[1]}_spec.rb" }
+
+  watch(%r{^spec/factories/(.+)\.rb$}) do |m|
+    %W[
+      spec/models/#{m[1].singularize}_spec.rb
+      spec/controllers/#{m[1]}_controller_spec.rb
+      spec/requests/#{m[1]}_spec.rb
+    ]
+  end
 end
 
 guard 'pow' do
