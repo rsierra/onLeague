@@ -53,6 +53,7 @@ group :development do
   gem 'guard-pow'
   gem 'guard-livereload'
   gem 'yajl-ruby'
+  gem 'growl'
 end
 
 group :production do
