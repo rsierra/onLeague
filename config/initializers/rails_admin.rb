@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
   # config.excluded_models = [Admin, OauthProvider, User]
 
   # Add models here if you want to go 'whitelist mode':
-  config.included_models = [User, OauthProvider, League, Club, ClubTranslation, Country, CountryTranslation, Player, ClubFile]
+  config.included_models = [User, OauthProvider, League, Club, ClubTranslation, Country, CountryTranslation, Player, ClubFile, Game]
 
   # Application wide tried label methods for models' instances
   # config.label_methods << :description # Default is [:name, :title]
@@ -458,6 +458,9 @@ RailsAdmin.config do |config|
     configure :country, :belongs_to_association
     configure :file, :has_one_association
     configure :club, :has_one_association
+    configure :club_files, :has_many_association do
+      hide
+    end
     # Found columns:
     configure :id, :integer
     configure :name, :string
@@ -477,7 +480,7 @@ RailsAdmin.config do |config|
       field :active
       field :club
 
-      filters [:name]
+      filters [:name, :active]
     end
     export do; end
     show do
@@ -494,8 +497,19 @@ RailsAdmin.config do |config|
         visible true
       end
     end
-    edit do; end
-    create do; end
+    edit do
+      include_all_fields
+      field :club do
+        read_only true
+      end
+      field :file do
+        read_only true
+      end
+    end
+    create do
+      include_all_fields
+      exclude_fields :club, :file
+    end
     update do; end
   end
 
@@ -533,6 +547,8 @@ RailsAdmin.config do |config|
       field :number
       field :position
       field :value
+
+      filters [:club]
     end
     export do; end
     show do
@@ -573,5 +589,74 @@ RailsAdmin.config do |config|
       end
       include_all_fields
     end
+  end
+
+  config.model Game do
+    object_label_method :name
+
+    parent League
+    # Found associations:
+    configure :league, :belongs_to_association
+    configure :club_home, :belongs_to_association
+    configure :club_away, :belongs_to_association
+    # Found columns:
+    configure :id, :integer
+    configure :date, :datetime
+    configure :status, :enum do
+    # if your model has a method that sends back the options:
+      enum_method do
+        :status_enum
+      end
+      pretty_value do # used in form list
+        I18n.t("enumerize.game.status.#{value}")
+      end
+    end
+    configure :week, :integer
+    configure :season, :integer
+    configure :slug, :string do
+      hide
+    end
+    configure :created_at, :datetime
+    configure :updated_at, :datetime
+
+    # Sections:
+    list do
+      field :name
+      field :league
+      field :date
+      field :week
+      field :season
+      field :status
+
+      filters [:league,:week,:season]
+    end
+    export do; end
+    show do
+      field :name
+      field :league
+      field :club_home
+      field :club_away
+      field :date
+      field :status
+      field :week
+      field :season
+      field :created_at do
+        visible true
+      end
+      field :updated_at do
+        visible true
+      end
+    end
+    edit do
+      field :league
+      field :club_home
+      field :club_away
+      field :date
+      field :status
+      field :week
+      field :season
+    end
+    create do; end
+    update do; end
   end
 end
