@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120401182809) do
+ActiveRecord::Schema.define(:version => 20120403182037) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -107,6 +107,24 @@ ActiveRecord::Schema.define(:version => 20120401182809) do
 
   add_index "country_translations", ["country_id"], :name => "index_country_translations_on_country_id"
   add_index "country_translations", ["locale"], :name => "index_country_translations_on_locale"
+
+  create_table "games", :force => true do |t|
+    t.integer  "league_id"
+    t.datetime "date"
+    t.integer  "week",         :limit => 2
+    t.integer  "season"
+    t.integer  "club_home_id"
+    t.integer  "club_away_id"
+    t.string   "status",       :limit => 24
+    t.string   "slug"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+  end
+
+  add_index "games", ["club_away_id"], :name => "index_games_on_club_away_id"
+  add_index "games", ["club_home_id"], :name => "index_games_on_club_home_id"
+  add_index "games", ["league_id"], :name => "index_games_on_league_id"
+  add_index "games", ["slug"], :name => "index_games_on_slug", :unique => true
 
   create_table "leagues", :force => true do |t|
     t.string   "name"

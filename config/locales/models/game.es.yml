@@ -1,0 +1,26 @@
+es:
+  activerecord:
+    models:
+      game: Partido
+    attributes:
+      game:
+        club_away: Visitante
+        club_away_id: Visitante
+        club_home: Local
+        club_home_id: Local
+        created_at: Creado en
+        date: Fecha
+        league: Liga
+        league_id: Liga
+        name: Nombre
+        season: Temporada
+        status: Estado
+        updated_at: Actualizado en
+        week: Jornada
+  enumerize:
+    game:
+      status:
+        active: Activo
+        closed: Cerrado
+        evaluated: Evaluado
+        inactive: Inactivo

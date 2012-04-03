@@ -1,0 +1,26 @@
+en:
+  activerecord:
+    models:
+      game: Game
+    attributes:
+      game:
+        club_away: Away
+        club_away_id: Away
+        club_home: Home
+        club_home_id: Home
+        created_at: Created at
+        date: Date
+        league: League
+        league_id: League
+        name: Name
+        season: Season
+        status: Status
+        updated_at: Updated at
+        week: Week
+  enumerize:
+    game:
+      status:
+        active: Active
+        closed: Closed
+        evaluated: Evaluated
+        inactive: Inactive
