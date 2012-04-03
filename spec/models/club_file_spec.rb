@@ -164,6 +164,27 @@ describe ClubFile do
       it { should have(1).error_on(:season_out) }
       it { club_file.error_on(:season_out).should include I18n.t('errors.messages.not_a_number') }
     end
+  end
 
+  describe "with another club_file in the same week and season" do
+    context "of the same club and player" do
+      let(:club_file) { FactoryGirl.create(:club_file) }
+      let(:another_club_file) { FactoryGirl.build(:club_file, club: club_file.club, player: club_file.player, season_in: club_file.season_in, week_in: club_file.week_in) }
+      before { another_club_file.valid? }
+      subject { another_club_file }
+      it { should_not be_valid }
+      it { should have(1).error_on(:player_id) }
+      it { another_club_file.error_on(:player_id).should include I18n.t('activerecord.errors.models.club_file.attributes.player_id.only_one_player') }
+    end
+
+    context "of the same player in another club" do
+      let(:club_file) { FactoryGirl.create(:club_file) }
+      let(:another_club_file) { FactoryGirl.build(:club_file, player: club_file.player, season_in: club_file.season_in, week_in: club_file.week_in) }
+      before { another_club_file.valid? }
+      subject { another_club_file }
+      it { should_not be_valid }
+      it { should have(1).error_on(:player_id) }
+      it { another_club_file.error_on(:player_id).should include I18n.t('activerecord.errors.models.club_file.attributes.player_id.only_one_player') }
+    end
   end
 end

@@ -9,7 +9,7 @@ class ClubFile < ActiveRecord::Base
 
   validates :club_id, :presence => true
   validates :player_id, :presence => true,
-    :uniqueness => { :scope => [:club_id, :season_in, :week_in], :message => :only_one_player }
+    :uniqueness => { :scope => [:season_in, :week_in], :message => :only_one_player }
   validates :number, :presence => true, :numericality => { :only_integer => true }
   validates :position, :presence => true, :inclusion => { :in => ClubFile.position.values }
   validates :value, :presence => true, :numericality => true
