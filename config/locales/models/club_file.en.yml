@@ -5,9 +5,11 @@ en:
     attributes:
       club_file:
         club: Club
+        club_id: Club
         created_at: Created at
         number: Number
         player: Player
+        player_id: Player
         position: Position
         season_in: Season in
         season_out: Season out
