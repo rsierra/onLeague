@@ -1,17 +1,15 @@
 require 'spec_helper'
 
 describe Country do
-  describe "should be valid" do
+  describe "when create" do
     context "with correct data" do
-      let(:country) { FactoryGirl.build(:country) }
+      let(:country) { build(:country) }
       subject { country }
       it { should be_valid }
     end
-  end
 
-  describe "should not be valid" do
     context "without name" do
-      let(:country) { FactoryGirl.build(:country, :name => nil) }
+      let(:country) { build(:country, name: nil) }
       before { country.valid? }
       subject { country }
       it { should_not be_valid }
@@ -20,7 +18,7 @@ describe Country do
     end
 
     context "without eu" do
-      let(:country) { FactoryGirl.build(:country, :eu => nil) }
+      let(:country) { build(:country, eu: nil) }
       before { country.valid? }
       subject { country }
       it { should_not be_valid }
