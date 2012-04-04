@@ -22,6 +22,8 @@ class Game < ActiveRecord::Base
                       length: { is: 4 }
   validates :slug,  presence: true, uniqueness: true
 
+  validate :validate_play_himself, :validate_clubs_league
+
   after_find do
     @name = "#{club_home.name} - #{club_away.name}"
   end
@@ -32,6 +34,27 @@ class Game < ActiveRecord::Base
 
   def status_enum
     Game.status.values
+  end
+
+  def play_himself?
+    club_home == club_away
+  end
+
+  def validate_play_himself
+    errors.add(:club_home, :cant_play_himself) if play_himself?
+  end
+
+  def club_home_play_league?
+    club_home.leagues.include? league
+  end
+
+  def club_away_play_league?
+    club_home.leagues.include? league
+  end
+
+  def validate_clubs_league
+    errors.add(:club_home, :should_play_same_league) unless club_home_play_league?
+    errors.add(:club_away, :should_play_same_league) unless club_away_play_league?
   end
 
 end

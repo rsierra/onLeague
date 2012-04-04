@@ -17,6 +17,15 @@ es:
         status: Estado
         updated_at: Actualizado en
         week: Jornada
+    errors:
+      models:
+        game:
+          attributes:
+            club_home:
+              cant_play_himself: no puede jugar con sigo mismo
+              should_play_same_league: debe jugar en al liga seleccionada
+            club_away:
+              should_play_same_league: debe jugar en al liga seleccionada
   enumerize:
     game:
       status:

@@ -17,6 +17,15 @@ en:
         status: Status
         updated_at: Updated at
         week: Week
+    errors:
+      models:
+        game:
+          attributes:
+            club_home:
+              cant_play_himself: can't play himself
+              should_play_same_league: should play in selected league
+            club_away:
+              should_play_same_league: should play in selected league
   enumerize:
     game:
       status:
