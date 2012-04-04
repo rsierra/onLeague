@@ -9,7 +9,10 @@ FactoryGirl.define do
     value { number }
     week_in { number }
     season_in { number }
-    week_out { number }
-    season_out { number }
+
+    factory :club_file_with_out do
+      week_out { number }
+      season_out { number }
+    end
   end
 end
