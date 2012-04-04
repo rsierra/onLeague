@@ -15,6 +15,8 @@ class ClubFile < ActiveRecord::Base
   validates :value, :presence => true, :numericality => true
   validates :week_in, :presence => true, :numericality => { :only_integer => true }
   validates :season_in, :presence => true, :numericality => { :only_integer => true }
+  validates :week_out, :numericality => { :only_integer => true }, :unless => "week_out.nil?"
+  validates :season_out, :numericality => { :only_integer => true }, :unless => "season_out.nil?"
 
   scope :active, joins(:player).where(:players => {:active => true})
 
