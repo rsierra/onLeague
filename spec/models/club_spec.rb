@@ -5,13 +5,14 @@ describe Club do
     context "with correct data" do
       let(:club) { build(:club) }
       subject { club }
+
       it { should be_valid }
     end
 
     context "without name" do
       let(:club) { build(:club, name: nil) }
-      before { club.valid? }
       subject { club }
+
       it { should_not be_valid }
       it { should have(1).error_on(:name) }
       it { club.error_on(:name).should include I18n.t('errors.messages.blank') }
@@ -19,8 +20,8 @@ describe Club do
 
     context "with too long name" do
       let(:club) { build(:club, name: "A name more long than a 25 characters") }
-      before { club.valid? }
       subject { club }
+
       it { should_not be_valid }
       it { should have(1).error_on(:name) }
       it { club.error_on(:name).should include I18n.t('errors.messages.too_long', count: 25) }
@@ -28,11 +29,9 @@ describe Club do
 
     context "with duplicate name" do
       let(:club) { build(:club, name: "Club name") }
-      before do
-        create(:club, name: "Club name")
-        club.valid?
-      end
+      before { create(:club, name: "Club name") }
       subject { club }
+
       it { should_not be_valid }
       it { should have(1).error_on(:name) }
       it { club.error_on(:name).should include I18n.t('errors.messages.taken') }
@@ -40,8 +39,8 @@ describe Club do
 
     context "without short_name" do
       let(:club) { build(:club, short_name: nil) }
-      before { club.valid? }
       subject { club }
+
       it { should_not be_valid }
       it { should have(1).error_on(:short_name) }
       it { club.error_on(:short_name).should include I18n.t('errors.messages.blank') }
@@ -49,8 +48,8 @@ describe Club do
 
     context "with too long short_name" do
       let(:club) { build(:club, short_name: "ABCD") }
-      before { club.valid? }
       subject { club }
+
       it { should_not be_valid }
       it { should have(1).error_on(:short_name) }
       it { club.error_on(:short_name).should include I18n.t('errors.messages.too_long', count: 3) }

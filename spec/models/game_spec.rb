@@ -48,6 +48,15 @@ describe Game do
       it { game.error_on(:week).should include I18n.t('errors.messages.not_a_number') }
     end
 
+    context "with float week" do
+      let(:game) { build(:game_with_associated_clubs, week: '.1') }
+      subject { game }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:week) }
+      it { game.error_on(:week).should include I18n.t('errors.messages.not_an_integer') }
+    end
+
     context "with week less than 0" do
       let(:game) { build(:game_with_associated_clubs, week: -1) }
       subject { game }
@@ -85,6 +94,15 @@ describe Game do
       it { should have(2).error_on(:season) }
       it { game.error_on(:season).should include I18n.t('errors.messages.not_a_number') }
       it { game.error_on(:season).should include I18n.t('errors.messages.wrong_length', count: 4) }
+    end
+
+    context "with float season" do
+      let(:game) { build(:game_with_associated_clubs, season: '1111.1') }
+      subject { game }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:season) }
+      it { game.error_on(:season).should include I18n.t('errors.messages.not_an_integer') }
     end
 
     context "with season less than 0" do
