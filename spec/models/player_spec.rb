@@ -44,4 +44,42 @@ describe Player do
       it { player.error_on(:country_id).should include I18n.t('errors.messages.blank') }
     end
   end
+
+  describe "with #last_date_out" do
+    context "when not have club files" do
+      let(:player) { create(:player) }
+      subject { player }
+
+      its(:last_date_out) { should be_nil }
+    end
+
+    context "when have one current club file" do
+      let(:player) { create(:player) }
+      let(:club_file) { create(:club_file, player: player)}
+      subject { player }
+
+      its(:last_date_out) { should == club_file.date_out }
+    end
+
+    context "when have one club file with date out" do
+      let(:player) { create(:player) }
+      let(:club_file) { create(:club_file, player: player) }
+      before { club_file.update_attributes(date_out: club_file.date_in.next) }
+      subject { player }
+
+      its(:last_date_out) { should == club_file.date_out }
+    end
+
+    context "when have club file with date out and one current" do
+      let(:player) { create(:player) }
+      let(:club_file) { create(:club_file, player: player)}
+      before do
+        club_file.update_attributes(date_out: club_file.date_in.next)
+        create(:club_file, player: player, date_in: club_file.date_out.next)
+      end
+      subject { player }
+
+      its(:last_date_out) { should == club_file.date_out }
+    end
+  end
 end

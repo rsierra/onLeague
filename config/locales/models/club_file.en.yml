@@ -7,22 +7,25 @@ en:
         club: Club
         club_id: Club
         created_at: Created at
+        date_in: Date in
+        date_out: Date out
         number: Number
         player: Player
         player_id: Player
         position: Position
-        season_in: Season in
-        season_out: Season out
         updated_at: Updated at
         value: Value
-        week_in: Week in
-        week_out: Week out
     errors:
       models:
         club_file:
           attributes:
             player_id:
-              only_one_player: only one player per club and week/season
+              only_one_curent_file_player: only can have one current file (without date out)
+            date_out:
+              should_be_after_in: should be debe later than date in
+              should_be_blank_in_creation: should be blank when is created
+            date_in:
+              should_be_after_last_out: should be later than last player date out
   enumerize:
     club_file:
       position:

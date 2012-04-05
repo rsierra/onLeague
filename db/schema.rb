@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120403182037) do
+ActiveRecord::Schema.define(:version => 20120405183635) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -37,12 +37,10 @@ ActiveRecord::Schema.define(:version => 20120403182037) do
     t.integer  "number"
     t.string   "position"
     t.float    "value"
-    t.integer  "week_in"
-    t.integer  "season_in"
-    t.integer  "week_out"
-    t.integer  "season_out"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.date     "date_in"
+    t.date     "date_out"
   end
 
   add_index "club_files", ["club_id"], :name => "index_club_files_on_club_id"

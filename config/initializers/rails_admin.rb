@@ -533,10 +533,8 @@ RailsAdmin.config do |config|
       end
     end
     configure :value, :float
-    configure :week_in, :integer
-    configure :season_in, :integer
-    configure :week_out, :integer
-    configure :season_out, :integer
+    configure :date_in, :date
+    configure :date_out, :date
     configure :created_at, :datetime
     configure :updated_at, :datetime
 
@@ -557,10 +555,8 @@ RailsAdmin.config do |config|
       field :number
       field :position
       field :value
-      field :week_in
-      field :season_in
-      field :week_out
-      field :season_out
+      field :date_in
+      field :date_out
       field :created_at do
         visible true
       end
