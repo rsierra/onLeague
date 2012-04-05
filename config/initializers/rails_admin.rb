@@ -621,14 +621,15 @@ RailsAdmin.config do |config|
 
     # Sections:
     list do
-      field :name
+      field :club_home
+      field :club_away
       field :league
       field :date
       field :week
       field :season
       field :status
 
-      filters [:league,:week,:season]
+      filters [:club_home, :club_away, :league, :week, :season]
     end
     export do; end
     show do
