@@ -24,6 +24,8 @@ en:
             date_out:
               should_be_after_in: should be debe later than date in
               should_be_blank_in_creation: should be blank when is created
+            date_in:
+              should_be_after_last_out: should be later than last player date out
   enumerize:
     club_file:
       position:

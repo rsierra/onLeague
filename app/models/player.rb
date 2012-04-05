@@ -15,4 +15,8 @@ class Player < ActiveRecord::Base
   validates :slug,  :presence => true, :uniqueness => true
 
   scope :active, where(:active => true)
+
+  def last_date_out
+    club_files.maximum(:date_out)
+  end
 end

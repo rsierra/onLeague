@@ -17,6 +17,7 @@ class ClubFile < ActiveRecord::Base
 
   validate :validate_date_out_blank, if: "new_record?"
   validate :validate_out_after_in, unless: "date_out.blank?"
+  validate :validate_in_after_last_out
 
   scope :active, joins(:player).where(players: { active: true })
   scope :current, where(date_out: nil)
@@ -27,6 +28,11 @@ class ClubFile < ActiveRecord::Base
 
   def validate_out_after_in
     errors.add(:date_out, :should_be_after_in) if date_out <= date_in
+  end
+
+  def validate_in_after_last_out
+    last_date_out = player.last_date_out unless player.blank?
+    errors.add(:date_in, :should_be_after_last_out) if !last_date_out.blank? && date_in <= player.last_date_out
   end
 
   def position_enum
