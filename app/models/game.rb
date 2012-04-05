@@ -24,7 +24,10 @@ class Game < ActiveRecord::Base
 
   validate :validate_play_himself, :validate_clubs_league
 
-  after_find do
+  after_find :initialize_name
+  after_create :initialize_name
+
+  def initialize_name
     @name = "#{club_home.name} - #{club_away.name}"
   end
 
