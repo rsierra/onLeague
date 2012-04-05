@@ -7,7 +7,7 @@ FactoryGirl.define do
     end
 
     name { "Club #{number}" }
-    short_name { "C#{number}" }
+    short_name "CLB"
     description "Description"
 
     factory :with_leagues do
@@ -15,7 +15,7 @@ FactoryGirl.define do
         leagues_count 1
       end
       after_create do |club, evaluator|
-        FactoryGirl.create_list(:league, evaluator.leagues_count, :club => club)
+        FactoryGirl.create_list(:league, evaluator.leagues_count, :clubs => [club])
       end
     end
   end

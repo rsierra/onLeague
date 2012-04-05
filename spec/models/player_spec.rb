@@ -1,17 +1,15 @@
 require 'spec_helper'
 
 describe Player do
-  describe "should be valid" do
+  describe "when create" do
     context "with correct data" do
-      let(:player) { FactoryGirl.create(:player) }
+      let(:player) { create(:player) }
       subject { player }
       it { should be_valid }
     end
-  end
 
-  describe "should not be valid" do
     context "without name" do
-      let(:player) { FactoryGirl.build(:player, :name => nil) }
+      let(:player) { build(:player, name: nil) }
       before { player.valid? }
       subject { player }
       it { should_not be_valid }
@@ -20,7 +18,7 @@ describe Player do
     end
 
     context "without born" do
-      let(:player) { FactoryGirl.build(:player, :born => nil) }
+      let(:player) { build(:player, born: nil) }
       before { player.valid? }
       subject { player }
       it { should_not be_valid }
@@ -29,7 +27,7 @@ describe Player do
     end
 
     context "without active" do
-      let(:player) { FactoryGirl.build(:player, :active => nil) }
+      let(:player) { build(:player, active: nil) }
       before { player.valid? }
       subject { player }
       it { should_not be_valid }
@@ -38,7 +36,7 @@ describe Player do
     end
 
     context "without country" do
-      let(:player) { FactoryGirl.build(:player, :country => nil) }
+      let(:player) { build(:player, country: nil) }
       before { player.valid? }
       subject { player }
       it { should_not be_valid }
