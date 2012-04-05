@@ -7,6 +7,15 @@ describe Game do
       subject { game }
 
       it { should be_valid }
+      its(:name) { should == "#{game.club_home.name} - #{game.club_away.name}" }
+    end
+
+    context "after a find" do
+      let(:game) { create(:game_with_associated_clubs) }
+      before { game }
+      subject { Game.find game }
+
+      its(:name) { should == "#{game.club_home.name} - #{game.club_away.name}" }
     end
 
     context "without date" do
