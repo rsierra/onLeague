@@ -7,12 +7,7 @@ FactoryGirl.define do
     sequence(:number) { |n| n }
     position { ClubFile.position.values.first }
     value { number }
-    week_in { number }
-    season_in { number }
-
-    factory :club_file_with_out do
-      week_out { number }
-      season_out { number }
-    end
+    date_in { Date.yesterday }
+    date_out nil
   end
 end

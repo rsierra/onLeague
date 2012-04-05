@@ -107,8 +107,7 @@ eos
         value: 20,
         number: n,
         position: ClubFile.position.values.last,
-        week_in: league.week,
-        season_in: league.season
+        date_in: Date.yesterday
       }
       club.files.create club_file_params
     end
