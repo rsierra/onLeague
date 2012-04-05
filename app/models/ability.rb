@@ -19,6 +19,7 @@ class Ability
       can :write, CountryTranslation
       can :write, Player
       can :write, ClubFile
+      can :write, Game
     end
 
     # Define abilities for the passed in user here. For example:

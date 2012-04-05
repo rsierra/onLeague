@@ -7,12 +7,12 @@ FactoryGirl.define do
     season 1111
     active true
 
-    factory :with_clubs do
+    factory :league_with_clubs do
       ignore do
         clubs_count 20
       end
       after_create do |league, evaluator|
-        FactoryGirl.create_list(:club, evaluator.clubs_count, :league => league)
+        FactoryGirl.create_list(:club, evaluator.clubs_count, :leagues => [league])
       end
     end
   end

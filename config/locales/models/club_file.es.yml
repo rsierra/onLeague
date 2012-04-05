@@ -5,22 +5,27 @@ es:
     attributes:
       club_file:
         club: Club
+        club_id: Club
         created_at: Creado en
+        date_in: Fecha de entrada
+        date_out: Fecha de salida
         number: Dorsal
         player: Jugador
+        player_id: Jugador
         position: Demarcación
-        season_in: Temporada de entrada
-        season_out: Temporada de salida
         updated_at: Actualizado en
         value: Valor
-        week_in: Jornada de entrada
-        week_out: Jornada de salida
     errors:
       models:
         club_file:
           attributes:
             player_id:
-              only_one_player: sólo un jugador por equipo y jornada/temporada
+              only_one_curent_file_player: sólo puede tener una ficha vigente (sin fecha de salida)
+            date_out:
+              should_be_after_in: debe ser posterior a la de entrada
+              should_be_blank_in_creation: debe estar vacía en al crear la ficha
+            date_in:
+              should_be_after_last_out: debe ser posterior a la última de salida
   enumerize:
     club_file:
       position:

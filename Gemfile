@@ -43,6 +43,18 @@ group :development, :test do
 
   # To use debugger
   # gem 'ruby-debug19', :require => 'ruby-debug'
+
+  gem 'spork', '~> 1.0rc'
+end
+
+group :development do
+  gem 'guard-spork'
+  gem 'guard-rspec'
+  gem 'guard-pow'
+  gem 'guard-livereload'
+  gem 'yajl-ruby'
+  gem 'growl'
+  gem 'rb-fsevent'
 end
 
 group :production do

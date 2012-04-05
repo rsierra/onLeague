@@ -1,0 +1,35 @@
+es:
+  activerecord:
+    models:
+      game: Partido
+    attributes:
+      game:
+        club_away: Visitante
+        club_away_id: Visitante
+        club_home: Local
+        club_home_id: Local
+        created_at: Creado en
+        date: Fecha
+        league: Liga
+        league_id: Liga
+        name: Nombre
+        season: Temporada
+        status: Estado
+        updated_at: Actualizado en
+        week: Jornada
+    errors:
+      models:
+        game:
+          attributes:
+            club_home:
+              cant_play_himself: no puede jugar con sigo mismo
+              should_play_same_league: debe jugar en al liga seleccionada
+            club_away:
+              should_play_same_league: debe jugar en al liga seleccionada
+  enumerize:
+    game:
+      status:
+        active: Activo
+        closed: Cerrado
+        evaluated: Evaluado
+        inactive: Inactivo

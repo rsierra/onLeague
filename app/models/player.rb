@@ -2,7 +2,7 @@ class Player < ActiveRecord::Base
   belongs_to :country
 
   has_many :club_files
-  has_one :file, :class_name => 'ClubFile', :conditions => 'season_out is null'
+  has_one :file, :class_name => 'ClubFile', :conditions => 'date_out is null'
   has_one :club, :through => :file
 
   extend FriendlyId
@@ -15,4 +15,8 @@ class Player < ActiveRecord::Base
   validates :slug,  :presence => true, :uniqueness => true
 
   scope :active, where(:active => true)
+
+  def last_date_out
+    club_files.maximum(:date_out)
+  end
 end
