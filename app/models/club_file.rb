@@ -10,7 +10,7 @@ class ClubFile < ActiveRecord::Base
   validates :club_id, presence: true
   validates :player_id, presence: true
   validates :player_id, uniqueness: { scope: :date_out, message: :only_one_curent_file_player }, if: "date_out.blank?"
-  validates :number, presence: true, numericality: { only_integer: true }
+  validates :number, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than: 100 }
   validates :position, presence: true, inclusion: { in: ClubFile.position.values }
   validates :value, presence: true, numericality: true
   validates :date_in, presence: true

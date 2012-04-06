@@ -55,6 +55,24 @@ describe ClubFile do
       it { club_file.error_on(:number).should include I18n.t('errors.messages.not_a_number') }
     end
 
+    context "with number equal or greater than 0" do
+      let(:club_file) { build(:club_file, number: -1) }
+      subject { club_file }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:number) }
+      it { club_file.error_on(:number).should include I18n.t('errors.messages.greater_than_or_equal_to', count: 0) }
+    end
+
+    context "with number less than 100" do
+      let(:club_file) { build(:club_file, number: 100) }
+      subject { club_file }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:number) }
+      it { club_file.error_on(:number).should include I18n.t('errors.messages.less_than', count: 100) }
+    end
+
     context "without position" do
       let(:club_file) { build(:club_file, position: nil) }
       subject { club_file }
