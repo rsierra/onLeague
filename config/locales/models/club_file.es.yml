@@ -24,6 +24,7 @@ es:
             date_out:
               should_be_after_in: debe ser posterior a la de entrada
               should_be_blank_in_creation: debe estar vacía en al crear la ficha
+              prevents_versioning: impide el versionado de la ficha (cambios en %{fields})
             date_in:
               should_be_after_last_out: debe ser posterior a la última de salida
   enumerize:
