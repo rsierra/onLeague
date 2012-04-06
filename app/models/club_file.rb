@@ -5,6 +5,8 @@ class ClubFile < ActiveRecord::Base
   include Enumerize
   enumerize :position, in: %w(goalkeeper defender midfielder forward)
 
+  has_paper_trail only: [:number, :value, :position], on: [:update, :destroy]
+
   delegate :name, to: :player, prefix: true, allow_nil: true
 
   validates :club_id, presence: true
