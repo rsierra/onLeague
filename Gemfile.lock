@@ -311,6 +311,7 @@ DEPENDENCIES
   omniauth-facebook
   omniauth-google-oauth2
   omniauth-twitter
+  paper_trail (~> 2)
   paperclip (~> 3.0)
   pg
   rails (= 3.2.1)
