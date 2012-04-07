@@ -5,6 +5,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "Player #{n}" }
     born 20.years.ago.to_date
     active true
+    eu true
     association :country, factory: :country
   end
 end
