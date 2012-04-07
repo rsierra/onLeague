@@ -1,4 +1,6 @@
 OnLeague::Application.routes.draw do
+  resources :games, :only => [:index]
+
   resources :clubs, :only => [:index, :show]
 
   match 'leagues/:id/change' => 'leagues#change', :via => :get, :as => 'change_league'
