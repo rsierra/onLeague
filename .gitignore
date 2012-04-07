@@ -87,4 +87,3 @@ capybara-*html
 # Ignore configurations.
 /config/environments/development.rb
 /config/environments/test.rb
-/config/database.yml

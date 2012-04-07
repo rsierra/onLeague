@@ -1,0 +1,13 @@
+language: ruby
+rvm:
+  - 1.9.3
+# uncomment this line if your project needs to run something other than `rake`:
+# script: bundle exec rspec spec
+
+before_script:
+  - psql -c 'create database onLeague_test;' -U postgres
+
+branches:
+  only:
+    - master
+    - development

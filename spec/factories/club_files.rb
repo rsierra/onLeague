@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :club_file do
     association :club, factory: :club
     association :player, factory: :player
-    sequence(:number) { |n| n }
+    sequence(:number) { |n| n % 99 }
     position { ClubFile.position.values.first }
     value { number }
     date_in { Date.yesterday }

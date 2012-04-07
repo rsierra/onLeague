@@ -43,6 +43,12 @@ Spork.prefork do
 
     # Avoid repeating FactoryGirl
     config.include FactoryGirl::Syntax::Methods
+
+    # Paper trail data from one test doesn't spill over another
+    config.before :each do
+      PaperTrail.controller_info = {}
+      PaperTrail.whodunnit = nil
+    end
   end
 
 end
