@@ -6,7 +6,7 @@ rvm:
 
 before_script:
   - psql -c 'create database onleague_test;' -U postgres
-  - bundle exec rake db:test:prepare
+  - bundle exec rake db:migrate
 
 branches:
   only:
