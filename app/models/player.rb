@@ -11,6 +11,7 @@ class Player < ActiveRecord::Base
   validates :name, :presence => true, :length => { :maximum => 64 }
   validates :born, :presence => true
   validates :active, :inclusion => { :in => [true, false] }
+  validates :eu, :inclusion => { :in => [true, false] }
   validates :country_id, :presence => true
   validates :slug,  :presence => true, :uniqueness => true
 

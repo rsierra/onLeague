@@ -35,6 +35,15 @@ describe Player do
       it { player.error_on(:active).should include I18n.t('errors.messages.inclusion') }
     end
 
+    context "without eu" do
+      let(:player) { build(:player, eu: nil) }
+      subject { player }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:eu) }
+      it { player.error_on(:eu).should include I18n.t('errors.messages.inclusion') }
+    end
+
     context "without country" do
       let(:player) { build(:player, country: nil) }
       before { player.valid? }

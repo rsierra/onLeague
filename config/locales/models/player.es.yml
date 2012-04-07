@@ -9,6 +9,7 @@ es:
         club: Club
         country: País
         created_at: Creado en
+        eu: Comunitario
         file: Ficha
         name: Nombre
         updated_at: Actualizado en
