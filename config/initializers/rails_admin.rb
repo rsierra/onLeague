@@ -362,7 +362,6 @@ RailsAdmin.config do |config|
     # Found columns:
     configure :id, :integer
     configure :name, :string
-    configure :eu, :boolean
     configure :flag, :paperclip
     configure :created_at, :datetime
     configure :updated_at, :datetime
@@ -371,14 +370,12 @@ RailsAdmin.config do |config|
     list do
       field :name
       field :flag
-      field :eu
 
-      filters [:name, :eu]
+      filters [:name]
     end
     export do; end
     show do
       field :name
-      field :eu
       field :flag
       field :country_translations
       field :created_at do
@@ -391,12 +388,10 @@ RailsAdmin.config do |config|
     edit do; end
     create do
       field :name
-      field :eu
       field :flag
     end
     update do
       field :country_translations
-      field :eu
       field :flag
     end
   end
@@ -466,6 +461,7 @@ RailsAdmin.config do |config|
     configure :name, :string
     configure :born, :date
     configure :active, :boolean
+    configure :eu, :boolean
     configure :slug, :string do
       hide
     end
@@ -488,6 +484,7 @@ RailsAdmin.config do |config|
       field :born
       field :country
       field :active
+      field :eu
       field :club
       field :file
       field :created_at do
