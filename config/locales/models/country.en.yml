@@ -5,7 +5,7 @@ en:
     attributes:
       country:
         created_at: Created at
-        eu: Community
+
         flag: Flag
         name: Name
         updated_at: Updated at

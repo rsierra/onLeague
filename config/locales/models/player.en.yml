@@ -9,6 +9,7 @@ en:
         club: Club
         country: Country
         created_at: Created at
+        eu: Community
         file: File
         name: Name
         updated_at: Updated at

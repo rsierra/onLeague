@@ -5,7 +5,6 @@ es:
     attributes:
       country:
         created_at: Creado en
-        eu: Comunitario
         flag: Bandera
         name: Nombre
         updated_at: Actualizado en

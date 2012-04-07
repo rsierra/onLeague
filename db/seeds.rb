@@ -41,8 +41,7 @@ admin = Admin.create admin_params
 
   country_params =
   {
-    name: "Country L#{league.id}",
-    eu: true,
+    name: "Country L#{league.id}"
   }
   country = Country.create country_params
 
@@ -97,6 +96,7 @@ eos
         name: "Player #{n} C#{club.id}",
         born: Date.today - 20.years,
         active: true,
+        eu: true,
         country_id: country.id
       }
       player = Player.create player_params
