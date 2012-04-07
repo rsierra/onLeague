@@ -1,0 +1,18 @@
+development:
+  adapter: postgresql
+  encoding: utf8
+  database: onLeague_development
+  pool: 5
+  username: onLeague
+
+test:
+  adapter: postgresql
+  encoding: utf8
+  database: onLeague_test
+  pool: 5
+  username: onLeague
+
+postgres:
+  adapter: postgresql
+  database: onLeague_test
+  username: postgres
