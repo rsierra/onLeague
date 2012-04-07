@@ -1,0 +1,29 @@
+<div class="row">
+  <div id="games_index" class="span12">
+    <h1><%= t Game.model_name.human.pluralize %> <%= @current_league.name %> <%= @current_league.week %> <%= @current_league.season %></h1>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th><%= Game.human_attribute_name(:club_home) %></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th><%= Game.human_attribute_name(:club_away) %></th>
+          <th><%= Game.human_attribute_name(:date) %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @games.each do |game| %>
+        <tr>
+          <td><%= game.club_home.name %></td>
+          <td>0</td>
+          <td>-</td>
+          <td>0</td>
+          <td><%= game.club_home.name %></td>
+          <td><%= l_with_timezone game.date, format: :long %></td>
+        </tr>
+        <% end -%>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -2,7 +2,7 @@
   <h1><%= @club.name %> (<%= @club.short_name %>)</h1>
   <div id="club_files" class="span5">
     <h2><%= Player.model_name.human.pluralize %></h2>
-    <table>
+    <table class="table table-bordered table-striped">
       <thead>
         <tr>
           <th><%= ClubFile.human_attribute_name(:number) %></th>
