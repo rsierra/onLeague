@@ -56,6 +56,7 @@ en:
     - :month
     - :year
   datetime:
+    timezone: London
     distance_in_words:
       about_x_hours:
         one: about 1 hour

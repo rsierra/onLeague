@@ -56,6 +56,7 @@ es:
     - :month
     - :year
   datetime:
+    timezone: Madrid
     distance_in_words:
       about_x_hours:
         one: alrededor de 1 hora
