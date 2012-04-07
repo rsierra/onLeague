@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120406181936) do
+ActiveRecord::Schema.define(:version => 20120407165103) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -86,13 +86,12 @@ ActiveRecord::Schema.define(:version => 20120406181936) do
 
   create_table "countries", :force => true do |t|
     t.string   "name"
-    t.boolean  "eu",                :default => false
     t.string   "flag_file_name"
     t.string   "flag_content_type"
     t.integer  "flag_file_size"
     t.datetime "flag_updated_at"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "country_translations", :force => true do |t|
@@ -154,6 +153,7 @@ ActiveRecord::Schema.define(:version => 20120406181936) do
     t.string   "slug"
     t.datetime "created_at",                                         :null => false
     t.datetime "updated_at",                                         :null => false
+    t.boolean  "eu",                       :default => true
   end
 
   add_index "players", ["country_id"], :name => "index_players_on_country_id"
