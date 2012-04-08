@@ -5,7 +5,7 @@
     <div class="club">
       <%= link_to club_path(club) do %>
       <%= image_tag club.logo.url(:small),
-                    :alt => "#{club.name} #{Club.human_attribute_name(:logo)}" %>
+                    alt: "#{club.name} #{Club.human_attribute_name(:logo)}" %>
       <p><%= club.name %></p>
       <% end %>
     </div>

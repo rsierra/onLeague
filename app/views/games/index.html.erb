@@ -1,33 +1,47 @@
 <div class="row">
   <div id="games_index" class="span12">
-    <h1><%= t Game.model_name.human.pluralize %> <%= @current_league.name %> <%= @current_league.week %> <%= @current_league.season %></h1>
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th><%= Game.human_attribute_name(:club_home) %></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th><%= Game.human_attribute_name(:club_away) %></th>
-          <th><%= Game.human_attribute_name(:date) %></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @games.each do |game| %>
-        <tr>
-          <td><%= game.club_home.name %></td>
-          <td><%= image_tag game.club_home.logo.url(:thumb) %></td>
-          <td>0</td>
-          <td>-</td>
-          <td>0</td>
-          <td><%= image_tag game.club_away.logo.url(:thumb) %></td>
-          <td><%= game.club_away.name %></td>
-          <td><%= l_with_timezone game.date, format: :long %></td>
-        </tr>
-        <% end -%>
-      </tbody>
-    </table>
+    <h1>
+      <%= t Game.model_name.human.pluralize %>
+      <%= @current_league.name %>
+      <%= params[:season] || @current_league.season %>
+    </h1>
+
+    <% if @games.blank? %>
+    <div class="alert">
+      <strong><%= t '.no_games_in_week' %></strong>
+    </div>
+      <%=  %>
+    <% else %>
+      <%= paginate @games, param_name: :week %>
+
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th><%= Game.human_attribute_name(:date) %></th>
+            <th><%= Game.human_attribute_name(:club_home) %></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th><%= Game.human_attribute_name(:club_away) %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @games.each do |game| %>
+          <tr>
+            <td><%= l_with_timezone game.date, format: :custom %></td>
+            <td><%= game.club_home.name %></td>
+            <td><%= image_tag game.club_home.logo.url(:thumb),
+                    alt: "#{game.club_home.name} #{Club.human_attribute_name(:logo)}" %></td>
+            <td>-</td>
+            <td><%= image_tag game.club_away.logo.url(:thumb),
+                    alt: "#{game.club_away.name} #{Club.human_attribute_name(:logo)}" %></td>
+            <td><%= game.club_away.name %></td>
+          </tr>
+          <% end -%>
+        </tbody>
+      </table>
+
+      <%= paginate @games, param_name: :week %>
+    <% end %>
   </div>
 </div>
