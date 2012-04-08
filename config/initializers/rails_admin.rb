@@ -231,7 +231,10 @@ RailsAdmin.config do |config|
         visible true
       end
     end
-    edit do; end
+    edit do
+      include_all_fields
+      exclude_fields :clubs
+    end
     create do; end
     update do; end
   end
