@@ -233,7 +233,7 @@ RailsAdmin.config do |config|
     end
     edit do
       include_all_fields
-      exclude_fields :clubs
+      exclude_fields :games
     end
     create do; end
     update do; end
@@ -355,6 +355,11 @@ RailsAdmin.config do |config|
       end
       field :description
     end
+
+    nested do
+      include_all_fields
+      exclude_fields :club
+    end
   end
 
   config.model Country do
@@ -446,6 +451,10 @@ RailsAdmin.config do |config|
         read_only true
       end
       field :name
+    end
+    nested do
+      include_all_fields
+      exclude_fields :country
     end
   end
 
