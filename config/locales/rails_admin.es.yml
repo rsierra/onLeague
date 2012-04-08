@@ -106,8 +106,8 @@ es:
       all_of_the_following_related_items_will_be_deleted: "? Los siguientes elementos relacionados pueden ser eliminados o quedar huérfanos:"
       are_you_sure_you_want_to_delete_the_object: "¿Está seguro de que quiere eliminar este %{model_name}"
       confirmation: "Si, estoy seguro"
-      delete_confirmation: "Confirmación de borrado"
       bulk_delete: "Los siguientes objetos serán eliminados, lo cual puede eliminar o dejar huérfanas algunas de sus dependencias relacionadas:"
+      new_model: "%{name} (nuevo)"
     export:
       confirmation: "Exportar a %{name}"
       select: "Seleccione los campos para la exportación"
