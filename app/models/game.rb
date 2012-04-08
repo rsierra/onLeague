@@ -27,6 +27,9 @@ class Game < ActiveRecord::Base
   after_find :initialize_name
   after_create :initialize_name
 
+  scope :week, ->(week) { where week: week }
+  scope :season, ->(season) { where season: season }
+
   def initialize_name
     @name = "#{club_home.name} - #{club_away.name}"
   end
