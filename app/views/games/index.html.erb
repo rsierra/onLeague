@@ -8,6 +8,8 @@
           <th></th>
           <th></th>
           <th></th>
+          <th></th>
+          <th></th>
           <th><%= Game.human_attribute_name(:club_away) %></th>
           <th><%= Game.human_attribute_name(:date) %></th>
         </tr>
@@ -16,10 +18,12 @@
         <% @games.each do |game| %>
         <tr>
           <td><%= game.club_home.name %></td>
+          <td><%= image_tag game.club_home.logo.url(:thumb) %></td>
           <td>0</td>
           <td>-</td>
           <td>0</td>
-          <td><%= game.club_home.name %></td>
+          <td><%= image_tag game.club_away.logo.url(:thumb) %></td>
+          <td><%= game.club_away.name %></td>
           <td><%= l_with_timezone game.date, format: :long %></td>
         </tr>
         <% end -%>
