@@ -8,6 +8,7 @@ es:
       truncate: "…"
   admin:
     misc:
+      filter_date_format: "dd/mm/yy"
       search: "Buscar"
       filter: "Filtrar"
       refresh: "Actualizar"

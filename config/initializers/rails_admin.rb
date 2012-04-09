@@ -507,12 +507,15 @@ RailsAdmin.config do |config|
       end
     end
     edit do
-      include_all_fields
       field :club do
         read_only true
       end
       field :file do
         read_only true
+      end
+      include_all_fields
+      field :born do
+        date_format :default
       end
     end
     create do
@@ -583,6 +586,12 @@ RailsAdmin.config do |config|
         read_only true
       end
       include_all_fields
+      field :date_in do
+        date_format :default
+      end
+      field :date_out do
+        date_format :default
+      end
     end
     nested do
       field :club do
@@ -593,6 +602,12 @@ RailsAdmin.config do |config|
         hide
       end
       include_all_fields
+      field :date_in do
+        date_format :default
+      end
+      field :date_out do
+        date_format :default
+      end
     end
   end
 
@@ -657,7 +672,9 @@ RailsAdmin.config do |config|
       field :league
       field :club_home
       field :club_away
-      field :date
+      field :date do
+        date_format :default
+      end
       field :status
       field :week
       field :season
