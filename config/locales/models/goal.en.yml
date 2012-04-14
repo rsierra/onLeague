@@ -1,0 +1,34 @@
+en:
+  activerecord:
+    models:
+      goal: Goal
+    attributes:
+      goal:
+        assistant: Assistant
+        assistant_id: Assistant
+        created_at: Created at
+        game: Game
+        game_id: Game
+        minute: Minute
+        scorer: Scorer
+        scorer_id: Scorer
+        kind: Kind
+        updated_at: Updated at
+    errors:
+      models:
+        goal:
+          attributes:
+            scorer:
+              should_play_in_any_club: should play in any club of the game
+            assistant:
+              should_play_in_any_club: should play in any club of the game
+              should_be_diferent: should be diferent from scorer
+              should_be_in_same_club: should be in the same club that the scorer
+  enumerize:
+    goal:
+      kind:
+        regular: Regular
+        own: Own
+        penalty: Penalty
+        penalty_saved: Penalty saved
+        penalty_out: Penalty out
