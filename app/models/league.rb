@@ -14,8 +14,12 @@ class League < ActiveRecord::Base
   scope :active, where(:active => true)
   scope :except, ->(id) { where(['id != ?',id]) }
 
-  def paginated_games(season = season, week = week)
-    per_page = games.season(season).week(week).count
-    games.season(season).order(:date).page(week).per(per_page)
+  def paginated_games(find_week = week, find_season = season)
+    per_page = games.season(find_season).week(find_week).count
+    games.season(find_season).order(:date).page(find_week).per(per_page)
+  end
+
+  def end_date_of_week(find_week = week, find_season = season)
+    games.season(find_season).week(find_week).maximum(:date)
   end
 end
