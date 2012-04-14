@@ -10,6 +10,7 @@ en:
         club_home_id: Home
         created_at: Created at
         date: Date
+        goals: Goals
         league: League
         league_id: League
         name: Name
