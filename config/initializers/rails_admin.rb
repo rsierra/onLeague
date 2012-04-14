@@ -308,6 +308,8 @@ RailsAdmin.config do |config|
   end
 
   config.model ClubTranslation do
+    visible false
+
     object_label_method :locale
 
     parent Club
@@ -405,6 +407,8 @@ RailsAdmin.config do |config|
   end
 
   config.model CountryTranslation do
+    visible false
+
     object_label_method :locale
 
     parent Country
@@ -466,6 +470,12 @@ RailsAdmin.config do |config|
     configure :file, :has_one_association
     configure :club, :has_one_association
     configure :club_files, :has_many_association do
+      hide
+    end
+    configure :goals, :has_many_association do
+      hide
+    end
+    configure :assists, :has_many_association do
       hide
     end
     # Found columns:
@@ -576,15 +586,7 @@ RailsAdmin.config do |config|
         visible true
       end
     end
-    edit do; end
-    create do; end
-    update do
-      field :club do
-        read_only true
-      end
-      field :player do
-        read_only true
-      end
+    edit do
       include_all_fields
       field :date_in do
         date_format :default
@@ -593,12 +595,14 @@ RailsAdmin.config do |config|
         date_format :default
       end
     end
+    create do; end
+    update do
+      field :player do
+        read_only true
+      end
+    end
     nested do
       field :club do
-        default_value do
-          bindings[:object].club unless bindings[:object].club.blank?
-        end
-        read_only true
         hide
       end
       include_all_fields
@@ -644,13 +648,13 @@ RailsAdmin.config do |config|
     list do
       field :club_home
       field :club_away
-      field :league
-      field :date
       field :week
       field :season
       field :status
+      field :date
+      field :league
 
-      filters [:club_home, :club_away, :league, :week, :season]
+      filters [:league, :club_home, :club_away]
     end
     export do; end
     show do
