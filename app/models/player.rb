@@ -4,6 +4,8 @@ class Player < ActiveRecord::Base
   has_many :club_files
   has_one :file, :class_name => 'ClubFile', :conditions => 'date_out is null'
   has_one :club, :through => :file
+  has_many :goals, foreign_key: :scorer_id
+  has_many :assists, :class_name => 'Goal', foreign_key: :assistant_id
 
   extend FriendlyId
   friendly_id :name, use: :slugged
