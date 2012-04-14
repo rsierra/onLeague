@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
   # config.excluded_models = [Admin, OauthProvider, User]
 
   # Add models here if you want to go 'whitelist mode':
-  config.included_models = [User, OauthProvider, League, Club, ClubTranslation, Country, CountryTranslation, Player, ClubFile, Game]
+  config.included_models = [User, OauthProvider, League, Club, ClubTranslation, Country, CountryTranslation, Player, ClubFile, Game, Goal]
 
   # Application wide tried label methods for models' instances
   # config.label_methods << :description # Default is [:name, :title]
@@ -619,6 +619,7 @@ RailsAdmin.config do |config|
     configure :league, :belongs_to_association
     configure :club_home, :belongs_to_association
     configure :club_away, :belongs_to_association
+    configure :goals, :has_many_association
     # Found columns:
     configure :id, :integer
     configure :date, :datetime
@@ -680,6 +681,63 @@ RailsAdmin.config do |config|
       field :season
     end
     create do; end
-    update do; end
+    update do
+      field :goals
+    end
+  end
+
+  config.model Goal do
+    object_label_method :title
+
+    parent Game
+    # Found associations:
+    configure :game, :belongs_to_association
+    configure :scorer, :belongs_to_association
+    configure :assistant, :belongs_to_association
+    # Found columns:
+    configure :id, :integer
+    configure :minute, :integer
+    configure :kind, :enum do
+    # if your model has a method that sends back the options:
+      enum_method do
+        :kind_enum
+      end
+      pretty_value do # used in form list
+        I18n.t("enumerize.goal.kind.#{value}")
+      end
+    end
+    configure :created_at, :datetime
+    configure :updated_at, :datetime
+
+    # Sections:
+    list do
+      field :scorer
+      field :assistant
+      field :kind
+      field :game
+
+      filters [:scorer, :assistant, :kind]
+    end
+    show do
+      include_all_fields
+      field :created_at do
+        visible true
+      end
+      field :updated_at do
+        visible true
+      end
+    end
+    edit do
+      field :game do
+        read_only true
+      end
+      include_all_fields
+    end
+    nested do
+      field :game do
+        hide
+      end
+      include_all_fields
+    end
   end
 end
