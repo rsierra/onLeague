@@ -1,0 +1,1 @@
+require "kaminari/helpers/tags_hack"
