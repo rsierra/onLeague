@@ -10,7 +10,7 @@ class Player < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  validates :name, :presence => true, :length => { :maximum => 64 }
+  validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 64 }
   validates :born, :presence => true
   validates :active, :inclusion => { :in => [true, false] }
   validates :eu, :inclusion => { :in => [true, false] }
