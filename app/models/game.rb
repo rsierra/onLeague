@@ -61,19 +61,27 @@ class Game < ActiveRecord::Base
   end
 
   def home_goals
-    goals.club(club_home).count
+    goals.where(scorer_id: home_players.map(&:id)).count
   end
 
   def away_goals
-    goals.club(club_away).count
+    goals.where(scorer_id: away_players.map(&:id)).count
   end
 
-  def home_players
+  def home_club_files
     club_home.club_files.on(date)
   end
 
-  def away_players
+  def away_club_files
     club_away.club_files.on(date)
+  end
+
+  def home_players
+    home_club_files.map(&:player)
+  end
+
+  def away_players
+    away_club_files.map(&:player)
   end
 
   def end_date_of_week
@@ -85,10 +93,10 @@ class Game < ActiveRecord::Base
   end
 
   def player_in_club_home? player
-    home_players.map(&:player).include? player
+    home_players.include? player
   end
 
   def player_in_club_away? player
-    away_players.map(&:player).include? player
+    away_players.include? player
   end
 end
