@@ -17,6 +17,16 @@ describe Player do
       it { player.error_on(:name).should include I18n.t('errors.messages.blank') }
     end
 
+    context "with duplicated name" do
+      let(:player) { create(:player) }
+      let(:duplicate_player) { build(:player, name: player.name) }
+      before { duplicate_player.valid? }
+      subject { duplicate_player }
+      it { should_not be_valid }
+      it { should have(1).error_on(:name) }
+      it { duplicate_player.error_on(:name).should include I18n.t('errors.messages.taken') }
+    end
+
     context "without born" do
       let(:player) { build(:player, born: nil) }
       before { player.valid? }

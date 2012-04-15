@@ -2,6 +2,8 @@ class Game < ActiveRecord::Base
   belongs_to :league
   belongs_to :club_home, class_name: 'Club'
   belongs_to :club_away, class_name: 'Club'
+  has_many :goals
+  accepts_nested_attributes_for :goals
 
   extend FriendlyId
   friendly_id :custom_slug, use: :slugged
@@ -63,4 +65,35 @@ class Game < ActiveRecord::Base
     errors.add(:club_away, :should_play_same_league) unless club_away_play_league?
   end
 
+  def home_goals
+    goals.club(club_home).count
+  end
+
+  def away_goals
+    goals.club(club_away).count
+  end
+
+  def home_players
+    club_home.club_files.on(date)
+  end
+
+  def away_players
+    club_away.club_files.on(date)
+  end
+
+  def end_date_of_week
+    league.end_date_of_week(week,season)
+  end
+
+  def result
+    "#{home_goals} - #{away_goals}"
+  end
+
+  def player_in_club_home? player
+    home_players.map(&:player).include? player
+  end
+
+  def player_in_club_away? player
+    away_players.map(&:player).include? player
+  end
 end

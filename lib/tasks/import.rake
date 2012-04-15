@@ -233,5 +233,53 @@ eos
         end
       end
     end
+
+    desc "Import goals form csv"
+    task :goals, [:file_path] => :environment do |t, args|
+      if args.file_path.blank?
+        puts "This rake task need a valid file path to import."
+        puts "USE: rake onleague:import:goals[file_path]"
+      else
+        log = Logger.new("log/csv_import_goals.log")
+        log.info "\n----------------------------------------------------------"
+        log.info "#{DateTime.now} >> Starting goals importation process"
+        errors = 0
+        CSV.foreach(args.file_path, headers: :first_row) do |row|
+          player = Player.find_by_name(row["scorer"])
+
+          if player.blank?
+            errors +=1
+            log.info "\nPlayer #{row["scorer"]} not found."
+          else
+            assistant = Player.find_by_name(row["assistant"])
+            goal_params = {
+              game_id: row["game_id"],
+              scorer_id: player.id,
+              assistant_id: assistant.blank? ? nil : assistant.id,
+              minute: row["minute"].to_i,
+              kind: row["kind"]
+            }
+            goal = Goal.create goal_params
+            if goal.invalid?
+              errors += 1
+              log.info "\nError in goal creation"
+              log.info "Row: #{row.to_s.chomp}"
+              log.info "Params: #{goal_params}"
+              goal.errors.full_messages.each { |msg| log.info "\t#{msg}" }
+            end
+          end
+        end
+
+        log.info "\n#{DateTime.now} >> Goals importation process ended"
+        log.info "----------------------------------------------------------\n"
+
+        if errors.zero?
+          puts "Goals importation ended successfully."
+        else
+          puts "Goals importation ended with #{errors} errors."
+          puts "Take a look on errors in log file 'csv_import_goals.log'."
+        end
+      end
+    end
   end
 end

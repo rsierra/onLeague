@@ -4,6 +4,7 @@ es:
       country: País
     attributes:
       country:
+        country_translations: Traducciones
         created_at: Creado en
         flag: Bandera
         name: Nombre

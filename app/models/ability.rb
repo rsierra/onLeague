@@ -20,6 +20,8 @@ class Ability
       can :write, Player
       can :write, ClubFile
       can :write, Game
+      can :update, Goal
+      can :destroy, Goal
     end
 
     # Define abilities for the passed in user here. For example:

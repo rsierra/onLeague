@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120407165103) do
+ActiveRecord::Schema.define(:version => 20120412183010) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -108,7 +108,7 @@ ActiveRecord::Schema.define(:version => 20120407165103) do
   create_table "games", :force => true do |t|
     t.integer  "league_id"
     t.datetime "date"
-    t.integer  "week",         :limit => 2
+    t.integer  "week"
     t.integer  "season"
     t.integer  "club_home_id"
     t.integer  "club_away_id"
@@ -123,13 +123,27 @@ ActiveRecord::Schema.define(:version => 20120407165103) do
   add_index "games", ["league_id"], :name => "index_games_on_league_id"
   add_index "games", ["slug"], :name => "index_games_on_slug", :unique => true
 
+  create_table "goals", :force => true do |t|
+    t.integer  "game_id"
+    t.integer  "scorer_id"
+    t.integer  "assistant_id"
+    t.integer  "minute"
+    t.string   "kind"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "goals", ["assistant_id"], :name => "index_goals_on_assistant_id"
+  add_index "goals", ["game_id"], :name => "index_goals_on_game_id"
+  add_index "goals", ["scorer_id"], :name => "index_goals_on_scorer_id"
+
   create_table "leagues", :force => true do |t|
     t.string   "name"
-    t.integer  "week",       :limit => 2
+    t.integer  "week"
     t.integer  "season"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
-    t.boolean  "active",                  :default => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.boolean  "active",     :default => false
   end
 
   create_table "oauth_providers", :force => true do |t|
@@ -164,7 +178,7 @@ ActiveRecord::Schema.define(:version => 20120407165103) do
     t.string   "username"
     t.integer  "item"
     t.string   "table"
-    t.integer  "month",      :limit => 2
+    t.integer  "month"
     t.integer  "year",       :limit => 8
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
