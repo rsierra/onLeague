@@ -22,4 +22,12 @@ class League < ActiveRecord::Base
   def end_date_of_week(find_week = week, find_season = season)
     games.season(find_season).week(find_week).maximum(:date)
   end
+
+  def season_list
+    games.select(:season).order(:season).uniq.map(&:season)
+  end
+
+  def season_week_list(find_season = season)
+    games.where(season: find_season).select(:week).order(:week).uniq.map(&:week)
+  end
 end
