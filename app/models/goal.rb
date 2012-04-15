@@ -14,7 +14,7 @@ class Goal < ActiveRecord::Base
   validate :validate_scorer
   validate :validate_assistant_clubs, unless: "assistant.blank?"
 
-  scope :club, ->(club) { joins(:scorer).where(club_files: {club_id: club}) }
+  scope :club, ->(club) { joins(:scorer => :club_files).where(club_files: {club_id: club}) }
 
   def kind_enum
     Goal.kind.values
