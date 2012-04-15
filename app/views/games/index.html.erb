@@ -3,16 +3,31 @@
     <h1>
       <%= t Game.model_name.human.pluralize %>
       <%= @current_league.name %>
-      <%= params[:season] || @current_league.season %>
     </h1>
 
     <% if @games.blank? %>
     <div class="alert">
       <strong><%= t '.no_games_in_week' %></strong>
     </div>
-      <%=  %>
     <% else %>
-      <%= paginate @games, param_name: :week %>
+
+      <div class="btn-toolbar">
+        <div class="btn-group">
+          <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">
+            <%= "#{Game.human_attribute_name(:season)} #{@season}" %>
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <% @seasons.each do |season| %>
+              <% unless @season.to_i == season %>
+              <li><%= link_to("#{Game.human_attribute_name(:season)} #{season}", games_path(season: season))%></li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+
+        <%= paginate @weeks, param_name: :week %>
+      </div>
 
       <table class="table table-bordered table-striped">
         <thead>
@@ -32,7 +47,7 @@
             <td><%= game.club_home.name %></td>
             <td><%= image_tag game.club_home.logo.url(:thumb),
                     alt: "#{game.club_home.name} #{Club.human_attribute_name(:logo)}" %></td>
-            <td>-</td>
+            <td><%= game.result %></td>
             <td><%= image_tag game.club_away.logo.url(:thumb),
                     alt: "#{game.club_away.name} #{Club.human_attribute_name(:logo)}" %></td>
             <td><%= game.club_away.name %></td>
@@ -41,7 +56,6 @@
         </tbody>
       </table>
 
-      <%= paginate @games, param_name: :week %>
     <% end %>
   </div>
 </div>

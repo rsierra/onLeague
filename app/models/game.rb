@@ -11,8 +11,6 @@ class Game < ActiveRecord::Base
   include Enumerize
   enumerize :status, in: %w(active inactive evaluated closed)
 
-  attr_reader :name
-
   validates :league, :club_home, :club_away, presence: true
   validates :date,  presence: true
   validates :status,  presence: true, inclusion: { in: Game.status.values }
@@ -26,14 +24,11 @@ class Game < ActiveRecord::Base
 
   validate :validate_play_himself, :validate_clubs_league
 
-  after_find :initialize_name
-  after_create :initialize_name
-
   scope :week, ->(week) { where week: week }
   scope :season, ->(season) { where season: season }
 
-  def initialize_name
-    @name = "#{club_home.name} - #{club_away.name}"
+  def name
+    "#{club_home.name} - #{club_away.name}" unless club_home.blank? || club_away.blank?
   end
 
   def custom_slug
@@ -66,19 +61,27 @@ class Game < ActiveRecord::Base
   end
 
   def home_goals
-    goals.club(club_home).count
+    goals.where(scorer_id: home_players.map(&:id)).count
   end
 
   def away_goals
-    goals.club(club_away).count
+    goals.where(scorer_id: away_players.map(&:id)).count
   end
 
-  def home_players
+  def home_club_files
     club_home.club_files.on(date)
   end
 
-  def away_players
+  def away_club_files
     club_away.club_files.on(date)
+  end
+
+  def home_players
+    home_club_files.map(&:player)
+  end
+
+  def away_players
+    away_club_files.map(&:player)
   end
 
   def end_date_of_week
@@ -86,14 +89,14 @@ class Game < ActiveRecord::Base
   end
 
   def result
-    "#{home_goals} - #{away_goals}"
+    status.closed? ? "#{home_goals} - #{away_goals}" : "-"
   end
 
   def player_in_club_home? player
-    home_players.map(&:player).include? player
+    home_players.include? player
   end
 
   def player_in_club_away? player
-    away_players.map(&:player).include? player
+    away_players.include? player
   end
 end
