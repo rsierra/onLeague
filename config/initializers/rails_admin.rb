@@ -536,7 +536,7 @@ RailsAdmin.config do |config|
   end
 
   config.model ClubFile do
-    object_label_method :player_name
+    object_label_method :title
 
     parent Club
     # Found associations:
@@ -596,14 +596,15 @@ RailsAdmin.config do |config|
       end
     end
     create do; end
-    update do
-      field :player do
-        read_only true
-      end
-    end
+    update do; end
     nested do
       field :club do
         hide
+      end
+      field :player do
+        visible do
+          bindings[:object].new_record?
+        end
       end
       include_all_fields
       field :date_in do
