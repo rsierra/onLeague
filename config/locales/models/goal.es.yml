@@ -1,0 +1,34 @@
+es:
+  activerecord:
+    models:
+      goal: Gol
+    attributes:
+      goal:
+        assistant: Asistente
+        assistant_id: Asistente
+        created_at: Creado en
+        game: Partido
+        game_id: Partido
+        minute: Minuto
+        scorer: Autor
+        scorer_id: Autor
+        kind: Tipo
+        updated_at: Actualizado en
+    errors:
+      models:
+        goal:
+          attributes:
+            scorer:
+              should_play_in_any_club: debe jugar en alguno de los equipos del partido
+            assistant:
+              should_play_in_any_club: debe jugar en alguno de los equipos del partido
+              should_be_diferent: debe ser diferente del autor
+              should_be_in_same_club: debe estar en el mismo equipo que el autor
+  enumerize:
+    goal:
+      kind:
+        regular: Normal
+        own: En propia
+        penalty: Penalty
+        penalty_saved: Penalti parado
+        penalty_out: Penalti fallado

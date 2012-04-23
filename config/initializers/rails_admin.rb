@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
   # config.excluded_models = [Admin, OauthProvider, User]
 
   # Add models here if you want to go 'whitelist mode':
-  config.included_models = [User, OauthProvider, League, Club, ClubTranslation, Country, CountryTranslation, Player, ClubFile, Game]
+  config.included_models = [User, OauthProvider, League, Club, ClubTranslation, Country, CountryTranslation, Player, ClubFile, Game, Goal]
 
   # Application wide tried label methods for models' instances
   # config.label_methods << :description # Default is [:name, :title]
@@ -231,7 +231,10 @@ RailsAdmin.config do |config|
         visible true
       end
     end
-    edit do; end
+    edit do
+      include_all_fields
+      exclude_fields :games
+    end
     create do; end
     update do; end
   end
@@ -305,6 +308,8 @@ RailsAdmin.config do |config|
   end
 
   config.model ClubTranslation do
+    visible false
+
     object_label_method :locale
 
     parent Club
@@ -352,6 +357,11 @@ RailsAdmin.config do |config|
       end
       field :description
     end
+
+    nested do
+      include_all_fields
+      exclude_fields :club
+    end
   end
 
   config.model Country do
@@ -362,7 +372,6 @@ RailsAdmin.config do |config|
     # Found columns:
     configure :id, :integer
     configure :name, :string
-    configure :eu, :boolean
     configure :flag, :paperclip
     configure :created_at, :datetime
     configure :updated_at, :datetime
@@ -371,14 +380,12 @@ RailsAdmin.config do |config|
     list do
       field :name
       field :flag
-      field :eu
 
-      filters [:name, :eu]
+      filters [:name]
     end
     export do; end
     show do
       field :name
-      field :eu
       field :flag
       field :country_translations
       field :created_at do
@@ -391,17 +398,17 @@ RailsAdmin.config do |config|
     edit do; end
     create do
       field :name
-      field :eu
       field :flag
     end
     update do
       field :country_translations
-      field :eu
       field :flag
     end
   end
 
   config.model CountryTranslation do
+    visible false
+
     object_label_method :locale
 
     parent Country
@@ -449,6 +456,10 @@ RailsAdmin.config do |config|
       end
       field :name
     end
+    nested do
+      include_all_fields
+      exclude_fields :country
+    end
   end
 
   config.model Player do
@@ -461,11 +472,18 @@ RailsAdmin.config do |config|
     configure :club_files, :has_many_association do
       hide
     end
+    configure :goals, :has_many_association do
+      hide
+    end
+    configure :assists, :has_many_association do
+      hide
+    end
     # Found columns:
     configure :id, :integer
     configure :name, :string
     configure :born, :date
     configure :active, :boolean
+    configure :eu, :boolean
     configure :slug, :string do
       hide
     end
@@ -488,6 +506,7 @@ RailsAdmin.config do |config|
       field :born
       field :country
       field :active
+      field :eu
       field :club
       field :file
       field :created_at do
@@ -498,12 +517,15 @@ RailsAdmin.config do |config|
       end
     end
     edit do
-      include_all_fields
       field :club do
         read_only true
       end
       field :file do
         read_only true
+      end
+      include_all_fields
+      field :born do
+        date_format :default
       end
     end
     create do
@@ -514,7 +536,7 @@ RailsAdmin.config do |config|
   end
 
   config.model ClubFile do
-    object_label_method :player_name
+    object_label_method :title
 
     parent Club
     # Found associations:
@@ -564,26 +586,33 @@ RailsAdmin.config do |config|
         visible true
       end
     end
-    edit do; end
-    create do; end
-    update do
-      field :club do
-        read_only true
-      end
-      field :player do
-        read_only true
-      end
+    edit do
       include_all_fields
+      field :date_in do
+        date_format :default
+      end
+      field :date_out do
+        date_format :default
+      end
     end
+    create do; end
+    update do; end
     nested do
       field :club do
-        default_value do
-          bindings[:object].club unless bindings[:object].club.blank?
-        end
-        read_only true
         hide
       end
+      field :player do
+        visible do
+          bindings[:object].new_record?
+        end
+      end
       include_all_fields
+      field :date_in do
+        date_format :default
+      end
+      field :date_out do
+        date_format :default
+      end
     end
   end
 
@@ -595,6 +624,7 @@ RailsAdmin.config do |config|
     configure :league, :belongs_to_association
     configure :club_home, :belongs_to_association
     configure :club_away, :belongs_to_association
+    configure :goals, :has_many_association
     # Found columns:
     configure :id, :integer
     configure :date, :datetime
@@ -619,13 +649,13 @@ RailsAdmin.config do |config|
     list do
       field :club_home
       field :club_away
-      field :league
-      field :date
       field :week
       field :season
       field :status
+      field :date
+      field :league
 
-      filters [:club_home, :club_away, :league, :week, :season]
+      filters [:league, :club_home, :club_away]
     end
     export do; end
     show do
@@ -648,12 +678,71 @@ RailsAdmin.config do |config|
       field :league
       field :club_home
       field :club_away
-      field :date
+      field :date do
+        date_format :default
+      end
       field :status
       field :week
       field :season
     end
     create do; end
-    update do; end
+    update do
+      field :goals
+    end
+  end
+
+  config.model Goal do
+    object_label_method :title
+
+    parent Game
+    # Found associations:
+    configure :game, :belongs_to_association
+    configure :scorer, :belongs_to_association
+    configure :assistant, :belongs_to_association
+    # Found columns:
+    configure :id, :integer
+    configure :minute, :integer
+    configure :kind, :enum do
+    # if your model has a method that sends back the options:
+      enum_method do
+        :kind_enum
+      end
+      pretty_value do # used in form list
+        I18n.t("enumerize.goal.kind.#{value}")
+      end
+    end
+    configure :created_at, :datetime
+    configure :updated_at, :datetime
+
+    # Sections:
+    list do
+      field :scorer
+      field :assistant
+      field :kind
+      field :game
+
+      filters [:scorer, :assistant, :kind]
+    end
+    show do
+      include_all_fields
+      field :created_at do
+        visible true
+      end
+      field :updated_at do
+        visible true
+      end
+    end
+    edit do
+      field :game do
+        read_only true
+      end
+      include_all_fields
+    end
+    nested do
+      field :game do
+        hide
+      end
+      include_all_fields
+    end
   end
 end

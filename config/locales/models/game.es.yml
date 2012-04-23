@@ -10,6 +10,7 @@ es:
         club_home_id: Local
         created_at: Creado en
         date: Fecha
+        goals: Goles
         league: Liga
         league_id: Liga
         name: Nombre

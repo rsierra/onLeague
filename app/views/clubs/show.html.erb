@@ -2,7 +2,7 @@
   <h1><%= @club.name %> (<%= @club.short_name %>)</h1>
   <div id="club_files" class="span5">
     <h2><%= Player.model_name.human.pluralize %></h2>
-    <table>
+    <table class="table table-bordered table-striped">
       <thead>
         <tr>
           <th><%= ClubFile.human_attribute_name(:number) %></th>
@@ -17,20 +17,22 @@
         <tr>
           <td style="color:#<%= @club.number_color %>">
             <%= file.number %>
-            <%= image_tag @club.jersey.url(:thumb) %>
+            <%= image_tag @club.jersey.url(:thumb),
+                alt: "#{@club.name} #{Club.human_attribute_name(:jersey)}" %>
           </td>
           <td><%= file.player_name %></td>
           <td><%= file.position.text %></td>
           <td><%= file.value %></td>
-          <td><%= image_tag file.player.country.flag.url(:small) %></td>
+          <td><%= image_tag file.player.country.flag.url(:small),
+                  alt: "#{file.player.country.name} #{Country.human_attribute_name(:flag)}" %></td>
         </tr>
         <% end -%>
       </tbody>
     </table>
   </div>
   <div id="club_info" class="span5">
-    <%= image_tag @club.logo.url(:medium), :id => 'club_logo',
-          :alt => "#{@club.name} #{Club.human_attribute_name(:logo)}" %>
+    <%= image_tag @club.logo.url(:medium), id: 'club_logo',
+          alt: "#{@club.name} #{Club.human_attribute_name(:logo)}" %>
     <%= @club.description.html_safe %>
   </div>
 </div>

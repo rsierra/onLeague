@@ -73,6 +73,7 @@ SimpleNavigation::Configuration.run do |navigation|
 
     primary.item :home, t('shared.navbar.home'), root_path
     primary.item :clubs, Club.model_name.human.pluralize, clubs_path, :highlights_on => :subpath
+    primary.item :games, Game.model_name.human.pluralize, games_path, :highlights_on => :subpath
   end
 
 end

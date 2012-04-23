@@ -7,6 +7,5 @@ FactoryGirl.define do
     end
 
     name { "Country #{number}" }
-    eu false
   end
 end

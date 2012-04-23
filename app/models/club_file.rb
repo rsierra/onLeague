@@ -8,6 +8,7 @@ class ClubFile < ActiveRecord::Base
   has_paper_trail only: [:number, :value, :position], on: [:update, :destroy]
 
   delegate :name, to: :player, prefix: true, allow_nil: true
+  delegate :name, to: :club, prefix: true, allow_nil: true
 
   validates :club_id, presence: true
   validates :player_id, presence: true
@@ -24,6 +25,7 @@ class ClubFile < ActiveRecord::Base
 
   scope :active, joins(:player).where(players: { active: true })
   scope :current, where(date_out: nil)
+  scope :on, ->(date) { where(['(date_in <= ? AND date_out >= ?) OR (date_in <= ? AND date_out IS NULL)',date,date,date]) }
 
   def validate_date_out_blank
     errors.add(:date_out, :should_be_blank_in_creation) unless date_out.blank?
@@ -40,6 +42,10 @@ class ClubFile < ActiveRecord::Base
 
   def validate_versioning_only_in_current
     errors.add(:date_out, :prevents_versioning, fields: i18n_versioned_fields.to_sentence) if !current? && will_create_version?
+  end
+
+  def title
+    "#{self.player_name} (#{self.number})"
   end
 
   def position_enum

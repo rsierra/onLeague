@@ -4,8 +4,8 @@ es:
       country: País
     attributes:
       country:
+        country_translations: Traducciones
         created_at: Creado en
-        eu: Comunitario
         flag: Bandera
         name: Nombre
         updated_at: Actualizado en

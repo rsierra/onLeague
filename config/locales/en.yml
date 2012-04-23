@@ -56,6 +56,7 @@ en:
     - :month
     - :year
   datetime:
+    timezone: London
     distance_in_words:
       about_x_hours:
         one: about 1 hour
@@ -198,6 +199,7 @@ en:
       default: ! '%a, %d %b %Y %H:%M:%S %z'
       long: ! '%d %B, %Y %H:%M'
       short: ! '%d %b %H:%M'
+      custom: ! '%a, %d %b %Y %H:%M'
     pm: pm
   # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
   activemodel:
