@@ -44,6 +44,10 @@ class ClubFile < ActiveRecord::Base
     errors.add(:date_out, :prevents_versioning, fields: i18n_versioned_fields.to_sentence) if !current? && will_create_version?
   end
 
+  def title
+    "#{self.player_name} (#{self.number})"
+  end
+
   def position_enum
     ClubFile.position.values
   end
