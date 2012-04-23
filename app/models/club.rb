@@ -2,7 +2,7 @@ class Club < ActiveRecord::Base
   has_and_belongs_to_many :leagues
 
   has_many :club_files
-  has_many :files, :class_name => 'ClubFile', :conditions => 'date_out is null'
+  has_many :files, :class_name => 'ClubFile', :conditions => 'date_out is null', :order => :number
   accepts_nested_attributes_for :files
   validates_associated :files
 
