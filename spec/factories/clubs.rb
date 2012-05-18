@@ -10,13 +10,11 @@ FactoryGirl.define do
     short_name "CLB"
     description "Description"
 
-    factory :club_with_leagues do
-      ignore do
-        leagues_count 2
-      end
-      after(:create) do |club, evaluator|
-        create_list(:league, evaluator.leagues_count, :clubs => [club])
-      end
+    ignore do
+      leagues_count 1
+    end
+    after(:create) do |club, evaluator|
+      create_list(:league, evaluator.leagues_count, :clubs => [club])
     end
   end
 end
