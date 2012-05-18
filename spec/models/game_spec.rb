@@ -8,6 +8,8 @@ describe Game do
 
       it { should be_valid }
       its(:name) { should == "#{game.club_home.name} - #{game.club_away.name}" }
+      its(:home_goals) { should eql 0 }
+      its(:away_goals) { should eql 0 }
     end
 
     context "after a find" do
@@ -162,6 +164,78 @@ describe Game do
       it { should_not be_valid }
       it { should have(1).error_on(:club_home) }
       it { game.error_on(:club_home).should include I18n.t('activerecord.errors.models.game.attributes.club_home.cant_play_himself') }
+    end
+
+    context "with one home goals" do
+      let(:game) { create(:game) }
+      let(:goal) { create(:goal, game: game) }
+      before { goal }
+      subject { game }
+
+      it { should be_valid }
+      its(:home_goals) { should eql 1 }
+      its(:away_goals) { should eql 0 }
+    end
+
+    context "with home goals" do
+      let(:game) { create(:game) }
+      let(:goal) { create(:goal, game: game) }
+      let(:second_goal) { create(:goal, game: game) }
+      before { goal; second_goal }
+      subject { game }
+
+      it { should be_valid }
+      its(:home_goals) { should eql 2 }
+      its(:away_goals) { should eql 0 }
+    end
+
+    context "with one away goals" do
+      let(:game) { create(:game) }
+      let(:scorer) { create(:player_with_club, player_club: game.club_away) }
+      let(:goal) { create(:goal, game: game, scorer: scorer) }
+      before { goal }
+      subject { game }
+
+      it { should be_valid }
+      its(:home_goals) { should eql 0 }
+      its(:away_goals) { should eql 1 }
+    end
+
+    context "with away goals" do
+      let(:game) { create(:game) }
+      let(:scorer) { create(:player_with_club, player_club: game.club_away) }
+      let(:goal) { create(:goal, game: game, scorer: scorer) }
+      let(:second_goal) { create(:goal, game: game, scorer: scorer) }
+      before { goal; second_goal }
+      subject { game }
+
+      it { should be_valid }
+      its(:home_goals) { should eql 0 }
+      its(:away_goals) { should eql 2 }
+    end
+
+    context "with away goals" do
+      let(:game) { create(:game) }
+      let(:home_scorer) { create(:player_with_club, player_club: game.club_home) }
+      let(:away_scorer) { create(:player_with_club, player_club: game.club_away) }
+      let(:goal) { create(:goal, game: game, scorer: home_scorer) }
+      let(:second_goal) { create(:goal, game: game, scorer: home_scorer) }
+      let(:third_goal) { create(:goal, game: game, scorer: away_scorer) }
+      before { goal; second_goal; third_goal }
+      subject { game }
+
+      it { should be_valid }
+      its(:home_goals) { should eql 2 }
+      its(:away_goals) { should eql 1 }
+    end
+
+    context "with players" do
+      let(:player) { create(:player_with_club) }
+      let(:game) { create(:game_from_club_home, club_home: player.club) }
+      subject { game }
+
+      it { game.player_in_club_home?(player).should be_true }
+      it { game.player_in_club_away?(player).should_not be_true }
     end
   end
 end

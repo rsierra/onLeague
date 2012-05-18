@@ -10,7 +10,8 @@ describe Goal do
     end
 
     context "without game" do
-      let(:goal) { build(:goal, game: nil) }
+      let(:goal) { build(:goal) }
+      before { goal.game = nil }
       subject { goal }
 
       it { should_not be_valid }

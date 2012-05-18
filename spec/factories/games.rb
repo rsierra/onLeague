@@ -9,5 +9,11 @@ FactoryGirl.define do
     week 1
     season 2000
     status Game.status.values.first
+
+    factory :game_from_club_home do
+      club_home { create(:club) }
+      league { club_home.leagues.first }
+      club_away { create(:club, leagues: [league]) }
+    end
   end
 end
