@@ -7,5 +7,14 @@ FactoryGirl.define do
     active true
     eu true
     association :country, factory: :country
+
+    factory :player_with_club do
+      ignore do
+        player_club { create(:club) }
+      end
+      after(:create) do |player, evaluator|
+        create(:club_file, player: player, club: evaluator.player_club)
+      end
+    end
   end
 end

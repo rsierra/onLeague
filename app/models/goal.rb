@@ -25,11 +25,11 @@ class Goal < ActiveRecord::Base
   end
 
   def scorer_play_in_game?
-    game.player_in_club_home?(scorer) || game.player_in_club_away?(scorer)
+    !game.blank? && (game.player_in_club_home?(scorer) || game.player_in_club_away?(scorer))
   end
 
   def assistant_play_in_game?
-    game.player_in_club_home?(assistant) || game.player_in_club_away?(assistant)
+    !game.blank? && (game.player_in_club_home?(assistant) || game.player_in_club_away?(assistant))
   end
 
   def same_player?

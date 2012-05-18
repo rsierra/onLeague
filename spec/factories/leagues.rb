@@ -11,8 +11,8 @@ FactoryGirl.define do
       ignore do
         clubs_count 20
       end
-      after_create do |league, evaluator|
-        FactoryGirl.create_list(:club, evaluator.clubs_count, :leagues => [league])
+      after(:create) do |league, evaluator|
+        create_list(:club, evaluator.clubs_count, :leagues => [league])
       end
     end
   end
