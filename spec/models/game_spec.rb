@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Game do
   describe "when create" do
     context "with correct data" do
-      let(:game) { create(:game_with_associated_clubs) }
+      let(:game) { create(:game) }
       subject { game }
 
       it { should be_valid }
@@ -11,7 +11,7 @@ describe Game do
     end
 
     context "after a find" do
-      let(:game) { create(:game_with_associated_clubs) }
+      let(:game) { create(:game) }
       before { game }
       subject { Game.find game }
 
@@ -19,7 +19,7 @@ describe Game do
     end
 
     context "without date" do
-      let(:game) { build(:game_with_associated_clubs, date: nil) }
+      let(:game) { build(:game, date: nil) }
       subject { game }
 
       it { should_not be_valid }
@@ -28,7 +28,7 @@ describe Game do
     end
 
     context "without status" do
-      let(:game) { build(:game_with_associated_clubs, status: nil) }
+      let(:game) { build(:game, status: nil) }
       subject { game }
 
       it { should_not be_valid }
@@ -38,7 +38,7 @@ describe Game do
     end
 
     context "without week" do
-      let(:game) { build(:game_with_associated_clubs, week: nil) }
+      let(:game) { build(:game, week: nil) }
       subject { game }
 
       it { should_not be_valid }
@@ -49,7 +49,7 @@ describe Game do
     end
 
     context "with not number week" do
-      let(:game) { build(:game_with_associated_clubs, week: 'a') }
+      let(:game) { build(:game, week: 'a') }
       subject { game }
 
       it { should_not be_valid }
@@ -58,7 +58,7 @@ describe Game do
     end
 
     context "with float week" do
-      let(:game) { build(:game_with_associated_clubs, week: '.1') }
+      let(:game) { build(:game, week: '.1') }
       subject { game }
 
       it { should_not be_valid }
@@ -67,7 +67,7 @@ describe Game do
     end
 
     context "with week less than 0" do
-      let(:game) { build(:game_with_associated_clubs, week: -1) }
+      let(:game) { build(:game, week: -1) }
       subject { game }
 
       it { should_not be_valid }
@@ -76,7 +76,7 @@ describe Game do
     end
 
     context "with week more than two dgits" do
-      let(:game) { build(:game_with_associated_clubs, week: 100) }
+      let(:game) { build(:game, week: 100) }
       subject { game }
 
       it { should_not be_valid }
@@ -85,7 +85,7 @@ describe Game do
     end
 
     context "without season" do
-      let(:game) { build(:game_with_associated_clubs, season: nil) }
+      let(:game) { build(:game, season: nil) }
       subject { game }
 
       it { should_not be_valid }
@@ -96,7 +96,7 @@ describe Game do
     end
 
     context "with not number season" do
-      let(:game) { build(:game_with_associated_clubs, season: 'a') }
+      let(:game) { build(:game, season: 'a') }
       subject { game }
 
       it { should_not be_valid }
@@ -106,7 +106,7 @@ describe Game do
     end
 
     context "with float season" do
-      let(:game) { build(:game_with_associated_clubs, season: '1111.1') }
+      let(:game) { build(:game, season: '1111.1') }
       subject { game }
 
       it { should_not be_valid }
@@ -115,7 +115,7 @@ describe Game do
     end
 
     context "with season less than 0" do
-      let(:game) { build(:game_with_associated_clubs, season: -1) }
+      let(:game) { build(:game, season: -1) }
       subject { game }
 
       it { should_not be_valid }
@@ -125,7 +125,7 @@ describe Game do
     end
 
     context "with season less than four digits" do
-      let(:game) { build(:game_with_associated_clubs, season: 100) }
+      let(:game) { build(:game, season: 100) }
       subject { game }
 
       it { should_not be_valid }
@@ -134,7 +134,7 @@ describe Game do
     end
 
     context "with season more than four digits" do
-      let(:game) { build(:game_with_associated_clubs, season: 10000) }
+      let(:game) { build(:game, season: 10000) }
       subject { game }
 
       it { should_not be_valid }
@@ -143,7 +143,8 @@ describe Game do
     end
 
     context "without clubs in same league" do
-      let(:game) { build(:game) }
+      let(:club) { build(:club) }
+      let(:game) { build(:game, club_home: club) }
       subject { game }
 
       it { should_not be_valid }
@@ -154,7 +155,7 @@ describe Game do
     end
 
     context "with same club" do
-      let(:game) { build(:game_with_associated_clubs) }
+      let(:game) { build(:game) }
       before { game.club_away = game.club_home }
       subject { game }
 
