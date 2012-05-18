@@ -11,19 +11,19 @@ FactoryGirl.define do
 
     factory :user_with_facebook do
       after(:create) do |user|
-        FactoryGirl.create(:facebook_provider, :user => user)
+        create(:facebook_provider, :user => user)
       end
     end
 
     factory :user_with_google do
       after(:create) do |user|
-        FactoryGirl.create(:google_provider, :user => user)
+        create(:google_provider, :user => user)
       end
     end
 
     factory :user_with_twitter do
       after(:create) do |user|
-        FactoryGirl.create(:twitter_provider, :user => user)
+        create(:twitter_provider, :user => user)
       end
     end
   end
