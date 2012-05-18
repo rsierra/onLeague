@@ -11,7 +11,7 @@ FactoryGirl.define do
     status Game.status.values.first
 
     factory :game_with_associated_clubs do
-      after_build  do |game|
+      after(:build)  do |game|
         game.club_home.leagues << game.league
         game.club_away.leagues << game.league
       end
