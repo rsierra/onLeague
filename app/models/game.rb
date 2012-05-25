@@ -4,6 +4,8 @@ class Game < ActiveRecord::Base
   belongs_to :club_away, class_name: 'Club'
   has_many :goals
   accepts_nested_attributes_for :goals
+  has_many :cards
+  accepts_nested_attributes_for :cards
 
   extend FriendlyId
   friendly_id :custom_slug, use: :slugged

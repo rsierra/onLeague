@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
   # config.excluded_models = [Admin, OauthProvider, User]
 
   # Add models here if you want to go 'whitelist mode':
-  config.included_models = [User, OauthProvider, League, Club, ClubTranslation, Country, CountryTranslation, Player, ClubFile, Game, Goal]
+  config.included_models = [User, OauthProvider, League, Club, ClubTranslation, Country, CountryTranslation, Player, ClubFile, Game, Goal, Card]
 
   # Application wide tried label methods for models' instances
   # config.label_methods << :description # Default is [:name, :title]
@@ -625,6 +625,7 @@ RailsAdmin.config do |config|
     configure :club_home, :belongs_to_association
     configure :club_away, :belongs_to_association
     configure :goals, :has_many_association
+    configure :cards, :has_many_association
     # Found columns:
     configure :id, :integer
     configure :date, :datetime
@@ -688,6 +689,7 @@ RailsAdmin.config do |config|
     create do; end
     update do
       field :goals
+      field :cards
     end
   end
 
@@ -722,6 +724,59 @@ RailsAdmin.config do |config|
       field :game
 
       filters [:scorer, :assistant, :kind]
+    end
+    show do
+      include_all_fields
+      field :created_at do
+        visible true
+      end
+      field :updated_at do
+        visible true
+      end
+    end
+    edit do
+      field :game do
+        read_only true
+      end
+      include_all_fields
+    end
+    nested do
+      field :game do
+        hide
+      end
+      include_all_fields
+    end
+  end
+
+  config.model Card do
+    object_label_method :title
+
+    parent Game
+    # Found associations:
+    configure :game, :belongs_to_association
+    configure :player, :belongs_to_association
+    # Found columns:
+    configure :id, :integer
+    configure :minute, :integer
+    configure :kind, :enum do
+    # if your model has a method that sends back the options:
+      enum_method do
+        :kind_enum
+      end
+      pretty_value do # used in form list
+        I18n.t("enumerize.card.kind.#{value}")
+      end
+    end
+    configure :created_at, :datetime
+    configure :updated_at, :datetime
+
+    # Sections:
+    list do
+      field :player
+      field :kind
+      field :game
+
+      filters [:player, :kind]
     end
     show do
       include_all_fields

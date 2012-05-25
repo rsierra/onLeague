@@ -1,0 +1,25 @@
+en:
+  activerecord:
+    models:
+      card: Card
+    attributes:
+      card:
+        created_at: Created at
+        game: Game
+        game_id: Game
+        minute: Minute
+        player: Player
+        player_id: Player
+        kind: Kind
+        updated_at: Updated at
+    errors:
+      models:
+        goal:
+          attributes:
+            player:
+              should_play_in_any_club: should play in any club of the game
+  enumerize:
+    card:
+      kind:
+        yellow: Yellow
+        red: Red

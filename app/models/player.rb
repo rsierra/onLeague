@@ -6,6 +6,10 @@ class Player < ActiveRecord::Base
   has_one :club, :through => :file
   has_many :goals, foreign_key: :scorer_id
   has_many :assists, :class_name => 'Goal', foreign_key: :assistant_id
+  has_many :cards
+  has_many :yellow_cards, :conditions => 'red = 0'
+  has_many :red_cards, :conditions => 'red = 1'
+
 
   extend FriendlyId
   friendly_id :name, use: :slugged
