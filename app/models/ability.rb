@@ -22,6 +22,8 @@ class Ability
       can :write, Game
       can :update, Goal
       can :destroy, Goal
+      can :update, Card
+      can :destroy, Card
     end
 
     # Define abilities for the passed in user here. For example:
