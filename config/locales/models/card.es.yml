@@ -1,0 +1,25 @@
+es:
+  activerecord:
+    models:
+      card: Tarjeta
+    attributes:
+      card:
+        created_at: Creado en
+        game: Partido
+        game_id: Partido
+        minute: Minuto
+        player: Jugador
+        player_id: Jugador
+        kind: Tipo
+        updated_at: Actualizado en
+    errors:
+      models:
+        card:
+          attributes:
+            player:
+              should_play_in_any_club: debe jugar en alguno de los equipos del partido
+  enumerize:
+    card:
+      kind:
+        yellow: Amarilla
+        red: Roja
