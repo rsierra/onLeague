@@ -45,6 +45,7 @@ group :development, :test do
   # gem 'ruby-debug19', :require => 'ruby-debug'
 
   gem 'spork', '~> 1.0rc'
+  gem 'acts_as_fu'
 end
 
 group :development do

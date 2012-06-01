@@ -46,6 +46,9 @@ GEM
     activesupport (3.2.1)
       i18n (~> 0.6)
       multi_json (~> 1.0)
+    acts_as_fu (0.0.8)
+      activerecord
+      sqlite3
     addressable (2.2.8)
     arel (3.0.2)
     aws-sdk (1.5.2)
@@ -265,6 +268,7 @@ GEM
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    sqlite3 (1.3.6)
     term-ansicolor (1.0.7)
     therubyracer (0.10.1)
       libv8 (~> 3.3.10)
@@ -295,6 +299,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_fu
   aws-sdk (~> 1.5.1)
   cancan
   coffee-rails (~> 3.2.1)
