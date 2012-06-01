@@ -7,26 +7,8 @@ describe Goal do
       subject { goal }
 
       it { should be_valid }
-    end
-
-    context "without game" do
-      let(:goal) { build(:goal) }
-      before { goal.game = nil }
-      subject { goal }
-
-      it { should_not be_valid }
-      it { should have(1).error_on(:game) }
-      it { goal.error_on(:game).should include I18n.t('errors.messages.blank') }
-    end
-
-    context "without scorer" do
-      let(:goal) { build(:goal, scorer: nil) }
-      subject { goal }
-
-      it { should_not be_valid }
-      it { should have(2).error_on(:scorer) }
-      it { goal.error_on(:scorer).should include I18n.t('errors.messages.blank') }
-      it { goal.error_on(:scorer).should include I18n.t('activerecord.errors.models.goal.attributes.scorer.should_play_in_any_club') }
+      it { goal.class.include?(Extensions::GameEvent).should be_true }
+      its(:player_relation) { should eql :scorer }
     end
 
     context "without minute" do
@@ -74,16 +56,6 @@ describe Goal do
       it { should have(2).error_on(:kind) }
       it { goal.error_on(:kind).should include I18n.t('errors.messages.blank') }
       it { goal.error_on(:kind).should include I18n.t('errors.messages.inclusion') }
-    end
-
-    context "with a scorer who does not play in the game" do
-      let(:scorer) { create(:player) }
-      let(:goal) { build(:goal, scorer: scorer) }
-      subject { goal }
-
-      it { should_not be_valid }
-      it { should have(1).error_on(:scorer) }
-      it { goal.error_on(:scorer).should include I18n.t('activerecord.errors.models.goal.attributes.scorer.should_play_in_any_club') }
     end
 
     context "with a valid assistant" do

@@ -7,26 +7,8 @@ describe Card do
       subject { card }
 
       it { should be_valid }
-    end
-
-    context "without game" do
-      let(:card) { build(:card) }
-      before { card.game = nil }
-      subject { card }
-
-      it { should_not be_valid }
-      it { should have(1).error_on(:game) }
-      it { card.error_on(:game).should include I18n.t('errors.messages.blank') }
-    end
-
-    context "without player" do
-      let(:card) { build(:card, player: nil) }
-      subject { card }
-
-      it { should_not be_valid }
-      it { should have(2).error_on(:player) }
-      it { card.error_on(:player).should include I18n.t('errors.messages.blank') }
-      it { card.error_on(:player).should include I18n.t('activerecord.errors.models.card.attributes.player.should_play_in_any_club') }
+      it { card.class.include?(Extensions::GameEvent).should be_true }
+      its(:player_relation) { should eql :player }
     end
 
     context "without minute" do
@@ -74,16 +56,6 @@ describe Card do
       it { should have(2).error_on(:kind) }
       it { card.error_on(:kind).should include I18n.t('errors.messages.blank') }
       it { card.error_on(:kind).should include I18n.t('errors.messages.inclusion') }
-    end
-
-    context "with a player who does not play in the game" do
-      let(:player) { create(:player) }
-      let(:card) { build(:card, player: player) }
-      subject { card }
-
-      it { should_not be_valid }
-      it { should have(1).error_on(:player) }
-      it { card.error_on(:player).should include I18n.t('activerecord.errors.models.card.attributes.player.should_play_in_any_club') }
     end
   end
 end
