@@ -11,6 +11,7 @@ class Goal < ActiveRecord::Base
                       numericality: { only_integer: true, greater_than_or_equal_to: 0, :less_than_or_equal_to => 130 }
   validates :kind,  presence: true, inclusion: { in: Goal.kind.values }
 
+  validates :assistant, player_in_game: true, unless: "assistant.blank?"
   validate :validate_assistant_clubs, unless: "assistant.blank?"
 
   scope :club, ->(club) { joins(:scorer => :club_files).where(club_files: {club_id: club}) }
@@ -23,10 +24,6 @@ class Goal < ActiveRecord::Base
     "#{self.scorer_file.club_name}, #{self.scorer.name} (#{self.minute}')"
   end
 
-  def assistant_play_in_game?
-    !game.blank? && (game.player_in_club_home?(assistant) || game.player_in_club_away?(assistant))
-  end
-
   def same_player?
     scorer == assistant
   end
@@ -36,7 +33,6 @@ class Goal < ActiveRecord::Base
   end
 
   def validate_assistant_clubs
-    errors.add(:assistant, :should_play_in_any_club) unless assistant_play_in_game?
     errors.add(:assistant, :should_be_in_same_club) unless same_club?
     errors.add(:assistant, :should_be_diferent) if same_player?
   end

@@ -24,6 +24,8 @@ class Ability
       can :destroy, Goal
       can :update, Card
       can :destroy, Card
+      can :update, Substitution
+      can :destroy, Substitution
     end
 
     # Define abilities for the passed in user here. For example:

@@ -6,6 +6,8 @@ class Game < ActiveRecord::Base
   accepts_nested_attributes_for :goals
   has_many :cards
   accepts_nested_attributes_for :cards
+  has_many :substitutions
+  accepts_nested_attributes_for :substitutions
 
   extend FriendlyId
   friendly_id :custom_slug, use: :slugged

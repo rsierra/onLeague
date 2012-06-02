@@ -4,6 +4,7 @@ es:
       game: Partido
     attributes:
       game:
+        cards: Tarjetas
         club_away: Visitante
         club_away_id: Visitante
         club_home: Local
@@ -16,6 +17,7 @@ es:
         name: Nombre
         season: Temporada
         status: Estado
+        substitutions: Cambios
         updated_at: Actualizado en
         week: Jornada
     errors:
