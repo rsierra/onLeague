@@ -8,10 +8,10 @@ es:
         game: Partido
         game_id: Partido
         minute: Minuto
-        player_in: Entra
-        player_in_id: Entra
-        player_out: Sale
-        player_out_id: Sale
+        player_in: Jugador que entra
+        player_in_id: Jugador que entra
+        player_out: Jugador que sale
+        player_out_id: Jugador que sale
         updated_at: Actualizado en
     errors:
       models:
@@ -21,3 +21,5 @@ es:
               should_play_in_any_club: debe jugar en alguno de los equipos del partido
             player_in:
               should_play_in_any_club: debe jugar en alguno de los equipos del partido
+              should_be_diferent: debe ser diferente del jugador que sale
+              should_be_in_same_club: debe estar en el mismo equipo que el jugador que sale
