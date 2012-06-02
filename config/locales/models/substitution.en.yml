@@ -1,0 +1,23 @@
+en:
+  activerecord:
+    models:
+      substitution: Substitution
+    attributes:
+      substitution:
+        created_at: Created at
+        game: Game
+        game_id: Game
+        minute: Minute
+        player_in: Player in
+        player_in_id: Player in
+        player_out: Player out
+        player_out_id: Player out
+        updated_at: Updated at
+    errors:
+      models:
+        substitution:
+          attributes:
+            player_out:
+              should_play_in_any_club: should play in any club of the game
+            player_in:
+              should_play_in_any_club: should play in any club of the game

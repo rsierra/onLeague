@@ -1,0 +1,23 @@
+es:
+  activerecord:
+    models:
+      substitution: Cambios
+    attributes:
+      substitution:
+        created_at: Creado e
+        game: Partido
+        game_id: Partido
+        minute: Minuto
+        player_in: Entra
+        player_in_id: Entra
+        player_out: Sale
+        player_out_id: Sale
+        updated_at: Actualizado en
+    errors:
+      models:
+        substitution:
+          attributes:
+            player_out:
+              should_play_in_any_club: debe jugar en alguno de los equipos del partido
+            player_in:
+              should_play_in_any_club: debe jugar en alguno de los equipos del partido
