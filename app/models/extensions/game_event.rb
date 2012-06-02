@@ -14,19 +14,9 @@ module Extensions
         belongs_to :game
         belongs_to self.player_relation, class_name: 'Player'
 
-        validates :game, self.player_relation, presence: true
-        validate :validate_player
+        validates :game, presence: true
+        validates self.player_relation, presence: true, player_in_game: true
       end
-    end
-
-    def validate_player
-      errors.add(player_relation, :should_play_in_any_club) unless player_play_in_game?
-    end
-
-    private
-
-    def player_play_in_game?
-      !game.blank? && (game.player_in_club_home?(send(player_relation)) || game.player_in_club_away?(send(player_relation)))
     end
   end
 end
