@@ -4,6 +4,7 @@ en:
       game: Game
     attributes:
       game:
+        cards: Cards
         club_away: Away
         club_away_id: Away
         club_home: Home
@@ -16,6 +17,7 @@ en:
         name: Name
         season: Season
         status: Status
+        substitutions: Substitutions
         updated_at: Updated at
         week: Week
     errors:
