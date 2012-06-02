@@ -11,7 +11,7 @@ describe Substitution do
       its(:player_relation) { should eql :player_out }
     end
 
-    context "without player" do
+    context "without player in" do
       let(:substitution) { build(:substitution, player_in: nil) }
       subject { substitution }
 
@@ -21,7 +21,7 @@ describe Substitution do
       it { substitution.error_on(:player_in).should include I18n.t('activerecord.errors.models.substitution.attributes.player_in.should_play_in_any_club') }
     end
 
-    context "with a player who does not play in the game" do
+    context "with a player in who does not play in the game" do
       let(:player_not_play) { create(:player) }
       let(:substitution) { build(:substitution, player_in: player_not_play) }
       subject { substitution }
