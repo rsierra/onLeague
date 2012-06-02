@@ -27,8 +27,9 @@ describe Substitution do
       subject { substitution }
 
       it { should_not be_valid }
-      it { should have(1).error_on(:player_in) }
+      it { should have(2).error_on(:player_in) }
       it { substitution.error_on(:player_in).should include I18n.t('activerecord.errors.models.substitution.attributes.player_in.should_play_in_any_club') }
+      it { substitution.error_on(:player_in).should include I18n.t('activerecord.errors.models.substitution.attributes.player_in.should_be_in_same_club') }
     end
 
     context "without minute" do
@@ -66,6 +67,27 @@ describe Substitution do
       it { should_not be_valid }
       it { should have(1).error_on(:minute) }
       it { substitution.error_on(:minute).should include I18n.t('errors.messages.not_an_integer') }
+    end
+
+    context "with a player in who does not play in the same club than the player out" do
+      let(:substitution) { build(:substitution) }
+      let(:player_in) { create(:player_with_club, player_club: substitution.game.club_away) }
+      before { substitution.player_in = player_in }
+      subject { substitution }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:player_in) }
+      it { substitution.error_on(:player_in).should include I18n.t('activerecord.errors.models.substitution.attributes.player_in.should_be_in_same_club') }
+    end
+
+    context "with the player out as player in" do
+      let(:substitution) { build(:substitution) }
+      before { substitution.player_in = substitution.player_out }
+      subject { substitution }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:player_in) }
+      it { substitution.error_on(:player_in).should include I18n.t('activerecord.errors.models.substitution.attributes.player_in.should_be_diferent') }
     end
   end
 end
