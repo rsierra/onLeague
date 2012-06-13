@@ -5,8 +5,6 @@ class Card < ActiveRecord::Base
   include Enumerize
   enumerize :kind, in: %w(yellow red), default: 'yellow'
 
-  validates :minute,  presence: true,
-                      numericality: { only_integer: true, greater_than_or_equal_to: 0, :less_than_or_equal_to => 130 }
   validates :kind,  presence: true, inclusion: { in: Card.kind.values }
 
   def kind_enum
