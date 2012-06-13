@@ -119,7 +119,8 @@ describe Extensions::GameEvent do
     end
   end
 
-  describe "without second player relation" do
+  describe "with second player relation" do
+    let(:not_play_error_translation_key) { 'activerecord.errors.models.dummy_model.attributes.second_player.should_play_in_any_club' }
     let(:same_club_error_translation_key) { 'activerecord.errors.models.dummy_model.attributes.second_player.should_be_in_same_club' }
     let(:different_player_error_translation_key) { 'activerecord.errors.models.dummy_model.attributes.second_player.should_be_diferent' }
     before(:all) do
@@ -131,6 +132,9 @@ describe Extensions::GameEvent do
         include Extensions::GameEvent
         acts_as_game_event second_player_relation: :second_player
       end
+      I18n.backend.store_translations I18n.locale, activerecord: {
+        errors: { models: { dummy_model: { attributes: { second_player: { should_play_in_any_club: 'Not play error message' } } } } }
+      }
       I18n.backend.store_translations I18n.locale, activerecord: {
         errors: { models: { dummy_model: { attributes: { second_player: { should_be_in_same_club: 'Same club error message' } } } } }
       }
@@ -153,6 +157,17 @@ describe Extensions::GameEvent do
         it { should respond_to(:same_player?) }
         it { should respond_to(:same_club?) }
         it { should respond_to(:validate_player_in_clubs) }
+      end
+
+      context "with a second player who does not play in the game" do
+        let(:player_not_play) { create(:player) }
+        let(:dummy) { DummyModel.new(game: game, player: player, second_player: player_not_play) }
+        subject { dummy }
+
+        it { should_not be_valid }
+        it { should have(2).error_on(:second_player) }
+        it { dummy.error_on(:second_player).should include I18n.t(not_play_error_translation_key) }
+        it { dummy.error_on(:second_player).should include I18n.t(same_club_error_translation_key) }
       end
 
       context "with a second player who does not play in the same club than player" do
