@@ -69,7 +69,7 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 
-gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
+gem 'rails_admin'
 gem 'cancan'
 
 gem 'redis-rails', '~> 3.2.3'
