@@ -7,6 +7,7 @@ describe Extensions::GameEvent do
       build_model :dummy_models do
         integer :game_id
         integer :player_id
+        integer :minute, default: 1
 
         include Extensions::GameEvent
         acts_as_game_event
@@ -59,6 +60,43 @@ describe Extensions::GameEvent do
         it { should have(1).error_on(:player) }
         it { dummy.error_on(:player).should include I18n.t(error_translation_key) }
       end
+
+      context "without minute" do
+        let(:dummy) { DummyModel.new(game: game, player: player, minute: nil) }
+        subject { dummy }
+
+        it { should_not be_valid }
+        it { should have(2).error_on(:minute) }
+        it { dummy.error_on(:minute).should include I18n.t('errors.messages.blank') }
+        it { dummy.error_on(:minute).should include I18n.t('errors.messages.not_a_number') }
+      end
+
+      context "with minute less than 0" do
+        let(:dummy) { DummyModel.new(game: game, player: player, minute: -1) }
+        subject { dummy }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:minute) }
+        it { dummy.error_on(:minute).should include I18n.t('errors.messages.greater_than_or_equal_to', :count => 0) }
+      end
+
+      context "with minute greater than 130" do
+        let(:dummy) { DummyModel.new(game: game, player: player, minute: 131) }
+        subject { dummy }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:minute) }
+        it { dummy.error_on(:minute).should include I18n.t('errors.messages.less_than_or_equal_to', :count => 130) }
+      end
+
+      context "with not integer minute" do
+        let(:dummy) { DummyModel.new(game: game, player: player, minute: 10.1) }
+        subject { dummy }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:minute) }
+        it { dummy.error_on(:minute).should include I18n.t('errors.messages.not_an_integer') }
+      end
     end
   end
 
@@ -68,6 +106,7 @@ describe Extensions::GameEvent do
       build_model :dummy_models do
         integer :game_id
         integer :scorer_id
+        integer :minute, default: 1
 
         include Extensions::GameEvent
         acts_as_game_event player_relation: :scorer
@@ -128,6 +167,7 @@ describe Extensions::GameEvent do
         integer :game_id
         integer :player_id
         integer :second_player_id
+        integer :minute, default: 1
 
         include Extensions::GameEvent
         acts_as_game_event second_player_relation: :second_player
