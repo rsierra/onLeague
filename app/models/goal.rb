@@ -14,6 +14,6 @@ class Goal < ActiveRecord::Base
   end
 
   def title
-    "#{self.scorer_file.club_name}, #{self.scorer.name} (#{self.minute}')"
+    "#{self.player_file.club_name}, #{self.scorer.name} (#{self.minute}')"
   end
 end

@@ -5,6 +5,6 @@ class Substitution < ActiveRecord::Base
   validates :player_in, presence: true
 
   def title
-    "#{self.player_out_file.club_name}, #{self.player_out.name} (#{self.minute}')"
+    "#{self.player_file.club_name}, #{self.player_out.name} (#{self.minute}')"
   end
 end
