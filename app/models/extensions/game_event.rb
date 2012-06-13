@@ -3,16 +3,12 @@ module Extensions
     extend ActiveSupport::Concern
 
     included do
-      class_attribute :player_relation
-      self.player_relation = :player
-      class_attribute :second_player_relation
-      self.second_player_relation = nil
     end
 
     module ClassMethods
       def acts_as_game_event(options = {})
-        self.player_relation = options[:player_relation] unless options[:player_relation].blank?
-        self.second_player_relation = options[:second_player_relation] unless options[:second_player_relation].blank?
+        class_attribute :player_relation
+        self.player_relation = (options[:player_relation] || :player)
 
         belongs_to :game
         validates :game, presence: true
@@ -23,7 +19,10 @@ module Extensions
         validates :minute,  presence: true,
                       numericality: { only_integer: true, greater_than_or_equal_to: 0, :less_than_or_equal_to => 130 }
 
-        unless self.second_player_relation.blank?
+        unless options[:second_player_relation].blank?
+          class_attribute :second_player_relation
+          self.second_player_relation = options[:second_player_relation]
+
           belongs_to self.second_player_relation, class_name: 'Player'
           validates self.second_player_relation, player_in_game: true, unless: "#{self.second_player_relation}.blank?"
           validate :validate_player_in_clubs, unless: "#{self.second_player_relation}.blank?"
