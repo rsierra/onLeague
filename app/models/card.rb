@@ -16,8 +16,4 @@ class Card < ActiveRecord::Base
   def title
     "#{self.player_file.club_name}, #{self.player.name} (#{self.minute}') (#{I18n.t("enumerize.card.kind.#{self.kind}").first})"
   end
-
-  def player_file
-    player.club_files.on(game.end_date_of_week).last
-  end
 end
