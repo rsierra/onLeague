@@ -20,6 +20,9 @@ module Extensions
         belongs_to self.player_relation, class_name: 'Player'
         validates self.player_relation, presence: true, player_in_game: true
 
+        validates :minute,  presence: true,
+                      numericality: { only_integer: true, greater_than_or_equal_to: 0, :less_than_or_equal_to => 130 }
+
         unless self.second_player_relation.blank?
           belongs_to self.second_player_relation, class_name: 'Player'
           validates self.second_player_relation, player_in_game: true, unless: "#{self.second_player_relation}.blank?"
