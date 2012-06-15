@@ -29,6 +29,7 @@ namespace :onleague do
           end
         end
 
+        log.info "\nCountries importation ended with #{errors} errors."
         log.info "\n#{DateTime.now} >> Countries importation process ended"
         log.info "----------------------------------------------------------\n"
 
@@ -86,6 +87,7 @@ eos
           end
         end
 
+        log.info "\nClubs importation ended with #{errors} errors."
         log.info "\n#{DateTime.now} >> Clubs importation process ended"
         log.info "----------------------------------------------------------\n"
 
@@ -130,6 +132,7 @@ eos
           end
         end
 
+        log.info "\nGames importation ended with #{errors} errors."
         log.info "\n#{DateTime.now} >> Games importation process ended"
         log.info "----------------------------------------------------------\n"
 
@@ -172,6 +175,7 @@ eos
           end
         end
 
+        log.info "\nPlayers importation ended with #{errors} errors."
         log.info "\n#{DateTime.now} >> Players importation process ended"
         log.info "----------------------------------------------------------\n"
 
@@ -222,6 +226,7 @@ eos
           end
         end
 
+        log.info "\nClubs importation ended with #{errors} errors."
         log.info "\n#{DateTime.now} >> Club files importation process ended"
         log.info "----------------------------------------------------------\n"
 
