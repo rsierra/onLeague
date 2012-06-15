@@ -249,27 +249,36 @@ eos
 
           if player.blank?
             errors +=1
-            log.info "\nPlayer #{row["scorer"]} not found."
+            log.info "\nScorer #{row["scorer"]} not found."
+            log.info "Row: #{row.to_s.chomp}"
           else
-            assistant = Player.find_by_name(row["assistant"])
-            goal_params = {
-              game_id: row["game_id"],
-              scorer_id: player.id,
-              assistant_id: assistant.blank? ? nil : assistant.id,
-              minute: row["minute"].to_i,
-              kind: row["kind"]
-            }
-            goal = Goal.create goal_params
-            if goal.invalid?
-              errors += 1
-              log.info "\nError in goal creation"
+            assistant_name = row["assistant"]
+            assistant = Player.find_by_name(assistant_name)
+            if !assistant_name.blank? && assistant.blank?
+              errors +=1
+              log.info "\nAssistant #{assistant_name} not found."
               log.info "Row: #{row.to_s.chomp}"
-              log.info "Params: #{goal_params}"
-              goal.errors.full_messages.each { |msg| log.info "\t#{msg}" }
+            else
+              goal_params = {
+                game_id: row["game_id"],
+                scorer_id: player.id,
+                assistant_id: assistant_name.blank? ? nil : assistant.id,
+                minute: row["minute"].to_i,
+                kind: row["kind"]
+              }
+              goal = Goal.create goal_params
+              if goal.invalid?
+                errors += 1
+                log.info "\nError in goal creation"
+                log.info "Row: #{row.to_s.chomp}"
+                log.info "Params: #{goal_params}"
+                goal.errors.full_messages.each { |msg| log.info "\t#{msg}" }
+              end
             end
           end
         end
 
+        log.info "\nGoals importation ended with #{errors} errors."
         log.info "\n#{DateTime.now} >> Goals importation process ended"
         log.info "----------------------------------------------------------\n"
 
@@ -278,6 +287,54 @@ eos
         else
           puts "Goals importation ended with #{errors} errors."
           puts "Take a look on errors in log file 'csv_import_goals.log'."
+        end
+      end
+    end
+
+    desc "Import cards form csv"
+    task :cards, [:file_path] => :environment do |t, args|
+      if args.file_path.blank?
+        puts "This rake task need a valid file path to import."
+        puts "USE: rake onleague:import:cards[file_path]"
+      else
+        log = Logger.new("log/csv_import_cards.log")
+        log.info "\n----------------------------------------------------------"
+        log.info "#{DateTime.now} >> Starting cards importation process"
+        errors = 0
+        CSV.foreach(args.file_path, headers: :first_row) do |row|
+          player = Player.find_by_name(row["player"])
+
+          if player.blank?
+            errors +=1
+            log.info "\nPlayer #{row["player"]} not found."
+            log.info "Row: #{row.to_s.chomp}"
+          else
+            card_params = {
+              game_id: row["game_id"],
+              player_id: player.id,
+              minute: row["minute"].to_i,
+              kind: row["kind"]
+            }
+            card = Card.create card_params
+            if card.invalid?
+              errors += 1
+              log.info "\nError in card creation"
+              log.info "Row: #{row.to_s.chomp}"
+              log.info "Params: #{card_params}"
+              card.errors.full_messages.each { |msg| log.info "\t#{msg}" }
+            end
+          end
+        end
+
+        log.info "\nCards importation ended with #{errors} errors."
+        log.info "\n#{DateTime.now} >> Cards importation process ended"
+        log.info "----------------------------------------------------------\n"
+
+        if errors.zero?
+          puts "Cards importation ended successfully."
+        else
+          puts "Cards importation ended with #{errors} errors."
+          puts "Take a look on errors in log file 'csv_import_cards.log'."
         end
       end
     end
