@@ -281,5 +281,60 @@ eos
         end
       end
     end
+
+    desc "Import substitutions form csv"
+    task :substitutions, [:file_path] => :environment do |t, args|
+      if args.file_path.blank?
+        puts "This rake task need a valid file path to import."
+        puts "USE: rake onleague:import:substitutions[file_path]"
+      else
+        log = Logger.new("log/csv_import_substitutions.log")
+        log.info "\n----------------------------------------------------------"
+        log.info "#{DateTime.now} >> Starting substitutions importation process"
+        errors = 0
+        CSV.foreach(args.file_path, headers: :first_row) do |row|
+          player_out = Player.find_by_name(row["player_out"])
+
+          if player_out.blank?
+            errors +=1
+            log.info "\nPlayer out #{row["player_out"]} not found."
+            log.info "Row: #{row.to_s.chomp}"
+          else
+            player_in = Player.find_by_name(row["player_in"])
+            if player_in.blank?
+              errors +=1
+              log.info "\nPlayer in #{row["player_in"]} not found."
+              log.info "Row: #{row.to_s.chomp}"
+            else
+              substitution_params = {
+                game_id: row["game_id"],
+                player_out_id: player_out.id,
+                player_in_id: player_in.id,
+                minute: row["minute"].to_i
+              }
+              substitution = Substitution.create substitution_params
+              if substitution.invalid?
+                errors += 1
+                log.info "\nError in substitution creation"
+                log.info "Row: #{row.to_s.chomp}"
+                log.info "Params: #{substitution_params}"
+                substitution.errors.full_messages.each { |msg| log.info "\t#{msg}" }
+              end
+            end
+          end
+        end
+
+        log.info "\nSubstitutions importation ended with #{errors} errors."
+        log.info "\n#{DateTime.now} >> Substitutions importation process ended"
+        log.info "----------------------------------------------------------\n"
+
+        if errors.zero?
+          puts "Substitutions importation ended successfully."
+        else
+          puts "Substitutions importation ended with #{errors} errors."
+          puts "Take a look on errors in log file 'csv_import_cards.log'."
+        end
+      end
+    end
   end
 end
