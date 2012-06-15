@@ -6,6 +6,7 @@ class Goal < ActiveRecord::Base
   enumerize :kind, in: %w(regular own penalty penalty_saved penalty_out), default: 'regular'
 
   validates :kind,  presence: true, inclusion: { in: Goal.kind.values }
+  validate :own_goal_assistant, unless: "kind == 'regular'"
 
   scope :club, ->(club) { joins(:scorer => :club_files).where(club_files: {club_id: club}) }
 
@@ -15,5 +16,9 @@ class Goal < ActiveRecord::Base
 
   def title
     "#{self.player_file.club_name}, #{self.scorer.name} (#{self.minute}')"
+  end
+
+  def own_goal_assistant
+    errors.add(:assistant, :should_not_be) unless assistant_id.blank?
   end
 end
