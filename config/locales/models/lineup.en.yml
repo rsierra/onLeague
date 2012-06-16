@@ -1,25 +1,18 @@
 en:
   activerecord:
     models:
-      card: Card
+      lineup: Lineup
     attributes:
-      card:
+      lineup:
         created_at: Created at
         game: Game
         game_id: Game
-        minute: Minute
         player: Player
         player_id: Player
-        kind: Kind
         updated_at: Updated at
     errors:
       models:
-        card:
+        lineup:
           attributes:
             player:
               should_play_in_any_club: should play in any club of the game
-  enumerize:
-    card:
-      kind:
-        yellow: Yellow
-        red: Red

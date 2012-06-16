@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
   # config.excluded_models = [Admin, OauthProvider, User]
 
   # Add models here if you want to go 'whitelist mode':
-  config.included_models = [User, OauthProvider, League, Club, ClubTranslation, Country, CountryTranslation, Player, ClubFile, Game, Goal, Card, Substitution]
+  config.included_models = [User, OauthProvider, League, Club, ClubTranslation, Country, CountryTranslation, Player, ClubFile, Game, Goal, Card, Substitution, Lineup]
 
   # Application wide tried label methods for models' instances
   # config.label_methods << :description # Default is [:name, :title]
@@ -689,6 +689,7 @@ RailsAdmin.config do |config|
     end
     create do; end
     update do
+      field :lineups
       field :goals
       field :cards
       field :substitutions
@@ -824,6 +825,48 @@ RailsAdmin.config do |config|
       field :game
 
       filters [:player_out, :player_in]
+    end
+    show do
+      include_all_fields
+      field :created_at do
+        visible true
+      end
+      field :updated_at do
+        visible true
+      end
+    end
+    edit do
+      field :game do
+        read_only true
+      end
+      include_all_fields
+    end
+    nested do
+      field :game do
+        hide
+      end
+      include_all_fields
+    end
+  end
+
+  config.model Lineup do
+    object_label_method :title
+
+    parent Game
+    # Found associations:
+    configure :game, :belongs_to_association
+    configure :player, :belongs_to_association
+    # Found columns:
+    configure :id, :integer
+    configure :created_at, :datetime
+    configure :updated_at, :datetime
+
+    # Sections:
+    list do
+      field :player
+      field :game
+
+      filters [:player, :game]
     end
     show do
       include_all_fields
