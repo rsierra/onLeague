@@ -14,7 +14,7 @@ en:
         updated_at: Updated at
     errors:
       models:
-        goal:
+        card:
           attributes:
             player:
               should_play_in_any_club: should play in any club of the game
