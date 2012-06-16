@@ -1,0 +1,18 @@
+en:
+  activerecord:
+    models:
+      lineup: Lineup
+    attributes:
+      lineup:
+        created_at: Created at
+        game: Game
+        game_id: Game
+        player: Player
+        player_id: Player
+        updated_at: Updated at
+    errors:
+      models:
+        lineup:
+          attributes:
+            player:
+              should_play_in_any_club: should play in any club of the game
