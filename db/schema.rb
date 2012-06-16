@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120602183107) do
+ActiveRecord::Schema.define(:version => 20120616092804) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -157,6 +157,16 @@ ActiveRecord::Schema.define(:version => 20120602183107) do
     t.datetime "updated_at",                    :null => false
     t.boolean  "active",     :default => false
   end
+
+  create_table "lineups", :force => true do |t|
+    t.integer  "game_id"
+    t.integer  "player_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "lineups", ["game_id"], :name => "index_lineups_on_game_id"
+  add_index "lineups", ["player_id"], :name => "index_lineups_on_player_id"
 
   create_table "oauth_providers", :force => true do |t|
     t.string   "provider"
