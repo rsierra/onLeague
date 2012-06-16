@@ -26,6 +26,8 @@ class Ability
       can :destroy, Card
       can :update, Substitution
       can :destroy, Substitution
+      can :update, Lineup
+      can :destroy, Lineup
     end
 
     # Define abilities for the passed in user here. For example:
