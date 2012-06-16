@@ -2,6 +2,8 @@ class Game < ActiveRecord::Base
   belongs_to :league
   belongs_to :club_home, class_name: 'Club'
   belongs_to :club_away, class_name: 'Club'
+  has_many :lineups
+  accepts_nested_attributes_for :lineups
   has_many :goals
   accepts_nested_attributes_for :goals
   has_many :cards
