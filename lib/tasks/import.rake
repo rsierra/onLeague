@@ -398,5 +398,51 @@ eos
         end
       end
     end
+
+    desc "Import lineups form csv"
+    task :lineups, [:file_path] => :environment do |t, args|
+      if args.file_path.blank?
+        puts "This rake task need a valid file path to import."
+        puts "USE: rake onleague:import:lineups[file_path]"
+      else
+        log = Logger.new("log/csv_import_lineups.log")
+        log.info "\n----------------------------------------------------------"
+        log.info "#{DateTime.now} >> Starting lineups importation process"
+        errors = 0
+        CSV.foreach(args.file_path, headers: :first_row) do |row|
+          player = Player.find_by_name(row["player"])
+
+          if player.blank?
+            errors +=1
+            log.info "\nPlayer #{row["player"]} not found."
+            log.info "Row: #{row.to_s.chomp}"
+          else
+            lineup_params = {
+              game_id: row["game_id"],
+              player_id: player.id
+            }
+            lineup = Lineup.create lineup_params
+            if lineup.invalid?
+              errors += 1
+              log.info "\nError in lineup creation"
+              log.info "Row: #{row.to_s.chomp}"
+              log.info "Params: #{lineup_params}"
+              lineup.errors.full_messages.each { |msg| log.info "\t#{msg}" }
+            end
+          end
+        end
+
+        log.info "\nLineups importation ended with #{errors} errors."
+        log.info "\n#{DateTime.now} >> Lineups importation process ended"
+        log.info "----------------------------------------------------------\n"
+
+        if errors.zero?
+          puts "Lineups importation ended successfully."
+        else
+          puts "Lineups importation ended with #{errors} errors."
+          puts "Take a look on errors in log file 'csv_import_lineups.log'."
+        end
+      end
+    end
   end
 end
