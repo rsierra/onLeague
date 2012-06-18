@@ -14,6 +14,7 @@ es:
         goals: Goles
         league: Liga
         league_id: Liga
+        lineups: Alineaciones
         name: Nombre
         season: Temporada
         status: Estado
