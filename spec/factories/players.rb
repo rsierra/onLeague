@@ -16,5 +16,15 @@ FactoryGirl.define do
         create(:club_file, player: player, club: evaluator.player_club)
       end
     end
+
+    factory :player_in_game do
+      ignore do
+        player_game { create(:game) }
+      end
+      after(:create) do |player, evaluator|
+        create(:club_file, player: player, club: evaluator.player_game.club_home)
+        create(:lineup, game: evaluator.player_game, player: player)
+      end
+    end
   end
 end
