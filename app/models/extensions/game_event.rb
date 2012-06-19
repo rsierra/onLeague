@@ -14,7 +14,7 @@ module Extensions
         validates :game, presence: true
 
         belongs_to self.player_relation, class_name: 'Player'
-        validates self.player_relation, presence: true, player_in_game: true
+        validates self.player_relation, presence: true, player_in_game: true, player_playing: true
 
         validates :minute,  presence: true,
                       numericality: { only_integer: true, greater_than_or_equal_to: 0, :less_than_or_equal_to => 130 }
@@ -43,7 +43,6 @@ module Extensions
 
     def player_file
       event_player.club_files.on(game.end_date_of_week).last
-    end
     end
   end
 
