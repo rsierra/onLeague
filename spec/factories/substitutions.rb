@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :substitution do
     game { create(:game) }
-    player_out { create(:player_with_club, player_club: game.club_home) }
+    player_out { create(:player_in_game, player_game: game) }
     player_in { create(:player_with_club, player_club: game.club_home) }
     minute 1
   end
