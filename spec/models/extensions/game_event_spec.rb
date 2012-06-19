@@ -26,6 +26,8 @@ describe Extensions::GameEvent do
         subject { dummy }
 
         it { should be_valid }
+        it { should respond_to(:event_player) }
+        it { should respond_to(:player_file) }
         it { should_not respond_to(:second_player_file) }
         it { should_not respond_to(:same_player?) }
         it { should_not respond_to(:same_club?) }
@@ -125,6 +127,12 @@ describe Extensions::GameEvent do
         subject { dummy }
 
         it { should be_valid }
+        it { should respond_to(:event_player) }
+        it { should respond_to(:player_file) }
+        it { should_not respond_to(:second_player_file) }
+        it { should_not respond_to(:same_player?) }
+        it { should_not respond_to(:same_club?) }
+        it { should_not respond_to(:validate_player_in_clubs) }
       end
 
       context "without game" do
@@ -193,6 +201,9 @@ describe Extensions::GameEvent do
         subject { dummy }
 
         it { should be_valid }
+        it { should respond_to(:event_player) }
+        it { should respond_to(:player_file) }
+        it { should respond_to(:event_second_player) }
         it { should respond_to(:second_player_file) }
         it { should respond_to(:same_player?) }
         it { should respond_to(:same_club?) }
