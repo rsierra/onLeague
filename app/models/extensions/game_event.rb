@@ -19,6 +19,7 @@ module Extensions
         validates :minute,  presence: true,
                       numericality: { only_integer: true, greater_than_or_equal_to: 0, :less_than_or_equal_to => 130 }
 
+        scope :of, ->(player) { where("#{self.player_relation}_id" => player) }
         scope :before, ->(minute) { where(['minute <= ?', minute]) }
 
         unless options[:second_player_relation].blank?
@@ -28,6 +29,8 @@ module Extensions
           belongs_to self.second_player_relation, class_name: 'Player'
           validates self.second_player_relation, player_in_game: true, unless: "#{self.second_player_relation}.blank?"
           validate :validate_player_in_clubs, unless: "#{self.second_player_relation}.blank?"
+
+          scope :for, ->(player) { where("#{self.second_player_relation}_id" => player) }
 
           include SecondPlayerMethods
         end
