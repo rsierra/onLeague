@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe Extensions::GameEvent do
   describe "with default player relation" do
-    let(:error_translation_key) { 'activerecord.errors.models.dummy_model.attributes.player.should_play_in_any_club' }
+    let(:error_translation_key) { 'activerecord.errors.models.dummy_model.attributes.player' }
+    let(:any_club_error_translation_key) { "#{error_translation_key}.should_play_in_any_club" }
+    let(:playing_error_translation_key) { "#{error_translation_key}.should_be_playing" }
     before(:all) do
       build_model :dummy_models do
         integer :game_id
@@ -19,17 +21,23 @@ describe Extensions::GameEvent do
 
     describe "when exted a model" do
       let(:game) { create(:game) }
-      let(:player) { create(:player_with_club, player_club: game.club_home) }
+      let(:player) { create(:player_in_game, player_game: game) }
+      before { game.lineups.create(player: player) }
 
       context "with correct data" do
         let(:dummy) { DummyModel.new(game: game, player: player) }
         subject { dummy }
 
         it { should be_valid }
+        it { should respond_to(:event_player) }
+        it { should respond_to(:player_file) }
         it { should_not respond_to(:second_player_file) }
         it { should_not respond_to(:same_player?) }
         it { should_not respond_to(:same_club?) }
         it { should_not respond_to(:validate_player_in_clubs) }
+
+        its(:event_player) { should eql player }
+        its(:player_file) { should eql game.club_home.club_files.on(game.date).of(player).last }
       end
 
       context "without game" do
@@ -46,9 +54,10 @@ describe Extensions::GameEvent do
         subject { dummy }
 
         it { should_not be_valid }
-        it { should have(2).error_on(:player) }
+        it { should have(3).error_on(:player) }
         it { dummy.error_on(:player).should include I18n.t('errors.messages.blank') }
-        it { dummy.error_on(:player).should include I18n.t(error_translation_key) }
+        it { dummy.error_on(:player).should include I18n.t(any_club_error_translation_key) }
+        it { dummy.error_on(:player).should include I18n.t(playing_error_translation_key) }
       end
 
       context "with a player who does not play in the game" do
@@ -57,8 +66,9 @@ describe Extensions::GameEvent do
         subject { dummy }
 
         it { should_not be_valid }
-        it { should have(1).error_on(:player) }
-        it { dummy.error_on(:player).should include I18n.t(error_translation_key) }
+        it { should have(2).error_on(:player) }
+        it { dummy.error_on(:player).should include I18n.t(any_club_error_translation_key) }
+        it { dummy.error_on(:player).should include I18n.t(playing_error_translation_key) }
       end
 
       context "without minute" do
@@ -101,7 +111,9 @@ describe Extensions::GameEvent do
   end
 
   describe "without default player relation" do
-    let(:error_translation_key) { 'activerecord.errors.models.dummy_model.attributes.scorer.should_play_in_any_club' }
+    let(:error_translation_key) { 'activerecord.errors.models.dummy_model.attributes.scorer' }
+    let(:any_club_error_translation_key) { "#{error_translation_key}.should_play_in_any_club" }
+    let(:playing_error_translation_key) { "#{error_translation_key}.should_be_playing" }
     before(:all) do
       build_model :dummy_models do
         integer :game_id
@@ -118,13 +130,22 @@ describe Extensions::GameEvent do
 
     describe "when exted a model" do
       let(:game) { create(:game) }
-      let(:player) { create(:player_with_club, player_club: game.club_home) }
+      let(:player) { create(:player_in_game, player_game: game) }
 
       context "with correct data" do
         let(:dummy) { DummyModel.new(game: game, scorer: player) }
         subject { dummy }
 
         it { should be_valid }
+        it { should respond_to(:event_player) }
+        it { should respond_to(:player_file) }
+        it { should_not respond_to(:second_player_file) }
+        it { should_not respond_to(:same_player?) }
+        it { should_not respond_to(:same_club?) }
+        it { should_not respond_to(:validate_player_in_clubs) }
+
+        its(:event_player) { should eql player }
+        its(:player_file) { should eql game.club_home.club_files.on(game.date).of(player).last }
       end
 
       context "without game" do
@@ -141,9 +162,10 @@ describe Extensions::GameEvent do
         subject { dummy }
 
         it { should_not be_valid }
-        it { should have(2).error_on(:scorer) }
+        it { should have(3).error_on(:scorer) }
         it { dummy.error_on(:scorer).should include I18n.t('errors.messages.blank') }
-        it { dummy.error_on(:scorer).should include I18n.t(error_translation_key) }
+        it { dummy.error_on(:scorer).should include I18n.t(any_club_error_translation_key) }
+        it { dummy.error_on(:scorer).should include I18n.t(playing_error_translation_key) }
       end
 
       context "with a player who does not play in the game" do
@@ -152,16 +174,18 @@ describe Extensions::GameEvent do
         subject { dummy }
 
         it { should_not be_valid }
-        it { should have(1).error_on(:scorer) }
-        it { dummy.error_on(:scorer).should include I18n.t(error_translation_key) }
+        it { should have(2).error_on(:scorer) }
+        it { dummy.error_on(:scorer).should include I18n.t(any_club_error_translation_key) }
+        it { dummy.error_on(:scorer).should include I18n.t(playing_error_translation_key) }
       end
     end
   end
 
   describe "with second player relation" do
-    let(:not_play_error_translation_key) { 'activerecord.errors.models.dummy_model.attributes.second_player.should_play_in_any_club' }
-    let(:same_club_error_translation_key) { 'activerecord.errors.models.dummy_model.attributes.second_player.should_be_in_same_club' }
-    let(:different_player_error_translation_key) { 'activerecord.errors.models.dummy_model.attributes.second_player.should_be_diferent' }
+    let(:error_translation_key) { 'activerecord.errors.models.dummy_model.attributes.second_player' }
+    let(:not_play_error_translation_key) { "#{error_translation_key}.should_play_in_any_club" }
+    let(:same_club_error_translation_key) { "#{error_translation_key}.should_be_in_same_club" }
+    let(:different_player_error_translation_key) { "#{error_translation_key}.should_be_diferent" }
     before(:all) do
       build_model :dummy_models do
         integer :game_id
@@ -185,18 +209,28 @@ describe Extensions::GameEvent do
 
     describe "when exted a model" do
       let(:game) { create(:game) }
-      let(:player) { create(:player_with_club, player_club: game.club_home) }
-      let(:second_player) { create(:player_with_club, player_club: game.club_home) }
+      let(:player) { create(:player_in_game, player_game: game) }
+      let(:second_player) { create(:player_in_game, player_game: game) }
 
       context "with correct data" do
         let(:dummy) { DummyModel.new(game: game, player: player, second_player: second_player) }
         subject { dummy }
 
         it { should be_valid }
+        it { should respond_to(:event_player) }
+        it { should respond_to(:player_file) }
+        it { should respond_to(:event_second_player) }
         it { should respond_to(:second_player_file) }
         it { should respond_to(:same_player?) }
         it { should respond_to(:same_club?) }
         it { should respond_to(:validate_player_in_clubs) }
+
+        its(:event_player) { should eql player }
+        its(:player_file) { should eql game.club_home.club_files.on(game.date).of(player).last }
+        its(:event_second_player) { should eql second_player }
+        its(:second_player_file) { should eql game.club_home.club_files.on(game.date).of(second_player).last }
+        its(:same_player?) { should be_false }
+        its(:same_club?) { should be_true }
       end
 
       context "with a second player who does not play in the game" do
@@ -216,6 +250,7 @@ describe Extensions::GameEvent do
         subject { dummy }
 
         it { should_not be_valid }
+        its(:same_club?) { should be_false }
         it { should have(1).error_on(:second_player) }
         it { dummy.error_on(:second_player).should include I18n.t(same_club_error_translation_key) }
       end
@@ -225,6 +260,7 @@ describe Extensions::GameEvent do
         subject { dummy }
 
         it { should_not be_valid }
+        its(:same_player?) { should be_true }
         it { should have(1).error_on(:second_player) }
         it { dummy.error_on(:second_player).should include I18n.t(different_player_error_translation_key) }
       end

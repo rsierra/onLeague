@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :card do
     game { create(:game) }
-    player { create(:player_with_club, player_club: game.club_home) }
+    player { create(:player_in_game, player_game: game) }
 
     minute 1
     kind Card.kind.values.first

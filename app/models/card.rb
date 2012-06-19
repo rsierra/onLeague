@@ -7,6 +7,8 @@ class Card < ActiveRecord::Base
 
   validates :kind,  presence: true, inclusion: { in: Card.kind.values }
 
+  scope :red, where(kind: 'red')
+
   def kind_enum
     Card.kind.values
   end

@@ -19,6 +19,7 @@ en:
           attributes:
             player_out:
               should_play_in_any_club: should play in any club of the game
+              should_be_playing: should be playing in that moment
             player_in:
               should_play_in_any_club: should play in any club of the game
               should_be_diferent: should be diferent from player out

@@ -18,6 +18,7 @@ es:
           attributes:
             player:
               should_play_in_any_club: debe jugar en alguno de los equipos del partido
+              should_be_playing: debe jugar en ese momento
   enumerize:
     card:
       kind:

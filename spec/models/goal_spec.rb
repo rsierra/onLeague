@@ -37,8 +37,9 @@ describe Goal do
       subject { goal }
 
       it { should_not be_valid }
-      it { should have(1).error_on(:assistant) }
+      it { should have(2).error_on(:assistant) }
       it { goal.error_on(:assistant).should include I18n.t('activerecord.errors.models.goal.attributes.assistant.should_not_be') }
+      it { goal.error_on(:assistant).should include I18n.t('activerecord.errors.models.goal.attributes.assistant.should_be_playing') }
     end
   end
 end

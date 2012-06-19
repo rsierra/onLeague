@@ -7,6 +7,7 @@ class Goal < ActiveRecord::Base
 
   validates :kind,  presence: true, inclusion: { in: Goal.kind.values }
   validate :own_goal_assistant, unless: "kind == 'regular'"
+  validates :assistant, player_playing: true, unless: 'assistant.blank?'
 
   scope :club, ->(club) { joins(:scorer => :club_files).where(club_files: {club_id: club}) }
 
