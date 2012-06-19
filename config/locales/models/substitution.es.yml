@@ -19,6 +19,7 @@ es:
           attributes:
             player_out:
               should_play_in_any_club: debe jugar en alguno de los equipos del partido
+              should_be_playing: debe jugar en ese momento
             player_in:
               should_play_in_any_club: debe jugar en alguno de los equipos del partido
               should_be_diferent: debe ser diferente del jugador que sale
