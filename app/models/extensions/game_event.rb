@@ -37,18 +37,27 @@ module Extensions
       end
     end
 
+    def event_player
+      send(self.player_relation)
+    end
+
     def player_file
-      send(self.player_relation).club_files.on(game.end_date_of_week).last
+      event_player.club_files.on(game.end_date_of_week).last
+    end
     end
   end
 
   module SecondPlayerMethods
+    def event_second_player
+      send(self.second_player_relation)
+    end
+
     def second_player_file
-      send(self.second_player_relation).club_files.on(game.end_date_of_week).last
+      event_second_player.club_files.on(game.end_date_of_week).last
     end
 
     def same_player?
-      send(self.second_player_relation) == send(self.player_relation)
+      event_second_player == event_player
     end
 
     def same_club?
