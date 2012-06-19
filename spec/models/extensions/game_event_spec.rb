@@ -32,6 +32,9 @@ describe Extensions::GameEvent do
         it { should_not respond_to(:same_player?) }
         it { should_not respond_to(:same_club?) }
         it { should_not respond_to(:validate_player_in_clubs) }
+
+        its(:event_player) { should eql player }
+        its(:player_file) { should eql game.club_home.club_files.on(game.date).of(player).last }
       end
 
       context "without game" do
@@ -133,6 +136,9 @@ describe Extensions::GameEvent do
         it { should_not respond_to(:same_player?) }
         it { should_not respond_to(:same_club?) }
         it { should_not respond_to(:validate_player_in_clubs) }
+
+        its(:event_player) { should eql player }
+        its(:player_file) { should eql game.club_home.club_files.on(game.date).of(player).last }
       end
 
       context "without game" do
@@ -208,6 +214,13 @@ describe Extensions::GameEvent do
         it { should respond_to(:same_player?) }
         it { should respond_to(:same_club?) }
         it { should respond_to(:validate_player_in_clubs) }
+
+        its(:event_player) { should eql player }
+        its(:player_file) { should eql game.club_home.club_files.on(game.date).of(player).last }
+        its(:event_second_player) { should eql second_player }
+        its(:second_player_file) { should eql game.club_home.club_files.on(game.date).of(second_player).last }
+        its(:same_player?) { should be_false }
+        its(:same_club?) { should be_true }
       end
 
       context "with a second player who does not play in the game" do
@@ -227,6 +240,7 @@ describe Extensions::GameEvent do
         subject { dummy }
 
         it { should_not be_valid }
+        its(:same_club?) { should be_false }
         it { should have(1).error_on(:second_player) }
         it { dummy.error_on(:second_player).should include I18n.t(same_club_error_translation_key) }
       end
@@ -236,6 +250,7 @@ describe Extensions::GameEvent do
         subject { dummy }
 
         it { should_not be_valid }
+        its(:same_player?) { should be_true }
         it { should have(1).error_on(:second_player) }
         it { dummy.error_on(:second_player).should include I18n.t(different_player_error_translation_key) }
       end
