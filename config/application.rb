@@ -56,8 +56,6 @@ module OnLeague
     config.assets.enabled = true
     # For heroku not access the DB or load models when precompiling your assets
     config.assets.initialize_on_precompile = false
-    # Assets for rails_admin
-    config.assets.precompile += ["rails_admin/rails_admin.js", "rails_admin/rails_admin.css", "rails_admin/jquery.colorpicker.js", "rails_admin/jquery.colorpicker.css"]
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'

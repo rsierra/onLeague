@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120412183010) do
+ActiveRecord::Schema.define(:version => 20120616092804) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -30,6 +30,18 @@ ActiveRecord::Schema.define(:version => 20120412183010) do
 
   add_index "admins", ["email"], :name => "index_admins_on_email", :unique => true
   add_index "admins", ["reset_password_token"], :name => "index_admins_on_reset_password_token", :unique => true
+
+  create_table "cards", :force => true do |t|
+    t.integer  "game_id"
+    t.integer  "player_id"
+    t.integer  "minute"
+    t.string   "kind"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "cards", ["game_id"], :name => "index_cards_on_game_id"
+  add_index "cards", ["player_id"], :name => "index_cards_on_player_id"
 
   create_table "club_files", :force => true do |t|
     t.integer  "club_id"
@@ -146,6 +158,16 @@ ActiveRecord::Schema.define(:version => 20120412183010) do
     t.boolean  "active",     :default => false
   end
 
+  create_table "lineups", :force => true do |t|
+    t.integer  "game_id"
+    t.integer  "player_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "lineups", ["game_id"], :name => "index_lineups_on_game_id"
+  add_index "lineups", ["player_id"], :name => "index_lineups_on_player_id"
+
   create_table "oauth_providers", :force => true do |t|
     t.string   "provider"
     t.string   "uid"
@@ -185,6 +207,19 @@ ActiveRecord::Schema.define(:version => 20120412183010) do
   end
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
+
+  create_table "substitutions", :force => true do |t|
+    t.integer  "game_id"
+    t.integer  "player_out_id"
+    t.integer  "player_in_id"
+    t.integer  "minute"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "substitutions", ["game_id"], :name => "index_substitutions_on_game_id"
+  add_index "substitutions", ["player_in_id"], :name => "index_substitutions_on_player_in_id"
+  add_index "substitutions", ["player_out_id"], :name => "index_substitutions_on_player_out_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

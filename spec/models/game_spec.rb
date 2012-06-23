@@ -191,7 +191,7 @@ describe Game do
 
     context "with one away goals" do
       let(:game) { create(:game) }
-      let(:scorer) { create(:player_with_club, player_club: game.club_away) }
+      let(:scorer) { create(:player_in_game_away, player_game: game) }
       let(:goal) { create(:goal, game: game, scorer: scorer) }
       before { goal }
       subject { game }
@@ -203,7 +203,7 @@ describe Game do
 
     context "with away goals" do
       let(:game) { create(:game) }
-      let(:scorer) { create(:player_with_club, player_club: game.club_away) }
+      let(:scorer) { create(:player_in_game_away, player_game: game) }
       let(:goal) { create(:goal, game: game, scorer: scorer) }
       let(:second_goal) { create(:goal, game: game, scorer: scorer) }
       before { goal; second_goal }
@@ -216,8 +216,8 @@ describe Game do
 
     context "with away goals" do
       let(:game) { create(:game) }
-      let(:home_scorer) { create(:player_with_club, player_club: game.club_home) }
-      let(:away_scorer) { create(:player_with_club, player_club: game.club_away) }
+      let(:home_scorer) { create(:player_in_game, player_game: game) }
+      let(:away_scorer) { create(:player_in_game_away, player_game: game) }
       let(:goal) { create(:goal, game: game, scorer: home_scorer) }
       let(:second_goal) { create(:goal, game: game, scorer: home_scorer) }
       let(:third_goal) { create(:goal, game: game, scorer: away_scorer) }

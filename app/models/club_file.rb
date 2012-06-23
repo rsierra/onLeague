@@ -26,6 +26,7 @@ class ClubFile < ActiveRecord::Base
   scope :active, joins(:player).where(players: { active: true })
   scope :current, where(date_out: nil)
   scope :on, ->(date) { where(['(date_in <= ? AND date_out >= ?) OR (date_in <= ? AND date_out IS NULL)',date,date,date]) }
+  scope :of, ->(player) { where(player_id: player) }
 
   def validate_date_out_blank
     errors.add(:date_out, :should_be_blank_in_creation) unless date_out.blank?

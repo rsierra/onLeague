@@ -13,6 +13,7 @@ Spork.prefork do
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
   require 'rspec/autorun'
+  require 'acts_as_fu'
 
   # Requires supporting ruby files with custom matchers and macros, etc,
   # in spec/support/ and its subdirectories.
@@ -49,6 +50,8 @@ Spork.prefork do
       PaperTrail.controller_info = {}
       PaperTrail.whodunnit = nil
     end
+
+    config.include ActsAsFu
   end
 
 end

@@ -20,10 +20,13 @@ es:
           attributes:
             scorer:
               should_play_in_any_club: debe jugar en alguno de los equipos del partido
+              should_be_playing: debe jugar en ese momento
             assistant:
               should_play_in_any_club: debe jugar en alguno de los equipos del partido
               should_be_diferent: debe ser diferente del autor
               should_be_in_same_club: debe estar en el mismo equipo que el autor
+              should_not_be: no debe existir
+              should_be_playing: debe jugar en ese momento
   enumerize:
     goal:
       kind:

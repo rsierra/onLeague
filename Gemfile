@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.1'
+ruby '1.9.3'
+
+gem 'rails', '3.2.6'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -45,6 +47,7 @@ group :development, :test do
   # gem 'ruby-debug19', :require => 'ruby-debug'
 
   gem 'spork', '~> 1.0rc'
+  gem 'acts_as_fu'
 end
 
 group :development do
@@ -68,10 +71,10 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 
-gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
+gem 'rails_admin'
 gem 'cancan'
 
-gem 'redis-rails'
+gem 'redis-rails', '~> 3.2.3'
 
 gem "friendly_id", "~> 4.0.1"
 
