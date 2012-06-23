@@ -4,6 +4,9 @@ rvm:
 # uncomment this line if your project needs to run something other than `rake`:
 # script: bundle exec rspec spec
 
+bundler_args: "--without development"
+before_install:
+  - gem install bundler --pre
 before_script:
   - psql -c 'create database onleague_test;' -U postgres
   - bundle exec rake db:migrate
