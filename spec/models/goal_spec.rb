@@ -42,4 +42,17 @@ describe Goal do
       it { goal.error_on(:assistant).should include I18n.t('activerecord.errors.models.goal.attributes.assistant.should_be_playing') }
     end
   end
+
+  context "when get goals of a club" do
+    let(:game) { create(:game) }
+    let(:home_scorer) { create(:player_in_game, player_game: game) }
+    let(:away_scorer) { create(:player_in_game_away, player_game: game) }
+    let(:home_goal) { create(:goal, game: game, scorer: home_scorer) }
+    let(:away_goal) { create(:goal, game: game, scorer: away_scorer) }
+
+    before { home_goal; away_goal }
+
+    it { Goal.club(game.club_home).should == [home_goal] }
+    it { Goal.club(game.club_away).should == [away_goal] }
+  end
 end
