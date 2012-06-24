@@ -9,7 +9,7 @@ FactoryGirl.define do
     kind Card.kind.values.first
 
     factory :red_card do
-      red kind Card.kind.values.last
+      kind Card.kind.values.last
     end
   end
 end
