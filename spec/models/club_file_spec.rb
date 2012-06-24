@@ -120,7 +120,6 @@ describe ClubFile do
       it { should have(1).error_on(:date_out) }
       it { club_file.error_on(:date_out).should include I18n.t('activerecord.errors.models.club_file.attributes.date_out.should_be_after_in') }
     end
-
   end
 
   describe "with another club_file" do
@@ -187,4 +186,51 @@ describe ClubFile do
     end
   end
 
+  context "when get active" do
+    let(:club_file_active) { create(:club_file) }
+    let(:club_file_inactive) { create(:club_file, player: create(:player, active: false)) }
+
+    before { club_file_active; club_file_inactive }
+
+    it { ClubFile.active.should == [club_file_active] }
+  end
+
+  context "when get current" do
+    let(:current_club_file) { create(:club_file) }
+    let(:not_current_club_file) { create(:club_file) }
+
+    before { current_club_file; not_current_club_file.update_attributes(date_out: Date.today) }
+
+    it { ClubFile.current.should == [current_club_file] }
+  end
+
+  context "when get of a player" do
+    let(:club_file) { create(:club_file) }
+    let(:another_club_file) { create(:club_file) }
+
+    before { club_file; another_club_file }
+
+    it { ClubFile.of(club_file.player).should == [club_file] }
+    it { ClubFile.of(another_club_file.player).should == [another_club_file] }
+  end
+
+  context "when get on a date" do
+    let(:club_file) { create(:club_file, date_in: 5.days.ago ) }
+    let(:second_club_file) { create(:club_file, date_in: 3.days.ago) }
+    let(:third_club_file) { create(:club_file, date_in: 1.day.ago) }
+
+    before do
+      club_file
+      second_club_file.update_attributes(date_out: 1.days.ago)
+      third_club_file
+    end
+
+    it { ClubFile.on(6.days.ago).should be_empty }
+    it { ClubFile.on(5.days.ago).should == [club_file] }
+    it { ClubFile.on(4.days.ago).should == [club_file] }
+    it { ClubFile.on(3.days.ago).should == [club_file, second_club_file] }
+    it { ClubFile.on(2.days.ago).should == [club_file, second_club_file] }
+    it { ClubFile.on(1.days.ago).should == [club_file, second_club_file, third_club_file] }
+    it { ClubFile.on(Date.today).should == [club_file, third_club_file] }
+  end
 end
