@@ -38,6 +38,30 @@ describe Extensions::GameEvent do
 
         its(:event_player) { should eql player }
         its(:player_file) { should eql game.club_home.club_files.on(game.date).of(player).last }
+
+        context "when get elements of a player" do
+          let(:another_player) { create(:player_in_game, player_game: game) }
+          let(:second_dummy) { DummyModel.create(game: game, player: player) }
+          let(:another_dummy) { DummyModel.create(game: game, player: another_player) }
+
+          before { dummy.save; second_dummy; another_dummy }
+
+          it { DummyModel.of(player).should == [dummy, second_dummy] }
+          it { DummyModel.of(another_player).should == [another_dummy] }
+        end
+
+        context "when get elements before a minute" do
+          let(:second_dummy) { DummyModel.create(game: game, player: player, minute: 50) }
+          let(:third_dummy) { DummyModel.create(game: game, player: player, minute: 100) }
+
+          before { dummy.save; second_dummy; third_dummy }
+
+          it { DummyModel.before(25).should == [dummy] }
+          it { DummyModel.before(50).should == [dummy] }
+          it { DummyModel.before(75).should == [dummy, second_dummy] }
+          it { DummyModel.before(100).should == [dummy, second_dummy] }
+          it { DummyModel.before(110).should == [dummy, second_dummy, third_dummy] }
+        end
       end
 
       context "without game" do
@@ -231,6 +255,18 @@ describe Extensions::GameEvent do
         its(:second_player_file) { should eql game.club_home.club_files.on(game.date).of(second_player).last }
         its(:same_player?) { should be_false }
         its(:same_club?) { should be_true }
+
+        context "when get elements for a player" do
+          let(:another_player) { create(:player_in_game, player_game: game) }
+          let(:second_dummy) { DummyModel.create(game: game, player: player, second_player: second_player) }
+          let(:another_dummy) { DummyModel.create(game: game, player: player, second_player: another_player) }
+
+          before { dummy.save; second_dummy; another_dummy }
+
+          it { DummyModel.for(second_player).should == [dummy, second_dummy] }
+          it { DummyModel.for(another_player).should == [another_dummy] }
+          it { DummyModel.for(player).should be_empty }
+        end
       end
 
       context "with a second player who does not play in the game" do
