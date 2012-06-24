@@ -21,4 +21,13 @@ describe Card do
       it { card.error_on(:kind).should include I18n.t('errors.messages.inclusion') }
     end
   end
+
+  context "when get red cards" do
+    let(:card) { create(:card) }
+    let(:red_card) { create(:red_card) }
+
+    before { card; red_card }
+
+    it { Card.red.should == [red_card] }
+  end
 end
