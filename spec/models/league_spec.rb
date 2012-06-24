@@ -114,4 +114,23 @@ describe League do
       it { league.error_on(:season).should include I18n.t('errors.messages.not_an_integer') }
     end
   end
+
+  context "when get active" do
+    let(:league_active) { create(:league) }
+    let(:league_inactive) { create(:league, active: false) }
+
+    before { league_active; league_inactive }
+
+    it { League.active.should == [league_active] }
+  end
+
+  context "when get all except one" do
+    let(:league) { create(:league) }
+    let(:second_league) { create(:league, active: false) }
+
+    before { league; second_league }
+
+    it { League.except(second_league).should == [league] }
+    it { League.except(league).should == [second_league] }
+  end
 end

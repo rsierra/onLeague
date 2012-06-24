@@ -101,4 +101,13 @@ describe Player do
       its(:last_date_out) { should == club_file.date_out }
     end
   end
+
+  context "when get active" do
+    let(:player_active) { create(:player) }
+    let(:player_inactive) { create(:player, active: false) }
+
+    before { player_active; player_inactive }
+
+    it { Player.active.should == [player_active] }
+  end
 end
