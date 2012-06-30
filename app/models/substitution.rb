@@ -2,7 +2,7 @@ class Substitution < ActiveRecord::Base
   include Extensions::GameEvent
   acts_as_game_event player_relation: :player_out, second_player_relation: :player_in
 
-  validates :player_in, presence: true
+  validates :player_in, presence: true, player_not_play_yet: true
 
   def title
     "#{self.player_file.club_name}, #{self.player_out.name} (#{self.minute}')"
