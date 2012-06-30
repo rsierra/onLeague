@@ -17,8 +17,9 @@ describe Substitution do
       subject { substitution }
 
       it { should_not be_valid }
-      it { should have(1).error_on(:player_in) }
+      it { should have(2).error_on(:player_in) }
       it { substitution.error_on(:player_in).should include I18n.t('errors.messages.blank') }
+      it { substitution.error_on(:player_in).should include I18n.t('activerecord.errors.models.substitution.attributes.player_in.should_not_play_yet') }
     end
   end
 end

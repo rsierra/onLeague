@@ -24,3 +24,4 @@ en:
               should_play_in_any_club: should play in any club of the game
               should_be_diferent: should be diferent from player out
               should_be_in_same_club: should be in the same club that player out
+              should_not_play_yet: should not played yet
