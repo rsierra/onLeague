@@ -1,0 +1,21 @@
+en:
+  activerecord:
+    models:
+      player_point: Points
+    attributes:
+      player_point:
+        assists: Assists
+        created_at: Created at
+        game: Game
+        game_id: Game
+        games_played: Games played
+        goals_conceded: Conceded goals
+        goals_scored: Goals
+        lineups: lineups
+        minutes_played: Minutes played
+        player: Player
+        player_id: Player
+        points: Points
+        red_cards: Red cards
+        updated_at: Updated at
+        yellow_cards: Yellow cards
