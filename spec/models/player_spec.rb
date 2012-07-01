@@ -110,4 +110,36 @@ describe Player do
 
     it { Player.active.should == [player_active] }
   end
+
+  context "when update stats" do
+    let(:game) { create(:game) }
+    let(:player) { create(:player) }
+    let(:points) { 1 }
+
+    before { player.update_stats(game.id, points: points) }
+    subject { player.stats.season(game.season).week(game.week).first }
+
+    it { should_not be_nil }
+    its(:points) { should eql points }
+
+    context "and the player already has points" do
+      let(:another_points) { 2 }
+      before { player.update_stats(game.id, points: another_points) }
+      subject { player.stats.season(game.season).week(game.week).first }
+
+      it { player.should have(1).stats }
+      it { should_not be_nil }
+      its(:points) { should eql points + another_points}
+    end
+
+    context "and remove stats" do
+      let(:another_points) { 2 }
+      before { player.remove_stats(game.id, points: another_points) }
+      subject { player.stats.season(game.season).week(game.week).first }
+
+      it { player.should have(1).stats }
+      it { should_not be_nil }
+      its(:points) { should eql points - another_points}
+    end
+  end
 end
