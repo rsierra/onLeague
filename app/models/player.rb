@@ -28,4 +28,18 @@ class Player < ActiveRecord::Base
   def last_date_out
     club_files.maximum(:date_out)
   end
+
+  def update_stats(game_id, new_stats)
+    stat = self.stats.find_or_initialize_by_game_id(game_id)
+    new_stats.each { |key, value|  new_stats[key] = stat[key] + value }
+    stat.update_attributes(new_stats)
+  end
+
+  def remove_stats(game_id, new_stats)
+    stat = self.stats.find_by_game_id(game_id)
+    unless stat.blank?
+      new_stats.each { |key, value|  new_stats[key] = stat[key] - value }
+      stat.update_attributes(new_stats)
+    end
+  end
 end
