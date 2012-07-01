@@ -7,8 +7,8 @@ class Lineup < ActiveRecord::Base
   validates :game, presence: true
   validates :player, presence: true, player_in_game: true
 
-  before_save :update_points, if: 'player_id_changed?'
-  before_destroy :restore_points
+  before_save :update_stats, if: 'player_id_changed?'
+  before_destroy :restore_stats
 
   def title
     "#{self.player_file.club_name}, #{self.player.name}"
@@ -18,12 +18,12 @@ class Lineup < ActiveRecord::Base
     player.club_files.on(game.end_date_of_week).last
   end
 
-  def update_points
+  def update_stats
     Player.find(player_id_was).remove_stats(game.id, STATS) unless player_id_was.blank?
     player.update_stats(game.id, STATS)
   end
 
-  def restore_points
+  def restore_stats
     player.remove_stats(game.id, STATS)
   end
 end
