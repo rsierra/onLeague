@@ -1,5 +1,5 @@
 class Lineup < ActiveRecord::Base
-  STATS = { points: 2, lineups: 1, games_played: 1, minutes_played: 90 }
+  STATS = { points: 2, lineups: 1, games_played: 1, minutes_played: 90 }.freeze
 
   belongs_to :game
   belongs_to :player
