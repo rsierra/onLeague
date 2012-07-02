@@ -1,4 +1,6 @@
 class Player < ActiveRecord::Base
+  MAX_MINUTES = 90
+
   belongs_to :country
 
   has_many :club_files
