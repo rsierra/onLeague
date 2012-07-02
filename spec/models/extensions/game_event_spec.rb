@@ -22,7 +22,6 @@ describe Extensions::GameEvent do
     describe "when exted a model" do
       let(:game) { create(:game) }
       let(:player) { create(:player_in_game, player_game: game) }
-      before { game.lineups.create(player: player) }
 
       context "with correct data" do
         let(:dummy) { DummyModel.new(game: game, player: player) }
