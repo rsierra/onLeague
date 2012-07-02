@@ -38,6 +38,15 @@ describe Lineup do
         its(:games_played) { should be_zero }
         its(:minutes_played) { should be_zero }
       end
+
+      context "and create another with same player" do
+        let(:another_lineup) { build(:lineup, game: lineup.game, player: lineup.player) }
+        subject { another_lineup }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:player_id) }
+        it { another_lineup.error_on(:player_id).should include I18n.t('errors.messages.taken') }
+      end
     end
 
     context "without game" do
@@ -46,8 +55,8 @@ describe Lineup do
       subject { lineup }
 
       it { should_not be_valid }
-      it { should have(1).error_on(:game) }
-      it { lineup.error_on(:game).should include I18n.t('errors.messages.blank') }
+      it { should have(1).error_on(:game_id) }
+      it { lineup.error_on(:game_id).should include I18n.t('errors.messages.blank') }
     end
 
     context "without player" do
