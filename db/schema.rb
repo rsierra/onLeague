@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120616092804) do
+ActiveRecord::Schema.define(:version => 20120630104046) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -180,6 +180,25 @@ ActiveRecord::Schema.define(:version => 20120616092804) do
 
   add_index "oauth_providers", ["uid"], :name => "index_oauth_providers_on_uid"
   add_index "oauth_providers", ["user_id"], :name => "index_oauth_providers_on_user_id"
+
+  create_table "player_stats", :force => true do |t|
+    t.integer  "player_id"
+    t.integer  "game_id"
+    t.integer  "points",         :limit => 2, :default => 0
+    t.integer  "goals_scored",   :limit => 2, :default => 0
+    t.integer  "assists",        :limit => 2, :default => 0
+    t.integer  "goals_conceded", :limit => 2, :default => 0
+    t.integer  "yellow_cards",   :limit => 2, :default => 0
+    t.integer  "red_cards",      :limit => 2, :default => 0
+    t.integer  "lineups",        :limit => 2, :default => 0
+    t.integer  "games_played",   :limit => 2, :default => 0
+    t.integer  "minutes_played", :limit => 2, :default => 0
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+  end
+
+  add_index "player_stats", ["game_id"], :name => "index_player_stats_on_game_id"
+  add_index "player_stats", ["player_id"], :name => "index_player_stats_on_player_id"
 
   create_table "players", :force => true do |t|
     t.string   "name",       :limit => 64

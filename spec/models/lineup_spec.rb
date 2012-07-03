@@ -9,6 +9,44 @@ describe Lineup do
       subject { lineup }
 
       it { should be_valid }
+      its(:player) { should have(1).stats }
+      it { lineup.player.stats.first.points.should eql Lineup::STATS[:points] }
+      it { lineup.player.stats.first.lineups.should eql Lineup::STATS[:lineups] }
+      it { lineup.player.stats.first.games_played.should eql Lineup::STATS[:games_played] }
+      it { lineup.player.stats.first.minutes_played.should eql Lineup::STATS[:minutes_played] }
+
+      context "and update player" do
+        let(:player) { create(:player_with_club, player_club: player_was.club) }
+        let(:player_was) { lineup.player }
+        before {  lineup; player_was; lineup.update_attributes(player: player) }
+
+        it { player_was.stats.season(lineup.game.season).week(lineup.game.week).first.points.should be_zero }
+        it { player_was.stats.season(lineup.game.season).week(lineup.game.week).first.lineups.should be_zero }
+        it { player.stats.season(lineup.game.season).week(lineup.game.week).first.points.should eql Lineup::STATS[:points] }
+        it { player.stats.season(lineup.game.season).week(lineup.game.week).first.lineups.should eql Lineup::STATS[:lineups] }
+        it { player.stats.season(lineup.game.season).week(lineup.game.week).first.games_played.should eql Lineup::STATS[:games_played] }
+        it { player.stats.season(lineup.game.season).week(lineup.game.week).first.minutes_played.should eql Lineup::STATS[:minutes_played] }
+      end
+
+      context "and then destroy" do
+        let(:player) { lineup.player }
+        before {  player; lineup.destroy }
+        subject { player.stats.season(lineup.game.season).week(lineup.game.week).first }
+
+        its(:points) { should be_zero }
+        its(:lineups) { should be_zero }
+        its(:games_played) { should be_zero }
+        its(:minutes_played) { should be_zero }
+      end
+
+      context "and create another with same player" do
+        let(:another_lineup) { build(:lineup, game: lineup.game, player: lineup.player) }
+        subject { another_lineup }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:player_id) }
+        it { another_lineup.error_on(:player_id).should include I18n.t('errors.messages.taken') }
+      end
     end
 
     context "without game" do
@@ -17,8 +55,8 @@ describe Lineup do
       subject { lineup }
 
       it { should_not be_valid }
-      it { should have(1).error_on(:game) }
-      it { lineup.error_on(:game).should include I18n.t('errors.messages.blank') }
+      it { should have(1).error_on(:game_id) }
+      it { lineup.error_on(:game_id).should include I18n.t('errors.messages.blank') }
     end
 
     context "without player" do

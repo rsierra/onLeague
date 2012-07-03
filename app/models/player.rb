@@ -1,4 +1,6 @@
 class Player < ActiveRecord::Base
+  MAX_MINUTES = 90
+
   belongs_to :country
 
   has_many :club_files
@@ -11,6 +13,7 @@ class Player < ActiveRecord::Base
   has_many :red_cards, :class_name => 'Card', :conditions => 'red = 1'
   has_many :substitutions_out, :class_name => 'Substitution', foreign_key: :player_out_id
   has_many :substitutions_in, :class_name => 'Substitution', foreign_key: :player_in_id
+  has_many :stats, :class_name => 'PlayerStat'
 
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -26,5 +29,21 @@ class Player < ActiveRecord::Base
 
   def last_date_out
     club_files.maximum(:date_out)
+  end
+
+  def update_stats(game_id, new_stats)
+    stat = self.stats.find_or_initialize_by_game_id(game_id)
+    updated_stats = {}
+    new_stats.each { |key, value|  updated_stats[key] = stat[key] + value }
+    stat.update_attributes(updated_stats)
+  end
+
+  def remove_stats(game_id, new_stats)
+    stat = self.stats.find_by_game_id(game_id)
+    unless stat.blank?
+      updated_stats = {}
+      new_stats.each { |key, value|  updated_stats[key] = stat[key] - value }
+      stat.update_attributes(updated_stats)
+    end
   end
 end

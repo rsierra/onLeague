@@ -238,4 +238,28 @@ describe Game do
       it { game.player_in_club_away?(player).should_not be_true }
     end
   end
+
+  context "when get games of a week" do
+    let(:game) { create(:game, week: 1) }
+    let(:second_game) { create(:game, week: 1) }
+    let(:third_game) { create(:game, week: 2) }
+
+    before { game; second_game; third_game }
+
+    it { Game.week(1).should == [game, second_game] }
+    it { Game.week(2).should == [third_game] }
+    it { Game.week(3).should be_empty }
+  end
+
+  context "when get games of a season" do
+    let(:game) { create(:game, season: 2001) }
+    let(:second_game) { create(:game, season: 2001) }
+    let(:third_game) { create(:game, season: 2002) }
+
+    before { game; second_game; third_game }
+
+    it { Game.season(2001).should == [game, second_game] }
+    it { Game.season(2002).should == [third_game] }
+    it { Game.season(2003).should be_empty }
+  end
 end

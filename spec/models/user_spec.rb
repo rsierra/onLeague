@@ -69,4 +69,17 @@ describe User do
       it { provider.uname.should == omniauth.info.name }
     end
   end
+
+  context "when get latest" do
+    let(:users) { create_list(:user, 20).sort {|x,y| y.created_at <=> x.created_at } }
+
+    before { users }
+
+    it { User.latest.should == users.first(10) }
+    it { User.latest(1).should == users.first(1) }
+    it { User.latest(5).should == users.first(5) }
+    it { User.latest(15).should == users.first(15) }
+    it { User.latest(20).should == users }
+    it { User.latest(25).should == users }
+  end
 end
