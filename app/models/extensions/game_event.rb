@@ -14,7 +14,8 @@ module Extensions
         validates :game, presence: true
 
         belongs_to self.player_relation, class_name: 'Player'
-        validates self.player_relation, presence: true, player_in_game: true, player_playing: true
+        validates self.player_relation, presence: true, player_in_game: true
+        validates self.player_relation, player_playing: true, if: "#{self.player_relation}_id_changed?"
 
         validates :minute,  presence: true,
                       numericality: { only_integer: true, greater_than_or_equal_to: 0, :less_than_or_equal_to => 130 }
