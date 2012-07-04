@@ -77,10 +77,9 @@ describe Extensions::GameEvent do
         subject { dummy }
 
         it { should_not be_valid }
-        it { should have(3).error_on(:player) }
+        it { should have(2).error_on(:player) }
         it { dummy.error_on(:player).should include I18n.t('errors.messages.blank') }
         it { dummy.error_on(:player).should include I18n.t(any_club_error_translation_key) }
-        it { dummy.error_on(:player).should include I18n.t(playing_error_translation_key) }
       end
 
       context "with a player who does not play in the game" do
@@ -185,10 +184,9 @@ describe Extensions::GameEvent do
         subject { dummy }
 
         it { should_not be_valid }
-        it { should have(3).error_on(:scorer) }
+        it { should have(2).error_on(:scorer) }
         it { dummy.error_on(:scorer).should include I18n.t('errors.messages.blank') }
         it { dummy.error_on(:scorer).should include I18n.t(any_club_error_translation_key) }
-        it { dummy.error_on(:scorer).should include I18n.t(playing_error_translation_key) }
       end
 
       context "with a player who does not play in the game" do
