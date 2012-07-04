@@ -45,6 +45,18 @@ describe Substitution do
         it { player_out_new_stat.minutes_played.should eql substitution.minute }
       end
 
+      context "and update player out and minute" do
+        let(:new_minute) { 2 }
+        let(:player_out_was) { substitution.player_out }
+        let(:player_out_was_stat) { player_out_was.stats.season(substitution.game.season).week(substitution.game.week).first }
+        let(:player_out_new) { create(:player_in_game, player_game: substitution.game) }
+        let(:player_out_new_stat) { player_out_new.stats.season(substitution.game.season).week(substitution.game.week).first }
+        before { substitution; player_out_was; substitution.update_attributes(player_out: player_out_new, minute: new_minute) }
+
+        it { player_out_was_stat.minutes_played.should eql Player::MAX_MINUTES }
+        it { player_out_new_stat.minutes_played.should eql new_minute }
+      end
+
       context "and update player out, player_in and minute" do
         let(:new_minute) { 2 }
         let(:player_in_was) { substitution.player_in }
@@ -69,8 +81,18 @@ describe Substitution do
       subject { substitution }
 
       it { should_not be_valid }
-      it { should have(2).error_on(:player_in) }
+      it { should have(1).error_on(:player_in) }
       it { substitution.error_on(:player_in).should include I18n.t('errors.messages.blank') }
+    end
+
+    context "without player in playing" do
+      let(:game) { create(:game) }
+      let(:player_in_playing) { create(:player_in_game, player_game: game) }
+      let(:substitution) { build(:substitution, game: game, player_in: player_in_playing) }
+      subject { substitution }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:player_in) }
       it { substitution.error_on(:player_in).should include I18n.t('activerecord.errors.models.substitution.attributes.player_in.should_not_play_yet') }
     end
   end

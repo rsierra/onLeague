@@ -4,7 +4,8 @@ class Substitution < ActiveRecord::Base
   include Extensions::GameEvent
   acts_as_game_event player_relation: :player_out, second_player_relation: :player_in
 
-  validates :player_in, presence: true, player_not_play_yet: true
+  validates :player_in, presence: true
+  validates :player_in, player_not_play_yet: true, if: 'player_in_id_changed? '
 
   before_save :update_in_stats, if: 'player_in_id_changed? || minute_changed?'
   before_save :update_out_stats, if: 'player_out_id_changed?  || minute_changed?'
