@@ -9,8 +9,8 @@ class Player < ActiveRecord::Base
   has_many :goals, foreign_key: :scorer_id
   has_many :assists, :class_name => 'Goal', foreign_key: :assistant_id
   has_many :cards
-  has_many :yellow_cards, :class_name => 'Card', :conditions => 'red = 0'
-  has_many :red_cards, :class_name => 'Card', :conditions => 'red = 1'
+  has_many :yellow_cards, :class_name => 'Card', :conditions => "kind = '#{Card.kind.values.first}'"
+  has_many :red_cards, :class_name => 'Card', :conditions => "kind = '#{Card.kind.values.last}'"
   has_many :substitutions_out, :class_name => 'Substitution', foreign_key: :player_out_id
   has_many :substitutions_in, :class_name => 'Substitution', foreign_key: :player_in_id
   has_many :stats, :class_name => 'PlayerStat'
