@@ -10,22 +10,39 @@ describe Lineup do
 
       it { should be_valid }
       its(:player) { should have(1).stats }
-      it { lineup.player.stats.first.points.should eql Lineup::STATS[:points] }
-      it { lineup.player.stats.first.lineups.should eql Lineup::STATS[:lineups] }
-      it { lineup.player.stats.first.games_played.should eql Lineup::STATS[:games_played] }
-      it { lineup.player.stats.first.minutes_played.should eql Lineup::STATS[:minutes_played] }
+
+      context "the player stats" do
+        let(:player_stat) { lineup.player.stats.season(lineup.game.season).week(lineup.game.week).first }
+        subject { player_stat }
+
+        its(:points) { should eql Lineup::STATS[:points] }
+        its(:lineups) { should eql Lineup::STATS[:lineups] }
+        its(:games_played) { should eql Lineup::STATS[:games_played] }
+        its(:minutes_played) { should eql Lineup::STATS[:minutes_played] }
+      end
 
       context "and update player" do
         let(:player) { create(:player_with_club, player_club: player_was.club) }
         let(:player_was) { lineup.player }
         before {  lineup; player_was; lineup.update_attributes(player: player) }
 
-        it { player_was.stats.season(lineup.game.season).week(lineup.game.week).first.points.should be_zero }
-        it { player_was.stats.season(lineup.game.season).week(lineup.game.week).first.lineups.should be_zero }
-        it { player.stats.season(lineup.game.season).week(lineup.game.week).first.points.should eql Lineup::STATS[:points] }
-        it { player.stats.season(lineup.game.season).week(lineup.game.week).first.lineups.should eql Lineup::STATS[:lineups] }
-        it { player.stats.season(lineup.game.season).week(lineup.game.week).first.games_played.should eql Lineup::STATS[:games_played] }
-        it { player.stats.season(lineup.game.season).week(lineup.game.week).first.minutes_played.should eql Lineup::STATS[:minutes_played] }
+        context "the was player" do
+          let(:player_was_stats) { player_was.stats.season(lineup.game.season).week(lineup.game.week).first }
+          subject { player_was_stats }
+
+          its(:points) { should be_zero }
+          its(:lineups) { should be_zero }
+        end
+
+        context "the new player" do
+          let(:player_stats) { player.stats.season(lineup.game.season).week(lineup.game.week).first }
+          subject { player_stats }
+
+          its(:points) { should eql Lineup::STATS[:points] }
+          its(:lineups) { should eql Lineup::STATS[:lineups] }
+          its(:games_played) { should eql Lineup::STATS[:games_played] }
+          its(:minutes_played) { should eql Lineup::STATS[:minutes_played] }
+        end
       end
 
       context "and then destroy" do
