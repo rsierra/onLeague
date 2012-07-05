@@ -30,4 +30,14 @@ describe Card do
 
     it { Card.red.should == [red_card] }
   end
+
+  context "when get cards in a game" do
+    let(:card) { create(:card) }
+    let(:red_card) { create(:red_card) }
+
+    before { card; red_card }
+
+    it { Card.in_game(card.game).should == [card] }
+    it { Card.in_game(red_card.game).should == [red_card] }
+  end
 end
