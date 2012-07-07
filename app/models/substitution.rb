@@ -39,4 +39,14 @@ class Substitution < ActiveRecord::Base
   def restore_out_stats
     player_out.remove_stats(game.id, stats_out)
   end
+
+  private
+
+  def player_in_was
+    Player.find(player_in_id_was)
+  end
+
+  def player_out_was
+    Player.find(player_out_id_was)
+  end
 end
