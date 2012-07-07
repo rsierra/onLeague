@@ -8,7 +8,7 @@ describe PlayerPlayingValidator do
     build_model :dummy_models do
       integer :game_id
       integer :player_id
-      integer :minute, default: 100
+      integer :minute, default: 10
 
       belongs_to :game
       belongs_to :player
