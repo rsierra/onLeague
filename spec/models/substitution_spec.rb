@@ -74,6 +74,30 @@ describe Substitution do
         it { player_in_was_stat.minutes_played.should be_zero }
         it { player_in_new_stat.minutes_played.should eql Player::MAX_MINUTES - new_minute }
       end
+
+      describe "and destroy" do
+        context "the player in stats" do
+          let(:player_in) { substitution.player_in }
+          let(:player_in_stat) { player_in.stats.season(substitution.game.season).week(substitution.game.week).first }
+          before {  player_in; substitution.destroy }
+          subject { player_in_stat }
+
+          its(:points) { should be_zero }
+          its(:games_played) { should be_zero }
+          its(:minutes_played) { should be_zero }
+        end
+
+        context "the player out stats" do
+          let(:player_out) { substitution.player_out }
+          let(:player_out_stat) { player_out.stats.season(substitution.game.season).week(substitution.game.week).first }
+          before {  player_out; substitution.destroy }
+          subject { player_out_stat }
+
+          its(:points) { should eql Lineup::STATS[:points] }
+          its(:games_played) { should eql Lineup::STATS[:games_played] }
+          its(:minutes_played) { should eql Player::MAX_MINUTES }
+        end
+      end
     end
 
     context "without player in" do
