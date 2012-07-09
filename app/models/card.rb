@@ -1,4 +1,8 @@
 class Card < ActiveRecord::Base
+  STATS_YELLOW = { points: -1, yellow_cards: 1 }
+  STATS_RED = { points: -1, yellow_cards: 1, red_cards: 1 }
+  STATS_DIRECT_RED = { points: -3, red_cards: 1 }
+
   include Extensions::GameEvent
   acts_as_game_event
 
@@ -23,19 +27,13 @@ class Card < ActiveRecord::Base
     "#{self.player_file.club_name}, #{self.player.name} (#{self.minute}') (#{I18n.t("enumerize.card.kind.#{self.kind}").first})"
   end
 
-  def red_card_points
-    case player.yellow_cards.in_game(game).count
-      when 0 then -3
-      when 1 then -2
-      else -1
-    end
-  end
-
   def card_stats
     if self.kind.yellow?
-      return { points: -1, yellow_cards: 1 }
+      return STATS_YELLOW
+    elsif self.kind.red?
+      return STATS_RED.merge minutes_played: self.minute - Player::MAX_MINUTES
     else
-      return { points: red_card_points, red_cards: 1 }
+      return STATS_DIRECT_RED.merge minutes_played: self.minute - Player::MAX_MINUTES
     end
   end
 
