@@ -12,6 +12,9 @@ class Card < ActiveRecord::Base
   validates :kind,  presence: true, inclusion: { in: Card.kind.values },
                 uniqueness: { scope: [:player_id, :game_id], message: :should_only_one_kind }
 
+  validate :not_any_red_before, if: '!kind.nil? && kind.yellow?'
+  validate :yellow_before, :not_direct_red_before, if: '!kind.nil? && kind.red?'
+  validate :not_red_before, if: '!kind.nil? && kind.direct_red?'
 
   scope :red, where("kind = 'red' OR kind = 'direct_red'")
   scope :in_game, ->(game) { where(game_id: game) }
@@ -45,4 +48,35 @@ class Card < ActiveRecord::Base
   def restore_stats
     player.remove_stats(game.id, card_stats)
   end
+
+  def yellow_exists?
+    player.yellow_cards.in_game(game_id).exists?
+  end
+
+  def red_exists?
+    player.red_cards.in_game(game_id).exists?
+  end
+
+  def direct_red_exists?
+    player.direct_red_cards.in_game(game_id).exists?
+  end
+
+  private
+
+  def yellow_before
+    errors.add(:kind, :should_exists_yellow_before) unless yellow_exists?
+  end
+
+  def not_red_before
+    errors.add(:kind, :should_not_exist_any_red_before) if red_exists?
+  end
+
+  def not_direct_red_before
+    errors.add(:kind, :should_not_exist_any_red_before) if direct_red_exists?
+  end
+
+  def not_any_red_before
+    errors.add(:kind, :should_not_exist_any_red_before) if red_exists? || direct_red_exists?
+  end
+
 end
