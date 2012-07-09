@@ -7,9 +7,18 @@ FactoryGirl.define do
 
     minute 1
     kind Card.kind.values.first
+  end
 
-    factory :red_card do
-      kind Card.kind.values.last
+  trait :red do
+    minute 2
+    kind Card.kind.values.second
+
+    before(:create) do |card, evaluator|
+      create(:card, player: card.player, game: card.game)
     end
+  end
+
+  trait :direct_red do
+    kind Card.kind.values.last
   end
 end
