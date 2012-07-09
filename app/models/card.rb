@@ -3,11 +3,13 @@ class Card < ActiveRecord::Base
   acts_as_game_event
 
   include Enumerize
-  enumerize :kind, in: %w(yellow red), default: 'yellow'
+  enumerize :kind, in: %w(yellow red direct_red), default: 'yellow'
 
-  validates :kind,  presence: true, inclusion: { in: Card.kind.values }
+  validates :kind,  presence: true, inclusion: { in: Card.kind.values },
+                uniqueness: { scope: [:player_id, :game_id], message: :should_only_one_kind }
 
-  scope :red, where(kind: 'red')
+
+  scope :red, where("kind = 'red' OR kind = 'direct_red'")
   scope :in_game, ->(game) { where(game_id: game) }
 
   before_save :update_stats, if: 'player_id_changed?'
