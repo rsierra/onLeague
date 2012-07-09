@@ -78,7 +78,7 @@ describe Card do
 
   context "when get red cards" do
     let(:card) { create(:card) }
-    let(:red_card) { create(:red_card) }
+    let(:red_card) { create(:card, :red) }
 
     before { card; red_card }
 
@@ -87,11 +87,13 @@ describe Card do
 
   context "when get cards in a game" do
     let(:card) { create(:card) }
-    let(:red_card) { create(:red_card) }
+    let(:red_card) { create(:card, :red) }
+    let(:direct_red_card) { create(:card, :direct_red) }
 
-    before { card; red_card }
+    before { card; red_card; direct_red_card }
 
     it { Card.in_game(card.game).should == [card] }
-    it { Card.in_game(red_card.game).should == [red_card] }
+    it { Card.red.in_game(red_card.game).should == [red_card] }
+    it { Card.in_game(direct_red_card.game).should == [direct_red_card] }
   end
 end
