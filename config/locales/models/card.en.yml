@@ -19,8 +19,13 @@ en:
             player:
               should_play_in_any_club: should play in any club of the game
               should_be_playing: should be playing in that moment
+            kind:
+              only_one_kind_card_per_game_and_player: should be uniq per player and game
+              should_exists_yellow_before: should exists a yellow card before
+              should_not_exist_any_red_before: should not exists any red card before
   enumerize:
     card:
       kind:
         yellow: Yellow
         red: Red
+        direct_red: Direct red
