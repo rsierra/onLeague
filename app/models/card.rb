@@ -18,6 +18,7 @@ class Card < ActiveRecord::Base
 
   scope :red, where("kind = 'red' OR kind = 'direct_red'")
   scope :in_game, ->(game) { where(game_id: game) }
+  scope :exclude_id, ->(id=0) { where('id != ?', id) }
 
   before_save :update_stats, if: 'player_id_changed?'
   before_destroy :restore_stats
@@ -50,15 +51,15 @@ class Card < ActiveRecord::Base
   end
 
   def yellow_exists?
-    player.yellow_cards.in_game(game_id).exists?
+    player.yellow_cards.exclude_id(id || 0).in_game(game_id).before(minute).exists?
   end
 
   def red_exists?
-    player.red_cards.in_game(game_id).exists?
+    player.red_cards.exclude_id(id || 0).in_game(game_id).exists?
   end
 
   def direct_red_exists?
-    player.direct_red_cards.in_game(game_id).exists?
+    player.direct_red_cards.exclude_id(id || 0).in_game(game_id).exists?
   end
 
   private
