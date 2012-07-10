@@ -25,12 +25,12 @@ class Substitution < ActiveRecord::Base
   end
 
   def update_in_stats
-    player_in_was.remove_stats(game.id, stats_in_was) unless player_in_id_was.blank?
-    player_in.update_stats(game.id, stats_in)
+    player_in_was.remove_stats(game_id, stats_in_was) unless player_in_id_was.blank?
+    player_in.update_stats(game_id, stats_in)
   end
 
   def restore_in_stats
-    player_in.remove_stats(game.id, stats_in)
+    player_in.remove_stats(game_id, stats_in)
   end
 
   def stats_out
@@ -42,12 +42,12 @@ class Substitution < ActiveRecord::Base
   end
 
   def update_out_stats
-    player_out_was.remove_stats(game.id, stats_out_was) unless player_out_id_was.blank?
-    player_out.update_stats(game.id, stats_out)
+    player_out_was.remove_stats(game_id, stats_out_was) unless player_out_id_was.blank?
+    player_out.update_stats(game_id, stats_out)
   end
 
   def restore_out_stats
-    player_out.remove_stats(game.id, stats_out)
+    player_out.remove_stats(game_id, stats_out)
   end
 
   private
