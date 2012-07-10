@@ -20,7 +20,7 @@ class Card < ActiveRecord::Base
   scope :in_game, ->(game) { where(game_id: game) }
   scope :exclude_id, ->(id=0) { where('id != ?', id) }
 
-  before_save :update_stats, if: 'player_id_changed?'
+  before_save :update_stats, if: 'player_id_changed? || minute_changed? || kind_changed?'
   before_destroy :restore_stats
 
   def kind_enum
@@ -41,13 +41,25 @@ class Card < ActiveRecord::Base
     end
   end
 
+  def card_stats_was
+    last_kind = kind_was.blank? ? self.kind : self.kind_was
+    last_minute = minute_was.blank? ? self.minute : self.minute_was
+    if last_kind == Card.kind.values.first
+      return STATS_YELLOW
+    elsif last_kind == Card.kind.values.second
+      return STATS_RED.merge minutes_played: last_minute - Player::MAX_MINUTES
+    else
+      return STATS_DIRECT_RED.merge minutes_played: last_minute - Player::MAX_MINUTES
+    end
+  end
+
   def update_stats
-    Player.find(player_id_was).remove_stats(game.id, card_stats) unless player_id_was.blank?
-    player.update_stats(game.id, card_stats)
+    Player.find(player_id_was).remove_stats(game_id, card_stats_was) unless player_id_was.blank?
+    player.update_stats(game_id, card_stats)
   end
 
   def restore_stats
-    player.remove_stats(game.id, card_stats)
+    player.remove_stats(game_id, card_stats)
   end
 
   def yellow_exists?
