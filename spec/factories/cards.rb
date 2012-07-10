@@ -19,6 +19,7 @@ FactoryGirl.define do
   end
 
   trait :direct_red do
+    minute 2
     kind Card.kind.values.last
   end
 end
