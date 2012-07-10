@@ -354,7 +354,7 @@ describe Card do
         context "red card with direct card" do
           let(:yellow_card) { create(:card) }
           let(:direct_red_card) { create(:card, :direct_red, game: yellow_card.game, player: yellow_card.player) }
-          let(:card) { build(:card, kind: 'red', game: yellow_card.game, player: yellow_card.player) }
+          let(:card) { build(:card, kind: 'red', minute: yellow_card.minute + 1, game: yellow_card.game, player: yellow_card.player) }
           before { yellow_card; direct_red_card; card }
           subject { card }
 
@@ -362,15 +362,15 @@ describe Card do
           it { should have(1).error_on(:kind) }
           it { card.error_on(:kind).should include I18n.t(not_exist_any_red_error_translation_key) }
         end
+      end
 
-        context "red card without yellow card" do
-          let(:card) { build(:card, kind: 'red') }
-          subject { card }
+      context "red card without yellow card" do
+        let(:card) { build(:card, kind: 'red') }
+        subject { card }
 
-          it { should_not be_valid }
-          it { should have(1).error_on(:kind) }
-          it { card.error_on(:kind).should include I18n.t(exists_yellow_error_translation_key) }
-        end
+        it { should_not be_valid }
+        it { should have(1).error_on(:kind) }
+        it { card.error_on(:kind).should include I18n.t(exists_yellow_error_translation_key) }
       end
     end
 
