@@ -9,8 +9,9 @@ class Player < ActiveRecord::Base
   has_many :goals, foreign_key: :scorer_id
   has_many :assists, :class_name => 'Goal', foreign_key: :assistant_id
   has_many :cards
-  has_many :yellow_cards, :class_name => 'Card', :conditions => 'red = 0'
-  has_many :red_cards, :class_name => 'Card', :conditions => 'red = 1'
+  has_many :yellow_cards, :class_name => 'Card', :conditions => { kind: 'yellow' }
+  has_many :red_cards, :class_name => 'Card', :conditions => { kind: 'red' }
+  has_many :direct_red_cards, :class_name => 'Card', :conditions => { kind: 'direct_red' }
   has_many :substitutions_out, :class_name => 'Substitution', foreign_key: :player_out_id
   has_many :substitutions_in, :class_name => 'Substitution', foreign_key: :player_in_id
   has_many :stats, :class_name => 'PlayerStat'
@@ -45,5 +46,10 @@ class Player < ActiveRecord::Base
       new_stats.each { |key, value|  updated_stats[key] = stat[key] - value }
       stat.update_attributes(updated_stats)
     end
+  end
+
+  def minutes_played_in_game(game_id)
+    stat = self.stats.select(:minutes_played).in_game(game_id).first
+    stat.blank? ? 0 : stat.minutes_played
   end
 end

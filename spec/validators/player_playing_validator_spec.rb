@@ -8,7 +8,7 @@ describe PlayerPlayingValidator do
     build_model :dummy_models do
       integer :game_id
       integer :player_id
-      integer :minute, default: 100
+      integer :minute, default: 10
 
       belongs_to :game
       belongs_to :player
@@ -41,8 +41,8 @@ describe PlayerPlayingValidator do
 
         it { should be_valid }
 
-        context "and a red card" do
-          before { create(:red_card, game: game, player: player, minute: dummy.minute - 5)}
+        context "and a direct red card" do
+          before { create(:card, :direct_red, game: game, player: player, minute: dummy.minute - 5)}
 
           subject { dummy }
 
@@ -51,8 +51,8 @@ describe PlayerPlayingValidator do
           it { dummy.error_on(:player).should include I18n.t(playing_error_translation_key) }
         end
 
-        context "and before a red card" do
-          before { create(:red_card, game: game, player: player, minute: dummy.minute + 5)}
+        context "and before a direct red card" do
+          before { create(:card, :direct_red, game: game, player: player, minute: dummy.minute + 5)}
 
           subject { dummy }
 
@@ -74,7 +74,7 @@ describe PlayerPlayingValidator do
       context "after a red card" do
         let(:player) { create(:player_in_game, player_game: game) }
 
-        before { create(:red_card, game: game, player: player, minute: dummy.minute - 10)}
+        before { create(:card, :direct_red, game: game, player: player, minute: dummy.minute - 10)}
         subject { dummy }
 
         it { should_not be_valid }
@@ -85,7 +85,7 @@ describe PlayerPlayingValidator do
       context "before a red car" do
         let(:player) { create(:player_in_game, player_game: game) }
 
-        before { create(:red_card, game: game, player: player, minute: dummy.minute + 10)}
+        before { create(:card, :direct_red, game: game, player: player, minute: dummy.minute + 10)}
         subject { dummy }
 
         it { should be_valid }
@@ -110,7 +110,7 @@ describe PlayerPlayingValidator do
         it { should be_valid }
 
         context "and a red card" do
-          before { create(:red_card, game: game, player: player, minute: dummy.minute - 5)}
+          before { create(:card, :direct_red, game: game, player: player, minute: dummy.minute - 5)}
 
           subject { dummy }
 
@@ -120,7 +120,7 @@ describe PlayerPlayingValidator do
         end
 
         context "and before a red card" do
-          before { create(:red_card, game: game, player: player, minute: dummy.minute + 5)}
+          before { create(:card, :direct_red, game: game, player: player, minute: dummy.minute + 5)}
 
           subject { dummy }
 
@@ -142,7 +142,7 @@ describe PlayerPlayingValidator do
       context "after a red card" do
         let(:player) { create(:player_in_game, player_game: game) }
 
-        before { create(:red_card, game: game, player: player, minute: dummy.minute - 10)}
+        before { create(:card, :direct_red, game: game, player: player, minute: dummy.minute - 10)}
         subject { dummy }
 
         it { should_not be_valid }
@@ -153,7 +153,7 @@ describe PlayerPlayingValidator do
       context "before a red car" do
         let(:player) { create(:player_in_game, player_game: game) }
 
-        before { create(:red_card, game: game, player: player, minute: dummy.minute + 10)}
+        before { create(:card, :direct_red, game: game, player: player, minute: dummy.minute + 10)}
         subject { dummy }
 
         it { should be_valid }

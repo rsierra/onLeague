@@ -142,4 +142,23 @@ describe Player do
       its(:points) { should eql points - another_points}
     end
   end
+
+  describe "when get played minutes" do
+    let(:game) { create(:game) }
+
+    context "in a played game" do
+      let(:player) { create(:player_in_game, player_game: game) }
+      subject { player }
+
+      it { player.minutes_played_in_game(game.id).should eql Player::MAX_MINUTES }
+    end
+
+    context "in a not played game" do
+      let(:player) { create(:player) }
+      subject { player }
+
+      it { player.minutes_played_in_game(game.id).should be_zero }
+    end
+  end
+
 end
