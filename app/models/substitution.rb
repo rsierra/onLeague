@@ -16,27 +16,47 @@ class Substitution < ActiveRecord::Base
     "#{self.player_file.club_name}, #{self.player_out.name} (#{self.minute}')"
   end
 
-  def update_in_stats
-    stats_in = STATS_IN.merge minutes_played: Player::MAX_MINUTES - self.minute
-    stats_in_was = STATS_IN.merge minutes_played: Player::MAX_MINUTES - (minute_was.blank? ? self.minute : self.minute_was)
+  def stats_in
+    STATS_IN.merge minutes_played: Player::MAX_MINUTES - self.minute
+  end
 
-    Player.find(player_in_id_was).remove_stats(game.id, stats_in_was) unless player_in_id_was.blank?
-    player_in.update_stats(game.id, stats_in)
+  def stats_in_was
+    STATS_IN.merge minutes_played: Player::MAX_MINUTES - (minute_was.blank? ? self.minute : self.minute_was)
+  end
+
+  def update_in_stats
+    player_in_was.remove_stats(game_id, stats_in_was) unless player_in_id_was.blank?
+    player_in.update_stats(game_id, stats_in)
   end
 
   def restore_in_stats
-    player_in.remove_stats(game.id, stats_in)
+    player_in.remove_stats(game_id, stats_in)
+  end
+
+  def stats_out
+    { minutes_played: self.minute - Player::MAX_MINUTES }
+  end
+
+  def stats_out_was
+    { minutes_played: (minute_was.blank? ? self.minute : self.minute_was) - Player::MAX_MINUTES }
   end
 
   def update_out_stats
-    stats_out = { minutes_played: self.minute - Player::MAX_MINUTES }
-    stats_out_was = { minutes_played: (minute_was.blank? ? self.minute : self.minute_was) - Player::MAX_MINUTES }
-
-    Player.find(player_out_id_was).remove_stats(game.id, stats_out_was) unless player_out_id_was.blank?
-    player_out.update_stats(game.id, stats_out)
+    player_out_was.remove_stats(game_id, stats_out_was) unless player_out_id_was.blank?
+    player_out.update_stats(game_id, stats_out)
   end
 
   def restore_out_stats
-    player_out.remove_stats(game.id, stats_out)
+    player_out.remove_stats(game_id, stats_out)
+  end
+
+  private
+
+  def player_in_was
+    Player.find(player_in_id_was)
+  end
+
+  def player_out_was
+    Player.find(player_out_id_was)
   end
 end

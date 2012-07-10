@@ -8,11 +8,14 @@ class PlayerStat < ActiveRecord::Base
   validates :game_id, presence: true
   validates :points, presence: true, length: { minimum: 1, maximum: 2 },
                   numericality: { only_integer: true, greater_than_or_equal_to: -99, :less_than_or_equal_to => 99 }
-  validates :goals_scored, presence: true, length: { minimum: 1, maximum: 2 },
+  validates :goals_scored, :assists, :goals_conceded, :yellow_cards, :red_cards, presence: true, length: { minimum: 1, maximum: 2 },
                   numericality: { only_integer: true, greater_than_or_equal_to: 0, :less_than_or_equal_to => 99 }
-  validates :games_played, presence: true, length: { is: 1 },
+  validates :lineups, :games_played, presence: true, length: { is: 1 },
                   numericality: { only_integer: true, greater_than_or_equal_to: 0, :less_than_or_equal_to => 1 }
+  validates :minutes_played, presence: true, length: { minimum: 1, maximum: 3 },
+                  numericality: { only_integer: true, greater_than_or_equal_to: 0, :less_than_or_equal_to => 130 }
 
   scope :week, ->(week) { joins(:game).where(games: { week: week }) }
   scope :season, ->(season) { joins(:game).where(games: { season: season }) }
+  scope :in_game, ->(game_id) { where(game_id: game_id) }
 end
