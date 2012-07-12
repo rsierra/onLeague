@@ -16,3 +16,5 @@ es:
           attributes:
             player:
               should_play_in_any_club: debe jugar en alguno de los equipos del partido
+            game:
+              cant_have_more_lineups: no puede tener mas alineaciones para este club
