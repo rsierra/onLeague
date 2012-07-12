@@ -94,6 +94,25 @@ describe Lineup do
       it { should_not be_valid }
       it { should have(1).error_on(:player) }
       it { lineup.error_on(:player).should include I18n.t(error_translation_key) }
+
+  context "when get lineups of a group of playes" do
+    let(:game) { create(:game) }
+    let(:first_player) { create(:player_in_game, player_game: game)}
+    let(:first_lineup) { first_player.lineups.first }
+    let(:second_player) { create(:player_in_game, player_game: game)}
+    let(:second_lineup) { second_player.lineups.first }
+    let(:third_player) { create(:player_in_game, player_game: game)}
+    let(:third_lineup) { third_player.lineups.first }
+
+    before { first_lineup; second_lineup; third_lineup }
+
+    it { Lineup.of_players.should == [] }
+    it { Lineup.of_players([]).should == [] }
+    it { Lineup.of_players(first_player.id).should == [first_lineup] }
+    it { Lineup.of_players(third_player.id).should == [third_lineup] }
+    it { Lineup.of_players([first_player.id, second_player.id]).should == [first_lineup, second_lineup] }
+    it { Lineup.of_players([first_player.id, third_player.id]).should == [first_lineup, third_lineup] }
+  end
     end
   end
 end

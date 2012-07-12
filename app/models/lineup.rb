@@ -7,6 +7,8 @@ class Lineup < ActiveRecord::Base
   validates :game_id, presence: true
   validates :player_id, uniqueness: { scope: :game_id }
   validates :player, presence: true, player_in_game: true
+  scope :of_players, ->(player_ids=[]) { where('player_id IN (?)', player_ids) }
+  scope :exclude_id, ->(id=0) { where('id != ?', id) }
 
   before_save :update_stats, if: 'player_id_changed?'
   before_destroy :restore_stats
