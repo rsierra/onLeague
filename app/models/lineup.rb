@@ -1,4 +1,5 @@
 class Lineup < ActiveRecord::Base
+  MAX_PER_GAME = 11
   STATS = { points: 2, lineups: 1, games_played: 1, minutes_played: 90 }.freeze
 
   belongs_to :game
@@ -7,6 +8,8 @@ class Lineup < ActiveRecord::Base
   validates :game_id, presence: true
   validates :player_id, uniqueness: { scope: :game_id }
   validates :player, presence: true, player_in_game: true
+  validate :max_per_club, unless: 'game_id.blank? || player_id.blank?'
+
   scope :of_players, ->(player_ids=[]) { where('player_id IN (?)', player_ids) }
   scope :exclude_id, ->(id=0) { where('id != ?', id) }
 
@@ -28,5 +31,16 @@ class Lineup < ActiveRecord::Base
 
   def restore_stats
     player.remove_stats(game.id, STATS)
+  end
+
+  def self_club_lineups_count
+    club = player.club_files.on(game.date).first.club
+    game.lineups.exclude_id(id || 0).of_players(club.club_files.on(game.date).select(:player_id).map(&:player_id)).count
+  end
+
+  private
+
+  def max_per_club
+    errors.add(:game,:cant_have_more_lineups) if self_club_lineups_count >= MAX_PER_GAME
   end
 end

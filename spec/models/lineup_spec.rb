@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe Lineup do
   describe "when create" do
-    let(:error_translation_key) { 'activerecord.errors.models.lineup.attributes.player.should_play_in_any_club' }
+    let(:error_translation_key) { 'activerecord.errors.models.lineup.attributes' }
+    let(:play_in_any_club_error_translation_key) { "#{error_translation_key}.player.should_play_in_any_club" }
+    let(:cant_have_more_lineups_error_translation_key) { "#{error_translation_key}.game.cant_have_more_lineups" }
 
     context "with correct data" do
       let(:lineup) { create(:lineup) }
@@ -83,17 +85,32 @@ describe Lineup do
       it { should_not be_valid }
       it { should have(2).error_on(:player) }
       it { lineup.error_on(:player).should include I18n.t('errors.messages.blank') }
-      it { lineup.error_on(:player).should include I18n.t(error_translation_key) }
+      it { lineup.error_on(:player).should include I18n.t(play_in_any_club_error_translation_key) }
     end
 
     context "with a player who does not play in the game" do
-      let(:player_not_play) { create(:player) }
+      let(:player_not_play) { create(:player_with_club) }
       let(:lineup) { build(:lineup, player: player_not_play) }
       subject { lineup }
 
       it { should_not be_valid }
       it { should have(1).error_on(:player) }
-      it { lineup.error_on(:player).should include I18n.t(error_translation_key) }
+      it { lineup.error_on(:player).should include I18n.t(play_in_any_club_error_translation_key) }
+    end
+
+    context "more than max lineups for a game" do
+      let(:game) { create(:game) }
+      let(:players) { create_list(:player_in_game, 11, player_game: game) }
+      let(:player) { create(:player_with_club, player_club: game.club_home) }
+      let(:lineup) { build(:lineup, game: game, player: player) }
+      before { players }
+      subject { lineup }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:game) }
+      it { lineup.error_on(:game).should include I18n.t(cant_have_more_lineups_error_translation_key) }
+    end
+  end
 
   context "when get lineups of a group of playes" do
     let(:game) { create(:game) }
@@ -113,6 +130,33 @@ describe Lineup do
     it { Lineup.of_players([first_player.id, second_player.id]).should == [first_lineup, second_lineup] }
     it { Lineup.of_players([first_player.id, third_player.id]).should == [first_lineup, third_lineup] }
   end
+
+  describe "when get #self_club_lineups_count" do
+    context "before create the first lineup" do
+      let(:lineup) { build(:lineup) }
+      subject { lineup }
+
+      its(:self_club_lineups_count) { should eql 0 }
+    end
+
+    context "after create the first lineup" do
+      let(:lineup) { create(:lineup) }
+      subject { lineup }
+
+      its(:self_club_lineups_count) { should eql 0 }
+    end
+
+    context "with max lineups" do
+      let(:number_of_lineups) { 11 }
+      let(:game) { create(:game) }
+      let(:players) { create_list(:player_in_game, number_of_lineups, player_game: game) }
+      let(:last_lineup) { game.lineups.last }
+      let(:player) { create(:player_with_club, player_club: game.club_home) }
+      let(:new_lineup) { build(:lineup, game: game, player: player) }
+      before { players }
+
+      it { last_lineup.self_club_lineups_count.should eql number_of_lineups-1 }
+      it { new_lineup.self_club_lineups_count.should eql number_of_lineups }
     end
   end
 end
