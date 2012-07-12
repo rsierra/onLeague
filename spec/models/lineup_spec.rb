@@ -109,6 +109,14 @@ describe Lineup do
       it { should_not be_valid }
       it { should have(1).error_on(:game) }
       it { lineup.error_on(:game).should include I18n.t(cant_have_more_lineups_error_translation_key) }
+
+      context "and another in the away team" do
+        let(:player) { create(:player_with_club, player_club: game.club_away) }
+        let(:lineup) { create(:lineup, game: game, player: player) }
+        subject { lineup }
+
+        it { should be_valid }
+      end
     end
   end
 
