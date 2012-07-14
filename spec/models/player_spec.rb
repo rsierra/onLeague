@@ -222,10 +222,10 @@ describe Player do
 
       it { player.league_stats(:points, league).should eql player_stat.points + another_player_stat.points  }
       it { player.league_stats(:goals_scored, league).should eql player_stat.goals_scored + another_player_stat.goals_scored  }
-      it { player.week_stats(:points, league).should eql player_stat.points }
-      it { player.week_stats(:goals_scored, league).should eql player_stat.goals_scored  }
-      it { player.week_stats(:points, league, another_game.season, another_game.week).should eql another_player_stat.points }
-      it { player.week_stats(:goals_scored, league, another_game.season, another_game.week).should eql another_player_stat.goals_scored  }
+      it { player.season_stats(:points, league).should eql player_stat.points }
+      it { player.season_stats(:goals_scored, league).should eql player_stat.goals_scored  }
+      it { player.season_stats(:points, league, another_game.season).should eql another_player_stat.points }
+      it { player.season_stats(:goals_scored, league, another_game.season).should eql another_player_stat.goals_scored  }
     end
 
     context "with games in diferent weeks" do
