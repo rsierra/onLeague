@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe Substitution do
   describe "when create" do
+    let(:error_translation_key) { 'activerecord.errors.models.substitution.attributes' }
+    let(:not_play_yet_error_translation_key) { "#{error_translation_key}.player_in.should_not_play_yet" }
+    let(:cant_have_more_substitutions_error_translation_key) { "#{error_translation_key}.game.cant_have_more_substitutions" }
+
     context "with correct data" do
       let(:substitution) { create(:substitution) }
       subject { substitution }
@@ -173,7 +177,32 @@ describe Substitution do
 
       it { should_not be_valid }
       it { should have(1).error_on(:player_in) }
-      it { substitution.error_on(:player_in).should include I18n.t('activerecord.errors.models.substitution.attributes.player_in.should_not_play_yet') }
+      it { substitution.error_on(:player_in).should include I18n.t(not_play_yet_error_translation_key) }
     end
+
+    context "more than max substitutions for a game" do
+      let(:max_substitutions) { Substitution::MAX_PER_GAME }
+      let(:game) { create(:game) }
+      let(:players_out) { create_list(:player_in_game, max_substitutions + 1, player_game: game) }
+      let(:players_in) { create_list(:player_with_club, max_substitutions + 1, player_club: game.club_home) }
+      let(:substitution) { build(:substitution, game: game, player_out: players_out.last, player_in: players_in.last) }
+      before do
+        (0..max_substitutions-1).each { |n| create(:substitution, game: game, player_in: players_in[n], player_out: players_out[n]) }
+      end
+      subject { substitution }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:game) }
+      it { substitution.error_on(:game).should include I18n.t(cant_have_more_substitutions_error_translation_key) }
+
+      context "and another in the away team" do
+        let(:player_in) { create(:player_with_club, player_club: game.club_away) }
+        let(:player_out) { create(:player_in_game_away, player_game: game) }
+        let(:substitution) { create(:substitution, game: game, player_out: player_out, player_in: player_in) }
+        subject { substitution }
+
+        it { should be_valid }
+      end
+  end
   end
 end

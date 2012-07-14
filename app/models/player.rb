@@ -53,4 +53,9 @@ class Player < ActiveRecord::Base
     stat = self.stats.select(:minutes_played).in_game(game_id).first
     stat.blank? ? 0 : stat.minutes_played
   end
+
+  def club_on_date(date=Date.today)
+    club_file = club_files.on(date).first
+    club_file.blank? ? nil : club_file.club
+  end
 end

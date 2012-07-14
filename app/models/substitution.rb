@@ -1,4 +1,5 @@
 class Substitution < ActiveRecord::Base
+  MAX_PER_GAME =3
   STATS_IN = { points: 1, games_played: 1 }.freeze
 
   include Extensions::GameEvent
@@ -6,6 +7,10 @@ class Substitution < ActiveRecord::Base
 
   validates :player_in, presence: true
   validates :player_in, player_not_play_yet: true, if: 'player_in_id_changed? '
+  validate :max_per_club, unless: 'game_id.blank? || player_out.blank?'
+
+  scope :of_players_out, ->(player_out_ids=[]) { where('player_out_id IN (?)', player_out_ids) }
+  scope :exclude_id, ->(id=0) { where('id != ?', id) }
 
   before_save :update_in_stats, if: 'player_in_id_changed? || minute_changed?'
   before_save :update_out_stats, if: 'player_out_id_changed?  || minute_changed?'
@@ -50,6 +55,11 @@ class Substitution < ActiveRecord::Base
     player_out.remove_stats(game_id, stats_out)
   end
 
+  def self_club_substitutions_count
+    club = player_out.club_on_date(game.date)
+    club.blank? ? 0 : game.substitutions.exclude_id(id || 0).of_players_out(club.player_ids_on_date(game.date)).count
+  end
+
   private
 
   def player_in_was
@@ -58,5 +68,9 @@ class Substitution < ActiveRecord::Base
 
   def player_out_was
     Player.find(player_out_id_was)
+  end
+
+  def max_per_club
+    errors.add(:game, :cant_have_more_substitutions) if self_club_substitutions_count >= MAX_PER_GAME
   end
 end
