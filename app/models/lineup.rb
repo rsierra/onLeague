@@ -34,8 +34,8 @@ class Lineup < ActiveRecord::Base
   end
 
   def self_club_lineups_count
-    club = player.club_files.on(game.date).first.club
-    game.lineups.exclude_id(id || 0).of_players(club.club_files.on(game.date).select(:player_id).map(&:player_id)).count
+    club = player.club_on_date(game.date)
+    club.blank? ? 0 : game.lineups.exclude_id(id || 0).of_players(club.player_ids_on_date(game.date)).count
   end
 
   private
