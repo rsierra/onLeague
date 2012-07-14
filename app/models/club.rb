@@ -41,6 +41,10 @@ class Club < ActiveRecord::Base
 
   after_create :default_values
 
+  def player_ids_on_date(date=Date.today)
+    club_files.on(date).order(:player_id).select(:player_id).map(&:player_id)
+  end
+
   private
 
   def default_values
