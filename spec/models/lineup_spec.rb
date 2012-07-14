@@ -100,7 +100,7 @@ describe Lineup do
 
     context "more than max lineups for a game" do
       let(:game) { create(:game) }
-      let(:players) { create_list(:player_in_game, 11, player_game: game) }
+      let(:players) { create_list(:player_in_game, Lineup::MAX_PER_GAME, player_game: game) }
       let(:player) { create(:player_with_club, player_club: game.club_home) }
       let(:lineup) { build(:lineup, game: game, player: player) }
       before { players }
@@ -155,7 +155,7 @@ describe Lineup do
     end
 
     context "with max lineups" do
-      let(:number_of_lineups) { 11 }
+      let(:number_of_lineups) { Lineup::MAX_PER_GAME }
       let(:game) { create(:game) }
       let(:players) { create_list(:player_in_game, number_of_lineups, player_game: game) }
       let(:last_lineup) { game.lineups.last }
