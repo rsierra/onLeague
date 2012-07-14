@@ -161,4 +161,36 @@ describe Player do
     end
   end
 
+  describe "when get #club_on_date" do
+    let(:club) { create(:club) }
+    let(:player) { create(:player) }
+    let(:date_in) { Date.yesterday }
+    let(:club_file) { create(:club_file, player: player, club: club, date_in: date_in) }
+    before { club_file }
+
+    it { player.club_on_date.should eql club }
+    it { player.club_on_date(date_in - 1.day).should be_nil }
+    it { player.club_on_date(date_in).should eql club }
+    it { player.club_on_date(date_in + 1.day).should eql club }
+
+    context "and player changed club" do
+      let(:new_club) { create(:club) }
+      let(:date_out) { date_in + 1.week }
+      let(:new_date_in) { date_out + 1.day }
+      let(:new_date_out) { new_date_in + 1.week }
+      let(:new_club_file) { create(:club_file, player: player, club: new_club, date_in: new_date_in) }
+      before do
+       club_file.update_attributes(date_out: date_out)
+       new_club_file.update_attributes(date_out: new_date_out)
+      end
+
+      it { player.club_on_date(new_date_in - 1.day).should eql club }
+      it { player.club_on_date(new_date_in).should eql new_club }
+      it { player.club_on_date(new_date_in + 1.day).should eql new_club }
+      it { player.club_on_date(new_date_out - 1.day).should eql new_club }
+      it { player.club_on_date(new_date_out).should eql new_club }
+      it { player.club_on_date(new_date_out + 1.day).should be_nil }
+    end
+  end
+
 end
