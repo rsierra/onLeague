@@ -193,4 +193,53 @@ describe Player do
     end
   end
 
+  describe "when get stats" do
+    let(:player) { create(:player_with_club) }
+    let(:player_stat) { create(:player_stat, player: player) }
+    let(:league) { player_stat.game.league }
+    let(:another_league) { create(:league) }
+    before { player_stat }
+
+    it { player.league_stats(:points, another_league).should be_zero  }
+    it { player.league_stats(:goals_scored, another_league).should be_zero  }
+    it { player.season_stats(:points, another_league).should be_zero  }
+    it { player.season_stats(:goals_scored, another_league).should be_zero  }
+    it { player.week_stats(:points, another_league).should be_zero  }
+    it { player.week_stats(:goals_scored, another_league).should be_zero  }
+
+    it { player.league_stats(:points, league).should eql player_stat.points  }
+    it { player.league_stats(:goals_scored, league).should eql player_stat.goals_scored  }
+    it { player.season_stats(:points, league).should eql player_stat.points }
+    it { player.season_stats(:goals_scored, league).should eql player_stat.goals_scored  }
+    it { player.week_stats(:points, league).should eql player_stat.points  }
+    it { player.week_stats(:goals_scored, league).should eql player_stat.goals_scored  }
+
+    context "with games in diferent seasons" do
+      let(:another_game) { create(:game, league: league, season: league.season + 1, week: league.week)}
+      let(:another_player_stat) { create(:player_stat, player: player, game: another_game) }
+      before { another_player_stat }
+      subject { player }
+
+      it { player.league_stats(:points, league).should eql player_stat.points + another_player_stat.points  }
+      it { player.league_stats(:goals_scored, league).should eql player_stat.goals_scored + another_player_stat.goals_scored  }
+      it { player.week_stats(:points, league).should eql player_stat.points }
+      it { player.week_stats(:goals_scored, league).should eql player_stat.goals_scored  }
+      it { player.week_stats(:points, league, another_game.season, another_game.week).should eql another_player_stat.points }
+      it { player.week_stats(:goals_scored, league, another_game.season, another_game.week).should eql another_player_stat.goals_scored  }
+    end
+
+    context "with games in diferent weeks" do
+      let(:another_game) { create(:game, league: league, season: league.season, week: league.week + 1)}
+      let(:another_player_stat) { create(:player_stat, player: player, game: another_game) }
+      before { another_player_stat }
+      subject { player }
+
+      it { player.league_stats(:points, league).should eql player_stat.points + another_player_stat.points  }
+      it { player.league_stats(:goals_scored, league).should eql player_stat.goals_scored + another_player_stat.goals_scored  }
+      it { player.week_stats(:points, league).should eql player_stat.points }
+      it { player.week_stats(:goals_scored, league).should eql player_stat.goals_scored  }
+      it { player.week_stats(:points, league, another_game.season, another_game.week).should eql another_player_stat.points }
+      it { player.week_stats(:goals_scored, league, another_game.season, another_game.week).should eql another_player_stat.goals_scored  }
+    end
+  end
 end

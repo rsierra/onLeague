@@ -58,4 +58,16 @@ class Player < ActiveRecord::Base
     club_file = club_files.on(date).first
     club_file.blank? ? nil : club_file.club
   end
+
+  def league_stats(stat,league)
+    stats.in_league(league).sum(stat)
+  end
+
+  def season_stats(stat,league, season=league.season)
+    stats.in_league(league).season(season).sum(stat)
+  end
+
+  def week_stats(stat,league, season=league.season, week=league.week)
+    stats.in_league(league).season(season).week(week).sum(stat)
+  end
 end
