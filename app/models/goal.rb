@@ -1,4 +1,6 @@
 class Goal < ActiveRecord::Base
+  ASSIST_STAT = { points: 1, assists: 1 }.freeze
+
   include Extensions::GameEvent
   acts_as_game_event player_relation: :scorer, second_player_relation: :assistant
 
@@ -12,6 +14,7 @@ class Goal < ActiveRecord::Base
   scope :club, ->(club) { joins(:scorer => :club_files).where(club_files: {club_id: club}) }
 
   before_save :update_scorer_stats, if: 'scorer_id_changed? || kind_changed?'
+  before_save :update_assistant_stats, if: 'assistant_id_changed?'
   before_destroy :restore_stats
 
   def kind_enum
@@ -50,7 +53,17 @@ class Goal < ActiveRecord::Base
     Player.find(scorer_id_was).remove_stats(game_id, scorer_stats_was) unless scorer_id_was.blank?
     scorer.update_stats(game_id, scorer_stats)
   end
+
+  def assistant_stats
+    ASSIST_STAT
+  end
+
+  def update_assistant_stats
+    Player.find(assistant_id_was).remove_stats(game_id, assistant_stats_was) unless assistant_id_was.blank?
+    assistant.update_stats(game_id, assistant_stats) unless assistant_id.blank?
+  end
   def restore_stats
     scorer.remove_stats(game_id, scorer_stats)
+    assistant.remove_stats(game_id, assistant_stats) unless assistant.blank?
   end
 end
