@@ -59,6 +59,11 @@ class Player < ActiveRecord::Base
     club_file.blank? ? nil : club_file.club
   end
 
+  def position_on_date(date=Date.today)
+    club_file = club_files.on(date).first
+    club_file.blank? ? nil : club_file.version_at(date).position
+  end
+
   def league_stats(stat,league)
     stats.in_league(league).sum(stat)
   end
