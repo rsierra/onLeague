@@ -10,7 +10,9 @@ class Substitution < ActiveRecord::Base
   validate :max_per_club, unless: 'game_id.blank? || player_out.blank?'
 
   scope :of_players_out, ->(player_out_ids=[]) { where('player_out_id IN (?)', player_out_ids) }
+  scope :of_players_in, ->(player_in_ids=[]) { where('player_in_id IN (?)', player_in_ids) }
   scope :exclude_id, ->(id=0) { where('id != ?', id) }
+  scope :in_game, ->(game) { where(game_id: game) }
 
   before_save :update_in_stats, if: 'player_in_id_changed? || minute_changed?'
   before_save :update_out_stats, if: 'player_out_id_changed?  || minute_changed?'
