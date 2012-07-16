@@ -45,6 +45,10 @@ class Club < ActiveRecord::Base
     club_files.on(date).order(:player_id).select(:player_id).map(&:player_id)
   end
 
+  def player_ids_in_position_on_date(position=ClubFile.position.values.first, date=Date.today)
+    club_files.on(date).order(:player_id).where(position: position).select(:player_id).map(&:player_id)
+  end
+
   private
 
   def default_values
