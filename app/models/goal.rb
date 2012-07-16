@@ -1,6 +1,10 @@
 class Goal < ActiveRecord::Base
   ASSIST_STAT = { points: 1, assists: 1 }.freeze
 
+  belongs_to :goalkeeper, class_name: 'Player'
+  validates :goalkeeper, player_in_game: true, unless: "goalkeeper.blank?"
+  validates :goalkeeper, player_playing: true, if: "goalkeeper_id_changed? && !goalkeeper.blank?"
+
   include Extensions::GameEvent
   acts_as_game_event player_relation: :scorer, second_player_relation: :assistant
 
