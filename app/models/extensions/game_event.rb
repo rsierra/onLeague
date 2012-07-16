@@ -21,7 +21,7 @@ module Extensions
                       numericality: { only_integer: true, greater_than_or_equal_to: 0, :less_than_or_equal_to => 130 }
 
         scope :of, ->(player) { where("#{self.player_relation}_id" => player) }
-        scope :before, ->(minute) { where(['minute < ?', minute]) }
+        scope :before, ->(minute) { order(:minute).where(['minute < ?', minute]) }
 
         unless options[:second_player_relation].blank?
           class_attribute :second_player_relation

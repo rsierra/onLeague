@@ -747,6 +747,12 @@ RailsAdmin.config do |config|
       field :game do
         hide
       end
+      field :goalkeeper do
+        read_only true
+        visible do
+          !bindings[:object].new_record?
+        end
+      end
       include_all_fields
     end
   end

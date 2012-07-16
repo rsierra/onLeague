@@ -1,5 +1,10 @@
 class Goal < ActiveRecord::Base
   ASSIST_STAT = { points: 1, assists: 1 }.freeze
+  CONCEDED_STAT = { points: -1, goals_conceded: 1 }.freeze
+
+  belongs_to :goalkeeper, class_name: 'Player'
+  validates :goalkeeper, player_in_game: true, unless: "goalkeeper.blank?"
+  validates :goalkeeper, player_playing: true, if: "goalkeeper_id_changed? && !goalkeeper.blank?"
 
   include Extensions::GameEvent
   acts_as_game_event player_relation: :scorer, second_player_relation: :assistant
@@ -13,8 +18,10 @@ class Goal < ActiveRecord::Base
 
   scope :club, ->(club) { joins(:scorer => :club_files).where(club_files: {club_id: club}) }
 
+  before_validation :goalkeeper_association, if: 'minute_changed? && !minute.blank? && !kind.blank? && !scorer.blank?'
   before_save :update_scorer_stats, if: 'scorer_id_changed? || kind_changed?'
   before_save :update_assistant_stats, if: 'assistant_id_changed?'
+  before_save :update_goalkeeper_stats, if: 'goalkeeper_id_changed? || kind_changed?'
   before_destroy :restore_stats
 
   def kind_enum
@@ -59,11 +66,45 @@ class Goal < ActiveRecord::Base
   end
 
   def update_assistant_stats
-    Player.find(assistant_id_was).remove_stats(game_id, assistant_stats_was) unless assistant_id_was.blank?
+    Player.find(assistant_id_was).remove_stats(game_id, assistant_stats) unless assistant_id_was.blank?
     assistant.update_stats(game_id, assistant_stats) unless assistant_id.blank?
   end
+
+  def goalkeeper_stats_by_kind(kind)
+    case kind
+      when 'penalty_out' then { points: 1 }
+      when 'penalty_saved' then { points: 3 }
+      when 'penalty' then CONCEDED_STAT
+      when 'own' then CONCEDED_STAT
+      when 'regular' then CONCEDED_STAT
+      else {}
+    end
+  end
+
+  def goalkeeper_stats
+    goalkeeper_stats_by_kind(kind)
+  end
+
+  def goalkeeper_stats_was
+    last_kind = kind_was.blank? ? self.kind : self.kind_was
+    goalkeeper_stats_by_kind(last_kind)
+  end
+
+   def update_goalkeeper_stats
+    Player.find(goalkeeper_id_was).remove_stats(game_id, goalkeeper_stats_was) unless goalkeeper_id_was.blank?
+    goalkeeper.update_stats(game_id, goalkeeper_stats) unless goalkeeper_id.blank?
+  end
+
   def restore_stats
     scorer.remove_stats(game_id, scorer_stats)
     assistant.remove_stats(game_id, assistant_stats) unless assistant.blank?
+    goalkeeper.remove_stats(game_id, goalkeeper_stats) unless goalkeeper.blank?
+  end
+
+  private
+
+  def goalkeeper_association
+    club = scorer.club_on_date(game.date)
+    self.goalkeeper = kind.own? ? game.goalkeeper_in_club_id_on_minute(club.id, minute) : game.goalkeeper_against_club_id_on_minute(club.id, minute)
   end
 end
