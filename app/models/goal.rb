@@ -59,7 +59,7 @@ class Goal < ActiveRecord::Base
   end
 
   def update_assistant_stats
-    Player.find(assistant_id_was).remove_stats(game_id, assistant_stats_was) unless assistant_id_was.blank?
+    Player.find(assistant_id_was).remove_stats(game_id, assistant_stats) unless assistant_id_was.blank?
     assistant.update_stats(game_id, assistant_stats) unless assistant_id.blank?
   end
   def restore_stats
