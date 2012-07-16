@@ -17,5 +17,6 @@ class PlayerStat < ActiveRecord::Base
 
   scope :week, ->(week) { joins(:game).where(games: { week: week }) }
   scope :season, ->(season) { joins(:game).where(games: { season: season }) }
+  scope :in_league, ->(league_id) { joins(:game).where(games: { league_id: league_id }) }
   scope :in_game, ->(game_id) { where(game_id: game_id) }
 end

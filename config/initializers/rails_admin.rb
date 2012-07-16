@@ -657,7 +657,7 @@ RailsAdmin.config do |config|
       field :date
       field :league
 
-      filters [:league, :club_home, :club_away]
+      filters [:league, :week, :season]
     end
     export do; end
     show do
@@ -690,9 +690,9 @@ RailsAdmin.config do |config|
     create do; end
     update do
       field :lineups
-      field :goals
-      field :cards
       field :substitutions
+      field :cards
+      field :goals
     end
   end
 
@@ -746,6 +746,12 @@ RailsAdmin.config do |config|
     nested do
       field :game do
         hide
+      end
+      field :goalkeeper do
+        read_only true
+        visible do
+          !bindings[:object].new_record?
+        end
       end
       include_all_fields
     end

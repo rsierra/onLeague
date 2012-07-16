@@ -9,6 +9,8 @@ es:
         created_at: Creado en
         game: Partido
         game_id: Partido
+        goalkeeper: Portero
+        goalkeeper_id: Portero
         minute: Minuto
         scorer: Autor
         scorer_id: Autor
@@ -26,6 +28,9 @@ es:
               should_be_diferent: debe ser diferente del autor
               should_be_in_same_club: debe estar en el mismo equipo que el autor
               should_not_be: no debe existir
+              should_be_playing: debe jugar en ese momento
+            goalkeeper:
+              should_play_in_any_club: debe jugar en alguno de los equipos del partido
               should_be_playing: debe jugar en ese momento
   enumerize:
     goal:

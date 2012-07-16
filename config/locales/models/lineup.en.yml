@@ -16,3 +16,5 @@ en:
           attributes:
             player:
               should_play_in_any_club: should play in any club of the game
+            game:
+              cant_have_more_lineups: can't have more lineups for this club

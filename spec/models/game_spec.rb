@@ -262,4 +262,84 @@ describe Game do
     it { Game.season(2002).should == [third_game] }
     it { Game.season(2003).should be_empty }
   end
+
+  context "when get #goalkeeper_in_club_id_on_minute" do
+    let(:game) { create(:game) }
+    let(:minute) { 45 }
+
+    it { game.goalkeeper_in_club_id_on_minute(game.club_home_id,minute).should be_nil }
+    it { game.goalkeeper_against_club_id_on_minute(game.club_home_id,minute).should be_nil }
+
+    it { game.goalkeeper_in_club_id_on_minute(game.club_away_id,minute).should be_nil }
+    it { game.goalkeeper_against_club_id_on_minute(game.club_away_id,minute).should be_nil }
+
+    context "with goalkeeper" do
+      let(:goalkeeper) { create(:player_in_game, player_game: game, player_position: 'goalkeeper')}
+      before { goalkeeper }
+
+      it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, 1).should eql goalkeeper }
+      it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, 45).should eql goalkeeper }
+      it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, 90).should eql goalkeeper }
+
+      it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, 1).should eql goalkeeper }
+      it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, 45).should eql goalkeeper }
+      it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, 90).should eql goalkeeper }
+
+      context "and is expulsed" do
+        let(:card) { create(:card, :direct_red, game: game, player: goalkeeper, minute: minute) }
+        before { card }
+
+        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute - 1).should eql goalkeeper }
+        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute).should eql goalkeeper }
+        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute + 1).should be_nil }
+
+        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute - 1).should eql goalkeeper }
+        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute).should eql goalkeeper }
+        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute + 1).should be_nil }
+
+        context "and then another goalkeeper get in" do
+          let(:defender) { create(:player_in_game, player_game: game, player_position: 'defender')}
+          let(:another_goalkeeper) { create(:player_with_club, player_club: game.club_home, player_position: 'goalkeeper')}
+          let(:substitution) { create(:substitution, game: game, player_out: defender, player_in: another_goalkeeper, minute: minute) }
+          before { substitution }
+
+          it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute - 1).should eql goalkeeper }
+          it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute).should eql goalkeeper }
+          it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute + 1).should eql another_goalkeeper }
+
+          it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute - 1).should eql goalkeeper }
+          it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute).should eql goalkeeper }
+          it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute + 1).should eql another_goalkeeper }
+
+          context "that is expulsed again" do
+            let(:another_minute) { minute + 10 }
+            let(:another_card) { create(:card, :direct_red, game: game, player: another_goalkeeper, minute: another_minute) }
+            before { another_card }
+
+            it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, another_minute - 1).should eql another_goalkeeper }
+            it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, another_minute).should eql another_goalkeeper }
+            it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, another_minute + 1).should be_nil }
+
+            it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, another_minute - 1).should eql another_goalkeeper }
+            it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, another_minute).should eql another_goalkeeper }
+            it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, another_minute + 1).should be_nil }
+          end
+        end
+      end
+
+      context "and is substituted by another goalkeeper" do
+        let(:another_goalkeeper) { create(:player_with_club, player_club: game.club_home, player_position: 'goalkeeper')}
+        let(:substitution) { create(:substitution, game: game, player_out: goalkeeper, player_in: another_goalkeeper, minute: minute) }
+        before { substitution }
+
+        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute - 1).should eql goalkeeper }
+        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute).should eql goalkeeper }
+        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute + 1).should eql another_goalkeeper }
+
+        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute - 1).should eql goalkeeper }
+        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute).should eql goalkeeper }
+        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute + 1).should eql another_goalkeeper }
+      end
+    end
+  end
 end

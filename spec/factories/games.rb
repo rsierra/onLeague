@@ -6,8 +6,8 @@ FactoryGirl.define do
     club_home { create(:club, leagues: [league]) }
     club_away { create(:club, leagues: [league]) }
     date Date.today
-    week 1
-    season 2000
+    week { league.week }
+    season { league.season }
     status Game.status.values.first
 
     factory :game_from_club_home do

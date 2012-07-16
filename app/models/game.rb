@@ -105,4 +105,23 @@ class Game < ActiveRecord::Base
   def player_in_club_away? player
     away_players.include? player
   end
+
+  def goalkeeper_in_club_id_on_minute(club_id, minute)
+    club = club_id == club_home_id ? club_home : club_away
+    club_goalkeeper_ids = club.player_ids_in_position_on_date('goalkeeper',date)
+    goalkeeper_lineup = lineups.of_players(club_goalkeeper_ids).first
+    goalkeeper = nil
+    unless goalkeeper_lineup.blank?
+      goalkeeper = goalkeeper_lineup.player
+      goalkeeper_substitution = substitutions.of_players_in(club_goalkeeper_ids).before(minute).last
+      goalkeeper = goalkeeper_substitution.player_in unless goalkeeper_substitution.blank?
+      goalkeeper = nil if goalkeeper.cards.red.before(minute).exists?
+    end
+    goalkeeper
+  end
+
+  def goalkeeper_against_club_id_on_minute(against_club_id, minute)
+    club_id = against_club_id == club_home_id ? club_away_id : club_home_id
+    goalkeeper_in_club_id_on_minute(club_id, minute)
+  end
 end

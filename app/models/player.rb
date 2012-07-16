@@ -6,6 +6,7 @@ class Player < ActiveRecord::Base
   has_many :club_files
   has_one :file, :class_name => 'ClubFile', :conditions => 'date_out is null'
   has_one :club, :through => :file
+  has_many :lineups
   has_many :goals, foreign_key: :scorer_id
   has_many :assists, :class_name => 'Goal', foreign_key: :assistant_id
   has_many :cards
@@ -51,5 +52,27 @@ class Player < ActiveRecord::Base
   def minutes_played_in_game(game_id)
     stat = self.stats.select(:minutes_played).in_game(game_id).first
     stat.blank? ? 0 : stat.minutes_played
+  end
+
+  def club_on_date(date=Date.today)
+    club_file = club_files.on(date).first
+    club_file.blank? ? nil : club_file.club
+  end
+
+  def position_on_date(date=Date.today)
+    club_file = club_files.on(date).first
+    club_file.blank? ? nil : club_file.version_at(date).position
+  end
+
+  def league_stats(stat,league)
+    stats.in_league(league).sum(stat)
+  end
+
+  def season_stats(stat,league, season=league.season)
+    stats.in_league(league).season(season).sum(stat)
+  end
+
+  def week_stats(stat,league, season=league.season, week=league.week)
+    stats.in_league(league).season(season).week(week).sum(stat)
   end
 end
