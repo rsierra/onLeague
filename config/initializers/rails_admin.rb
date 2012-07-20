@@ -472,10 +472,34 @@ RailsAdmin.config do |config|
     configure :club_files, :has_many_association do
       hide
     end
+    configure :lineups, :has_many_association do
+      hide
+    end
+    configure :cards, :has_many_association do
+      hide
+    end
+    configure :yellow_cards, :has_many_association do
+      hide
+    end
+    configure :red_cards, :has_many_association do
+      hide
+    end
+    configure :direct_red_cards, :has_many_association do
+      hide
+    end
+    configure :substitutions_out, :has_many_association do
+      hide
+    end
+    configure :substitutions_in, :has_many_association do
+      hide
+    end
     configure :goals, :has_many_association do
       hide
     end
     configure :assists, :has_many_association do
+      hide
+    end
+    configure :stats, :has_many_association do
       hide
     end
     # Found columns:
@@ -492,23 +516,13 @@ RailsAdmin.config do |config|
 
     # Sections:
     list do
-      field :name
-      field :born
-      field :country
-      field :active
-      field :club
+      include_fields :name, :born, :country, :active, :club
 
       filters [:name, :active]
     end
     export do; end
     show do
-      field :name
-      field :born
-      field :country
-      field :active
-      field :eu
-      field :club
-      field :file
+      include_fields :name, :born, :active, :country, :eu, :active, :club, :file
       field :created_at do
         visible true
       end
@@ -516,23 +530,34 @@ RailsAdmin.config do |config|
         visible true
       end
     end
-    edit do
+    edit do; end
+    create do
+      exclude_fields :club, :file
+      field :club do
+        hide
+      end
+      field :file do
+        hide
+      end
+      field :name
+      field :born do
+        date_format :default
+      end
+      include_fields :country, :eu, :active
+    end
+    update do
       field :club do
         read_only true
       end
       field :file do
         read_only true
       end
-      include_all_fields
+      field :name
       field :born do
         date_format :default
       end
+      include_fields :country, :eu, :active
     end
-    create do
-      include_all_fields
-      exclude_fields :club, :file
-    end
-    update do; end
   end
 
   config.model ClubFile do
@@ -624,9 +649,10 @@ RailsAdmin.config do |config|
     configure :league, :belongs_to_association
     configure :club_home, :belongs_to_association
     configure :club_away, :belongs_to_association
-    configure :goals, :has_many_association
-    configure :cards, :has_many_association
+    configure :lineups, :has_many_association
     configure :substitutions, :has_many_association
+    configure :cards, :has_many_association
+    configure :goals, :has_many_association
     # Found columns:
     configure :id, :integer
     configure :date, :datetime
