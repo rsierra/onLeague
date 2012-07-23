@@ -169,7 +169,7 @@ GEM
     orm_adapter (0.4.0)
     paper_trail (2.6.2)
       rails (~> 3)
-    paperclip (3.0.4)
+    paperclip (3.1.4)
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
