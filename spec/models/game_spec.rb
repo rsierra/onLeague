@@ -1,7 +1,15 @@
 require 'spec_helper'
 
 describe Game do
+  let(:error_translation_key) { 'activerecord.errors.models.game.attributes' }
+  let(:home_play_same_league_error_translation_key) { "#{error_translation_key}.club_home.should_play_same_league" }
+  let(:away_play_same_league_error_translation_key) { "#{error_translation_key}.club_away.should_play_same_league" }
+  let(:cant_play_himself_error_translation_key) { "#{error_translation_key}.club_home.cant_play_himself" }
+  let(:initial_status_error_translation_key) { "#{error_translation_key}.status.should_be_initial_status" }
+  let(:accepted_status_error_translation_key) { "#{error_translation_key}.status.should_be_an_accepted_status" }
+
   describe "when create" do
+
     context "with correct data" do
       let(:game) { create(:game) }
       subject { game }
@@ -37,6 +45,15 @@ describe Game do
       it { should have(2).error_on(:status) }
       it { game.error_on(:status).should include I18n.t('errors.messages.blank') }
       it { game.error_on(:status).should include I18n.t('errors.messages.inclusion') }
+    end
+
+    context "with no initial status" do
+      let(:game) { build(:game, status: 'evaluated') }
+      subject { game }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:status) }
+      it { game.error_on(:status).should include I18n.t(initial_status_error_translation_key) }
     end
 
     context "without week" do
@@ -151,9 +168,9 @@ describe Game do
 
       it { should_not be_valid }
       it { should have(1).error_on(:club_home) }
-      it { game.error_on(:club_home).should include I18n.t('activerecord.errors.models.game.attributes.club_home.should_play_same_league') }
+      it { game.error_on(:club_home).should include I18n.t(home_play_same_league_error_translation_key) }
       it { should have(1).error_on(:club_away) }
-      it { game.error_on(:club_away).should include I18n.t('activerecord.errors.models.game.attributes.club_away.should_play_same_league') }
+      it { game.error_on(:club_away).should include I18n.t(away_play_same_league_error_translation_key) }
     end
 
     context "with same club" do
@@ -163,7 +180,7 @@ describe Game do
 
       it { should_not be_valid }
       it { should have(1).error_on(:club_home) }
-      it { game.error_on(:club_home).should include I18n.t('activerecord.errors.models.game.attributes.club_home.cant_play_himself') }
+      it { game.error_on(:club_home).should include I18n.t(cant_play_himself_error_translation_key) }
     end
 
     context "with one home goals" do
@@ -339,6 +356,195 @@ describe Game do
         it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute - 1).should eql goalkeeper }
         it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute).should eql goalkeeper }
         it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute + 1).should eql another_goalkeeper }
+      end
+    end
+  end
+
+  describe "when change status" do
+    let(:game) { create(:game) }
+
+    describe "form active" do
+      context "to inactive" do
+        before { game.status = 'inactive' }
+        subject { game }
+
+        it { should be_valid }
+      end
+
+      context "to evaluated" do
+        before { game.status = 'evaluated' }
+        subject { game }
+
+        it { should be_valid }
+      end
+
+      context "to revised" do
+        before { game.status = 'revised' }
+        subject { game }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:status) }
+        it { game.error_on(:status).should include I18n.t(accepted_status_error_translation_key) }
+      end
+
+      context "to closed" do
+        before { game.status = 'closed' }
+        subject { game }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:status) }
+        it { game.error_on(:status).should include I18n.t(accepted_status_error_translation_key) }
+      end
+    end
+
+    describe "form inactive" do
+      let(:game) { create(:game, status: 'inactive')}
+      context "to active" do
+        before { game.status = 'inactive' }
+        subject { game }
+
+        it { should be_valid }
+      end
+
+      context "to evaluated" do
+        before { game.status = 'evaluated' }
+        subject { game }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:status) }
+        it { game.error_on(:status).should include I18n.t(accepted_status_error_translation_key) }
+      end
+
+      context "to revised" do
+        before { game.status = 'revised' }
+        subject { game }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:status) }
+        it { game.error_on(:status).should include I18n.t(accepted_status_error_translation_key) }
+      end
+
+      context "to closed" do
+        before { game.status = 'closed' }
+        subject { game }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:status) }
+        it { game.error_on(:status).should include I18n.t(accepted_status_error_translation_key) }
+      end
+    end
+
+    describe "form evaluated" do
+      before { game.update_attributes(status: 'evaluated') }
+      context "to active" do
+        before { game.status = 'active' }
+        subject { game }
+
+        it { should be_valid }
+      end
+
+      context "to revised" do
+        before { game.status = 'revised' }
+        subject { game }
+
+        it { should be_valid }
+      end
+
+      context "to inactive" do
+        before { game.status = 'inactive' }
+        subject { game }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:status) }
+        it { game.error_on(:status).should include I18n.t(accepted_status_error_translation_key) }
+      end
+
+      context "to closed" do
+        before { game.status = 'closed' }
+        subject { game }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:status) }
+        it { game.error_on(:status).should include I18n.t(accepted_status_error_translation_key) }
+      end
+    end
+
+    describe "form revised" do
+      before do
+        game.update_attributes(status: 'evaluated')
+        game.update_attributes(status: 'revised')
+      end
+      context "to evaluated" do
+        before { game.status = 'evaluated' }
+        subject { game }
+
+        it { should be_valid }
+      end
+
+      context "to closed" do
+        before { game.status = 'closed' }
+        subject { game }
+
+        it { should be_valid }
+      end
+
+      context "to inactive" do
+        before { game.status = 'inactive' }
+        subject { game }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:status) }
+        it { game.error_on(:status).should include I18n.t(accepted_status_error_translation_key) }
+      end
+
+      context "to active" do
+        before { game.status = 'active' }
+        subject { game }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:status) }
+        it { game.error_on(:status).should include I18n.t(accepted_status_error_translation_key) }
+      end
+    end
+
+    describe "form closed" do
+      before do
+        game.update_attributes(status: 'evaluated')
+        game.update_attributes(status: 'revised')
+        game.update_attributes(status: 'closed')
+      end
+      context "to revised" do
+        before { game.status = 'revised' }
+        subject { game }
+
+        it { should be_valid }
+      end
+
+      context "to inactive" do
+        before { game.status = 'inactive' }
+        subject { game }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:status) }
+        it { game.error_on(:status).should include I18n.t(accepted_status_error_translation_key) }
+      end
+
+      context "to active" do
+        before { game.status = 'active' }
+        subject { game }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:status) }
+        it { game.error_on(:status).should include I18n.t(accepted_status_error_translation_key) }
+      end
+
+      context "to evaluated" do
+        before { game.status = 'evaluated' }
+        subject { game }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:status) }
+        it { game.error_on(:status).should include I18n.t(accepted_status_error_translation_key) }
       end
     end
   end
