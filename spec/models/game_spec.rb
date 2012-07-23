@@ -548,4 +548,205 @@ describe Game do
       end
     end
   end
+
+  describe "when evaluate" do
+    let(:game) { create(:game) }
+
+    describe "without goals" do
+      before do
+        player
+        game.update_attributes(status: 'evaluated')
+      end
+
+      subject { player.stats.week(game.week).season(game.season).first }
+
+      context "a normal player" do
+        let(:player) { create(:player_in_game, player_game: game) }
+
+        its(:points) { should eql 2 }
+        its(:points) { should eql Lineup::STATS[:points] }
+
+        context "and undo evaluate" do
+          before { game.update_attributes(status: 'active') }
+
+          its(:points) { should eql 2 }
+          its(:points) { should eql Lineup::STATS[:points] }
+        end
+      end
+
+      context "a defender" do
+        let(:player) { create(:player_in_game, player_game: game, player_position: 'defender') }
+
+        its(:points) { should eql 3 }
+        its(:points) { should eql Lineup::STATS[:points] + Game::UNBEATEN_DEFENDER_STAT[:points] }
+
+        context "and undo evaluate" do
+          before { game.update_attributes(status: 'active') }
+
+          its(:points) { should eql 2 }
+          its(:points) { should eql Lineup::STATS[:points] }
+        end
+      end
+
+      context "a goalkeeper" do
+        let(:player) { create(:player_in_game, player_game: game, player_position: 'goalkeeper') }
+
+        its(:points) { should eql 4 }
+        its(:points) { should eql Lineup::STATS[:points] + Game::UNBEATEN_GOALKEEPER_STAT[:points] }
+
+        context "and undo evaluate" do
+          before { game.update_attributes(status: 'active') }
+
+          its(:points) { should eql 2 }
+          its(:points) { should eql Lineup::STATS[:points] }
+        end
+      end
+    end
+
+    describe "with a goal against" do
+      let(:scorer) { create(:player_in_game_away, player_game: game, player_position: 'forward') }
+      let(:goal) { create(:goal, game: game, scorer: scorer) }
+      before do
+        player; goal
+        game.update_attributes(status: 'evaluated')
+      end
+
+      subject { player.stats.week(game.week).season(game.season).first }
+
+      context "a normal player" do
+        let(:player) { create(:player_in_game, player_game: game) }
+
+        its(:points) { should eql 2 }
+        its(:points) { should eql Lineup::STATS[:points] }
+
+        context "and undo evaluate" do
+          before { game.update_attributes(status: 'active') }
+
+          its(:points) { should eql 2 }
+          its(:points) { should eql Lineup::STATS[:points] }
+        end
+      end
+
+      context "a defender" do
+        let(:player) { create(:player_in_game, player_game: game, player_position: 'defender') }
+
+        its(:points) { should eql 2 }
+        its(:points) { should eql Lineup::STATS[:points] }
+
+        context "and undo evaluate" do
+          before { game.update_attributes(status: 'active') }
+
+          its(:points) { should eql 2 }
+          its(:points) { should eql Lineup::STATS[:points] }
+        end
+      end
+
+      context "a goalkeeper" do
+        let(:player) { create(:player_in_game, player_game: game, player_position: 'goalkeeper') }
+
+        its(:points) { should eql 2 }
+        its(:points) { should eql Lineup::STATS[:points] + Goal::CONCEDED_STAT[:points] + Game::BEATEN_GOALKEEPER_STAT[:points] }
+
+        context "and undo evaluate" do
+          before { game.update_attributes(status: 'active') }
+
+          its(:points) { should eql 1 }
+          its(:points) { should eql Lineup::STATS[:points] + Goal::CONCEDED_STAT[:points] }
+        end
+      end
+    end
+
+    describe "with more than a goal against" do
+      let(:scorer) { create(:player_in_game_away, player_game: game, player_position: 'forward') }
+      let(:first_goal) { create(:goal, game: game, scorer: scorer) }
+      let(:second_goal) { create(:goal, game: game, scorer: scorer) }
+
+      before do
+        player; first_goal; second_goal
+        game.update_attributes(status: 'evaluated')
+      end
+
+      subject { player.stats.week(game.week).season(game.season).first }
+
+      context "a normal player" do
+        let(:player) { create(:player_in_game, player_game: game) }
+
+        its(:points) { should eql 2 }
+        its(:points) { should eql Lineup::STATS[:points] }
+
+        context "and undo evaluate" do
+          before { game.update_attributes(status: 'active') }
+
+          its(:points) { should eql 2 }
+          its(:points) { should eql Lineup::STATS[:points] }
+        end
+      end
+
+      context "a defender" do
+        let(:player) { create(:player_in_game, player_game: game, player_position: 'defender') }
+
+        its(:points) { should eql 2 }
+        its(:points) { should eql Lineup::STATS[:points] }
+
+        context "and undo evaluate" do
+          before { game.update_attributes(status: 'active') }
+
+          its(:points) { should eql 2 }
+          its(:points) { should eql Lineup::STATS[:points] }
+        end
+      end
+
+      context "a goalkeeper" do
+        let(:player) { create(:player_in_game, player_game: game, player_position: 'goalkeeper') }
+
+        its(:points) { should eql 0 }
+        its(:points) { should eql Lineup::STATS[:points] + Goal::CONCEDED_STAT[:points] + Goal::CONCEDED_STAT[:points] }
+
+        context "and undo evaluate" do
+          before { game.update_attributes(status: 'active') }
+
+          its(:points) { should eql 0 }
+          its(:points) { should eql Lineup::STATS[:points] + Goal::CONCEDED_STAT[:points] + Goal::CONCEDED_STAT[:points] }
+        end
+      end
+    end
+
+    describe "and there is winner" do
+      let(:scorer) { create(:player_in_game, player_game: game, player_position: 'forward') }
+      let(:player) { create(:player_in_game, player_game: game) }
+      let(:goal) { create(:goal, game: game, scorer: scorer) }
+      before do
+        player; goal
+        game.update_attributes(status: 'evaluated')
+      end
+
+      context "a normal player" do
+        subject { player.stats.week(game.week).season(game.season).first }
+
+        its(:points) { should eql 3 }
+        its(:points) { should eql Lineup::STATS[:points] + Game::WINNER_STAT[:points] }
+
+        context "and undo evaluate" do
+          before { game.update_attributes(status: 'active') }
+
+          its(:points) { should eql 2 }
+          its(:points) { should eql Lineup::STATS[:points] }
+        end
+      end
+
+      context "the scorer" do
+        subject { scorer.stats.week(game.week).season(game.season).first }
+
+        its(:points) { should eql 5 }
+        its(:points) { should eql Lineup::STATS[:points] + goal.scorer_stats[:points] + Game::WINNER_STAT[:points] }
+
+        context "and undo evaluate" do
+          before { game.update_attributes(status: 'active') }
+
+          its(:points) { should eql 4 }
+          its(:points) { should eql Lineup::STATS[:points] + goal.scorer_stats[:points] }
+        end
+      end
+    end
+  end
 end

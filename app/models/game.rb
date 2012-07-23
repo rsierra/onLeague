@@ -9,6 +9,16 @@ class Game < ActiveRecord::Base
     'closed' => ['revised']
     }.freeze
 
+  STATUS_EVENTS = {
+    'active' => { 'evaluated' => 'update_players_stats'},
+    'evaluated' => { 'active' => 'restore_players_stats'},
+    }.freeze
+
+  WINNER_STAT = { points: 1 }
+  UNBEATEN_GOALKEEPER_STAT = { points: 2 }
+  BEATEN_GOALKEEPER_STAT = { points: 1 }
+  UNBEATEN_DEFENDER_STAT = { points: 1 }
+
   belongs_to :league
   belongs_to :club_home, class_name: 'Club'
   belongs_to :club_away, class_name: 'Club'
@@ -45,6 +55,8 @@ class Game < ActiveRecord::Base
   scope :week, ->(week) { where week: week }
   scope :season, ->(season) { where season: season }
 
+  before_save :trigger_status_events  , if: 'status_changed? && !new_record?'
+
   def name
     "#{club_home.name} - #{club_away.name}" unless club_home.blank? || club_away.blank?
   end
@@ -61,10 +73,6 @@ class Game < ActiveRecord::Base
     club_home == club_away
   end
 
-  def validate_play_himself
-    errors.add(:club_home, :cant_play_himself) if play_himself?
-  end
-
   def club_home_play_league?
     club_home.leagues.include? league
   end
@@ -73,33 +81,24 @@ class Game < ActiveRecord::Base
     club_home.leagues.include? league
   end
 
-  def validate_clubs_league
-    errors.add(:club_home, :should_play_same_league) unless club_home_play_league?
-    errors.add(:club_away, :should_play_same_league) unless club_away_play_league?
-  end
-
   def home_goals
-    goals.where(scorer_id: home_players.map(&:id)).count
+    goals.of_scorers(club_home.player_ids_on_date(date)).count
   end
 
   def away_goals
-    goals.where(scorer_id: away_players.map(&:id)).count
+    goals.of_scorers(club_away.player_ids_on_date(date)).count
   end
 
-  def home_club_files
-    club_home.club_files.on(date)
-  end
-
-  def away_club_files
-    club_away.club_files.on(date)
-  end
-
-  def home_players
-    home_club_files.map(&:player)
-  end
-
-  def away_players
-    away_club_files.map(&:player)
+  def winner_club
+    calculated_home_goals = home_goals
+    calculated_away_goals = away_goals
+    if calculated_home_goals > calculated_away_goals
+      club_home
+    elsif calculated_home_goals < calculated_away_goals
+      club_away
+    else
+      nil
+    end
   end
 
   def end_date_of_week
@@ -111,11 +110,11 @@ class Game < ActiveRecord::Base
   end
 
   def player_in_club_home? player
-    home_players.include? player
+    club_home.player_ids_on_date(date).include? player.id unless player.blank?
   end
 
   def player_in_club_away? player
-    away_players.include? player
+    club_away.player_ids_on_date(date).include? player.id unless player.blank?
   end
 
   def goalkeeper_in_club_id_on_minute(club_id, minute)
@@ -145,11 +144,117 @@ class Game < ActiveRecord::Base
     status.active? || status.inactive?
   end
 
+  def players_who_played(player_ids)
+    lineups.of_players(player_ids).map(&:player) +
+    substitutions.of_players_in(player_ids).map(&:player_in)
+  end
+
+  def players_who_played_of_club(club)
+    player_ids = club.player_ids_on_date(date)
+    players_who_played(player_ids)
+  end
+
+  def players_who_played_of_club_in_position(club, position)
+    player_ids = club.player_ids_in_position_on_date(position, date)
+    players_who_played(player_ids)
+  end
+
+  def update_winners_stats
+    club = winner_club
+    unless club.blank?
+      players_who_played_of_club(club).each do |player|
+        player.update_stats(id, WINNER_STAT)
+      end
+    end
+  end
+
+  def update_unbeaten_stats(club)
+    players_who_played_of_club_in_position(club,'goalkeeper').each do |player|
+      player.update_stats(id, UNBEATEN_GOALKEEPER_STAT)
+    end
+    players_who_played_of_club_in_position(club,'defender').each do |player|
+      player.update_stats(id, UNBEATEN_DEFENDER_STAT)
+    end
+  end
+
+  def update_beaten_stats(club)
+    players_who_played_of_club_in_position(club,'goalkeeper').each do |player|
+      player.update_stats(id, BEATEN_GOALKEEPER_STAT)
+    end
+  end
+
+  def update_defenders_stats(club, goals)
+    if goals == 0
+      update_unbeaten_stats(club)
+    elsif goals == 1
+      update_beaten_stats(club)
+    end
+  end
+
+  def update_players_stats
+    update_winners_stats if home_goals != away_goals
+    update_defenders_stats(club_home, away_goals) if away_goals < 2
+    update_defenders_stats(club_away, home_goals) if home_goals < 2
+  end
+
+  def restore_winners_stats
+    club = winner_club
+    unless club.blank?
+      players_who_played_of_club(club).each do |player|
+        player.remove_stats(id, WINNER_STAT)
+      end
+    end
+  end
+
+  def restore_unbeaten_stats(club)
+    players_who_played_of_club_in_position(club,'goalkeeper').each do |player|
+      player.remove_stats(id, UNBEATEN_GOALKEEPER_STAT)
+    end
+    players_who_played_of_club_in_position(club,'defender').each do |player|
+      player.remove_stats(id, UNBEATEN_DEFENDER_STAT)
+    end
+  end
+
+  def restore_beaten_stats(club)
+    players_who_played_of_club_in_position(club,'goalkeeper').each do |player|
+      player.remove_stats(id, BEATEN_GOALKEEPER_STAT)
+    end
+  end
+
+  def restore_defenders_stats(club, goals)
+    if goals == 0
+      restore_unbeaten_stats(club)
+    elsif goals == 1
+      restore_beaten_stats(club)
+    end
+  end
+
+  def restore_players_stats
+    restore_winners_stats if home_goals != away_goals
+    restore_defenders_stats(club_home, away_goals) if away_goals < 2
+    restore_defenders_stats(club_away, home_goals) if home_goals < 2
+  end
+
+  private
+
+  def validate_play_himself
+    errors.add(:club_home, :cant_play_himself) if play_himself?
+  end
+
+  def validate_clubs_league
+    errors.add(:club_home, :should_play_same_league) unless club_home_play_league?
+    errors.add(:club_away, :should_play_same_league) unless club_away_play_league?
+  end
+
   def initial_status
     errors.add(:status, :should_be_initial_status) unless initial_status?
   end
 
   def new_status
     errors.add(:status, :should_be_an_accepted_status) unless accepted_statuses(status_was).include? status
+  end
+
+  def trigger_status_events
+    self.send(STATUS_EVENTS[status_was][status]) if STATUS_EVENTS[status_was] && STATUS_EVENTS[status_was][status]
   end
 end
