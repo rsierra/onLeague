@@ -530,34 +530,23 @@ RailsAdmin.config do |config|
         visible true
       end
     end
-    edit do; end
+    edit do
+      field :club do
+        read_only true
+      end
+      field :file do
+        read_only true
+      end
+      field :name
+      field :born do
+        date_format :default
+      end
+      include_fields :country, :eu, :active
+    end
     create do
       exclude_fields :club, :file
-      field :club do
-        hide
-      end
-      field :file do
-        hide
-      end
-      field :name
-      field :born do
-        date_format :default
-      end
-      include_fields :country, :eu, :active
     end
-    update do
-      field :club do
-        read_only true
-      end
-      field :file do
-        read_only true
-      end
-      field :name
-      field :born do
-        date_format :default
-      end
-      include_fields :country, :eu, :active
-    end
+    update do; end
   end
 
   config.model ClubFile do
@@ -675,13 +664,8 @@ RailsAdmin.config do |config|
 
     # Sections:
     list do
-      field :club_home
-      field :club_away
-      field :week
-      field :season
-      field :status
-      field :date
-      field :league
+      include_fields :club_home, :club_away, :week, :season, :status
+      include_fields :date, :league
 
       filters [:league, :week, :season]
     end
@@ -713,7 +697,9 @@ RailsAdmin.config do |config|
       field :week
       field :season
     end
-    create do; end
+    create do
+      exclude_fields :status
+    end
     update do
       field :lineups
       field :substitutions

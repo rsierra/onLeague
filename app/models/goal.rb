@@ -17,6 +17,7 @@ class Goal < ActiveRecord::Base
   validates :assistant, player_playing: true, unless: 'assistant.blank? || !assistant_id_changed?'
 
   scope :club, ->(club) { joins(:scorer => :club_files).where(club_files: {club_id: club}) }
+  scope :of_scorers, ->(player_ids=[]) { where('scorer_id IN (?)', player_ids) }
 
   before_validation :goalkeeper_association, if: 'minute_changed? && !minute.blank? && !kind.blank? && !scorer.blank?'
   before_save :update_scorer_stats, if: 'scorer_id_changed? || kind_changed?'

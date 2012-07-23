@@ -19,7 +19,7 @@ describe Extensions::GameEvent do
       }
     end
 
-    describe "when exted a model" do
+    describe "when extend a model" do
       let(:game) { create(:game) }
       let(:player) { create(:player_in_game, player_game: game) }
 
@@ -150,7 +150,7 @@ describe Extensions::GameEvent do
       }
     end
 
-    describe "when exted a model" do
+    describe "when extend a model" do
       let(:game) { create(:game) }
       let(:player) { create(:player_in_game, player_game: game) }
 
@@ -228,7 +228,7 @@ describe Extensions::GameEvent do
       }
     end
 
-    describe "when exted a model" do
+    describe "when extend a model" do
       let(:game) { create(:game) }
       let(:player) { create(:player_in_game, player_game: game) }
       let(:second_player) { create(:player_in_game, player_game: game) }
