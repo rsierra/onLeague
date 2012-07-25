@@ -16,11 +16,14 @@ class Substitution < ActiveRecord::Base
 
   before_save :update_in_stats, if: 'player_in_id_changed? || minute_changed?'
   before_save :update_out_stats, if: 'player_out_id_changed?  || minute_changed?'
-  before_destroy :restore_in_stats
-  before_destroy :restore_out_stats
+  before_destroy :restore_stats
 
   def title
     "#{self.player_file.club_name}, #{self.player_out.name} (#{self.minute}')"
+  end
+
+  def player_in_was
+    player_was player_in_id_was
   end
 
   def stats_in
@@ -32,12 +35,12 @@ class Substitution < ActiveRecord::Base
   end
 
   def update_in_stats
-    player_in_was.remove_stats(game_id, stats_in_was) unless player_in_id_was.blank?
-    player_in.update_stats(game_id, stats_in)
+    restore_player_stats player_in_was, stats_in_was
+    update_player_stats player_in, stats_in
   end
 
-  def restore_in_stats
-    player_in.remove_stats(game_id, stats_in)
+  def player_out_was
+    player_was player_out_id_was
   end
 
   def stats_out
@@ -49,12 +52,13 @@ class Substitution < ActiveRecord::Base
   end
 
   def update_out_stats
-    player_out_was.remove_stats(game_id, stats_out_was) unless player_out_id_was.blank?
-    player_out.update_stats(game_id, stats_out)
+    restore_player_stats player_out_was, stats_out_was
+    update_player_stats player_out, stats_out
   end
 
-  def restore_out_stats
-    player_out.remove_stats(game_id, stats_out)
+  def restore_stats
+    restore_player_stats player_out, stats_out
+    restore_player_stats player_in, stats_in
   end
 
   def self_club_substitutions_count
@@ -64,15 +68,19 @@ class Substitution < ActiveRecord::Base
 
   private
 
-  def player_in_was
-    Player.find(player_in_id_was)
-  end
-
-  def player_out_was
-    Player.find(player_out_id_was)
-  end
-
   def max_per_club
     errors.add(:game, :cant_have_more_substitutions) if self_club_substitutions_count >= MAX_PER_GAME
+  end
+
+  def player_was id_was = player_id_was
+    Player.find(id_was) if id_was
+  end
+
+  def update_player_stats player, player_stat
+    player.update_stats(game_id, player_stat) unless player.blank?
+  end
+
+  def restore_player_stats player, player_stat
+    player.remove_stats(game_id, player_stat) unless player.blank?
   end
 end
