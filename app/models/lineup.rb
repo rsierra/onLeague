@@ -25,12 +25,12 @@ class Lineup < ActiveRecord::Base
   end
 
   def update_stats
-    Player.find(player_id_was).remove_stats(game.id, STATS) unless player_id_was.blank?
-    player.update_stats(game.id, STATS)
+    restore_player_stats player_was, STATS
+    update_player_stats player, STATS
   end
 
   def restore_stats
-    player.remove_stats(game.id, STATS)
+    restore_player_stats player, STATS
   end
 
   def self_club_lineups_count
@@ -42,5 +42,17 @@ class Lineup < ActiveRecord::Base
 
   def max_per_club
     errors.add(:game,:cant_have_more_lineups) if self_club_lineups_count >= MAX_PER_GAME
+  end
+
+  def player_was id_was = player_id_was
+    Player.find(id_was) if id_was
+  end
+
+  def update_player_stats player, player_stat
+    player.update_stats(game_id, player_stat) unless player.blank?
+  end
+
+  def restore_player_stats player, player_stat
+    player.remove_stats(game_id, player_stat) unless player.blank?
   end
 end
