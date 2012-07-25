@@ -15,7 +15,11 @@ describe Extensions::GameEvent do
         acts_as_game_event
       end
       I18n.backend.store_translations I18n.locale, activerecord: {
-        errors: { models: { dummy_model: { attributes: { player: { should_play_in_any_club: 'Error message'} } } } }
+        errors: { models: { dummy_model: { attributes: { player: { should_play_in_any_club: 'Play in any club error message'} } } } }
+      }
+
+      I18n.backend.store_translations I18n.locale, activerecord: {
+        errors: { models: { dummy_model: { attributes: { player: { should_be_playing: 'Playing error message'} } } } }
       }
     end
 
@@ -146,7 +150,11 @@ describe Extensions::GameEvent do
         acts_as_game_event player_relation: :scorer
       end
       I18n.backend.store_translations I18n.locale, activerecord: {
-        errors: { models: { dummy_model: { attributes: { scorer: { should_play_in_any_club: 'Error message'} } } } }
+        errors: { models: { dummy_model: { attributes: { scorer: { should_play_in_any_club: 'Play in any club error message'} } } } }
+      }
+
+      I18n.backend.store_translations I18n.locale, activerecord: {
+        errors: { models: { dummy_model: { attributes: { scorer: { should_be_playing: 'Playing error message'} } } } }
       }
     end
 
