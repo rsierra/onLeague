@@ -37,6 +37,14 @@ class Goal < ActiveRecord::Base
     errors.add(:assistant, :should_not_be) unless assistant_id.blank?
   end
 
+  def player_was id_was
+    Player.find(id_was) if id_was
+  end
+
+  def scorer_was
+    player_was scorer_id_was
+  end
+
   def scorer_stats_by_kind(kind)
     case kind
       when 'penalty_out' then { points: -3 }
@@ -58,8 +66,12 @@ class Goal < ActiveRecord::Base
   end
 
   def update_scorer_stats
-    Player.find(scorer_id_was).remove_stats(game_id, scorer_stats_was) unless scorer_id_was.blank?
-    scorer.update_stats(game_id, scorer_stats)
+    restore_player_stats scorer_was, scorer_stats_was
+    update_player_stats scorer, scorer_stats
+  end
+
+  def assistant_was
+    player_was assistant_id_was
   end
 
   def assistant_stats
@@ -67,8 +79,12 @@ class Goal < ActiveRecord::Base
   end
 
   def update_assistant_stats
-    Player.find(assistant_id_was).remove_stats(game_id, assistant_stats) unless assistant_id_was.blank?
-    assistant.update_stats(game_id, assistant_stats) unless assistant_id.blank?
+    restore_player_stats assistant_was, assistant_stats
+    update_player_stats assistant, assistant_stats
+  end
+
+  def goalkeeper_was
+    player_was goalkeeper_id_was
   end
 
   def goalkeeper_stats_by_kind(kind)
@@ -91,21 +107,33 @@ class Goal < ActiveRecord::Base
     goalkeeper_stats_by_kind(last_kind)
   end
 
-   def update_goalkeeper_stats
-    Player.find(goalkeeper_id_was).remove_stats(game_id, goalkeeper_stats_was) unless goalkeeper_id_was.blank?
-    goalkeeper.update_stats(game_id, goalkeeper_stats) unless goalkeeper_id.blank?
+  def update_goalkeeper_stats
+    restore_player_stats goalkeeper_was, goalkeeper_stats_was
+    update_player_stats goalkeeper, goalkeeper_stats
   end
 
   def restore_stats
-    scorer.remove_stats(game_id, scorer_stats)
-    assistant.remove_stats(game_id, assistant_stats) unless assistant.blank?
-    goalkeeper.remove_stats(game_id, goalkeeper_stats) unless goalkeeper.blank?
+    restore_player_stats scorer, scorer_stats
+    restore_player_stats assistant, assistant_stats
+    restore_player_stats goalkeeper, goalkeeper_stats
+  end
+
+  def update_player_stats player, player_stat
+    player.update_stats(game_id, player_stat) unless player.blank?
+  end
+
+  def restore_player_stats player, player_stat
+    player.remove_stats(game_id, player_stat) unless player.blank?
   end
 
   private
 
   def goalkeeper_association
     club = scorer.club_on_date(game.date)
-    self.goalkeeper = kind.own? ? game.goalkeeper_in_club_id_on_minute(club.id, minute) : game.goalkeeper_against_club_id_on_minute(club.id, minute)
+    self.goalkeeper = if kind.own?
+      game.goalkeeper_in_club_id_on_minute(club.id, minute)
+    else
+      game.goalkeeper_against_club_id_on_minute(club.id, minute)
+    end
   end
 end
