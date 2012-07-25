@@ -1,19 +1,21 @@
 en:
+  routes:
   # you can leave empty locales, for example the default one
 es:
   # Verbs
-  new: nuevo
-  edit: editar
-  change: cambiar
-  # Devise
-  admins: administradores
-  users: usuarios
-  sign_up: registro
-  sign_in: identificacion
-  sign_out: desconectarse
-  confirmation: confirmacion
-  unlock: desploqueo
-  # Models
-  leagues: ligas
-  clubs: clubs
-  games: partidos
+  routes:
+    new: nuevo
+    edit: editar
+    change: cambiar
+    # Devise
+    admins: administradores
+    users: usuarios
+    sign_up: registro
+    sign_in: identificacion
+    sign_out: desconectarse
+    confirmation: confirmacion
+    unlock: desploqueo
+    # Models
+    leagues: ligas
+    clubs: clubs
+    games: partidos

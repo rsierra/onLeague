@@ -2,6 +2,8 @@ class Lineup < ActiveRecord::Base
   MAX_PER_GAME = 11
   STATS = { points: 2, lineups: 1, games_played: 1, minutes_played: 90 }.freeze
 
+  include Extensions::StatEvent
+
   belongs_to :game
   belongs_to :player
 
@@ -25,12 +27,12 @@ class Lineup < ActiveRecord::Base
   end
 
   def update_stats
-    Player.find(player_id_was).remove_stats(game.id, STATS) unless player_id_was.blank?
-    player.update_stats(game.id, STATS)
+    restore_player_stats player_was, STATS
+    update_player_stats player, STATS
   end
 
   def restore_stats
-    player.remove_stats(game.id, STATS)
+    restore_player_stats player, STATS
   end
 
   def self_club_lineups_count

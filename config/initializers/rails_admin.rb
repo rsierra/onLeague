@@ -472,10 +472,34 @@ RailsAdmin.config do |config|
     configure :club_files, :has_many_association do
       hide
     end
+    configure :lineups, :has_many_association do
+      hide
+    end
+    configure :cards, :has_many_association do
+      hide
+    end
+    configure :yellow_cards, :has_many_association do
+      hide
+    end
+    configure :red_cards, :has_many_association do
+      hide
+    end
+    configure :direct_red_cards, :has_many_association do
+      hide
+    end
+    configure :substitutions_out, :has_many_association do
+      hide
+    end
+    configure :substitutions_in, :has_many_association do
+      hide
+    end
     configure :goals, :has_many_association do
       hide
     end
     configure :assists, :has_many_association do
+      hide
+    end
+    configure :stats, :has_many_association do
       hide
     end
     # Found columns:
@@ -492,23 +516,13 @@ RailsAdmin.config do |config|
 
     # Sections:
     list do
-      field :name
-      field :born
-      field :country
-      field :active
-      field :club
+      include_fields :name, :born, :country, :active, :club
 
       filters [:name, :active]
     end
     export do; end
     show do
-      field :name
-      field :born
-      field :country
-      field :active
-      field :eu
-      field :club
-      field :file
+      include_fields :name, :born, :active, :country, :eu, :active, :club, :file
       field :created_at do
         visible true
       end
@@ -523,13 +537,13 @@ RailsAdmin.config do |config|
       field :file do
         read_only true
       end
-      include_all_fields
+      field :name
       field :born do
         date_format :default
       end
+      include_fields :country, :eu, :active
     end
     create do
-      include_all_fields
       exclude_fields :club, :file
     end
     update do; end
@@ -624,9 +638,10 @@ RailsAdmin.config do |config|
     configure :league, :belongs_to_association
     configure :club_home, :belongs_to_association
     configure :club_away, :belongs_to_association
-    configure :goals, :has_many_association
-    configure :cards, :has_many_association
+    configure :lineups, :has_many_association
     configure :substitutions, :has_many_association
+    configure :cards, :has_many_association
+    configure :goals, :has_many_association
     # Found columns:
     configure :id, :integer
     configure :date, :datetime
@@ -649,13 +664,8 @@ RailsAdmin.config do |config|
 
     # Sections:
     list do
-      field :club_home
-      field :club_away
-      field :week
-      field :season
-      field :status
-      field :date
-      field :league
+      include_fields :club_home, :club_away, :week, :season, :status
+      include_fields :date, :league
 
       filters [:league, :week, :season]
     end
@@ -687,7 +697,9 @@ RailsAdmin.config do |config|
       field :week
       field :season
     end
-    create do; end
+    create do
+      exclude_fields :status
+    end
     update do
       field :lineups
       field :substitutions

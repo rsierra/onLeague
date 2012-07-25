@@ -15,11 +15,15 @@ describe Extensions::GameEvent do
         acts_as_game_event
       end
       I18n.backend.store_translations I18n.locale, activerecord: {
-        errors: { models: { dummy_model: { attributes: { player: { should_play_in_any_club: 'Error message'} } } } }
+        errors: { models: { dummy_model: { attributes: { player: { should_play_in_any_club: 'Play in any club error message'} } } } }
+      }
+
+      I18n.backend.store_translations I18n.locale, activerecord: {
+        errors: { models: { dummy_model: { attributes: { player: { should_be_playing: 'Playing error message'} } } } }
       }
     end
 
-    describe "when exted a model" do
+    describe "when extend a model" do
       let(:game) { create(:game) }
       let(:player) { create(:player_in_game, player_game: game) }
 
@@ -146,11 +150,15 @@ describe Extensions::GameEvent do
         acts_as_game_event player_relation: :scorer
       end
       I18n.backend.store_translations I18n.locale, activerecord: {
-        errors: { models: { dummy_model: { attributes: { scorer: { should_play_in_any_club: 'Error message'} } } } }
+        errors: { models: { dummy_model: { attributes: { scorer: { should_play_in_any_club: 'Play in any club error message'} } } } }
+      }
+
+      I18n.backend.store_translations I18n.locale, activerecord: {
+        errors: { models: { dummy_model: { attributes: { scorer: { should_be_playing: 'Playing error message'} } } } }
       }
     end
 
-    describe "when exted a model" do
+    describe "when extend a model" do
       let(:game) { create(:game) }
       let(:player) { create(:player_in_game, player_game: game) }
 
@@ -228,7 +236,7 @@ describe Extensions::GameEvent do
       }
     end
 
-    describe "when exted a model" do
+    describe "when extend a model" do
       let(:game) { create(:game) }
       let(:player) { create(:player_in_game, player_game: game) }
       let(:second_player) { create(:player_in_game, player_game: game) }

@@ -7,6 +7,8 @@ en:
       next: "Next &raquo;"
       truncate: "…"
   admin:
+    home:
+      name: Home
     misc:
       filter_date_format: "mm/dd/yy"
       search: "Search"

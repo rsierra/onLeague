@@ -5,7 +5,7 @@ FactoryGirl.define do
     association :club, factory: :club
     association :player, factory: :player
     sequence(:number) { |n| n % 99 }
-    position { ClubFile.position.values.first }
+    position { 'midfielder' }
     value { number }
     date_in { Date.yesterday }
     date_out nil

@@ -30,6 +30,9 @@ en:
               should_play_same_league: should play in selected league
             club_away:
               should_play_same_league: should play in selected league
+            status:
+              should_be_initial_status: should be an initial status
+              should_be_an_accepted_status: should change to an accepted status
   enumerize:
     game:
       status:
