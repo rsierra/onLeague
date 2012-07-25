@@ -1,0 +1,8 @@
+en:
+  admin:
+    actions:
+      close_week:
+        title: "Close Week"
+        menu: "Close Week"
+        link: "Close Week"
+        done: "Week Closed"

@@ -13,6 +13,7 @@ class Ability
 
       can :write, User
       can :write, League
+      can :close_week, League
       can :write, Club
       can :write, ClubTranslation
       can :write, Country

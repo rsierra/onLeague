@@ -1,7 +1,19 @@
 # RailsAdmin config file. Generated on March 02, 2012 18:04
 # See github.com/sferik/rails_admin for more informations
 
+require "rails_admin/config/actions/close_week"
+
 RailsAdmin.config do |config|
+
+  config.actions do
+    dashboard
+    index
+    new
+    show
+    edit
+    close_week
+    delete
+  end
 
   # If your default_local is different from :en, uncomment the following 2 lines and set your default locale here:
   require 'i18n'
