@@ -2,6 +2,7 @@ class Substitution < ActiveRecord::Base
   MAX_PER_GAME =3
   STATS_IN = { points: 1, games_played: 1 }.freeze
 
+  include Extensions::StatEvent
   include Extensions::GameEvent
   acts_as_game_event player_relation: :player_out, second_player_relation: :player_in
 
@@ -70,17 +71,5 @@ class Substitution < ActiveRecord::Base
 
   def max_per_club
     errors.add(:game, :cant_have_more_substitutions) if self_club_substitutions_count >= MAX_PER_GAME
-  end
-
-  def player_was id_was = player_id_was
-    Player.find(id_was) if id_was
-  end
-
-  def update_player_stats player, player_stat
-    player.update_stats(game_id, player_stat) unless player.blank?
-  end
-
-  def restore_player_stats player, player_stat
-    player.remove_stats(game_id, player_stat) unless player.blank?
   end
 end

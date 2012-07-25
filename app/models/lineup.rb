@@ -2,6 +2,8 @@ class Lineup < ActiveRecord::Base
   MAX_PER_GAME = 11
   STATS = { points: 2, lineups: 1, games_played: 1, minutes_played: 90 }.freeze
 
+  include Extensions::StatEvent
+
   belongs_to :game
   belongs_to :player
 
@@ -42,17 +44,5 @@ class Lineup < ActiveRecord::Base
 
   def max_per_club
     errors.add(:game,:cant_have_more_lineups) if self_club_lineups_count >= MAX_PER_GAME
-  end
-
-  def player_was id_was = player_id_was
-    Player.find(id_was) if id_was
-  end
-
-  def update_player_stats player, player_stat
-    player.update_stats(game_id, player_stat) unless player.blank?
-  end
-
-  def restore_player_stats player, player_stat
-    player.remove_stats(game_id, player_stat) unless player.blank?
   end
 end

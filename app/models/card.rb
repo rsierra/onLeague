@@ -3,6 +3,7 @@ class Card < ActiveRecord::Base
   STATS_RED = { points: -1, yellow_cards: 1, red_cards: 1 }
   STATS_DIRECT_RED = { points: -3, red_cards: 1 }
 
+  include Extensions::StatEvent
   include Extensions::GameEvent
   acts_as_game_event
 
@@ -90,17 +91,5 @@ class Card < ActiveRecord::Base
 
   def not_any_red_before
     errors.add(:kind, :should_not_exist_any_red_before) if red_exists? || direct_red_exists?
-  end
-
-  def player_was id_was = player_id_was
-    Player.find(id_was) if id_was
-  end
-
-  def update_player_stats player, player_stat
-    player.update_stats(game_id, player_stat) unless player.blank?
-  end
-
-  def restore_player_stats player, player_stat
-    player.remove_stats(game_id, player_stat) unless player.blank?
   end
 end

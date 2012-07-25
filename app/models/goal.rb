@@ -6,6 +6,7 @@ class Goal < ActiveRecord::Base
   validates :goalkeeper, player_in_game: true, unless: "goalkeeper.blank?"
   validates :goalkeeper, player_playing: true, if: "goalkeeper_id_changed? && !goalkeeper.blank?"
 
+  include Extensions::StatEvent
   include Extensions::GameEvent
   acts_as_game_event player_relation: :scorer, second_player_relation: :assistant
 
@@ -35,10 +36,6 @@ class Goal < ActiveRecord::Base
 
   def goal_assistant_presence
     errors.add(:assistant, :should_not_be) unless assistant_id.blank?
-  end
-
-  def player_was id_was
-    Player.find(id_was) if id_was
   end
 
   def scorer_was
@@ -116,14 +113,6 @@ class Goal < ActiveRecord::Base
     restore_player_stats scorer, scorer_stats
     restore_player_stats assistant, assistant_stats
     restore_player_stats goalkeeper, goalkeeper_stats
-  end
-
-  def update_player_stats player, player_stat
-    player.update_stats(game_id, player_stat) unless player.blank?
-  end
-
-  def restore_player_stats player, player_stat
-    player.remove_stats(game_id, player_stat) unless player.blank?
   end
 
   private
