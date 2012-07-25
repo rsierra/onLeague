@@ -54,12 +54,12 @@ class Card < ActiveRecord::Base
   end
 
   def update_stats
-    Player.find(player_id_was).remove_stats(game_id, card_stats_was) unless player_id_was.blank?
-    player.update_stats(game_id, card_stats)
+    restore_player_stats player_was, card_stats_was
+    update_player_stats player, card_stats
   end
 
   def restore_stats
-    player.remove_stats(game_id, card_stats)
+    restore_player_stats player, card_stats
   end
 
   def yellow_exists?
@@ -92,4 +92,15 @@ class Card < ActiveRecord::Base
     errors.add(:kind, :should_not_exist_any_red_before) if red_exists? || direct_red_exists?
   end
 
+  def player_was id_was = player_id_was
+    Player.find(id_was) if id_was
+  end
+
+  def update_player_stats player, player_stat
+    player.update_stats(game_id, player_stat) unless player.blank?
+  end
+
+  def restore_player_stats player, player_stat
+    player.remove_stats(game_id, player_stat) unless player.blank?
+  end
 end
