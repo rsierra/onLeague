@@ -192,7 +192,7 @@ describe League do
     end
 
     context "with a closeable game" do
-      let(:closeable_game) { create(:game, league: league) }
+      let(:closeable_game) { create(:game, league: league, season: game.season, week: game.week) }
       before { closeable_game.update_attribute(:status, 'revised') }
 
       context "and an active game" do
@@ -222,6 +222,48 @@ describe League do
 
         its(:week_closeable?) { should be_true }
       end
+    end
+  end
+
+  describe "when get next week" do
+    let(:league) { create(:league) }
+    let(:game) { create(:game, league: league) }
+
+    before { league.update_attributes(season: game.season, week: game.week) }
+    subject { league }
+
+    context "without games next week" do
+      its(:next_week) { should be_nil }
+    end
+
+    context "with league week in no games week" do
+      before { league.update_attributes(season: game.season, week: game.week + 1) }
+
+      its(:next_week) { should be_nil }
+    end
+
+    context "with games next week" do
+      let(:next_game) { create(:game, league: league, season: game.season, week: game.week + 1) }
+
+      before { next_game }
+
+      its(:next_week) { should eql next_game.week }
+    end
+
+    context "without games next week but two weeks from now" do
+      let(:next_game) { create(:game, league: league, season: game.season, week: game.week + 2) }
+
+      before { next_game }
+
+      its(:next_week) { should eql next_game.week }
+    end
+
+    context "with games next week and league in the last week" do
+      let(:next_game) { create(:game, league: league, season: game.season, week: game.week + 1) }
+
+      before { league.update_attributes(season: next_game.season, week: next_game.week) }
+
+      its(:next_week) { should be_nil }
     end
   end
 end

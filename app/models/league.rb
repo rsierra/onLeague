@@ -38,4 +38,14 @@ class League < ActiveRecord::Base
   def week_closeable?
     current_games.not_closeables.empty?
   end
+
+  def next_week
+    next_week = nil
+    weeks = season_week_list
+    unless weeks.last == week
+      week_index = weeks.index(week)
+      next_week = weeks[week_index + 1] if week_index
+    end
+    next_week
+  end
 end
