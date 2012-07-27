@@ -133,4 +133,26 @@ describe League do
     it { League.except(second_league).should == [league] }
     it { League.except(league).should == [second_league] }
   end
+
+  context "when get current games" do
+    let(:league) { create(:league) }
+    let(:game) { create(:game, league: league) }
+    let(:next_game) { create(:game, league: league, week: game.week + 1) }
+
+    before { league.update_attributes(season: game.season, week: game.week) }
+    subject { league }
+
+    it { should have(1).current_games }
+    its(:current_games) { should include game}
+
+    context "with more than one game" do
+      let(:another_game) { create(:game, league: league) }
+
+      before { another_game }
+
+      it { should have(2).current_games }
+      its(:current_games) { should include game}
+      its(:current_games) { should include another_game}
+    end
+  end
 end

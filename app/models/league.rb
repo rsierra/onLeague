@@ -30,4 +30,8 @@ class League < ActiveRecord::Base
   def season_week_list(find_season = season)
     games.where(season: find_season).select(:week).order(:week).uniq.map(&:week)
   end
+
+  def current_games
+    games.season(season).week(week)
+  end
 end
