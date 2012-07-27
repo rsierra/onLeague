@@ -155,4 +155,73 @@ describe League do
       its(:current_games) { should include another_game}
     end
   end
+
+  describe "when check if week is closeable" do
+    let(:league) { create(:league) }
+    let(:game) { create(:game, league: league) }
+
+    before { league.update_attributes(season: game.season, week: game.week) }
+    subject { league }
+
+    context "with an active game" do
+      its(:week_closeable?) { should be_false }
+    end
+
+    context "with an inactive game" do
+      before { game.update_attributes(status: 'inactive') }
+
+      its(:week_closeable?) { should be_true }
+    end
+
+    context "with an evaluated game" do
+      before { game.update_attributes(status: 'evaluated') }
+
+      its(:week_closeable?) { should be_false }
+    end
+
+    context "with an revised game" do
+      before { game.update_attribute(:status, 'revised') }
+
+      its(:week_closeable?) { should be_true }
+    end
+
+    context "with a closed game" do
+      before { game.update_attribute(:status, 'closed') }
+
+      its(:week_closeable?) { should be_true }
+    end
+
+    context "with a closeable game" do
+      let(:closeable_game) { create(:game, league: league) }
+      before { closeable_game.update_attribute(:status, 'revised') }
+
+      context "and an active game" do
+        its(:week_closeable?) { should be_false }
+      end
+
+      context "and an inactive game" do
+        before { game.update_attributes(status: 'inactive') }
+
+        its(:week_closeable?) { should be_true }
+      end
+
+      context "and an evaluated game" do
+        before { game.update_attributes(status: 'evaluated') }
+
+        its(:week_closeable?) { should be_false }
+      end
+
+      context "and an revised game" do
+        before { game.update_attribute(:status, 'revised') }
+
+        its(:week_closeable?) { should be_true }
+      end
+
+      context "and a closed game" do
+        before { game.update_attribute(:status, 'closed') }
+
+        its(:week_closeable?) { should be_true }
+      end
+    end
+  end
 end

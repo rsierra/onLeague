@@ -34,4 +34,8 @@ class League < ActiveRecord::Base
   def current_games
     games.season(season).week(week)
   end
+
+  def week_closeable?
+    current_games.not_closeables.empty?
+  end
 end
