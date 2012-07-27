@@ -517,7 +517,9 @@ describe Game do
         before { game.status = 'revised' }
         subject { game }
 
-        it { should be_valid }
+        it { should_not be_valid }
+        it { should have(1).error_on(:status) }
+        it { game.error_on(:status).should include I18n.t(accepted_status_error_translation_key) }
       end
 
       context "to inactive" do

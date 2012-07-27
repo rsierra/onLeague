@@ -6,7 +6,7 @@ class Game < ActiveRecord::Base
     'inactive' => ['active'],
     'evaluated' => ['revised','active'],
     'revised' => ['closed','evaluated'],
-    'closed' => ['revised']
+    'closed' => []
     }.freeze
 
   STATUS_EVENTS = {
