@@ -48,4 +48,9 @@ class League < ActiveRecord::Base
     end
     next_week
   end
+
+  def advance_week
+    new_week = next_week
+    update_attributes(week: new_week) if new_week
+  end
 end

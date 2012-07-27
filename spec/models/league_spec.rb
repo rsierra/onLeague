@@ -266,4 +266,54 @@ describe League do
       its(:next_week) { should be_nil }
     end
   end
+
+  describe "when get advance week" do
+    let(:league) { create(:league) }
+    let(:game) { create(:game, league: league) }
+    let(:last_week) { league.week }
+
+    before { league.update_attributes(season: game.season, week: game.week) }
+    subject { league }
+
+    context "without games next week" do
+      before { last_week; league.advance_week }
+      its(:week) { should eql last_week }
+    end
+
+    context "with league week in no games week" do
+      before do
+        league.update_attributes(season: game.season, week: game.week + 1)
+        last_week; league.advance_week
+      end
+
+      its(:week) { should eql last_week }
+    end
+
+    context "with games next week" do
+      let(:next_game) { create(:game, league: league, season: game.season, week: game.week + 1) }
+
+      before { next_game; league.advance_week }
+
+      its(:week) { should eql next_game.week }
+    end
+
+    context "without games next week but two weeks from now" do
+      let(:next_game) { create(:game, league: league, season: game.season, week: game.week + 2) }
+
+      before { next_game; league.advance_week }
+
+      its(:week) { should eql next_game.week }
+    end
+
+    context "with games next week and league in the last week" do
+      let(:next_game) { create(:game, league: league, season: game.season, week: game.week + 1) }
+
+      before do
+        league.update_attributes(season: next_game.season, week: next_game.week)
+        last_week; league.advance_week
+      end
+
+      its(:week) { should eql last_week }
+    end
+  end
 end
