@@ -33,6 +33,8 @@ es:
             status:
               should_be_initial_status: debe ser un estado inicial
               should_be_an_accepted_status: debe pasar a un estado correcto
+            lineups:
+              should_have_right_number_of_lineups: debe haber 11 en cada club
   enumerize:
     game:
       status:
