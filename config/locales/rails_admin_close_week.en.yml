@@ -6,3 +6,4 @@ en:
         menu: "Close Week"
         link: "Close Week"
         done: "Week Closed"
+        error: "Week can't be closed, check the games"
