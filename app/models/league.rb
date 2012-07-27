@@ -59,4 +59,11 @@ class League < ActiveRecord::Base
       game.update_attributes(status: 'closed')
     end
   end
+
+  def close_week
+    if week_closeable?
+      advance_week
+      close_current_games
+    end
+  end
 end

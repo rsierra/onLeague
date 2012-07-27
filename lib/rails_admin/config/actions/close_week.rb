@@ -16,8 +16,11 @@ module RailsAdmin
 
         register_instance_option :controller do
           Proc.new do
-            flash[:notice] = "Week closed"
-
+            if @object.close_week
+              flash[:notice] = I18n.t('admin.actions.close_week.done')
+            else
+              flash[:error] = I18n.t('admin.actions.close_week.error')
+            end
             redirect_to back_or_index
           end
         end
