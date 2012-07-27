@@ -316,4 +316,21 @@ describe League do
       its(:week) { should eql last_week }
     end
   end
+
+  describe "when close curent games" do
+    let(:league) { create(:league) }
+    let(:game) { create(:game, league: league) }
+    let(:another_game) { create(:game, league: league) }
+
+    before do
+      league.update_attributes(season: game.season, week: game.week)
+      game.update_attribute(:status, 'revised')
+      another_game.update_attribute(:status, 'revised')
+      league.close_current_games
+      game.reload; another_game.reload
+    end
+
+    it { game.status.should eql 'closed' }
+    it { another_game.status.should eql 'closed' }
+  end
 end

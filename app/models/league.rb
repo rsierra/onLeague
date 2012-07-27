@@ -53,4 +53,10 @@ class League < ActiveRecord::Base
     new_week = next_week
     update_attributes(week: new_week) if new_week
   end
+
+  def close_current_games
+    current_games.where(status: 'revised').each do |game|
+      game.update_attributes(status: 'closed')
+    end
+  end
 end
