@@ -363,7 +363,7 @@ describe Game do
   describe "when change status" do
     let(:game) { create(:game) }
 
-    describe "form active" do
+    describe "from active" do
       context "to inactive" do
         before { game.status = 'inactive' }
         subject { game }
@@ -397,7 +397,7 @@ describe Game do
       end
     end
 
-    describe "form inactive" do
+    describe "from inactive" do
       let(:game) { create(:game, status: 'inactive')}
       context "to active" do
         before { game.status = 'inactive' }
@@ -434,7 +434,7 @@ describe Game do
       end
     end
 
-    describe "form evaluated" do
+    describe "from evaluated" do
       before { game.update_attributes(status: 'evaluated') }
       context "to active" do
         before { game.status = 'active' }
@@ -469,7 +469,7 @@ describe Game do
       end
     end
 
-    describe "form revised" do
+    describe "from revised" do
       before do
         game.update_attributes(status: 'evaluated')
         game.update_attributes(status: 'revised')
@@ -507,7 +507,7 @@ describe Game do
       end
     end
 
-    describe "form closed" do
+    describe "from closed" do
       before do
         game.update_attributes(status: 'evaluated')
         game.update_attributes(status: 'revised')
