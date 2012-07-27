@@ -16,4 +16,15 @@ FactoryGirl.define do
       club_away { create(:club, leagues: [league]) }
     end
   end
+
+  trait :full_of_lineups do
+    ignore do
+      home_lineups Lineup::MAX_PER_GAME
+      away_lineups Lineup::MAX_PER_GAME
+    end
+    after(:create) do |game, evaluator|
+      create_list(:player_in_game, evaluator.home_lineups, player_game: game)
+      create_list(:player_in_game_away, evaluator.away_lineups, player_game: game)
+    end
+  end
 end

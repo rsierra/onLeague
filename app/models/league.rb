@@ -30,4 +30,40 @@ class League < ActiveRecord::Base
   def season_week_list(find_season = season)
     games.where(season: find_season).select(:week).order(:week).uniq.map(&:week)
   end
+
+  def current_games
+    games.season(season).week(week)
+  end
+
+  def week_closeable?
+    current_games.not_closeables.empty?
+  end
+
+  def next_week
+    next_week = nil
+    weeks = season_week_list
+    unless weeks.last == week
+      week_index = weeks.index(week)
+      next_week = weeks[week_index + 1] if week_index
+    end
+    next_week
+  end
+
+  def advance_week
+    new_week = next_week
+    update_attributes(week: new_week) if new_week
+  end
+
+  def close_current_games
+    current_games.where(status: 'revised').each do |game|
+      game.update_attributes(status: 'closed')
+    end
+  end
+
+  def close_week
+    if week_closeable?
+      advance_week
+      close_current_games
+    end
+  end
 end
