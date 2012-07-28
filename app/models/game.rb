@@ -35,7 +35,7 @@ class Game < ActiveRecord::Base
   friendly_id :custom_slug, use: :slugged
 
   include Enumerize
-  enumerize :status, in: STATUS_TYPES
+  enumerize :status, in: STATUS_TYPES, default: 'active'
 
   validates :league, :club_home, :club_away, presence: true
   validates :date,  presence: true
