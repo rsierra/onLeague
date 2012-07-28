@@ -17,9 +17,13 @@ describe Lineup do
         let(:player_stat) { lineup.player.stats.season(lineup.game.season).week(lineup.game.week).first }
         subject { player_stat }
 
+        its(:points) { should eql 2 }
         its(:points) { should eql Lineup::STATS[:points] }
+        its(:lineups) { should eql 1 }
         its(:lineups) { should eql Lineup::STATS[:lineups] }
+        its(:games_played) { should eql 1 }
         its(:games_played) { should eql Lineup::STATS[:games_played] }
+        its(:minutes_played) { should eql 90 }
         its(:minutes_played) { should eql Lineup::STATS[:minutes_played] }
       end
 
