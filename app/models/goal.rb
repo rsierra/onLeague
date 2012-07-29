@@ -6,7 +6,6 @@ class Goal < ActiveRecord::Base
   validates :goalkeeper, player_in_game: true, unless: "goalkeeper.blank?"
   validates :goalkeeper, player_playing: true, if: "goalkeeper_id_changed? && !goalkeeper.blank?"
 
-  include Extensions::StatEvent
   include Extensions::GameEvent
   acts_as_game_event player_relation: :scorer, second_player_relation: :assistant
 
@@ -28,10 +27,6 @@ class Goal < ActiveRecord::Base
 
   def kind_enum
     Goal.kind.values
-  end
-
-  def title
-    "#{self.player_file.club_name}, #{self.scorer.name} (#{self.minute}')"
   end
 
   def goal_assistant_presence

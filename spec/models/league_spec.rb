@@ -133,4 +133,204 @@ describe League do
     it { League.except(second_league).should == [league] }
     it { League.except(league).should == [second_league] }
   end
+
+  context "when get current games" do
+    let(:league) { create(:league) }
+    let(:game) { create(:game, league: league) }
+    let(:next_game) { create(:game, league: league, week: game.week + 1) }
+
+    before { league.update_attributes(season: game.season, week: game.week) }
+    subject { league }
+
+    it { should have(1).current_games }
+    its(:current_games) { should include game}
+
+    context "with more than one game" do
+      let(:another_game) { create(:game, league: league) }
+
+      before { another_game }
+
+      it { should have(2).current_games }
+      its(:current_games) { should include game}
+      its(:current_games) { should include another_game}
+    end
+  end
+
+  describe "when check if week is closeable" do
+    let(:league) { create(:league) }
+    let(:game) { create(:game, league: league) }
+
+    before { league.update_attributes(season: game.season, week: game.week) }
+    subject { league }
+
+    context "with an active game" do
+      its(:week_closeable?) { should be_false }
+    end
+
+    context "with an inactive game" do
+      before { game.update_attributes(status: 'inactive') }
+
+      its(:week_closeable?) { should be_true }
+    end
+
+    context "with an evaluated game" do
+      before { game.update_attributes(status: 'evaluated') }
+
+      its(:week_closeable?) { should be_false }
+    end
+
+    context "with an revised game" do
+      before { game.update_attribute(:status, 'revised') }
+
+      its(:week_closeable?) { should be_true }
+    end
+
+    context "with a closed game" do
+      before { game.update_attribute(:status, 'closed') }
+
+      its(:week_closeable?) { should be_true }
+    end
+
+    context "with a closeable game" do
+      let(:closeable_game) { create(:game, league: league, season: game.season, week: game.week) }
+      before { closeable_game.update_attribute(:status, 'revised') }
+
+      context "and an active game" do
+        its(:week_closeable?) { should be_false }
+      end
+
+      context "and an inactive game" do
+        before { game.update_attributes(status: 'inactive') }
+
+        its(:week_closeable?) { should be_true }
+      end
+
+      context "and an evaluated game" do
+        before { game.update_attributes(status: 'evaluated') }
+
+        its(:week_closeable?) { should be_false }
+      end
+
+      context "and an revised game" do
+        before { game.update_attribute(:status, 'revised') }
+
+        its(:week_closeable?) { should be_true }
+      end
+
+      context "and a closed game" do
+        before { game.update_attribute(:status, 'closed') }
+
+        its(:week_closeable?) { should be_true }
+      end
+    end
+  end
+
+  describe "when get next week" do
+    let(:league) { create(:league) }
+    let(:game) { create(:game, league: league) }
+
+    before { league.update_attributes(season: game.season, week: game.week) }
+    subject { league }
+
+    context "without games next week" do
+      its(:next_week) { should be_nil }
+    end
+
+    context "with league week in no games week" do
+      before { league.update_attributes(season: game.season, week: game.week + 1) }
+
+      its(:next_week) { should be_nil }
+    end
+
+    context "with games next week" do
+      let(:next_game) { create(:game, league: league, season: game.season, week: game.week + 1) }
+
+      before { next_game }
+
+      its(:next_week) { should eql next_game.week }
+    end
+
+    context "without games next week but two weeks from now" do
+      let(:next_game) { create(:game, league: league, season: game.season, week: game.week + 2) }
+
+      before { next_game }
+
+      its(:next_week) { should eql next_game.week }
+    end
+
+    context "with games next week and league in the last week" do
+      let(:next_game) { create(:game, league: league, season: game.season, week: game.week + 1) }
+
+      before { league.update_attributes(season: next_game.season, week: next_game.week) }
+
+      its(:next_week) { should be_nil }
+    end
+  end
+
+  describe "when get advance week" do
+    let(:league) { create(:league) }
+    let(:game) { create(:game, league: league) }
+    let(:last_week) { league.week }
+
+    before { league.update_attributes(season: game.season, week: game.week) }
+    subject { league }
+
+    context "without games next week" do
+      before { last_week; league.advance_week }
+      its(:week) { should eql last_week }
+    end
+
+    context "with league week in no games week" do
+      before do
+        league.update_attributes(season: game.season, week: game.week + 1)
+        last_week; league.advance_week
+      end
+
+      its(:week) { should eql last_week }
+    end
+
+    context "with games next week" do
+      let(:next_game) { create(:game, league: league, season: game.season, week: game.week + 1) }
+
+      before { next_game; league.advance_week }
+
+      its(:week) { should eql next_game.week }
+    end
+
+    context "without games next week but two weeks from now" do
+      let(:next_game) { create(:game, league: league, season: game.season, week: game.week + 2) }
+
+      before { next_game; league.advance_week }
+
+      its(:week) { should eql next_game.week }
+    end
+
+    context "with games next week and league in the last week" do
+      let(:next_game) { create(:game, league: league, season: game.season, week: game.week + 1) }
+
+      before do
+        league.update_attributes(season: next_game.season, week: next_game.week)
+        last_week; league.advance_week
+      end
+
+      its(:week) { should eql last_week }
+    end
+  end
+
+  describe "when close curent games" do
+    let(:league) { create(:league) }
+    let(:game) { create(:game, league: league) }
+    let(:another_game) { create(:game, league: league) }
+
+    before do
+      league.update_attributes(season: game.season, week: game.week)
+      game.update_attribute(:status, 'revised')
+      another_game.update_attribute(:status, 'revised')
+      league.close_current_games
+      game.reload; another_game.reload
+    end
+
+    it { game.status.should eql 'closed' }
+    it { another_game.status.should eql 'closed' }
+  end
 end

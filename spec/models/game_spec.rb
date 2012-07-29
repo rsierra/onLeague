@@ -7,6 +7,7 @@ describe Game do
   let(:cant_play_himself_error_translation_key) { "#{error_translation_key}.club_home.cant_play_himself" }
   let(:initial_status_error_translation_key) { "#{error_translation_key}.status.should_be_initial_status" }
   let(:accepted_status_error_translation_key) { "#{error_translation_key}.status.should_be_an_accepted_status" }
+  let(:number_of_lineups_error_translation_key) { "#{error_translation_key}.lineups.should_have_right_number_of_lineups" }
 
   describe "when create" do
 
@@ -362,8 +363,9 @@ describe Game do
 
   describe "when change status" do
     let(:game) { create(:game) }
+    before { game.stub(:valid_lineups_count?).and_return(true) }
 
-    describe "form active" do
+    describe "from active" do
       context "to inactive" do
         before { game.status = 'inactive' }
         subject { game }
@@ -373,6 +375,7 @@ describe Game do
 
       context "to evaluated" do
         before { game.status = 'evaluated' }
+
         subject { game }
 
         it { should be_valid }
@@ -397,7 +400,7 @@ describe Game do
       end
     end
 
-    describe "form inactive" do
+    describe "from inactive" do
       let(:game) { create(:game, status: 'inactive')}
       context "to active" do
         before { game.status = 'inactive' }
@@ -434,7 +437,7 @@ describe Game do
       end
     end
 
-    describe "form evaluated" do
+    describe "from evaluated" do
       before { game.update_attributes(status: 'evaluated') }
       context "to active" do
         before { game.status = 'active' }
@@ -469,7 +472,7 @@ describe Game do
       end
     end
 
-    describe "form revised" do
+    describe "from revised" do
       before do
         game.update_attributes(status: 'evaluated')
         game.update_attributes(status: 'revised')
@@ -507,7 +510,7 @@ describe Game do
       end
     end
 
-    describe "form closed" do
+    describe "from closed" do
       before do
         game.update_attributes(status: 'evaluated')
         game.update_attributes(status: 'revised')
@@ -517,7 +520,9 @@ describe Game do
         before { game.status = 'revised' }
         subject { game }
 
-        it { should be_valid }
+        it { should_not be_valid }
+        it { should have(1).error_on(:status) }
+        it { game.error_on(:status).should include I18n.t(accepted_status_error_translation_key) }
       end
 
       context "to inactive" do
@@ -551,6 +556,50 @@ describe Game do
 
   describe "when evaluate" do
     let(:game) { create(:game) }
+    before { game.update_attributes(status: 'evaluated') }
+    subject { game }
+
+    context "with enought lineups" do
+      let(:game) { create(:game, :full_of_lineups) }
+
+      it { should be_valid }
+    end
+
+    context "without lineups" do
+      it { should_not be_valid }
+      it { should have(1).error_on(:lineups) }
+      it { game.error_on(:lineups).should include I18n.t(number_of_lineups_error_translation_key) }
+    end
+
+    context "without enought lineups" do
+      let(:game) { create(:game, :full_of_lineups, home_lineups: Lineup.max_per_game - 1, away_lineups: Lineup.max_per_game - 1) }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:lineups) }
+      it { game.error_on(:lineups).should include I18n.t(number_of_lineups_error_translation_key) }
+    end
+
+    context "without enought lineups in club home" do
+      let(:game) { create(:game, :full_of_lineups, home_lineups: Lineup.max_per_game - 1) }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:lineups) }
+      it { game.error_on(:lineups).should include I18n.t(number_of_lineups_error_translation_key) }
+    end
+
+    context "without enought lineups in club home" do
+      let(:game) { create(:game, :full_of_lineups, away_lineups: Lineup.max_per_game - 1) }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:lineups) }
+      it { game.error_on(:lineups).should include I18n.t(number_of_lineups_error_translation_key) }
+    end
+  end
+
+
+  describe "when evaluate" do
+    let(:game) { create(:game) }
+    before { game.stub(:valid_lineups_count?).and_return(true) }
 
     describe "without goals" do
       before do

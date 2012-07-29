@@ -1,0 +1,9 @@
+es:
+  admin:
+    actions:
+      close_week:
+        title: "Cerrar jornada"
+        menu: "Cerrar jornada"
+        link: "Cerrar jornada"
+        done: "Jornada cerrada"
+        error: "La jornada no se puede cerrar, revisa los partidos"

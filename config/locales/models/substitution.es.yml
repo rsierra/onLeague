@@ -26,4 +26,5 @@ es:
               should_be_in_same_club: debe estar en el mismo equipo que el jugador que sale
               should_not_play_yet: no debe haber jugado todavía
             game:
-              cant_have_more_substitutions: no puede tener mas substituciones para este club
+              cant_have_more: no puede tener mas substituciones para este club
+              should_be_active: debe estar activo

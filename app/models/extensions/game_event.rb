@@ -2,16 +2,18 @@ module Extensions
   module GameEvent
     extend ActiveSupport::Concern
 
+    include Extensions::EventUtils
+
     included do
+      def title_with_minute
+        "#{title_without_minute} (#{self.minute}')"
+      end
+      alias_method_chain :title, :minute
     end
 
     module ClassMethods
       def acts_as_game_event(options = {})
-        class_attribute :player_relation
         self.player_relation = (options[:player_relation] || :player)
-
-        belongs_to :game
-        validates :game, presence: true
 
         belongs_to self.player_relation, class_name: 'Player'
         validates self.player_relation, presence: true, player_in_game: true
@@ -19,8 +21,6 @@ module Extensions
 
         validates :minute,  presence: true,
                       numericality: { only_integer: true, greater_than_or_equal_to: 0, :less_than_or_equal_to => 130 }
-
-        scope :of, ->(player) { where("#{self.player_relation}_id" => player) }
         scope :before, ->(minute) { order(:minute).where(['minute < ?', minute]) }
 
         unless options[:second_player_relation].blank?
@@ -36,14 +36,6 @@ module Extensions
           include SecondPlayerMethods
         end
       end
-    end
-
-    def event_player
-      send(self.player_relation)
-    end
-
-    def player_file
-      event_player.club_files.on(game.end_date_of_week).last
     end
   end
 

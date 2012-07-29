@@ -6,7 +6,7 @@ class Game < ActiveRecord::Base
     'inactive' => ['active'],
     'evaluated' => ['revised','active'],
     'revised' => ['closed','evaluated'],
-    'closed' => ['revised']
+    'closed' => []
     }.freeze
 
   STATUS_EVENTS = {
@@ -35,7 +35,7 @@ class Game < ActiveRecord::Base
   friendly_id :custom_slug, use: :slugged
 
   include Enumerize
-  enumerize :status, in: STATUS_TYPES
+  enumerize :status, in: STATUS_TYPES, default: 'active'
 
   validates :league, :club_home, :club_away, presence: true
   validates :date,  presence: true
@@ -51,9 +51,11 @@ class Game < ActiveRecord::Base
   validate :validate_play_himself, :validate_clubs_league
   validate :initial_status, if: 'new_record? && !status.blank?'
   validate :new_status, if: 'status_changed? && !new_record?'
+  validate :number_of_lineups, if: '!status.blank? && status.evaluated?'
 
   scope :week, ->(week) { where week: week }
   scope :season, ->(season) { where season: season }
+  scope :not_closeables, where("status = 'active' OR status = 'evaluated'")
 
   before_save :trigger_status_events  , if: 'status_changed? && !new_record?'
 
@@ -237,6 +239,15 @@ class Game < ActiveRecord::Base
 
   private
 
+  def club_valid_lineups_count? club
+    player_ids = club.player_ids_on_date(date)
+    lineups.of_players(player_ids).count == Lineup.max_per_game
+  end
+
+  def valid_lineups_count?
+    club_valid_lineups_count?(club_home) && club_valid_lineups_count?(club_away)
+  end
+
   def validate_play_himself
     errors.add(:club_home, :cant_play_himself) if play_himself?
   end
@@ -252,6 +263,10 @@ class Game < ActiveRecord::Base
 
   def new_status
     errors.add(:status, :should_be_an_accepted_status) unless accepted_statuses(status_was).include? status
+  end
+
+  def number_of_lineups
+    errors.add(:lineups, :should_have_right_number_of_lineups) unless valid_lineups_count?
   end
 
   def trigger_status_events

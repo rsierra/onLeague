@@ -23,6 +23,8 @@ es:
               should_only_one_kind: debe ser unico por jugador y partido
               should_exists_yellow_before: debe existir una tarjeta amarilla anterior
               should_not_exist_any_red_before: no debe existir ningún tipo de tarjeta roja anterior
+            game:
+              should_be_active: debe estar activo
   enumerize:
     card:
       kind:

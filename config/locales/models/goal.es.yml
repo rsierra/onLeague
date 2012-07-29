@@ -32,6 +32,8 @@ es:
             goalkeeper:
               should_play_in_any_club: debe jugar en alguno de los equipos del partido
               should_be_playing: debe jugar en ese momento
+            game:
+              should_be_active: debe estar activo
   enumerize:
     goal:
       kind:

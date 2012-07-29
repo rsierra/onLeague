@@ -4,7 +4,7 @@ describe Substitution do
   describe "when create" do
     let(:error_translation_key) { 'activerecord.errors.models.substitution.attributes' }
     let(:not_play_yet_error_translation_key) { "#{error_translation_key}.player_in.should_not_play_yet" }
-    let(:cant_have_more_substitutions_error_translation_key) { "#{error_translation_key}.game.cant_have_more_substitutions" }
+    let(:cant_have_more_substitutions_error_translation_key) { "#{error_translation_key}.game.cant_have_more" }
 
     context "with correct data" do
       let(:substitution) { create(:substitution) }
@@ -181,7 +181,7 @@ describe Substitution do
     end
 
     context "more than max substitutions for a game" do
-      let(:max_substitutions) { Substitution::MAX_PER_GAME }
+      let(:max_substitutions) { Substitution.max_per_game }
       let(:game) { create(:game) }
       let(:players_out) { create_list(:player_in_game, max_substitutions + 1, player_game: game) }
       let(:players_in) { create_list(:player_with_club, max_substitutions + 1, player_club: game.club_home) }
