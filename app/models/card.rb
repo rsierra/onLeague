@@ -3,7 +3,6 @@ class Card < ActiveRecord::Base
   STATS_RED = { points: -1, yellow_cards: 1, red_cards: 1 }
   STATS_DIRECT_RED = { points: -3, red_cards: 1 }
 
-  include Extensions::StatEvent
   include Extensions::GameEvent
   acts_as_game_event
 
@@ -18,18 +17,12 @@ class Card < ActiveRecord::Base
   validate :not_red_before, if: '!kind.nil? && kind.direct_red?'
 
   scope :red, where("kind = 'red' OR kind = 'direct_red'")
-  scope :in_game, ->(game) { where(game_id: game) }
-  scope :exclude_id, ->(id=0) { where('id != ?', id) }
 
   before_save :update_stats, if: 'player_id_changed? || minute_changed? || kind_changed?'
   before_destroy :restore_stats
 
   def kind_enum
     Card.kind.values
-  end
-
-  def title
-    "#{self.player_file.club_name}, #{self.player.name} (#{self.minute}') (#{I18n.t("enumerize.card.kind.#{self.kind}").first})"
   end
 
   def card_stats

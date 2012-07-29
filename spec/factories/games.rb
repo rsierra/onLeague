@@ -19,8 +19,8 @@ FactoryGirl.define do
 
   trait :full_of_lineups do
     ignore do
-      home_lineups Lineup::MAX_PER_GAME
-      away_lineups Lineup::MAX_PER_GAME
+      home_lineups Lineup.max_per_game
+      away_lineups Lineup.max_per_game
     end
     after(:create) do |game, evaluator|
       create_list(:player_in_game, evaluator.home_lineups, player_game: game)

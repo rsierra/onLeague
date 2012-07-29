@@ -241,7 +241,7 @@ class Game < ActiveRecord::Base
 
   def club_valid_lineups_count? club
     player_ids = club.player_ids_on_date(date)
-    lineups.of_players(player_ids).count == Lineup::MAX_PER_GAME
+    lineups.of_players(player_ids).count == Lineup.max_per_game
   end
 
   def valid_lineups_count?

@@ -32,6 +32,8 @@ en:
             goalkeeper:
               should_play_in_any_club: should play in any club of the game
               should_be_playing: should be playing in that moment
+            game:
+              should_be_active: should be active
   enumerize:
     goal:
       kind:

@@ -572,7 +572,7 @@ describe Game do
     end
 
     context "without enought lineups" do
-      let(:game) { create(:game, :full_of_lineups, home_lineups: Lineup::MAX_PER_GAME - 1, away_lineups: Lineup::MAX_PER_GAME - 1) }
+      let(:game) { create(:game, :full_of_lineups, home_lineups: Lineup.max_per_game - 1, away_lineups: Lineup.max_per_game - 1) }
 
       it { should_not be_valid }
       it { should have(1).error_on(:lineups) }
@@ -580,7 +580,7 @@ describe Game do
     end
 
     context "without enought lineups in club home" do
-      let(:game) { create(:game, :full_of_lineups, home_lineups: Lineup::MAX_PER_GAME - 1) }
+      let(:game) { create(:game, :full_of_lineups, home_lineups: Lineup.max_per_game - 1) }
 
       it { should_not be_valid }
       it { should have(1).error_on(:lineups) }
@@ -588,7 +588,7 @@ describe Game do
     end
 
     context "without enought lineups in club home" do
-      let(:game) { create(:game, :full_of_lineups, away_lineups: Lineup::MAX_PER_GAME - 1) }
+      let(:game) { create(:game, :full_of_lineups, away_lineups: Lineup.max_per_game - 1) }
 
       it { should_not be_valid }
       it { should have(1).error_on(:lineups) }
