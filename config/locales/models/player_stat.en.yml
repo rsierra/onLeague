@@ -1,9 +1,9 @@
 en:
   activerecord:
     models:
-      player_point: Points
+      player_stat: Stats
     attributes:
-      player_point:
+      player_stat:
         assists: Assists
         created_at: Created at
         game: Game
