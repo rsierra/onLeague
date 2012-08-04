@@ -41,18 +41,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @games.each do |game| %>
-          <tr>
-            <td><%= l_with_timezone game.date, format: :custom %></td>
-            <td><%= game.club_home.name %></td>
-            <td><%= image_tag game.club_home.logo.url(:thumb),
-                    alt: "#{game.club_home.name} #{Club.human_attribute_name(:logo)}" %></td>
-            <td><%= game.result %></td>
-            <td><%= image_tag game.club_away.logo.url(:thumb),
-                    alt: "#{game.club_away.name} #{Club.human_attribute_name(:logo)}" %></td>
-            <td><%= game.club_away.name %></td>
-          </tr>
-          <% end -%>
+          <%= render @games %>
         </tbody>
       </table>
 
