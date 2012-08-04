@@ -8,4 +8,8 @@ class GamesController < ApplicationController
     @season = @season
     @games = @current_league.games.season(@season).week(week)
   end
+
+  def show
+    @game = Game.find(params[:id])
+  end
 end

@@ -1,0 +1,12 @@
+en:
+  games:
+    show:
+      events: Events
+    event:
+      substitution: Enter %{in} for %{out}
+      assistant: "with assist of %{name}"
+      own: "%{name} own goal"
+      penalty: "Penalty by %{name}"
+      penalty_saved: "%{name} penalty saved"
+      penalty_out: "%{name} penalty out"
+
