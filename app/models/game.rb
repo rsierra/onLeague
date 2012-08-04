@@ -83,6 +83,46 @@ class Game < ActiveRecord::Base
     club_home.leagues.include? league
   end
 
+  def home_lineups_players
+    home_lineups.map(&:player)
+  end
+
+  def away_lineups_players
+    away_lineups.map(&:player)
+  end
+
+  def home_lineups
+    home_events_from lineups
+  end
+
+  def away_lineups
+    away_events_from lineups
+  end
+
+  def home_substitutions_players_in
+    home_substitutions.map(&:player_in)
+  end
+
+  def away_substitutions_players_in
+    away_substitutions.map(&:player_in)
+  end
+
+  def home_substitutions
+    home_events_from substitutions
+  end
+
+  def away_substitutions
+    away_events_from substitutions
+  end
+
+  def home_events_from events
+    events.of_players(club_home.player_ids_on_date(date))
+  end
+
+  def away_events_from events
+    events.of_players(club_away.player_ids_on_date(date))
+  end
+
   def events
     game_events = substitutions + cards + goals
     game_events.sort {|x,y| x.minute <=> y.minute }
