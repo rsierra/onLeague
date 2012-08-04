@@ -1,6 +1,8 @@
 class Club < ActiveRecord::Base
   has_and_belongs_to_many :leagues
 
+  attr_accessor :border_color
+
   has_many :club_files
   has_many :files, :class_name => 'ClubFile', :conditions => 'date_out is null', :order => :number
   accepts_nested_attributes_for :files
@@ -40,6 +42,11 @@ class Club < ActiveRecord::Base
   validates :number_color, :presence => true
 
   after_create :default_values
+  after_initialize :set_attributes
+
+  def set_attributes
+    @border_color = Utils::Color.opposite_color_hex(number_color) unless number_color.blank?
+  end
 
   def player_ids_on_date(date=Date.today)
     club_files.on(date).order(:player_id).select(:player_id).map(&:player_id)
