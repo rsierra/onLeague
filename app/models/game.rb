@@ -83,6 +83,11 @@ class Game < ActiveRecord::Base
     club_home.leagues.include? league
   end
 
+  def events
+    game_events = substitutions + cards + goals
+    game_events.sort {|x,y| x.minute <=> y.minute }
+  end
+
   def home_goals
     goals.of_scorers(club_home.player_ids_on_date(date)).count
   end
