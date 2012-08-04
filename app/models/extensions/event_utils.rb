@@ -38,6 +38,14 @@ module Extensions
       club.blank? ? 0 : self.class.in_game(game).exclude_id(id || 0).of_players(club.player_ids_on_date(game.date)).count
     end
 
+    def home?
+      game.player_in_club_home? event_player
+    end
+
+    def away?
+      game.player_in_club_away? event_player
+    end
+
     private
 
     def max_per_club
