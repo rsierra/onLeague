@@ -107,8 +107,12 @@ class Game < ActiveRecord::Base
     league.end_date_of_week(week,season)
   end
 
+  def is_visible?
+    status.closed? || status.revised? || status.evaluated?
+  end
+
   def result
-    status.closed? ? "#{home_goals} - #{away_goals}" : "-"
+    is_visible? ? "#{home_goals} - #{away_goals}" : "-"
   end
 
   def player_in_club_home? player
