@@ -1,0 +1,127 @@
+//---------------------------------------------------------
+// GAMES
+
+#games_index {
+  .btn-toolbar {
+    .center-block()
+  }
+
+  .pagination {
+    display: inline-block;
+  }
+}
+
+#game_show {
+  #game_scorer {
+    text-align: center;
+
+    #scorer {
+      display: inline-block;
+      margin: auto;
+      font-size: 2em;
+
+      .club {
+        display: inline-block;
+        vertical-align: middle;
+        img {
+          display: block;
+        }
+        a {
+          text-decoration: none;
+        }
+      }
+
+      #result {
+        display: inline-block;
+        vertical-align: middle;
+        font-family: @numberFont;
+        font-size: 2em;
+      }
+    }
+
+    #game_date {
+      margin: 15px 15%;
+      border-top: 1px @grayLight solid;
+      padding-top: 5px;
+      font-size: 1em;
+      color: @grayLight;
+      span {
+        display: block;
+      }
+      clear: both;
+    }
+  }
+
+  h3 {
+    text-align: center;
+    color: @greenDarker;
+    margin-bottom: 20px;
+    border-bottom: 1px @greenDarker dotted;
+  }
+
+  .table {
+    td {
+      padding: 1px;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    td.column-minute, td.column-icon {
+      min-width: 20px;
+    }
+
+    @text-column-padding: 5px;
+    @text-column-width: 50%;
+    td.column-home {
+      width: @text-column-width;
+      padding-right: @text-column-padding;
+      text-align: right;
+    }
+
+    td.column-away {
+      width: @text-column-width;
+      padding-left: @text-column-padding;
+      text-align: left;
+    }
+
+    td.name {
+      width: 70%;
+      font-size: 1.1em;
+      font-weight: blod;
+    }
+
+    td.points {
+      width: 15%;
+      font-family: @numberFont;
+      font-size: 1.5em;
+    }
+  }
+
+  .icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 15px;
+    background: url('icons/events-icons.gif') no-repeat right center;
+  }
+
+  .substitution {
+    background-position: -90px 50% !important;
+  }
+
+  .goal {
+    background-position: -65px 50% !important;
+  }
+
+  .yellow-card {
+    background-position: 0 50% !important;
+  }
+
+  .red-card {
+    background-position: -43px 50% !important;
+  }
+
+  .direct-red-card {
+    background-position: -21px 50% !important;
+  }
+}

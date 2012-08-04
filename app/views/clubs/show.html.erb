@@ -17,9 +17,7 @@
         <% @club.files.active.each do |file| %>
         <tr>
           <td style="color:#<%= @club.number_color %>">
-            <%= file.number %>
-            <%= image_tag @club.jersey.url(:thumb),
-                alt: "#{@club.name} #{Club.human_attribute_name(:jersey)}" %>
+            <%= jersey_with_number file %>
           </td>
           <td><%= file.player_name %></td>
           <td><%= file.position.text %></td>

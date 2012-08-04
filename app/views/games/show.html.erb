@@ -1,0 +1,62 @@
+<div id="game_show">
+  <div class="row">
+    <div id="game_scorer" class="span6">
+      <div id="scorer">
+        <div class="club">
+          <%= link_to club_path(@game.club_home) do %>
+          <%= image_tag @game.club_home.logo.url(:medium),
+              alt: "#{@game.club_home.name} #{Club.human_attribute_name(:logo)}" %>
+          <span><%= @game.club_home.name %></span>
+          <% end %>
+        </div>
+        <div id="result"><%= @game.result %></div>
+        <div class="club">
+          <%= link_to club_path(@game.club_away) do %>
+          <%= image_tag @game.club_away.logo.url(:medium),
+              alt: "#{@game.club_away.name} #{Club.human_attribute_name(:logo)}" %>
+          <span><%= @game.club_away.name %></span>
+          <% end %>
+        </div>
+      </div>
+      <div id="game_date">
+        <span>
+          <%= Game.human_attribute_name(:season) %> <%= @game.season %> -
+          <%= Game.human_attribute_name(:week) %> <%= @game.week %>
+        </span>
+        <span>
+          <%= l_with_timezone(@game.date, format: :custom).capitalize %>
+        </span>
+      </div>
+
+
+      <h3><%= t '.events' %></h3>
+      <table class="table table-striped">
+      <% @game.events.each do |event| %>
+        <%= render :partial => 'event', :object => event %>
+      <% end %>
+      </table>
+    </div>
+
+    <div class="span6">
+      <h3><%= PlayerStat.human_attribute_name(:points) %></h3>
+      <div class="row">
+        <div id="home_lineups" class="span3">
+          <%= render :partial => "players", :object => @game.home_lineups_players %>
+        </div>
+        <div id="away_lineups" class="span3">
+          <%= render :partial => "players", :object => @game.away_lineups_players %>
+        </div>
+      </div>
+
+      <h3><%= Substitution.model_name.human.pluralize %></h3>
+      <div class="row">
+        <div id="home_substitutions" class="span3">
+          <%= render :partial => "players", :object => @game.home_substitutions_players_in %>
+        </div>
+        <div id="away_substitutions" class="span3">
+          <%= render :partial => "players", :object => @game.away_substitutions_players_in %>
+        </div>
+      </div>
+    </div>
+  <div/>
+</div>

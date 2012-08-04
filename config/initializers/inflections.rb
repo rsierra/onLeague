@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Be sure to restart your server when you modify this file.
 
 # Add new inflection rules using the following format
@@ -17,4 +19,7 @@
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'proveedor OAuth', 'proveedores OAuth'
   inflect.irregular 'jugador', 'jugadores'
+  inflect.irregular 'gol', 'goles'
+  inflect.irregular 'alineación', 'alineaciones'
+  inflect.irregular 'tarjeta', 'tarjetas'
 end

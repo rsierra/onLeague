@@ -1,0 +1,11 @@
+es:
+  games:
+    show:
+      events: Eventos
+    event:
+      substitution: Entra %{in} por %{out}
+      assistant: "a pase de %{name}"
+      own: "%{name} en propia puerta"
+      penalty: "%{name} de penalti"
+      penalty_saved: "Detienen el penalti de %{name}"
+      penalty_out: "%{name} falla un penalti"
