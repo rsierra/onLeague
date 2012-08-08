@@ -1,0 +1,21 @@
+es:
+  activerecord:
+    models:
+      game_mark: Puntuación
+    attributes:
+      game_mark:
+        created_at: Creado en
+        game: Partido
+        game_id: Partido
+        mark: Puntuación
+        player: Jugador
+        player_id: Jugador
+        updated_at: Actualizado en
+    errors:
+      models:
+        game_mark:
+          attributes:
+            player:
+              should_play_in_any_club: debe jugar en alguno de los equipos del partido
+            game:
+              should_be_active: debe estar activo

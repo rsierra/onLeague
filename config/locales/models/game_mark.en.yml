@@ -1,0 +1,21 @@
+en:
+  activerecord:
+    models:
+      game_mark: Mark
+    attributes:
+      game_mark:
+        created_at: Created at
+        game: Game
+        game_id: Game
+        mark: Mark
+        player: Player
+        player_id: Player
+        updated_at: Updated at
+    errors:
+      models:
+        game_mark:
+          attributes:
+            player:
+              should_play_in_any_club: should play in any club of the game
+            game:
+              should_be_active: should be active

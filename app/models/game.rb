@@ -30,6 +30,8 @@ class Game < ActiveRecord::Base
   accepts_nested_attributes_for :cards
   has_many :substitutions
   accepts_nested_attributes_for :substitutions
+  has_many :marks, class_name: 'GameMark'
+  accepts_nested_attributes_for :marks
 
   extend FriendlyId
   friendly_id :custom_slug, use: :slugged
