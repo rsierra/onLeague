@@ -1,4 +1,5 @@
 <table class="table table-striped">
+<tbody>
 <% players.each do |player| %>
   <tr>
     <td><%= jersey_with_number player.club_file_on_date(@game.date) %></td>
@@ -6,4 +7,5 @@
     <td class="points"><%= player.week_stats(:points,@game.league,@game.season,@game.week) %></td>
   </tr>
 <% end %>
+</tbody>
 </table>

@@ -25,7 +25,7 @@
             <% end %>
           </ul>
         </div>
-
+        <span id="week-label"><%= Game.human_attribute_name(:week) %></span>
         <%= paginate @weeks, param_name: :week, :params => { :season => @season } %>
       </div>
 
