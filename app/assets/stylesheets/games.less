@@ -2,12 +2,43 @@
 // GAMES
 
 #games_index {
-  .btn-toolbar {
-    .center-block()
+  .week-selector {
+    text-align: center;
   }
 
   .pagination {
     display: inline-block;
+    vertical-align: middle;
+    margin: 5px;
+  }
+
+  .btn-group {
+    vertical-align: middle;
+  }
+
+  .table {
+    width: 90%;
+    margin: auto;
+
+    td, th {
+      padding: 1px;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    th {
+      font-size: 1.3em;
+      margin-bottom: 5px;
+    }
+
+    td {
+      font-size: 1.1em;
+    }
+
+    td.result {
+      font-family: @numberFont;
+      font-size: 1.5em;
+    }
   }
 }
 

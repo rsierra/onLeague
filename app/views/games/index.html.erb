@@ -11,7 +11,7 @@
     </div>
     <% else %>
 
-      <div class="btn-toolbar">
+      <div class="btn-toolbar week-selector">
         <div class="btn-group">
           <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">
             <%= "#{Game.human_attribute_name(:season)} #{@season}" %>
@@ -29,7 +29,7 @@
         <%= paginate @weeks, param_name: :week, :params => { :season => @season } %>
       </div>
 
-      <table class="table table-bordered table-striped">
+      <table class="table table-striped">
         <thead>
           <tr>
             <th><%= Game.human_attribute_name(:date) %></th>
@@ -38,6 +38,7 @@
             <th></th>
             <th></th>
             <th><%= Game.human_attribute_name(:club_away) %></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
