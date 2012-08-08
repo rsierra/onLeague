@@ -1,11 +1,21 @@
 <tr>
   <td><%= l_with_timezone game.date, format: :custom %></td>
-  <td><%= game.club_home.name %></td>
-  <td><%= image_tag game.club_home.logo.url(:thumb),
-          alt: "#{game.club_home.name} #{Club.human_attribute_name(:logo)}" %></td>
+  <td>
+    <%= link_to game.club_home.name, club_path(game.club_home) %>
+  </td>
+  <td>
+    <%= link_to club_path(game.club_home) do %>
+    <%= image_tag game.club_home.logo.url(:thumb),
+          alt: "#{game.club_home.name} #{Club.human_attribute_name(:logo)}" %>
+    <% end %>
+  </td>
   <td class="result"><%= game.result %></td>
-  <td><%= image_tag game.club_away.logo.url(:thumb),
-          alt: "#{game.club_away.name} #{Club.human_attribute_name(:logo)}" %></td>
-  <td><%= game.club_away.name %></td>
+  <td>
+    <%= link_to club_path(game.club_away) do %>
+    <%= image_tag game.club_away.logo.url(:thumb),
+          alt: "#{game.club_away.name} #{Club.human_attribute_name(:logo)}" %>
+    <% end %>
+  </td>
+  <td><%= link_to game.club_away.name, club_path(game.club_away) %></td>
   <td><%= link_to content_tag(:i, nil, class: "icon-eye-open"), game_path(game) if game.is_visible? %></td>
 </tr>
