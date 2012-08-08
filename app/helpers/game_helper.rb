@@ -66,7 +66,7 @@ module GameHelper
       content_tag(:td, class: 'column-icon') do
         content_tag(:span, nil, class: "icon #{icon}")
       end +
-      content_tag(:td, minute, class: 'column-minute') +
+      content_tag(:td, "#{minute}'", class: 'column-minute') +
       content_tag(:td, nil, class: 'column-icon') +
       content_tag(:td, nil, class: 'column-away')
     end
@@ -76,7 +76,7 @@ module GameHelper
     content_tag :tr do
       content_tag(:td, nil, class: 'column-home') +
       content_tag(:td, nil, class: 'column-icon') +
-      content_tag(:td, minute, class: 'column-minute') +
+      content_tag(:td, "#{minute}'", class: 'column-minute') +
       content_tag(:td, class: 'column-icon') do
         content_tag(:span, nil, class: "icon #{icon}")
       end +
