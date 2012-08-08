@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120715160439) do
+ActiveRecord::Schema.define(:version => 20120808194120) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -117,6 +117,17 @@ ActiveRecord::Schema.define(:version => 20120715160439) do
   add_index "country_translations", ["country_id"], :name => "index_country_translations_on_country_id"
   add_index "country_translations", ["locale"], :name => "index_country_translations_on_locale"
 
+  create_table "game_marks", :force => true do |t|
+    t.integer  "player_id"
+    t.integer  "game_id"
+    t.integer  "mark",       :limit => 2, :default => 0
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+  end
+
+  add_index "game_marks", ["game_id"], :name => "index_game_marks_on_game_id"
+  add_index "game_marks", ["player_id"], :name => "index_game_marks_on_player_id"
+
   create_table "games", :force => true do |t|
     t.integer  "league_id"
     t.datetime "date"
@@ -186,17 +197,17 @@ ActiveRecord::Schema.define(:version => 20120715160439) do
   create_table "player_stats", :force => true do |t|
     t.integer  "player_id"
     t.integer  "game_id"
-    t.integer  "points",         :limit => 2, :default => 0
-    t.integer  "goals_scored",   :limit => 2, :default => 0
-    t.integer  "assists",        :limit => 2, :default => 0
-    t.integer  "goals_conceded", :limit => 2, :default => 0
-    t.integer  "yellow_cards",   :limit => 2, :default => 0
-    t.integer  "red_cards",      :limit => 2, :default => 0
-    t.integer  "lineups",        :limit => 2, :default => 0
-    t.integer  "games_played",   :limit => 2, :default => 0
-    t.integer  "minutes_played", :limit => 2, :default => 0
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.integer  "points",         :default => 0
+    t.integer  "goals_scored",   :default => 0
+    t.integer  "assists",        :default => 0
+    t.integer  "goals_conceded", :default => 0
+    t.integer  "yellow_cards",   :default => 0
+    t.integer  "red_cards",      :default => 0
+    t.integer  "lineups",        :default => 0
+    t.integer  "games_played",   :default => 0
+    t.integer  "minutes_played", :default => 0
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   add_index "player_stats", ["game_id"], :name => "index_player_stats_on_game_id"

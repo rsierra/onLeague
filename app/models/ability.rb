@@ -29,6 +29,8 @@ class Ability
       can :destroy, Substitution
       can :update, Lineup
       can :destroy, Lineup
+      can :update, GameMark
+      can :destroy, GameMark
     end
 
     # Define abilities for the passed in user here. For example:

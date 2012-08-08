@@ -15,6 +15,7 @@ class Player < ActiveRecord::Base
   has_many :direct_red_cards, :class_name => 'Card', :conditions => { kind: 'direct_red' }
   has_many :substitutions_out, :class_name => 'Substitution', foreign_key: :player_out_id
   has_many :substitutions_in, :class_name => 'Substitution', foreign_key: :player_in_id
+  has_many :marks, :class_name => 'GameMark'
   has_many :stats, :class_name => 'PlayerStat'
 
   extend FriendlyId

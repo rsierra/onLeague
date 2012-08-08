@@ -15,6 +15,7 @@ en:
         league: League
         league_id: League
         lineups: Lineups
+        marks: Marks
         name: Name
         season: Season
         status: Status
