@@ -15,6 +15,7 @@ es:
         league: Liga
         league_id: Liga
         lineups: Alineaciones
+        marks: Puntuaciones
         name: Nombre
         season: Temporada
         status: Estado
