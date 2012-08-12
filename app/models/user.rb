@@ -40,4 +40,8 @@ class User < ActiveRecord::Base
       oauth_providers.create(oauth_providers_params)
     end
   end
+
+  def remaining_teams_in_league league
+    Team::MAX_TEAMS - teams.of_league_season(league).count
+  end
 end
