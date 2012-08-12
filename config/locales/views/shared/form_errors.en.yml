@@ -1,0 +1,6 @@
+en:
+  shared:
+    form_errors:
+      fix_errors:
+        one: Please fix the following error
+        other: Please fix the %{count} following errors

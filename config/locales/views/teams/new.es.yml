@@ -1,0 +1,5 @@
+es:
+  teams:
+    new:
+      create_team: Crear equipo
+      create: Crear

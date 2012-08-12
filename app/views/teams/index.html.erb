@@ -1,0 +1,13 @@
+<div id="teams_index" class="row span6 offset3">
+  <h1><%= t '.your_teams' %></h1>
+
+  <% unless current_user.remaining_teams_in_league(@current_league).zero? %>
+  <div id="new_team_info" class="alert alert-block alert-success fade in">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <h4><%= t('.remaining_teams', count: current_user.remaining_teams_in_league(@current_league) ) %></h4>
+    <%= link_to t('.create_team'), new_team_path, id: 'create_team_button', class:  "btn btn-primary" %>
+  </div>
+  <% end %>
+
+<%= render(@teams) || t('.no_teams') %>
+</div>
