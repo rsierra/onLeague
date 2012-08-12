@@ -2,3 +2,6 @@ es:
   games:
     index:
       no_games_in_week: No hay partidos en esta jornada
+    index_seo:
+      results: Resultados
+      description: Horarios y resultados de partidos de la %{league} en la %{season}, %{week}

@@ -1,7 +1,11 @@
+<% content_for :seo_metas do %>
+  <%= render partial: 'index_seo' %>
+<% end %>
+
 <div class="row">
   <div id="games_index" class="span12">
     <h1>
-      <%= t Game.model_name.human.pluralize %>
+      <%= Game.model_name.human.pluralize %>
       <%= @current_league.name %>
     </h1>
 
