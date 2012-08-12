@@ -1,0 +1,13 @@
+<% keywords = [Game.model_name.human,
+                Goal.model_name.human.pluralize,
+                Card.model_name.human.pluralize,
+                Substitution.model_name.human.pluralize,
+                @game.club_home.name,
+                @game.club_away.name,
+                @game.season_name,
+                @game.week_name] %>
+
+<title><%= Game.model_name.human %> <%= @game.club_home.name %> - <%= @game.club_away.name %>, <%= @current_league.name %></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="<%= t('.description', club_home: @game.club_home.name, club_away: @game.club_away.name, league: @current_league.name, season: @game.season_name, week: @game.week_name) %>" />
+<meta name="keywords" content="<%= keywords.join(', ') %>" />

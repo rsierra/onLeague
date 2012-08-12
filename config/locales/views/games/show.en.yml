@@ -2,6 +2,10 @@ en:
   games:
     show:
       events: Events
+    show_seo:
+      description: Goals, substitutions, cards and players points
+                  in the game between %{club_home} and %{club_away}
+                  of the %{league} in the %{season}, %{week}
     event:
       substitution: Enter %{in} for %{out}
       assistant: "with assist of %{name}"
