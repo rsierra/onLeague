@@ -79,4 +79,13 @@ describe Team do
       it { should be_valid }
     end
   end
+
+  context "when activate" do
+    let(:team) { build(:team) }
+    before { team.activate }
+    subject { team }
+
+    its(:active) { should be_true }
+    its(:activation_week) { should eq team.league.week }
+  end
 end

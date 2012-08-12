@@ -3,7 +3,7 @@ class Team < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :league
-  attr_accessible :name
+  attr_accessible :name, :active, :activation_week
 
   validates :user,  presence: true
   validates :league,  presence: true
@@ -21,5 +21,9 @@ class Team < ActiveRecord::Base
   def initial_values
     self.money ||= INITIAL_MONEY
     self.season ||= self.league.season
+  end
+
+  def activate
+    update_attributes(active: true, activation_week: league.week)
   end
 end
