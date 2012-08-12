@@ -37,8 +37,9 @@ describe Team do
       subject { team }
 
       it { should_not be_valid }
-      it { should have(1).error_on(:name) }
+      it { should have(2).error_on(:name) }
       it { team.error_on(:name).should include I18n.t('errors.messages.blank') }
+      it { team.error_on(:name).should include I18n.t('errors.messages.too_short', count: 3) }
     end
 
     context "with too long name" do
@@ -48,6 +49,15 @@ describe Team do
       it { should_not be_valid }
       it { should have(1).error_on(:name) }
       it { team.error_on(:name).should include I18n.t('errors.messages.too_long', count: 25) }
+    end
+
+    context "with too short name" do
+      let(:team) { build(:team, name: "na") }
+      subject { team }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:name) }
+      it { team.error_on(:name).should include I18n.t('errors.messages.too_short', count: 3) }
     end
 
     context "with duplicate name in same league and season" do

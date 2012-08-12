@@ -8,7 +8,7 @@ class Team < ActiveRecord::Base
   validates :user,  presence: true
   validates :league,  presence: true
   validates :name,  presence: true, uniqueness: { scope: [:league_id, :season] },
-                    length: { maximum: 25 }
+                    length: { minimum: 3, maximum: 25 }
   validates :money,  presence: true
   validates :activation_week, numericality: { only_integer: true, greater_than: 0 },
                     length: { minimum: 1, maximum: 2 }, unless: 'activation_week.blank?'
