@@ -1,0 +1,26 @@
+es:
+  activerecord:
+    models:
+      team: Equipo
+    attributes:
+      team:
+        activation_week: Jornada de activación
+        active: Activo
+        created_at: Creado en
+        league: Liga
+        league_id: Liga
+        money: Presupuesto
+        name: Nombre
+        season: Temporada
+        updated_at: Actualizado en
+        user: Propietario
+        user_id: Propietario
+    errors:
+      models:
+        team:
+          attributes:
+            user:
+              cant_have_more: no puede tener más equipos en esta liga esta temporada
+  flash:
+    teams:
+      create_succes: El equipo se ha creado correctamente

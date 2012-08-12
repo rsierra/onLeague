@@ -1,0 +1,12 @@
+<% if object.errors.any? %>
+<div id="error_explanation" class="alert alert-block alert-error fade in">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <h4><%= t('.fix_errors', count: object.errors.count) %>:</h4>
+
+  <ul>
+    <% object.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>

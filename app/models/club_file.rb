@@ -20,7 +20,7 @@ class ClubFile < ActiveRecord::Base
 
   validate :validate_date_out_blank, if: "new_record?"
   validate :validate_out_after_in, unless: "date_out.blank?"
-  validate :validate_in_after_last_out
+  validate :validate_in_after_last_out, unless: "player.blank?"
   validate :validate_versioning_only_in_current, on: :update
 
   scope :active, joins(:player).where(players: { active: true })
@@ -37,8 +37,7 @@ class ClubFile < ActiveRecord::Base
   end
 
   def validate_in_after_last_out
-    last_date_out = player.last_date_out unless player.blank?
-    errors.add(:date_in, :should_be_after_last_out) if !last_date_out.blank? && date_in <= player.last_date_out
+    errors.add(:date_in, :should_be_after_last_out) if !player.last_date_out.blank? && date_in <= player.last_date_out
   end
 
   def validate_versioning_only_in_current

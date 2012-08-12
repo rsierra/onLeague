@@ -1,0 +1,9 @@
+en:
+  teams:
+    index:
+      your_teams: Your teams
+      remaining_teams:
+        one: You have %{count} remaining team available.
+        other: You have %{count} remaining teams availables.
+      create_team: Create team
+      no_teams: There are no teams for this league on this season yet

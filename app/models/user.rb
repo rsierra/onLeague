@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
 
+  has_many :teams
+
   has_many :oauth_providers, :dependent => :destroy
 
   validates :name, :presence => true
@@ -37,5 +39,9 @@ class User < ActiveRecord::Base
     else
       oauth_providers.create(oauth_providers_params)
     end
+  end
+
+  def remaining_teams_in_league league
+    Team::MAX_TEAMS - teams.of_league_season(league).count
   end
 end

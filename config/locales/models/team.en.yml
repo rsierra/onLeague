@@ -1,0 +1,26 @@
+en:
+  activerecord:
+    models:
+      team: Team
+    attributes:
+      team:
+        activation_week: Activation weel
+        active: Active
+        created_at: Created at
+        league: League
+        league_id: League
+        money: Money
+        name: Name
+        season: Season
+        updated_at: Actualizado en
+        user: Owner
+        user_id: Owner
+    errors:
+      models:
+        team:
+          attributes:
+            user:
+              cant_have_more: can't have mor teams in this league on this season
+  flash:
+    teams:
+      create_succes: The team was successfully created

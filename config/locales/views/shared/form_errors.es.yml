@@ -1,0 +1,6 @@
+es:
+  shared:
+    form_errors:
+      fix_errors:
+        one: Debes soluciona el siguiente problema
+        other: Debes solicionar los %{count} siguientes problemas
