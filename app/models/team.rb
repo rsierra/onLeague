@@ -1,4 +1,5 @@
 class Team < ActiveRecord::Base
+  MAX_TEAMS = 2
   INITIAL_MONEY = 200
 
   belongs_to :user
@@ -16,6 +17,8 @@ class Team < ActiveRecord::Base
                       numericality: { only_integer: true, greater_than: 0 },
                       length: { is: 4 }
 
+  validate :max_per_user, unless: 'user_id.blank? || league_id.blank?'
+
   before_validation :initial_values, unless: 'league.blank?'
 
   def initial_values
@@ -25,5 +28,11 @@ class Team < ActiveRecord::Base
 
   def activate
     update_attributes(active: true, activation_week: league.week)
+  end
+
+  private
+
+  def max_per_user
+    errors.add(:user,:cant_have_more) if user.teams.of_league_season(league).count >= MAX_TEAMS
   end
 end

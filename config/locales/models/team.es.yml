@@ -15,3 +15,9 @@ es:
         updated_at: Actualizado en
         user: Propietario
         user_id: Propietario
+    errors:
+      models:
+        team:
+          attributes:
+            user:
+              cant_have_more: no puede tener más equipos en esta liga esta temporada

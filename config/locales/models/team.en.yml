@@ -15,3 +15,9 @@ en:
         updated_at: Actualizado en
         user: Owner
         user_id: Owner
+    errors:
+      models:
+        team:
+          attributes:
+            user:
+              cant_have_more: can't have mor teams in this league on this season
