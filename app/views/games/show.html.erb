@@ -20,8 +20,7 @@
       </div>
       <div id="game_date">
         <span>
-          <%= Game.human_attribute_name(:season) %> <%= @game.season %> -
-          <%= Game.human_attribute_name(:week) %> <%= @game.week %>
+          <%= @game.season_name %> - <%= @game.week_name %>
         </span>
         <span>
           <%= l_with_timezone(@game.date, format: :custom).capitalize %>

@@ -73,6 +73,14 @@ class Game < ActiveRecord::Base
     Game.status.values
   end
 
+  def season_name
+    "#{Game.human_attribute_name(:season)} #{season}"
+  end
+
+  def week_name
+    "#{Game.human_attribute_name(:week)} #{week}"
+  end
+
   def play_himself?
     club_home == club_away
   end
