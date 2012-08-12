@@ -1,0 +1,17 @@
+es:
+  activerecord:
+    models:
+      team: Equipo
+    attributes:
+      team:
+        activation_week: Jornada de activación
+        active: Activo
+        created_at: Creado en
+        league: Liga
+        league_id: Liga
+        money: Presupuesto
+        name: Nombre
+        season: Temporada
+        updated_at: Actualizado en
+        user: Propietario
+        user_id: Propietario

@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
 
+  has_many :teams
+
   has_many :oauth_providers, :dependent => :destroy
 
   validates :name, :presence => true

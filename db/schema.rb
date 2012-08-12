@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120808194120) do
+ActiveRecord::Schema.define(:version => 20120812160319) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -252,6 +252,21 @@ ActiveRecord::Schema.define(:version => 20120808194120) do
   add_index "substitutions", ["game_id"], :name => "index_substitutions_on_game_id"
   add_index "substitutions", ["player_in_id"], :name => "index_substitutions_on_player_in_id"
   add_index "substitutions", ["player_out_id"], :name => "index_substitutions_on_player_out_id"
+
+  create_table "teams", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "league_id"
+    t.integer  "season"
+    t.string   "name",            :limit => 25
+    t.float    "money"
+    t.boolean  "active",                        :default => false
+    t.integer  "activation_week", :limit => 2
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+  end
+
+  add_index "teams", ["league_id"], :name => "index_teams_on_league_id"
+  add_index "teams", ["user_id"], :name => "index_teams_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
