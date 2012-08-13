@@ -3,3 +3,4 @@ es:
     new:
       create_team: Crear equipo
       create: Crear
+      name_placeholder: Dale un nombre a tu equipo...

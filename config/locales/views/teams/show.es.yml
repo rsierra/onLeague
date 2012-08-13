@@ -1,0 +1,5 @@
+es:
+  teams:
+    show:
+      activation_warning_title: Cuidado, tu equipo no está activo
+      activation_warning_description: Necesitas completar todos lo jugadores para activar tu equipo. Mientras no esté activo, el equipo no puntua.

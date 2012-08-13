@@ -156,7 +156,9 @@ es:
         format: ! '%n %u'
         units:
           billion: mil millones
-          million: millón
+          million:
+            one: millón
+            other: millones
           quadrillion: mil billones
           thousand: mil
           trillion: billón

@@ -6,6 +6,9 @@ class Team < ActiveRecord::Base
   belongs_to :league
   attr_accessible :name, :active, :activation_week
 
+  extend FriendlyId
+  friendly_id :custom_slug, use: :slugged
+
   validates :user,  presence: true
   validates :league,  presence: true
   validates :name,  presence: true, uniqueness: { scope: [:league_id, :season] },
@@ -27,6 +30,14 @@ class Team < ActiveRecord::Base
   def initial_values
     self.money ||= INITIAL_MONEY
     self.season ||= self.league.season
+  end
+
+  def custom_slug
+    "#{name} #{league.name} #{league.season}"
+  end
+
+  def money_million
+    money * 1000000
   end
 
   def activate

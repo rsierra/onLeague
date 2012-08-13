@@ -1,0 +1,5 @@
+en:
+  teams:
+    show:
+      activation_warning_title: Warning, your team is inactive
+      activation_warning_description: You need to complete the team to activate it. Meanwhile, your team don't get points.
