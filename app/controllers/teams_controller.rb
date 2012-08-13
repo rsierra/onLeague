@@ -5,6 +5,10 @@ class TeamsController < ApplicationController
     @teams = current_user.teams.of_league(@current_league)
   end
 
+  def show
+    @team = current_user.teams.of_league(@current_league).find(params[:id])
+  end
+
   def new
     @team = Team.new
   end

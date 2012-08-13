@@ -1,5 +1,5 @@
 OnLeague::Application.routes.draw do
-  resources :teams, :only => [:index, :new, :create]
+  resources :teams, :only => [:index, :new, :create, :show]
 
   resources :games, :only => [:show]
   match '/games(/:season(/:week))' => "games#index", :as => :games
