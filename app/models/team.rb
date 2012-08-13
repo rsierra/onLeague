@@ -36,6 +36,10 @@ class Team < ActiveRecord::Base
     "#{name} #{league.name} #{league.season}"
   end
 
+  def money_million
+    money * 1000000
+  end
+
   def activate
     update_attributes(active: true, activation_week: league.week)
   end
