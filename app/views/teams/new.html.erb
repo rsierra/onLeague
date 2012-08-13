@@ -1,10 +1,9 @@
 <div id="new_team" class="row span6 offset3">
   <h1><%= t('.create_team') %></h1>
-  <%= form_for @team, :html => { :class => "well" } do |f| %>
+  <%= form_for @team, :html => { :class => "form-inline well" } do |f| %>
     <%= render "shared/form_errors", :object => @team %>
 
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, placeholder: t('.name_placeholder') %>
     <%= f.submit t('.create'), class:  "btn btn-primary" %>
   <% end %>
 </div>
