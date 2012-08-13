@@ -1,4 +1,13 @@
 <div id="show_team" class="row">
+
+  <% unless @team.active %>
+  <div id="activation_warning" class="alert alert-block alert-warning fade in">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <h4><%= t '.activation_warning_title' %></h4>
+    <p><%= t '.activation_warning_description' %></p>
+  </div>
+  <% end %>
+
   <div class="team_info well">
     <h2><%= @team.name %></h2>
     <dl class="dl-horizontal">
