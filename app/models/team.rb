@@ -33,7 +33,7 @@ class Team < ActiveRecord::Base
   end
 
   def custom_slug
-    "#{name} #{league.name} #{league.season}"
+    "#{name} #{league.name} #{league.season}" unless league.blank?
   end
 
   def money_million
