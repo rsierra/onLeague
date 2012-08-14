@@ -82,4 +82,22 @@ describe User do
     it { User.latest(20).should == users }
     it { User.latest(25).should == users }
   end
+
+  context "when get remaining teams in league" do
+    let(:user) { create(:user) }
+    let(:league) { create(:league) }
+
+    subject { user.remaining_teams_in_league league }
+
+    it { should eq 2 }
+    it { should eq Team::MAX_TEAMS }
+
+    context "with some team" do
+      let(:team) { create(:team, user: user, league: league) }
+      before { team }
+
+      it { should eq 1 }
+      it { should eq Team::MAX_TEAMS - 1 }
+    end
+  end
 end

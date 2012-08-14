@@ -23,7 +23,7 @@ class Team < ActiveRecord::Base
   validate :max_per_user, unless: 'user_id.blank? || league_id.blank?'
 
   scope :of_league, ->(league) { where(league_id: league) }
-  scope :of_league_season, ->(league) { where(league_id: league, season: league.season) }
+  scope :of_league_season, ->(league, season = league.season) { where(league_id: league, season: season) }
 
   before_validation :initial_values, unless: 'league.blank?'
 
@@ -33,7 +33,7 @@ class Team < ActiveRecord::Base
   end
 
   def custom_slug
-    "#{name} #{league.name} #{league.season}"
+    "#{name} #{league.name} #{league.season}" unless league.blank?
   end
 
   def money_million
