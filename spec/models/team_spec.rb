@@ -133,4 +133,30 @@ describe Team do
     its(:active) { should be_true }
     its(:activation_week) { should eq team.league.week }
   end
+
+  context "when get teams of a league on a season" do
+    let(:league_one) { create(:league) }
+    let(:teams) { create_list(:team, 3, league: league_one).sort {|x,y| y.id <=> x.id } }
+    let(:league_two) { create(:league) }
+    let(:team) { create(:team, league: league_two) }
+    let(:league_empty) { create(:league) }
+    before { teams; team }
+
+    it { Team.of_league_season(league_one).should eq teams }
+    it { Team.of_league_season(league_two).should eq [team] }
+    it { Team.of_league_season(league_empty).should be_empty }
+
+    context "with team in another season" do
+      let(:team_another_season) { create(:team, league: league_one) }
+
+      before do
+        teams; team
+        league_one.update_attributes(season: league_one.season + 1)
+        team_another_season
+      end
+
+      it { Team.of_league_season(league_one).should eq [team_another_season] }
+      it { Team.of_league_season(league_one, league_one.season - 1).should eq teams }
+    end
+  end
 end
