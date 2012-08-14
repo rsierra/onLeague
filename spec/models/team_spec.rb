@@ -88,6 +88,41 @@ describe Team do
 
       it { should be_valid }
     end
+
+    describe "more than max teams per user"do
+      let(:error_translation_key) { 'activerecord.errors.models.team.attributes' }
+      let(:cant_have_more_error_translation_key) { "#{error_translation_key}.user.cant_have_more" }
+
+      let(:league) { create(:league) }
+      let(:user) { create(:user) }
+      let(:teams) { create_list(:team, Team::MAX_TEAMS, user: user, league: league) }
+
+      context "in same league and season" do
+        let(:team) { build(:team, user: user, league: league) }
+        before { teams }
+        subject { team }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:user) }
+        it { team.error_on(:user).should include I18n.t(cant_have_more_error_translation_key) }
+      end
+
+      context "in same league and another season" do
+        let(:team) { build(:team, user: user, league: league) }
+        before { teams; league.update_attributes(season: league.season + 1) }
+        subject { team }
+
+        it { should be_valid }
+      end
+
+      context "in another league" do
+        let(:team) { build(:team, user: user) }
+        before { teams }
+        subject { team }
+
+        it { should be_valid }
+      end
+    end
   end
 
   context "when activate" do
