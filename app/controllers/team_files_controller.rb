@@ -22,9 +22,9 @@ class TeamFilesController < ApplicationController
 
   def destroy
     if @team.files.destroy params[:id]
-      flash[:notice] = "Jugador vendido"
+      flash[:notice] = I18n.t('flash.team_files.destroy_success')
     else
-      flash[:error] = "Ha habido algún problema en al venta del jugador"
+      flash[:error] = I18n.t('flash.team_files.destroy_error')
     end
     redirect_to team_path(@team)
   end
