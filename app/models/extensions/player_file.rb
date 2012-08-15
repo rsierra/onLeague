@@ -27,6 +27,10 @@ module Extensions
       validate :validate_in_after_last_out, unless: "player.blank?"
     end
 
+    def current?
+      date_out.blank?
+    end
+
     private
 
     def player_last_date_out_before

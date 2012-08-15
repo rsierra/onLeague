@@ -26,10 +26,6 @@ class ClubFile < ActiveRecord::Base
     ClubFile.position.values
   end
 
-  def current?
-    date_out.blank?
-  end
-
   def i18n_versioned_fields
     # only is the array of values to versioned
     only.map { |field| ClubFile.human_attribute_name(field).downcase }
