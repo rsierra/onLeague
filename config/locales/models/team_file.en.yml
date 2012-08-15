@@ -1,0 +1,36 @@
+en:
+  activerecord:
+    models:
+      team_file: File
+    attributes:
+      team_file:
+        team: Equipo
+        team_id: Equipo
+        created_at: Created at
+        date_in: Date in
+        date_out: Date out
+        player: Player
+        player_id: Player
+        position: Position
+        updated_at: Updated at
+        value: Value
+    errors:
+      models:
+        team_file:
+          attributes:
+            team:
+              cant_have_more: can't have more files in this team
+            player_id:
+              only_one_curent_file_player: only can have one current file (without date out)
+            date_out:
+              should_be_after_in: should be debe later than date in
+              should_be_blank_in_creation: should be blank when is created
+            date_in:
+              should_be_after_last_out: should be later than last player date out
+  enumerize:
+    club_file:
+      position:
+        goalkeeper: Goalkeeper
+        defender: Defender
+        midfielder: Midfielder
+        forward: Forward

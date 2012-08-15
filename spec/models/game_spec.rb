@@ -16,9 +16,9 @@ describe Game do
       subject { game }
 
       it { should be_valid }
-      its(:name) { should == "#{game.club_home.name} - #{game.club_away.name}" }
-      its(:home_goals) { should eql 0 }
-      its(:away_goals) { should eql 0 }
+      its(:name) { should eq "#{game.club_home.name} - #{game.club_away.name}" }
+      its(:home_goals) { should eq 0 }
+      its(:away_goals) { should eq 0 }
     end
 
     context "after a find" do
@@ -26,7 +26,7 @@ describe Game do
       before { game }
       subject { Game.find game }
 
-      its(:name) { should == "#{game.club_home.name} - #{game.club_away.name}" }
+      its(:name) { should eq "#{game.club_home.name} - #{game.club_away.name}" }
     end
 
     context "without date" do
@@ -191,8 +191,8 @@ describe Game do
       subject { game }
 
       it { should be_valid }
-      its(:home_goals) { should eql 1 }
-      its(:away_goals) { should eql 0 }
+      its(:home_goals) { should eq 1 }
+      its(:away_goals) { should eq 0 }
     end
 
     context "with home goals" do
@@ -203,8 +203,8 @@ describe Game do
       subject { game }
 
       it { should be_valid }
-      its(:home_goals) { should eql 2 }
-      its(:away_goals) { should eql 0 }
+      its(:home_goals) { should eq 2 }
+      its(:away_goals) { should eq 0 }
     end
 
     context "with one away goals" do
@@ -215,8 +215,8 @@ describe Game do
       subject { game }
 
       it { should be_valid }
-      its(:home_goals) { should eql 0 }
-      its(:away_goals) { should eql 1 }
+      its(:home_goals) { should eq 0 }
+      its(:away_goals) { should eq 1 }
     end
 
     context "with away goals" do
@@ -228,8 +228,8 @@ describe Game do
       subject { game }
 
       it { should be_valid }
-      its(:home_goals) { should eql 0 }
-      its(:away_goals) { should eql 2 }
+      its(:home_goals) { should eq 0 }
+      its(:away_goals) { should eq 2 }
     end
 
     context "with away goals" do
@@ -243,8 +243,8 @@ describe Game do
       subject { game }
 
       it { should be_valid }
-      its(:home_goals) { should eql 2 }
-      its(:away_goals) { should eql 1 }
+      its(:home_goals) { should eq 2 }
+      its(:away_goals) { should eq 1 }
     end
 
     context "with players" do
@@ -264,8 +264,8 @@ describe Game do
 
     before { game; second_game; third_game }
 
-    it { Game.week(1).should == [game, second_game] }
-    it { Game.week(2).should == [third_game] }
+    it { Game.week(1).should eq [game, second_game] }
+    it { Game.week(2).should eq [third_game] }
     it { Game.week(3).should be_empty }
   end
 
@@ -276,8 +276,8 @@ describe Game do
 
     before { game; second_game; third_game }
 
-    it { Game.season(2001).should == [game, second_game] }
-    it { Game.season(2002).should == [third_game] }
+    it { Game.season(2001).should eq [game, second_game] }
+    it { Game.season(2002).should eq [third_game] }
     it { Game.season(2003).should be_empty }
   end
 
@@ -295,24 +295,24 @@ describe Game do
       let(:goalkeeper) { create(:player_in_game, player_game: game, player_position: 'goalkeeper')}
       before { goalkeeper }
 
-      it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, 1).should eql goalkeeper }
-      it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, 45).should eql goalkeeper }
-      it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, 90).should eql goalkeeper }
+      it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, 1).should eq goalkeeper }
+      it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, 45).should eq goalkeeper }
+      it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, 90).should eq goalkeeper }
 
-      it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, 1).should eql goalkeeper }
-      it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, 45).should eql goalkeeper }
-      it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, 90).should eql goalkeeper }
+      it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, 1).should eq goalkeeper }
+      it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, 45).should eq goalkeeper }
+      it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, 90).should eq goalkeeper }
 
       context "and is expulsed" do
         let(:card) { create(:card, :direct_red, game: game, player: goalkeeper, minute: minute) }
         before { card }
 
-        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute - 1).should eql goalkeeper }
-        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute).should eql goalkeeper }
+        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute - 1).should eq goalkeeper }
+        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute).should eq goalkeeper }
         it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute + 1).should be_nil }
 
-        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute - 1).should eql goalkeeper }
-        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute).should eql goalkeeper }
+        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute - 1).should eq goalkeeper }
+        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute).should eq goalkeeper }
         it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute + 1).should be_nil }
 
         context "and then another goalkeeper get in" do
@@ -321,25 +321,25 @@ describe Game do
           let(:substitution) { create(:substitution, game: game, player_out: defender, player_in: another_goalkeeper, minute: minute) }
           before { substitution }
 
-          it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute - 1).should eql goalkeeper }
-          it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute).should eql goalkeeper }
-          it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute + 1).should eql another_goalkeeper }
+          it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute - 1).should eq goalkeeper }
+          it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute).should eq goalkeeper }
+          it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute + 1).should eq another_goalkeeper }
 
-          it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute - 1).should eql goalkeeper }
-          it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute).should eql goalkeeper }
-          it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute + 1).should eql another_goalkeeper }
+          it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute - 1).should eq goalkeeper }
+          it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute).should eq goalkeeper }
+          it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute + 1).should eq another_goalkeeper }
 
           context "that is expulsed again" do
             let(:another_minute) { minute + 10 }
             let(:another_card) { create(:card, :direct_red, game: game, player: another_goalkeeper, minute: another_minute) }
             before { another_card }
 
-            it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, another_minute - 1).should eql another_goalkeeper }
-            it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, another_minute).should eql another_goalkeeper }
+            it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, another_minute - 1).should eq another_goalkeeper }
+            it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, another_minute).should eq another_goalkeeper }
             it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, another_minute + 1).should be_nil }
 
-            it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, another_minute - 1).should eql another_goalkeeper }
-            it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, another_minute).should eql another_goalkeeper }
+            it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, another_minute - 1).should eq another_goalkeeper }
+            it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, another_minute).should eq another_goalkeeper }
             it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, another_minute + 1).should be_nil }
           end
         end
@@ -350,13 +350,13 @@ describe Game do
         let(:substitution) { create(:substitution, game: game, player_out: goalkeeper, player_in: another_goalkeeper, minute: minute) }
         before { substitution }
 
-        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute - 1).should eql goalkeeper }
-        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute).should eql goalkeeper }
-        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute + 1).should eql another_goalkeeper }
+        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute - 1).should eq goalkeeper }
+        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute).should eq goalkeeper }
+        it { game.goalkeeper_in_club_id_on_minute(game.club_home_id, minute + 1).should eq another_goalkeeper }
 
-        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute - 1).should eql goalkeeper }
-        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute).should eql goalkeeper }
-        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute + 1).should eql another_goalkeeper }
+        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute - 1).should eq goalkeeper }
+        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute).should eq goalkeeper }
+        it { game.goalkeeper_against_club_id_on_minute(game.club_away_id, minute + 1).should eq another_goalkeeper }
       end
     end
   end
@@ -612,42 +612,42 @@ describe Game do
       context "a normal player" do
         let(:player) { create(:player_in_game, player_game: game) }
 
-        its(:points) { should eql 2 }
-        its(:points) { should eql Lineup::STATS[:points] }
+        its(:points) { should eq 2 }
+        its(:points) { should eq Lineup::STATS[:points] }
 
         context "and undo evaluate" do
           before { game.update_attributes(status: 'active') }
 
-          its(:points) { should eql 2 }
-          its(:points) { should eql Lineup::STATS[:points] }
+          its(:points) { should eq 2 }
+          its(:points) { should eq Lineup::STATS[:points] }
         end
       end
 
       context "a defender" do
         let(:player) { create(:player_in_game, player_game: game, player_position: 'defender') }
 
-        its(:points) { should eql 3 }
-        its(:points) { should eql Lineup::STATS[:points] + Game::UNBEATEN_DEFENDER_STAT[:points] }
+        its(:points) { should eq 3 }
+        its(:points) { should eq Lineup::STATS[:points] + Game::UNBEATEN_DEFENDER_STAT[:points] }
 
         context "and undo evaluate" do
           before { game.update_attributes(status: 'active') }
 
-          its(:points) { should eql 2 }
-          its(:points) { should eql Lineup::STATS[:points] }
+          its(:points) { should eq 2 }
+          its(:points) { should eq Lineup::STATS[:points] }
         end
       end
 
       context "a goalkeeper" do
         let(:player) { create(:player_in_game, player_game: game, player_position: 'goalkeeper') }
 
-        its(:points) { should eql 4 }
-        its(:points) { should eql Lineup::STATS[:points] + Game::UNBEATEN_GOALKEEPER_STAT[:points] }
+        its(:points) { should eq 4 }
+        its(:points) { should eq Lineup::STATS[:points] + Game::UNBEATEN_GOALKEEPER_STAT[:points] }
 
         context "and undo evaluate" do
           before { game.update_attributes(status: 'active') }
 
-          its(:points) { should eql 2 }
-          its(:points) { should eql Lineup::STATS[:points] }
+          its(:points) { should eq 2 }
+          its(:points) { should eq Lineup::STATS[:points] }
         end
       end
     end
@@ -665,42 +665,42 @@ describe Game do
       context "a normal player" do
         let(:player) { create(:player_in_game, player_game: game) }
 
-        its(:points) { should eql 2 }
-        its(:points) { should eql Lineup::STATS[:points] }
+        its(:points) { should eq 2 }
+        its(:points) { should eq Lineup::STATS[:points] }
 
         context "and undo evaluate" do
           before { game.update_attributes(status: 'active') }
 
-          its(:points) { should eql 2 }
-          its(:points) { should eql Lineup::STATS[:points] }
+          its(:points) { should eq 2 }
+          its(:points) { should eq Lineup::STATS[:points] }
         end
       end
 
       context "a defender" do
         let(:player) { create(:player_in_game, player_game: game, player_position: 'defender') }
 
-        its(:points) { should eql 2 }
-        its(:points) { should eql Lineup::STATS[:points] }
+        its(:points) { should eq 2 }
+        its(:points) { should eq Lineup::STATS[:points] }
 
         context "and undo evaluate" do
           before { game.update_attributes(status: 'active') }
 
-          its(:points) { should eql 2 }
-          its(:points) { should eql Lineup::STATS[:points] }
+          its(:points) { should eq 2 }
+          its(:points) { should eq Lineup::STATS[:points] }
         end
       end
 
       context "a goalkeeper" do
         let(:player) { create(:player_in_game, player_game: game, player_position: 'goalkeeper') }
 
-        its(:points) { should eql 2 }
-        its(:points) { should eql Lineup::STATS[:points] + Goal::CONCEDED_STAT[:points] + Game::BEATEN_GOALKEEPER_STAT[:points] }
+        its(:points) { should eq 2 }
+        its(:points) { should eq Lineup::STATS[:points] + Goal::CONCEDED_STAT[:points] + Game::BEATEN_GOALKEEPER_STAT[:points] }
 
         context "and undo evaluate" do
           before { game.update_attributes(status: 'active') }
 
-          its(:points) { should eql 1 }
-          its(:points) { should eql Lineup::STATS[:points] + Goal::CONCEDED_STAT[:points] }
+          its(:points) { should eq 1 }
+          its(:points) { should eq Lineup::STATS[:points] + Goal::CONCEDED_STAT[:points] }
         end
       end
     end
@@ -720,42 +720,42 @@ describe Game do
       context "a normal player" do
         let(:player) { create(:player_in_game, player_game: game) }
 
-        its(:points) { should eql 2 }
-        its(:points) { should eql Lineup::STATS[:points] }
+        its(:points) { should eq 2 }
+        its(:points) { should eq Lineup::STATS[:points] }
 
         context "and undo evaluate" do
           before { game.update_attributes(status: 'active') }
 
-          its(:points) { should eql 2 }
-          its(:points) { should eql Lineup::STATS[:points] }
+          its(:points) { should eq 2 }
+          its(:points) { should eq Lineup::STATS[:points] }
         end
       end
 
       context "a defender" do
         let(:player) { create(:player_in_game, player_game: game, player_position: 'defender') }
 
-        its(:points) { should eql 2 }
-        its(:points) { should eql Lineup::STATS[:points] }
+        its(:points) { should eq 2 }
+        its(:points) { should eq Lineup::STATS[:points] }
 
         context "and undo evaluate" do
           before { game.update_attributes(status: 'active') }
 
-          its(:points) { should eql 2 }
-          its(:points) { should eql Lineup::STATS[:points] }
+          its(:points) { should eq 2 }
+          its(:points) { should eq Lineup::STATS[:points] }
         end
       end
 
       context "a goalkeeper" do
         let(:player) { create(:player_in_game, player_game: game, player_position: 'goalkeeper') }
 
-        its(:points) { should eql 0 }
-        its(:points) { should eql Lineup::STATS[:points] + Goal::CONCEDED_STAT[:points] + Goal::CONCEDED_STAT[:points] }
+        its(:points) { should eq 0 }
+        its(:points) { should eq Lineup::STATS[:points] + Goal::CONCEDED_STAT[:points] + Goal::CONCEDED_STAT[:points] }
 
         context "and undo evaluate" do
           before { game.update_attributes(status: 'active') }
 
-          its(:points) { should eql 0 }
-          its(:points) { should eql Lineup::STATS[:points] + Goal::CONCEDED_STAT[:points] + Goal::CONCEDED_STAT[:points] }
+          its(:points) { should eq 0 }
+          its(:points) { should eq Lineup::STATS[:points] + Goal::CONCEDED_STAT[:points] + Goal::CONCEDED_STAT[:points] }
         end
       end
     end
@@ -772,28 +772,28 @@ describe Game do
       context "a normal player" do
         subject { player.stats.week(game.week).season(game.season).first }
 
-        its(:points) { should eql 3 }
-        its(:points) { should eql Lineup::STATS[:points] + Game::WINNER_STAT[:points] }
+        its(:points) { should eq 3 }
+        its(:points) { should eq Lineup::STATS[:points] + Game::WINNER_STAT[:points] }
 
         context "and undo evaluate" do
           before { game.update_attributes(status: 'active') }
 
-          its(:points) { should eql 2 }
-          its(:points) { should eql Lineup::STATS[:points] }
+          its(:points) { should eq 2 }
+          its(:points) { should eq Lineup::STATS[:points] }
         end
       end
 
       context "the scorer" do
         subject { scorer.stats.week(game.week).season(game.season).first }
 
-        its(:points) { should eql 5 }
-        its(:points) { should eql Lineup::STATS[:points] + goal.scorer_stats[:points] + Game::WINNER_STAT[:points] }
+        its(:points) { should eq 5 }
+        its(:points) { should eq Lineup::STATS[:points] + goal.scorer_stats[:points] + Game::WINNER_STAT[:points] }
 
         context "and undo evaluate" do
           before { game.update_attributes(status: 'active') }
 
-          its(:points) { should eql 4 }
-          its(:points) { should eql Lineup::STATS[:points] + goal.scorer_stats[:points] }
+          its(:points) { should eq 4 }
+          its(:points) { should eq Lineup::STATS[:points] + goal.scorer_stats[:points] }
         end
       end
     end

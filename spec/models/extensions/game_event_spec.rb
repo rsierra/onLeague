@@ -39,8 +39,8 @@ describe Extensions::GameEvent do
         it { should_not respond_to(:same_club?) }
         it { should_not respond_to(:validate_player_in_clubs) }
 
-        its(:event_player) { should eql player }
-        its(:player_file) { should eql game.club_home.club_files.on(game.date).of(player).last }
+        its(:event_player) { should eq player }
+        its(:player_file) { should eq game.club_home.club_files.on(game.date).of(player).last }
 
         context "when get elements of a player" do
           let(:another_player) { create(:player_in_game, player_game: game) }
@@ -49,8 +49,8 @@ describe Extensions::GameEvent do
 
           before { dummy.save; second_dummy; another_dummy }
 
-          it { DummyModel.of(player).should == [dummy, second_dummy] }
-          it { DummyModel.of(another_player).should == [another_dummy] }
+          it { DummyModel.of(player).should eq [dummy, second_dummy] }
+          it { DummyModel.of(another_player).should eq [another_dummy] }
         end
 
         context "when get elements before a minute" do
@@ -59,11 +59,11 @@ describe Extensions::GameEvent do
 
           before { dummy.save; second_dummy; third_dummy }
 
-          it { DummyModel.before(25).should == [dummy] }
-          it { DummyModel.before(50).should == [dummy] }
-          it { DummyModel.before(75).should == [dummy, second_dummy] }
-          it { DummyModel.before(100).should == [dummy, second_dummy] }
-          it { DummyModel.before(110).should == [dummy, second_dummy, third_dummy] }
+          it { DummyModel.before(25).should eq [dummy] }
+          it { DummyModel.before(50).should eq [dummy] }
+          it { DummyModel.before(75).should eq [dummy, second_dummy] }
+          it { DummyModel.before(100).should eq [dummy, second_dummy] }
+          it { DummyModel.before(110).should eq [dummy, second_dummy, third_dummy] }
         end
       end
 
@@ -174,8 +174,8 @@ describe Extensions::GameEvent do
         it { should_not respond_to(:same_club?) }
         it { should_not respond_to(:validate_player_in_clubs) }
 
-        its(:event_player) { should eql player }
-        its(:player_file) { should eql game.club_home.club_files.on(game.date).of(player).last }
+        its(:event_player) { should eq player }
+        its(:player_file) { should eq game.club_home.club_files.on(game.date).of(player).last }
       end
 
       context "without game" do
@@ -254,10 +254,10 @@ describe Extensions::GameEvent do
         it { should respond_to(:same_club?) }
         it { should respond_to(:validate_player_in_clubs) }
 
-        its(:event_player) { should eql player }
-        its(:player_file) { should eql game.club_home.club_files.on(game.date).of(player).last }
-        its(:event_second_player) { should eql second_player }
-        its(:second_player_file) { should eql game.club_home.club_files.on(game.date).of(second_player).last }
+        its(:event_player) { should eq player }
+        its(:player_file) { should eq game.club_home.club_files.on(game.date).of(player).last }
+        its(:event_second_player) { should eq second_player }
+        its(:second_player_file) { should eq game.club_home.club_files.on(game.date).of(second_player).last }
         its(:same_player?) { should be_false }
         its(:same_club?) { should be_true }
 
@@ -268,8 +268,8 @@ describe Extensions::GameEvent do
 
           before { dummy.save; second_dummy; another_dummy }
 
-          it { DummyModel.for(second_player).should == [dummy, second_dummy] }
-          it { DummyModel.for(another_player).should == [another_dummy] }
+          it { DummyModel.for(second_player).should eq [dummy, second_dummy] }
+          it { DummyModel.for(another_player).should eq [another_dummy] }
           it { DummyModel.for(player).should be_empty }
         end
       end

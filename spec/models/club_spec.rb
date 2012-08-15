@@ -66,8 +66,8 @@ describe Club do
     before { club_file.update_attributes(date_out: date_out) }
 
     it { club.player_ids_on_date(date_in - 1.day).should be_empty }
-    it { club.player_ids_on_date(date_in).should eql [player.id] }
-    it { club.player_ids_on_date(date_in + 1.day).should eql [player.id] }
+    it { club.player_ids_on_date(date_in).should eq [player.id] }
+    it { club.player_ids_on_date(date_in + 1.day).should eq [player.id] }
 
     context "with multiple players" do
       let(:players) { create_list(:player_with_club, 3, player_club: club) }
@@ -75,10 +75,10 @@ describe Club do
       let(:full_player_ids) { ([player.id] + players.map(&:id)).sort }
       before { players }
 
-      it { club.player_ids_on_date(Date.yesterday).should eql full_player_ids }
-      it { club.player_ids_on_date.should eql full_player_ids }
-      it { club.player_ids_on_date(date_out).should eql full_player_ids }
-      it { club.player_ids_on_date(date_out + 1.day).should eql player_ids }
+      it { club.player_ids_on_date(Date.yesterday).should eq full_player_ids }
+      it { club.player_ids_on_date.should eq full_player_ids }
+      it { club.player_ids_on_date(date_out).should eq full_player_ids }
+      it { club.player_ids_on_date(date_out + 1.day).should eq player_ids }
     end
   end
 
@@ -94,8 +94,8 @@ describe Club do
     before { club_file.update_attributes(date_out: date_out) }
 
     it { club.player_ids_in_position_on_date(position, date_in - 1.day).should be_empty }
-    it { club.player_ids_in_position_on_date(position, date_in).should eql [player.id] }
-    it { club.player_ids_in_position_on_date(position, date_in + 1.day).should eql [player.id] }
+    it { club.player_ids_in_position_on_date(position, date_in).should eq [player.id] }
+    it { club.player_ids_in_position_on_date(position, date_in + 1.day).should eq [player.id] }
 
     it { club.player_ids_in_position_on_date(another_position).should be_empty }
 
@@ -104,14 +104,14 @@ describe Club do
       let(:player_ids) { players.map(&:id).sort }
       before { players }
 
-      it { club.player_ids_in_position_on_date(position,Date.yesterday).should eql [player.id] }
-      it { club.player_ids_in_position_on_date(position,date_out).should eql [player.id] }
+      it { club.player_ids_in_position_on_date(position,Date.yesterday).should eq [player.id] }
+      it { club.player_ids_in_position_on_date(position,date_out).should eq [player.id] }
       it { club.player_ids_in_position_on_date(position,date_out + 1.day).should be_empty }
 
-      it { club.player_ids_in_position_on_date(another_position,Date.yesterday).should eql player_ids }
-      it { club.player_ids_in_position_on_date.should eql player_ids }
-      it { club.player_ids_in_position_on_date(another_position,date_out).should eql player_ids }
-      it { club.player_ids_in_position_on_date(another_position,date_out + 1.day).should eql player_ids }
+      it { club.player_ids_in_position_on_date(another_position,Date.yesterday).should eq player_ids }
+      it { club.player_ids_in_position_on_date.should eq player_ids }
+      it { club.player_ids_in_position_on_date(another_position,date_out).should eq player_ids }
+      it { club.player_ids_in_position_on_date(another_position,date_out + 1.day).should eq player_ids }
     end
   end
 

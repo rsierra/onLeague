@@ -16,8 +16,8 @@ describe GameMark do
         let(:player_stat) { game_mark.player.stats.season(game_mark.game.season).week(game_mark.game.week).first }
         subject { player_stat }
 
-        its(:points) { should eql 1 }
-        its(:points) { should eql game_mark.mark }
+        its(:points) { should eq 1 }
+        its(:points) { should eq game_mark.mark }
       end
 
       context "and update player" do
@@ -36,8 +36,8 @@ describe GameMark do
           let(:player_stats) { player.stats.season(game_mark.game.season).week(game_mark.game.week).first }
           subject { player_stats }
 
-          its(:points) { should eql 1 }
-          its(:points) { should eql game_mark.mark }
+          its(:points) { should eq 1 }
+          its(:points) { should eq game_mark.mark }
         end
       end
 
@@ -47,7 +47,7 @@ describe GameMark do
         before { game_mark.update_attributes(mark: new_mark) }
         subject { player_stat }
 
-        its(:points) { should eql new_mark }
+        its(:points) { should eq new_mark }
       end
 
       context "and then destroy" do

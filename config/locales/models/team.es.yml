@@ -7,6 +7,7 @@ es:
         activation_week: Jornada de activación
         active: Activo
         created_at: Fundado
+        files: Fichajes
         league: Liga
         league_id: Liga
         money: Presupuesto
@@ -20,7 +21,7 @@ es:
         team:
           attributes:
             user:
-              cant_have_more: no puede tener más equipos en esta liga esta temporada
+              cant_have_more: no puede tener más equipos en esta liga esta temporada¡
   flash:
     teams:
       create_succes: El equipo se ha creado correctamente
