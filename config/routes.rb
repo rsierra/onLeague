@@ -2,7 +2,7 @@ OnLeague::Application.routes.draw do
   resources :teams, only: [:index, :new, :create, :show] do
     resources :team_files, only: [:new, :create, :destroy] do
       collection do
-        match 'search' => 'team_files#search', :via => [:post], :as => :search
+        match 'search' => 'team_files#search', :via => [:get, :post], :as => :search
       end
     end
   end
