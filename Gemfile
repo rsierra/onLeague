@@ -89,3 +89,5 @@ gem 'aws-sdk', '~> 1.5.1'
 gem 'enumerize'
 
 gem 'paper_trail', '~> 2'
+
+gem 'ransack'

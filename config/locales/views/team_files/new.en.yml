@@ -2,3 +2,6 @@ en:
   team_files:
     new:
       buy_player: Buy player
+    search_form:
+      value_gteq: Value equal or greater than
+      value_lteq: Value equal or less than
