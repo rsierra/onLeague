@@ -11,6 +11,8 @@ class TeamFile < ActiveRecord::Base
 
   validate :max_files_per_team, unless: 'team.blank?'
 
+  private
+
   def max_files_per_team
     errors.add(:team, :cant_have_more) if team.files.count >= MAX_FILES
   end
