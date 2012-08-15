@@ -31,6 +31,11 @@ class ClubFile < ActiveRecord::Base
     only.map { |field| ClubFile.human_attribute_name(field).downcase }
   end
 
+  def attributes_for_team_file
+    wanted_keys = %w(player_id position value)
+    attributes.select { |key,_| wanted_keys.include? key }
+  end
+
   private
 
   def will_create_version?
