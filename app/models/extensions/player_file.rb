@@ -20,6 +20,7 @@ module Extensions
       scope :current, where(date_out: nil)
       scope :on, ->(date) { order(:date_in).where(['date_in <= ? AND (date_out >= ? OR date_out IS NULL)',date,date]) }
       scope :of, ->(player) { where(player_id: player) }
+      scope :of_players, ->(player_ids=[]) { where('player_id IN (?)', player_ids) }
       scope :exclude_id, ->(id=0) { where('id != ?', id) }
 
       validate :validate_date_out_blank, if: "new_record?"
