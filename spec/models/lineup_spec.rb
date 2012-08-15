@@ -11,6 +11,8 @@ describe Lineup do
       subject { lineup }
 
       it { should be_valid }
+      it { lineup.class.include?(Extensions::EventUtils).should be_true }
+      its(:max_per_game) { should eq 11 }
       its(:player) { should have(1).stats }
 
       context "the player stats" do

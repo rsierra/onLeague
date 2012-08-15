@@ -12,6 +12,7 @@ describe Substitution do
 
       it { should be_valid }
       it { substitution.class.include?(Extensions::GameEvent).should be_true }
+      its(:max_per_game) { should eq 3 }
       its(:player_relation) { should eql :player_out }
       its(:second_player_relation) { should eql :player_in }
       its(:player_in) { should have(1).stats }
