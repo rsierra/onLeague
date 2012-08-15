@@ -125,14 +125,35 @@ describe Extensions::PlayerFile do
         it { another_dummy.error_on(:player_id).should include I18n.t(only_one_current_error_translation_key) }
       end
 
+      context "of the same player with date_out before date in" do
+        let(:first_dummy) { DummyModel.create(dummy_params) }
+        let(:dummy) { DummyModel.new(dummy_params.merge(player: first_dummy.player, date_in: first_dummy.date_out.next)) }
+        before { first_dummy.update_attributes(date_out: first_dummy.date_in.next) }
+        subject { dummy }
+
+        it { should be_valid }
+      end
+
       context "of the same player with date_out after date in" do
-        let(:dummy) { DummyModel.create(dummy_params) }
-        let(:another_dummy) { DummyModel.new(dummy_params.merge(player: dummy.player)) }
-        subject { another_dummy }
+        let(:first_dummy) { DummyModel.create(dummy_params) }
+        let(:dummy) { DummyModel.new(dummy_params.merge(player: first_dummy.player, date_in: first_dummy.date_in)) }
+        before { first_dummy.update_attributes(date_out: first_dummy.date_in.next) }
+        subject { dummy }
 
         it { should_not be_valid }
-        it { should have(1).error_on(:player_id) }
-        it { another_dummy.error_on(:player_id).should include I18n.t(only_one_current_error_translation_key) }
+        it { should have(1).error_on(:date_in) }
+        it { dummy.error_on(:date_in).should include I18n.t(after_last_out_error_translation_key) }
+      end
+
+      context "of the same player with date_in and date_out after date in" do
+        let(:first_dummy) { DummyModel.create(dummy_params) }
+        let(:dummy) { DummyModel.new(dummy_params.merge(player: first_dummy.player, date_in: first_dummy.date_in - 1.days)) }
+        before { first_dummy.update_attributes(date_out: first_dummy.date_in.next) }
+        subject { dummy }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:date_in) }
+        it { dummy.error_on(:date_in).should include I18n.t(after_last_out_error_translation_key) }
       end
     end
   end
@@ -176,35 +197,36 @@ describe Extensions::PlayerFile do
     it { DummyModel.on(Date.today).should eq [dummy, third_dummy] }
   end
 
-  describe "with #player_last_date_out" do
+  describe "with #player_last_date_out_before" do
 
-    context "when have one current club file" do
+    context "when have one current object" do
       let(:player) { create(:player) }
       let(:dummy) { DummyModel.create(dummy_params.merge(player: player)) }
       subject { dummy }
 
-      its(:player_last_date_out) { should eq dummy.date_out }
+      its(:player_last_date_out_before) { should be_nil }
     end
 
-    context "when have one club file with date out" do
+    context "when have one object with date out" do
       let(:player) { create(:player) }
       let(:dummy) { DummyModel.create(dummy_params.merge(player: player)) }
       before { dummy.update_attributes(date_out: dummy.date_in.next) }
       subject { dummy }
 
-      its(:player_last_date_out) { should eq dummy.date_out }
+      its(:player_last_date_out_before) { should be_nil }
     end
 
-    context "when have club file with date out and one current" do
+    context "when have object with date out and one current" do
       let(:player) { create(:player) }
       let(:dummy) { DummyModel.create(dummy_params.merge(player: player)) }
+      let(:current_dummy) { DummyModel.create(dummy_params.merge(player: player, date_in: dummy.date_out.next)) }
       before do
         dummy.update_attributes(date_out: dummy.date_in.next)
-        DummyModel.create(dummy_params.merge(player: player, date_in: dummy.date_out.next))
+        current_dummy
       end
-      subject { dummy }
+      subject { current_dummy }
 
-      its(:player_last_date_out) { should eq dummy.date_out }
+      its(:player_last_date_out_before) { should eq dummy.date_out }
     end
   end
 end

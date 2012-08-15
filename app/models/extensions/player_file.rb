@@ -20,6 +20,7 @@ module Extensions
       scope :current, where(date_out: nil)
       scope :on, ->(date) { order(:date_in).where(['date_in <= ? AND (date_out >= ? OR date_out IS NULL)',date,date]) }
       scope :of, ->(player) { where(player_id: player) }
+      scope :exclude_id, ->(id=0) { where('id != ?', id) }
 
       validate :validate_date_out_blank, if: "new_record?"
       validate :validate_out_after_in, unless: "date_out.blank?"
@@ -28,8 +29,8 @@ module Extensions
 
     private
 
-    def player_last_date_out
-      self.class.of(player).maximum(:date_out)
+    def player_last_date_out_before
+      self.class.exclude_id(id || 0).of(player).maximum(:date_out)
     end
 
     def validate_date_out_blank
@@ -41,7 +42,7 @@ module Extensions
     end
 
     def validate_in_after_last_out
-      errors.add(:date_in, :should_be_after_last_out) if !player_last_date_out.blank? && date_in <= player_last_date_out
+      errors.add(:date_in, :should_be_after_last_out) if !player_last_date_out_before.blank? && date_in <= player_last_date_out_before
     end
   end
 end
