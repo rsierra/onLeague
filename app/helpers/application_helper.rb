@@ -14,7 +14,7 @@ module ApplicationHelper
   end
 
   def current_league_select_options
-    [[t('views.common.all'),'']] + @current_league.clubs.map { |club| [club.name, club.id]}
+    [[t('views.common.all'),'']] + @current_league.clubs.order(:name).map { |club| [club.name, club.id]}
   end
 
   def players_position_select_options
