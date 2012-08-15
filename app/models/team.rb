@@ -48,6 +48,10 @@ class Team < ActiveRecord::Base
     update_attributes(active: true, activation_week: league.week)
   end
 
+  def remaining_files
+    TeamFile::MAX_FILES - files.count
+  end
+
   private
 
   def max_per_user

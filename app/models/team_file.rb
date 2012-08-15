@@ -3,7 +3,7 @@ class TeamFile < ActiveRecord::Base
 
   belongs_to :team
   belongs_to :player
-  attr_accessible :date_in, :position, :value
+  attr_accessible :date_in, :date_out, :position, :value
 
   include Extensions::PlayerFile
 

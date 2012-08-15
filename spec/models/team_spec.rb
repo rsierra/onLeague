@@ -159,4 +159,37 @@ describe Team do
       it { Team.of_league_season(league_one, league_one.season - 1).should eq teams }
     end
   end
+
+  context "when get remaining files" do
+    let(:team) { create(:team) }
+    subject { team }
+
+    its(:remaining_files) { should eq 11 }
+    its(:remaining_files) { should eq TeamFile::MAX_FILES }
+
+    context "with a current file" do
+      let(:team_file) { create(:team_file, team: team) }
+      before { team_file }
+
+      its(:remaining_files) { should eq 10 }
+      its(:remaining_files) { should eq TeamFile::MAX_FILES - 1 }
+    end
+
+    context "with some current files" do
+      let(:files_number) { 5 }
+      let(:team_files) { create_list(:team_file, files_number,team: team) }
+      before { team_files }
+
+      its(:remaining_files) { should eq 11 - files_number }
+      its(:remaining_files) { should eq TeamFile::MAX_FILES - files_number }
+    end
+
+    context "with a file closed" do
+      let(:team_file) { create(:team_file, team: team) }
+      before { team_file.update_attributes(date_out: team_file.date_in.next) }
+
+      its(:remaining_files) { should eq 11 }
+      its(:remaining_files) { should eq TeamFile::MAX_FILES }
+    end
+  end
 end
