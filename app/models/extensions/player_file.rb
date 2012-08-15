@@ -4,20 +4,24 @@ module Extensions
     POSITION_TYPES = %w(goalkeeper defender midfielder forward)
 
     included do
+      belongs_to :club
       belongs_to :player
 
       include Enumerize
       enumerize :position, in: POSITION_TYPES
 
+      delegate :name, to: :club, prefix: true, allow_nil: true
       delegate :name, to: :player, prefix: true, allow_nil: true
 
-      validates :player_id, presence: true
-      validates :player_id, uniqueness: { scope: :date_out, message: :only_one_curent_file_player }, if: "date_out.blank?"
+      validates :club_id, presence: true
+      validates :player_id, presence: true,
+          uniqueness: { scope: :date_out, message: :only_one_curent_file_player }, if: "date_out.blank?"
       validates :position, presence: true, inclusion: { in: POSITION_TYPES }
       validates :value, presence: true, numericality: true
       validates :date_in, presence: true
 
       scope :current, where(date_out: nil)
+      scope :active, joins(:player).where(players: { active: true })
       scope :on, ->(date) { order(:date_in).where(['date_in <= ? AND (date_out >= ? OR date_out IS NULL)',date,date]) }
       scope :of, ->(player) { where(player_id: player) }
       scope :of_players, ->(player_ids=[]) { where('player_id IN (?)', player_ids) }
