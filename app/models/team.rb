@@ -1,9 +1,14 @@
 class Team < ActiveRecord::Base
   MAX_TEAMS = 2
+  MAX_FILES = 11
   INITIAL_MONEY = 200
 
   belongs_to :user
   belongs_to :league
+
+  has_many :team_files
+  has_many :files, :class_name => 'TeamFile', :conditions => 'date_out is null'
+
   attr_accessible :name, :active, :activation_week
 
   extend FriendlyId
@@ -21,6 +26,7 @@ class Team < ActiveRecord::Base
                       length: { is: 4 }
 
   validate :max_per_user, unless: 'user_id.blank? || league_id.blank?'
+  validate :max_files
 
   scope :of_league, ->(league) { where(league_id: league) }
   scope :of_league_season, ->(league, season = league.season) { where(league_id: league, season: season) }
@@ -47,6 +53,10 @@ class Team < ActiveRecord::Base
   private
 
   def max_per_user
-    errors.add(:user,:cant_have_more) if user.teams.of_league_season(league).count >= MAX_TEAMS
+    errors.add(:user, :cant_have_more) if user.teams.of_league_season(league).count >= MAX_TEAMS
+  end
+
+  def max_files
+    errors.add(:files, :cant_have_more) if files.count >= MAX_FILES
   end
 end

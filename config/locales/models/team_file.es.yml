@@ -1,0 +1,34 @@
+es:
+  activerecord:
+    models:
+      team_file: Ficha
+    attributes:
+      team_file:
+        team: Equipo
+        team_id: Equipo
+        created_at: Creado en
+        date_in: Fecha de entrada
+        date_out: Fecha de salida
+        player: Jugador
+        player_id: Jugador
+        position: Demarcación
+        updated_at: Actualizado en
+        value: Valor
+    errors:
+      models:
+        team_file:
+          attributes:
+            player_id:
+              only_one_curent_file_player: sólo puede tener una ficha vigente (sin fecha de salida)
+            date_out:
+              should_be_after_in: debe ser posterior a la de entrada
+              should_be_blank_in_creation: debe estar vacía en al crear la ficha
+            date_in:
+              should_be_after_last_out: debe ser posterior a la última de salida
+  enumerize:
+    team_file:
+      position:
+        goalkeeper: Portero
+        defender: Defensa
+        midfielder: Centrocampista
+        forward: Delantero
