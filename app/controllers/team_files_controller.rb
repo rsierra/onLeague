@@ -5,7 +5,12 @@ class TeamFilesController < ApplicationController
 
   def new
     @team_file = TeamFile.new
-    @club_files = ClubFile.active.current.page params[:page]
+    search_club_files
+  end
+
+  def search
+    new
+    render :new
   end
 
   def create
@@ -15,7 +20,7 @@ class TeamFilesController < ApplicationController
     if @team_file.save
       redirect_to team_path(@team)
     else
-      @club_files = ClubFile.active.current.page params[:page]
+      search_club_files
       render :new
     end
   end
@@ -33,5 +38,10 @@ class TeamFilesController < ApplicationController
 
   def find_team
     @team = current_user.teams.find params[:team_id]
+  end
+
+  def search_club_files
+    @search = ClubFile.active.current.search(params[:q])
+    @club_files = @search.result.page params[:page]
   end
 end

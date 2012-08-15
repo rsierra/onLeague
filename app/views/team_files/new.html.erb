@@ -1,6 +1,8 @@
 <%= @team.name %>: <%= @team.remaining_money %>
 
-<%= render "shared/form_errors", :object => @team_file %>
+<%= render 'search_form' %>
+
+<%= render "shared/form_errors", object: @team_file %>
 
 <%= paginate @club_files %>
 
