@@ -15,16 +15,17 @@
       <dd><%= @team.user.name %></dd>
       <dt><%= Team.human_attribute_name(:created_at) %></dt>
       <dd><%= l @team.created_at.to_date, format: :default %></dd>
-      <dt><%= Team.human_attribute_name(:money) %></dt>
-      <dd><%= number_to_human @team.money_million %></dd>
+      <dt><%= Team.human_attribute_name(:value) %></dt>
+      <dd><%= number_to_human(@team.real_value_million) %></dd>
+      <dt><%= Team.human_attribute_name(:remaining_money) %></dt>
+      <dd><%= number_to_human(@team.remaining_money_million) %></dd>
     </dl>
   </div>
 
   <% if @team.remaining_files? %>
   <div id="team_files" class="alert alert-block alert-success fade in">
-    <button type="button" class="close" data-dismiss="alert">×</button>
     <h4><%= t('.remaining_files', count: @team.remaining_files ) %></h4>
-    <%= link_to t('.buy_player'), '#', id: 'create_team_button', class:  "btn btn-primary" %>
+    <%= link_to t('.buy_player'), new_team_team_file_path(@team), id: 'create_team_button', class:  "btn btn-primary" %>
   </div>
   <% end %>
 

@@ -1,0 +1,17 @@
+<%= @team.name %>: <%= @team.remaining_money %>
+
+<%= render "shared/form_errors", :object => @team_file %>
+
+<%= paginate @club_files %>
+
+<% @club_files.each do |club_file| %>
+  <%= club_file.player_name %>,
+  <%= club_file.value %>,
+  <%= form_for [@team, @team_file] do |f| %>
+    <%= hidden_field_tag :club_file_id, club_file.id %>
+    <%= f.submit t('.buy_player') %>
+  <% end %>
+  </br>
+<% end %>
+
+<%= paginate @club_files %>

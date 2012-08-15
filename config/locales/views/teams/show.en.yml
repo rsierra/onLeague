@@ -8,3 +8,7 @@ en:
       remaining_files:
         one: You have one remaining signing yet.
         other: You have %{count} remaining signings yet.
+  team_files:
+    team_file:
+      sell_player: Sell player
+      sell_confirm: Are you sure about selling %{player_name}?

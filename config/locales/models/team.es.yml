@@ -11,11 +11,13 @@ es:
         league: Liga
         league_id: Liga
         money: Presupuesto
+        remaining_money: Presupuesto
         name: Nombre
         season: Temporada
         updated_at: Actualizado en
         user: Propietario
         user_id: Propietario
+        value: Valor
     errors:
       models:
         team:

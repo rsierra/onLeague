@@ -11,11 +11,13 @@ en:
         league: League
         league_id: League
         money: Money
+        remaining_money: Remaining money
         name: Name
         season: Season
         updated_at: Actualizado en
         user: Owner
         user_id: Owner
+        value: Value
     errors:
       models:
         team:
