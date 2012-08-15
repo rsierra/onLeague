@@ -34,5 +34,37 @@ describe TeamFile do
       it { should have(1).error_on(:team) }
       it { team_file.error_on(:team).should include I18n.t(cant_have_more_error_translation_key) }
     end
+
+    context "with money" do
+      let(:error_translation_key) { 'activerecord.errors.models.team_file.attributes' }
+      let(:not_enough_money_error_translation_key) { "#{error_translation_key}.team.not_enough_money" }
+
+      let(:remaining_money) { 10 }
+      let(:team) { create(:team) }
+      let(:team_file) { build(:team_file, team: team, value: player_value) }
+
+      before { team.stub(:remaining_money).and_return(remaining_money) }
+      subject { team_file }
+
+      context "not enough" do
+        let(:player_value) { 20 }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:team) }
+        it { team_file.error_on(:team).should include I18n.t(not_enough_money_error_translation_key) }
+      end
+
+      context "enough" do
+        let(:player_value) { 5 }
+
+        it { should be_valid }
+      end
+
+      context "exact" do
+        let(:player_value) { 10 }
+
+        it { should be_valid }
+      end
+    end
   end
 end

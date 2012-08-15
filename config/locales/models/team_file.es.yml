@@ -20,6 +20,7 @@ es:
           attributes:
             team:
               cant_have_more: no puede tener más fichajes
+              not_enough_money: no tiene suficiente dinero
             player_id:
               only_one_curent_file_player: sólo puede tener una ficha vigente (sin fecha de salida)
             date_out:
