@@ -24,4 +24,4 @@ en:
               cant_have_more: can't have more teams in this league on this season
   flash:
     teams:
-      create_succes: The team was successfully created
+      create_success: The team was successfully created
