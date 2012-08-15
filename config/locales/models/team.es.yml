@@ -11,11 +11,13 @@ es:
         league: Liga
         league_id: Liga
         money: Presupuesto
+        remaining_money: Presupuesto
         name: Nombre
         season: Temporada
         updated_at: Actualizado en
         user: Propietario
         user_id: Propietario
+        value: Valor
     errors:
       models:
         team:
@@ -24,4 +26,4 @@ es:
               cant_have_more: no puede tener más equipos en esta liga esta temporada¡
   flash:
     teams:
-      create_succes: El equipo se ha creado correctamente
+      create_success: El equipo se ha creado correctamente

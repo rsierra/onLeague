@@ -11,11 +11,13 @@ en:
         league: League
         league_id: League
         money: Money
+        remaining_money: Remaining money
         name: Name
         season: Season
         updated_at: Actualizado en
         user: Owner
         user_id: Owner
+        value: Value
     errors:
       models:
         team:
@@ -24,4 +26,4 @@ en:
               cant_have_more: can't have more teams in this league on this season
   flash:
     teams:
-      create_succes: The team was successfully created
+      create_success: The team was successfully created

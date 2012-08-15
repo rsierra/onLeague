@@ -11,6 +11,5 @@ FactoryGirl.define do
 
     activation_week nil
     name { "Team #{number}" }
-    money 200
   end
 end

@@ -1,24 +1,26 @@
 OnLeague::Application.routes.draw do
-  resources :teams, :only => [:index, :new, :create, :show]
+  resources :teams, only: [:index, :new, :create, :show] do
+    resources :team_files, only: [:new, :create, :destroy]
+  end
 
-  resources :games, :only => [:show]
-  match '/games(/:season(/:week))' => "games#index", :as => :games
+  resources :games, only: [:show]
+  match '/games(/:season(/:week))' => "games#index", as: :games
 
-  resources :clubs, :only => [:index, :show]
+  resources :clubs, only: [:index, :show]
 
-  match 'leagues/:id/change' => 'leagues#change', :via => :get, :as => 'change_league'
+  match 'leagues/:id/change' => 'leagues#change', via: :get, as: 'change_league'
 
   devise_for :admins
 
   # Remember add path for default route with translations
-  devise_for :users, :path => "usuarios", :controllers => { :registrations => 'users/registrations', :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, path: "usuarios", controllers: { registrations: 'users/registrations', omniauth_callbacks: "users/omniauth_callbacks" }
   as :user do
-    delete 'users/auth/:provider/delete' => 'users/omniauth_callbacks#delete', :as => :user_omniauth_delete
+    delete 'users/auth/:provider/delete' => 'users/omniauth_callbacks#delete', as: :user_omniauth_delete
   end
 
   resources :auth_providers
 
-  root :to => "home#index"
+  root to: "home#index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

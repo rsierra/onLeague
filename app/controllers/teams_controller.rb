@@ -19,8 +19,8 @@ class TeamsController < ApplicationController
     @team.league = @current_league
 
     if @team.save
-      flash[:notice] = I18n.t('flash.teams.create_succes')
-      redirect_to teams_path
+      flash[:notice] = I18n.t('flash.teams.create_success')
+      redirect_to team_path(@team)
     else
       render :new
     end

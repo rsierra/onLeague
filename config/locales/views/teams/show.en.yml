@@ -3,3 +3,12 @@ en:
     show:
       activation_warning_title: Warning, your team is inactive
       activation_warning_description: You need to complete the team to activate it. Meanwhile, your team don't get points.
+      buy_player: Buy player
+      no_files_yet: You don't have players
+      remaining_files:
+        one: You have one remaining signing yet.
+        other: You have %{count} remaining signings yet.
+  team_files:
+    team_file:
+      sell_player: Sell player
+      sell_confirm: Are you sure about selling %{player_name}?

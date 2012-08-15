@@ -7,10 +7,11 @@ describe Extensions::PlayerFile do
   let(:after_in_error_translation_key) { "#{error_translation_key}.date_out.should_be_after_in" }
   let(:after_last_out_error_translation_key) { "#{error_translation_key}.date_in.should_be_after_last_out" }
 
-  let(:dummy_params) { { player: create(:player), position: 'midfielder', value: 10, date_in: Date.yesterday } }
+  let(:dummy_params) { { player: create(:player), club: create(:club), position: 'midfielder', value: 10, date_in: Date.yesterday } }
 
   before(:all) do
     build_model :dummy_models do
+      integer :club_id
       integer :player_id
 
       string :position
@@ -64,6 +65,15 @@ describe Extensions::PlayerFile do
       it { should_not be_valid }
       it { should have(1).error_on(:player_id) }
       it { dummy.error_on(:player_id).should include I18n.t('errors.messages.blank') }
+    end
+
+    context "without club" do
+      let(:dummy) { DummyModel.new(dummy_params.merge(club: nil)) }
+      subject { dummy }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:club_id) }
+      it { dummy.error_on(:club_id).should include I18n.t('errors.messages.blank') }
     end
 
     context "without position" do

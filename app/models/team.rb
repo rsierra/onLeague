@@ -40,12 +40,32 @@ class Team < ActiveRecord::Base
     "#{name} #{league.name} #{league.season}" unless league.blank?
   end
 
-  def money_million
-    money * 1000000
+  def remaining_money
+    money - files.sum(:value)
+  end
+
+  def remaining_money_million
+    remaining_money * 1000000
+  end
+
+  def real_value
+    ClubFile.current.of_players(files.map(&:player_id)).sum(:value)
+  end
+
+  def real_value_million
+    real_value * 1000000
   end
 
   def activate
     update_attributes(active: true, activation_week: league.week)
+  end
+
+  def remaining_files
+    TeamFile::MAX_FILES - files.count
+  end
+
+  def remaining_files?
+    !remaining_files.zero?
   end
 
   private

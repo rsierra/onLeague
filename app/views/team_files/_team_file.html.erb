@@ -1,0 +1,4 @@
+<%= team_file.player_name %>
+<%= button_to t('.sell_player'), team_team_file_path(@team, team_file), :method => "delete",
+          :confirm => t('.sell_confirm', player_name: team_file.player_name) %>
+</br>

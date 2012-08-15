@@ -20,6 +20,7 @@ en:
           attributes:
             team:
               cant_have_more: can't have more files in this team
+              not_enough_money: no have enough money
             player_id:
               only_one_curent_file_player: only can have one current file (without date out)
             date_out:
@@ -34,3 +35,7 @@ en:
         defender: Defender
         midfielder: Midfielder
         forward: Forward
+  flash:
+    team_files:
+      destroy_success: Player sold
+      destroy_error: There has been a problem with the sale of the player
