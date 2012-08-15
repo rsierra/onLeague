@@ -18,6 +18,8 @@ en:
       models:
         team_file:
           attributes:
+            team:
+              cant_have_more: can't have more files in this team
             player_id:
               only_one_curent_file_player: only can have one current file (without date out)
             date_out:

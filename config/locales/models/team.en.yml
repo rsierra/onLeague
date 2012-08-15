@@ -22,8 +22,6 @@ en:
           attributes:
             user:
               cant_have_more: can't have more teams in this league on this season
-            files:
-              cant_have_more: can't have more files in this team
   flash:
     teams:
       create_succes: The team was successfully created

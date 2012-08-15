@@ -21,9 +21,7 @@ es:
         team:
           attributes:
             user:
-              cant_have_more: no puede tener más equipos en esta liga esta temporada
-            files:
-              cant_have_more: no puede tener más fichajes en este equipo
+              cant_have_more: no puede tener más equipos en esta liga esta temporada¡
   flash:
     teams:
       create_succes: El equipo se ha creado correctamente

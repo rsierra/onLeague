@@ -1,6 +1,5 @@
 class Team < ActiveRecord::Base
   MAX_TEAMS = 2
-  MAX_FILES = 11
   INITIAL_MONEY = 200
 
   belongs_to :user
@@ -26,7 +25,6 @@ class Team < ActiveRecord::Base
                       length: { is: 4 }
 
   validate :max_per_user, unless: 'user_id.blank? || league_id.blank?'
-  validate :max_files
 
   scope :of_league, ->(league) { where(league_id: league) }
   scope :of_league_season, ->(league, season = league.season) { where(league_id: league, season: season) }
@@ -54,9 +52,5 @@ class Team < ActiveRecord::Base
 
   def max_per_user
     errors.add(:user, :cant_have_more) if user.teams.of_league_season(league).count >= MAX_TEAMS
-  end
-
-  def max_files
-    errors.add(:files, :cant_have_more) if files.count >= MAX_FILES
   end
 end
