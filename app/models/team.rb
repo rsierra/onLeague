@@ -52,6 +52,10 @@ class Team < ActiveRecord::Base
     TeamFile::MAX_FILES - files.count
   end
 
+  def remaining_files?
+    !remaining_files.zero?
+  end
+
   private
 
   def max_per_user
