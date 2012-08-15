@@ -13,8 +13,8 @@ describe Substitution do
       it { should be_valid }
       it { substitution.class.include?(Extensions::GameEvent).should be_true }
       its(:max_per_game) { should eq 3 }
-      its(:player_relation) { should eql :player_out }
-      its(:second_player_relation) { should eql :player_in }
+      its(:player_relation) { should eq :player_out }
+      its(:second_player_relation) { should eq :player_in }
       its(:player_in) { should have(1).stats }
       its(:player_out) { should have(1).stats }
 
@@ -22,16 +22,16 @@ describe Substitution do
         let(:player_in_stat) { substitution.player_in.stats.season(substitution.game.season).week(substitution.game.week).first }
         subject { player_in_stat }
 
-        its(:points) { should eql Substitution::STATS_IN[:points] }
-        its(:games_played) { should eql Substitution::STATS_IN[:games_played] }
-        its(:minutes_played) { should eql Player::MAX_MINUTES - substitution.minute }
+        its(:points) { should eq Substitution::STATS_IN[:points] }
+        its(:games_played) { should eq Substitution::STATS_IN[:games_played] }
+        its(:minutes_played) { should eq Player::MAX_MINUTES - substitution.minute }
       end
 
       context "the player out stats" do
         let(:player_out_stat) { substitution.player_out.stats.season(substitution.game.season).week(substitution.game.week).first }
         subject { player_out_stat }
 
-        its(:minutes_played) { should eql substitution.minute  }
+        its(:minutes_played) { should eq substitution.minute  }
       end
 
       describe"and update player in" do
@@ -52,9 +52,9 @@ describe Substitution do
           let(:player_in_new_stat) { player_in_new.stats.season(substitution.game.season).week(substitution.game.week).first }
           subject { player_in_new_stat }
 
-          its(:points) { should eql Substitution::STATS_IN[:points] }
-          its(:games_played) { should eql Substitution::STATS_IN[:games_played] }
-          its(:minutes_played) { should eql Player::MAX_MINUTES - substitution.minute }
+          its(:points) { should eq Substitution::STATS_IN[:points] }
+          its(:games_played) { should eq Substitution::STATS_IN[:games_played] }
+          its(:minutes_played) { should eq Player::MAX_MINUTES - substitution.minute }
         end
       end
 
@@ -67,14 +67,14 @@ describe Substitution do
           let(:player_out_was_stat) { player_out_was.stats.season(substitution.game.season).week(substitution.game.week).first }
           subject { player_out_was_stat }
 
-          its(:minutes_played) { should eql Player::MAX_MINUTES }
+          its(:minutes_played) { should eq Player::MAX_MINUTES }
         end
 
         context "the player out new stats" do
           let(:player_out_new_stat) { player_out_new.stats.season(substitution.game.season).week(substitution.game.week).first }
           subject { player_out_new_stat }
 
-          its(:minutes_played) { should eql substitution.minute }
+          its(:minutes_played) { should eq substitution.minute }
         end
       end
 
@@ -88,14 +88,14 @@ describe Substitution do
           let(:player_out_was_stat) { player_out_was.stats.season(substitution.game.season).week(substitution.game.week).first }
           subject { player_out_was_stat }
 
-          its(:minutes_played) { should eql Player::MAX_MINUTES }
+          its(:minutes_played) { should eq Player::MAX_MINUTES }
         end
 
         context "the player out new stats" do
           let(:player_out_new_stat) { player_out_new.stats.season(substitution.game.season).week(substitution.game.week).first }
           subject { player_out_new_stat }
 
-          its(:minutes_played) { should eql new_minute }
+          its(:minutes_played) { should eq new_minute }
         end
       end
 
@@ -111,14 +111,14 @@ describe Substitution do
           let(:player_out_was_stat) { player_out_was.stats.season(substitution.game.season).week(substitution.game.week).first }
           subject { player_out_was_stat }
 
-          its(:minutes_played) { should eql Player::MAX_MINUTES }
+          its(:minutes_played) { should eq Player::MAX_MINUTES }
         end
 
         context "the player out new stats" do
           let(:player_out_new_stat) { player_out_new.stats.season(substitution.game.season).week(substitution.game.week).first }
           subject { player_out_new_stat }
 
-          its(:minutes_played) { should eql new_minute }
+          its(:minutes_played) { should eq new_minute }
         end
 
         context "the player in was stats" do
@@ -132,7 +132,7 @@ describe Substitution do
           let(:player_in_new_stat) { player_in_new.stats.season(substitution.game.season).week(substitution.game.week).first }
           subject { player_in_new_stat }
 
-          its(:minutes_played) { should eql Player::MAX_MINUTES - new_minute }
+          its(:minutes_played) { should eq Player::MAX_MINUTES - new_minute }
         end
       end
 
@@ -154,9 +154,9 @@ describe Substitution do
           before {  player_out; substitution.destroy }
           subject { player_out_stat }
 
-          its(:points) { should eql Lineup::STATS[:points] }
-          its(:games_played) { should eql Lineup::STATS[:games_played] }
-          its(:minutes_played) { should eql Player::MAX_MINUTES }
+          its(:points) { should eq Lineup::STATS[:points] }
+          its(:games_played) { should eq Lineup::STATS[:games_played] }
+          its(:minutes_played) { should eq Player::MAX_MINUTES }
         end
       end
     end

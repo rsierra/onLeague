@@ -32,7 +32,7 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
       end
       it { should be_user_signed_in }
       it { response.should redirect_to root_path }
-      it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.user_created', provider: provider) }
+      it { flash[:notice].should eq I18n.t('devise.omniauth_callbacks.user_created', provider: provider) }
     end
 
     describe "and user exists" do
@@ -48,7 +48,7 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
           end
           it { should be_user_signed_in }
           it { response.should redirect_to edit_user_registration_path }
-          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_linked', provider: provider) }
+          it { flash[:notice].should eq I18n.t('devise.omniauth_callbacks.provider_linked', provider: provider) }
         end
       end
 
@@ -63,7 +63,7 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
           end
           it { should be_user_signed_in }
           it { response.should redirect_to edit_user_registration_path }
-          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_linked', provider: provider) }
+          it { flash[:notice].should eq I18n.t('devise.omniauth_callbacks.provider_linked', provider: provider) }
         end
 
         context "when provider exists" do
@@ -72,7 +72,7 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
 
           it { should be_user_signed_in }
           it { response.should redirect_to root_path }
-          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_success', provider: provider) }
+          it { flash[:notice].should eq I18n.t('devise.omniauth_callbacks.provider_success', provider: provider) }
         end
       end
     end
@@ -106,7 +106,7 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
       end
       it { should be_user_signed_in }
       it { response.should redirect_to root_path }
-      it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.user_created', provider: provider) }
+      it { flash[:notice].should eq I18n.t('devise.omniauth_callbacks.user_created', provider: provider) }
     end
 
     describe "and user exists" do
@@ -122,7 +122,7 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
           end
           it { should be_user_signed_in }
           it { response.should redirect_to edit_user_registration_path }
-          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_linked', provider: provider) }
+          it { flash[:notice].should eq I18n.t('devise.omniauth_callbacks.provider_linked', provider: provider) }
         end
       end
 
@@ -137,7 +137,7 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
           end
           it { should be_user_signed_in }
           it { response.should redirect_to edit_user_registration_path }
-          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_linked', provider: provider) }
+          it { flash[:notice].should eq I18n.t('devise.omniauth_callbacks.provider_linked', provider: provider) }
         end
 
         context "when provider exists" do
@@ -146,7 +146,7 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
 
           it { should be_user_signed_in }
           it { response.should redirect_to root_path }
-          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_success', provider: provider) }
+          it { flash[:notice].should eq I18n.t('devise.omniauth_callbacks.provider_success', provider: provider) }
         end
       end
     end
@@ -176,7 +176,7 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
       it { user.should be_nil }
       it { should_not be_user_signed_in }
       it { response.should redirect_to new_user_registration_path }
-      it { flash[:alert].should == I18n.t('devise.omniauth_callbacks.no_email', provider: provider.capitalize) }
+      it { flash[:alert].should eq I18n.t('devise.omniauth_callbacks.no_email', provider: provider.capitalize) }
     end
 
     describe "and user exists" do
@@ -192,7 +192,7 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
           end
           it { should be_user_signed_in }
           it { response.should redirect_to edit_user_registration_path }
-          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_linked', provider: provider) }
+          it { flash[:notice].should eq I18n.t('devise.omniauth_callbacks.provider_linked', provider: provider) }
         end
       end
 
@@ -203,7 +203,7 @@ describe Users::OmniauthCallbacksController, "handle omniauth authentication cal
 
           it { should be_user_signed_in }
           it { response.should redirect_to root_path }
-          it { flash[:notice].should == I18n.t('devise.omniauth_callbacks.provider_success', provider: provider) }
+          it { flash[:notice].should eq I18n.t('devise.omniauth_callbacks.provider_success', provider: provider) }
         end
       end
     end

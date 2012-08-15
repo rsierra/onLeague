@@ -32,8 +32,8 @@ describe Extensions::EventUtils do
         it { should respond_to(:player_file) }
         it { should respond_to(:count_another_in_game) }
 
-        its(:event_player) { should eql player }
-        its(:player_file) { should eql game.club_home.club_files.on(game.date).of(player).last }
+        its(:event_player) { should eq player }
+        its(:player_file) { should eq game.club_home.club_files.on(game.date).of(player).last }
 
         context "when get elements of a player" do
           let(:another_player) { create(:player_in_game, player_game: game) }
@@ -42,8 +42,8 @@ describe Extensions::EventUtils do
 
           before { dummy.save; second_dummy; another_dummy }
 
-          it { DummyModel.of(player).should == [dummy, second_dummy] }
-          it { DummyModel.of(another_player).should == [another_dummy] }
+          it { DummyModel.of(player).should eq [dummy, second_dummy] }
+          it { DummyModel.of(another_player).should eq [another_dummy] }
         end
       end
 

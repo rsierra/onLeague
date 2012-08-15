@@ -19,14 +19,14 @@ describe Lineup do
         let(:player_stat) { lineup.player.stats.season(lineup.game.season).week(lineup.game.week).first }
         subject { player_stat }
 
-        its(:points) { should eql 2 }
-        its(:points) { should eql Lineup::STATS[:points] }
-        its(:lineups) { should eql 1 }
-        its(:lineups) { should eql Lineup::STATS[:lineups] }
-        its(:games_played) { should eql 1 }
-        its(:games_played) { should eql Lineup::STATS[:games_played] }
-        its(:minutes_played) { should eql 90 }
-        its(:minutes_played) { should eql Lineup::STATS[:minutes_played] }
+        its(:points) { should eq 2 }
+        its(:points) { should eq Lineup::STATS[:points] }
+        its(:lineups) { should eq 1 }
+        its(:lineups) { should eq Lineup::STATS[:lineups] }
+        its(:games_played) { should eq 1 }
+        its(:games_played) { should eq Lineup::STATS[:games_played] }
+        its(:minutes_played) { should eq 90 }
+        its(:minutes_played) { should eq Lineup::STATS[:minutes_played] }
       end
 
       context "and update player" do
@@ -46,10 +46,10 @@ describe Lineup do
           let(:player_stats) { player.stats.season(lineup.game.season).week(lineup.game.week).first }
           subject { player_stats }
 
-          its(:points) { should eql Lineup::STATS[:points] }
-          its(:lineups) { should eql Lineup::STATS[:lineups] }
-          its(:games_played) { should eql Lineup::STATS[:games_played] }
-          its(:minutes_played) { should eql Lineup::STATS[:minutes_played] }
+          its(:points) { should eq Lineup::STATS[:points] }
+          its(:lineups) { should eq Lineup::STATS[:lineups] }
+          its(:games_played) { should eq Lineup::STATS[:games_played] }
+          its(:minutes_played) { should eq Lineup::STATS[:minutes_played] }
         end
       end
 
@@ -137,12 +137,12 @@ describe Lineup do
 
     before { first_lineup; second_lineup; third_lineup }
 
-    it { Lineup.of_players.should == [] }
-    it { Lineup.of_players([]).should == [] }
-    it { Lineup.of_players(first_player.id).should == [first_lineup] }
-    it { Lineup.of_players(third_player.id).should == [third_lineup] }
-    it { Lineup.of_players([first_player.id, second_player.id]).should == [first_lineup, second_lineup] }
-    it { Lineup.of_players([first_player.id, third_player.id]).should == [first_lineup, third_lineup] }
+    it { Lineup.of_players.should eq [] }
+    it { Lineup.of_players([]).should eq [] }
+    it { Lineup.of_players(first_player.id).should eq [first_lineup] }
+    it { Lineup.of_players(third_player.id).should eq [third_lineup] }
+    it { Lineup.of_players([first_player.id, second_player.id]).should eq [first_lineup, second_lineup] }
+    it { Lineup.of_players([first_player.id, third_player.id]).should eq [first_lineup, third_lineup] }
   end
 
   describe "when get #count_another_in_game" do
@@ -150,14 +150,14 @@ describe Lineup do
       let(:lineup) { build(:lineup) }
       subject { lineup }
 
-      its(:count_another_in_game) { should eql 0 }
+      its(:count_another_in_game) { should eq 0 }
     end
 
     context "after create the first lineup" do
       let(:lineup) { create(:lineup) }
       subject { lineup }
 
-      its(:count_another_in_game) { should eql 0 }
+      its(:count_another_in_game) { should eq 0 }
     end
 
     context "with max lineups" do
@@ -169,8 +169,8 @@ describe Lineup do
       let(:new_lineup) { build(:lineup, game: game, player: player) }
       before { players }
 
-      it { last_lineup.count_another_in_game.should eql number_of_lineups-1 }
-      it { new_lineup.count_another_in_game.should eql number_of_lineups }
+      it { last_lineup.count_another_in_game.should eq number_of_lineups-1 }
+      it { new_lineup.count_another_in_game.should eq number_of_lineups }
     end
   end
 end
