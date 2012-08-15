@@ -34,3 +34,7 @@ es:
         defender: Defensa
         midfielder: Centrocampista
         forward: Delantero
+  flash:
+    team_files:
+      destroy_success: Jugador vendido
+      destroy_error: Ha habido algún problema en al venta del jugador

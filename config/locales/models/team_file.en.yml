@@ -34,3 +34,7 @@ en:
         defender: Defender
         midfielder: Midfielder
         forward: Forward
+  flash:
+    team_files:
+      destroy_success: Player sold
+      destroy_error: There has been a problem with the sale of the player
