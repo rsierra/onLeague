@@ -12,7 +12,8 @@
   <td>
     <%= form_for [@team, @team_file] do |f| %>
       <%= hidden_field_tag :club_file_id, club_file.id %>
-      <%= f.submit t('.buy_player') %>
+      <%= image_submit_tag 'icons/pay-icon.png', alt: t('.buy_player'),
+            class: 'tooltip_button', title: t('.buy_player') %>
     <% end %>
   </td>
 </tr>
