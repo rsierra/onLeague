@@ -1,14 +1,5 @@
 <tr>
-  <td><%= jersey_with_number club_file %></td>
-  <td><%= club_file.player_name %></td>
-  <td><%= club_file.position.text %></td>
-  <td><%= club_file.value %></td>
-  <td><%= club_file.player.league_stats(:points,@current_league) %></td>
-  <td>
-    <%= image_tag club_file.player.country.flag.url(:small),
-          alt: "#{club_file.player.country.name} #{Country.human_attribute_name(:flag)}" %>
-    <%= image_tag 'icons/no_eu.png', alt: "#{Player.human_attribute_name(:eu)}" unless club_file.player.eu %>
-  </td>
+  <%= render partial: 'shared/file_row', object: club_file %>
   <td>
     <%= form_for [@team, @team_file] do |f| %>
       <%= hidden_field_tag :club_file_id, club_file.id %>
