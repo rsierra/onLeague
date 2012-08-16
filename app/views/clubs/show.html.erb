@@ -1,7 +1,7 @@
 <div id="club_show" class="row">
   <h1><%= @club.name %></h1>
   <div id="club_files" class="span5">
-    <table class="table table-striped">
+    <table class="table table-striped player-files">
       <thead>
         <tr>
           <th><%= ClubFile.human_attribute_name(:number) %></th>
@@ -13,22 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @club.files.active.each do |file| %>
-        <tr>
-          <td style="color:#<%= @club.number_color %>">
-            <%= jersey_with_number file %>
-          </td>
-          <td><%= file.player_name %></td>
-          <td><%= file.position.text %></td>
-          <td><%= file.value %></td>
-          <td><%= file.player.league_stats(:points,@current_league) %></td>
-          <td>
-            <%= image_tag file.player.country.flag.url(:small),
-                  alt: "#{file.player.country.name} #{Country.human_attribute_name(:flag)}" %>
-            <%= image_tag 'icons/no_eu.png', alt: "#{Player.human_attribute_name(:eu)}" unless file.player.eu %>
-          </td>
-        </tr>
-        <% end -%>
+        <%= render @club.files.active %>
       </tbody>
     </table>
   </div>

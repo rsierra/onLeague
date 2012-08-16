@@ -1,0 +1,13 @@
+<div class="team_info well">
+  <h2><%= team_info.name %></h2>
+  <dl class="dl-horizontal">
+    <dt><%= Team.human_attribute_name(:user) %></dt>
+    <dd><%= team_info.user.name %></dd>
+    <dt><%= Team.human_attribute_name(:created_at) %></dt>
+    <dd><%= l team_info.created_at.to_date, format: :default %></dd>
+    <dt><%= Team.human_attribute_name(:value) %></dt>
+    <dd><%= number_to_human(team_info.real_value_million) %></dd>
+    <dt><%= Team.human_attribute_name(:remaining_money) %></dt>
+    <dd><%= number_to_human(team_info.remaining_money_million) %></dd>
+  </dl>
+</div>

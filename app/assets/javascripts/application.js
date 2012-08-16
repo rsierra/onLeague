@@ -14,3 +14,6 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require jquery.grayscale
+//= require_self
+
+$('.tooltip_button').tooltip()

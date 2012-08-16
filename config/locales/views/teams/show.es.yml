@@ -4,6 +4,7 @@ es:
       activation_warning_title: Cuidado, tu equipo no está activo
       activation_warning_description: Necesitas completar todos lo jugadores para activar tu equipo. Mientras no esté activo, el equipo no puntua.
       buy_player: Comprar jugador
+      changes: Cambios
       no_files_yet: No tienes jugadores
       remaining_files:
         one: Aún tienes un fichaje disponible.
