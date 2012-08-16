@@ -7,7 +7,7 @@ module PlayerHelper
                     "0.1em -0.1em #{border_color}," +
                     "-0.1em 0.1em #{border_color}"
     content_tag(:div, class: :jersey) do
-      content_tag(:span, file.number, style: "color: #{number_color}; text-shadow: #{border_style}") +
+      content_tag(:span, file.player.file.number, style: "color: #{number_color}; text-shadow: #{border_style}") +
       image_tag(file.club.jersey.url(:thumb),
         alt: "#{file.club.name} #{Club.human_attribute_name(:jersey)}")
     end

@@ -1,33 +1,47 @@
 <div id="show_team" class="row">
 
-  <% unless @team.active %>
-  <div id="activation_warning" class="alert alert-block alert-warning fade in">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    <h4><%= t '.activation_warning_title' %></h4>
-    <p><%= t '.activation_warning_description' %></p>
-  </div>
-  <% end %>
+  <div id="team_info" class="row span8 offset2">
+    <% unless @team.active %>
+    <div id="activation_warning" class="alert alert-block alert-warning fade in">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <h4><%= t '.activation_warning_title' %></h4>
+      <p><%= t '.activation_warning_description' %></p>
+    </div>
+    <% end %>
 
-  <div class="team_info well">
-    <h2><%= @team.name %></h2>
-    <dl class="dl-horizontal">
-      <dt><%= Team.human_attribute_name(:user) %></dt>
-      <dd><%= @team.user.name %></dd>
-      <dt><%= Team.human_attribute_name(:created_at) %></dt>
-      <dd><%= l @team.created_at.to_date, format: :default %></dd>
-      <dt><%= Team.human_attribute_name(:value) %></dt>
-      <dd><%= number_to_human(@team.real_value_million) %></dd>
-      <dt><%= Team.human_attribute_name(:remaining_money) %></dt>
-      <dd><%= number_to_human(@team.remaining_money_million) %></dd>
-    </dl>
+    <%= render partial: 'team_info', object: @team %>
   </div>
 
-  <% if @team.remaining_files? %>
-  <div id="team_files" class="alert alert-block alert-success fade in">
-    <h4><%= t('.remaining_files', count: @team.remaining_files ) %></h4>
-    <%= link_to t('.buy_player'), new_team_team_file_path(@team), id: 'create_team_button', class:  "btn btn-primary" %>
-  </div>
-  <% end %>
+  <div id="team_files" class"row">
+    <div id="team_files_list" class="span8">
+      <% if @team.remaining_files? %>
+        <div id="team_files" class="alert alert-block alert-success fade in">
+          <h4><%= t('.remaining_files', count: @team.remaining_files ) %></h4>
+          <%= link_to t('.buy_player'), new_team_team_file_path(@team), id: 'create_team_button', class:  "btn btn-primary" %>
+        </div>
+        <% end %>
 
-  <%= render(@team.files) || t('.no_files_yet') %>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th><%= ClubFile.human_attribute_name(:number) %></th>
+              <th><%= Player.human_attribute_name(:name) %></th>
+              <th><%= ClubFile.human_attribute_name(:position) %></th>
+              <th><%= ClubFile.human_attribute_name(:value) %></th>
+              <th><%= PlayerStat.human_attribute_name(:points) %></th>
+              <th><%= Country.model_name.human %></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render(@team.files) || t('.no_files_yet') %>
+          </tbody>
+        </table>
+    </div>
+
+    <div id="team_files_changes" class="span3 well">
+      <h3><%= t('.changes') %></h3>
+    </div>
+  </div>
+
 </div>

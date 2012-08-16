@@ -1,4 +1,16 @@
-<%= team_file.player_name %>
-<%= button_to t('.sell_player'), team_team_file_path(@team, team_file), :method => "delete",
+<tr>
+  <td><%= jersey_with_number team_file %></td>
+  <td><%= team_file.player_name %></td>
+  <td><%= team_file.position.text %></td>
+  <td><%= team_file.value %></td>
+  <td><%= team_file.player.league_stats(:points,@current_league) %></td>
+  <td>
+    <%= image_tag team_file.player.country.flag.url(:small),
+          alt: "#{team_file.player.country.name} #{Country.human_attribute_name(:flag)}" %>
+    <%= image_tag 'icons/no_eu.png', alt: "#{Player.human_attribute_name(:eu)}" unless team_file.player.eu %>
+  </td>
+  <td>
+    <%= button_to t('.sell_player'), team_team_file_path(@team, team_file), :method => "delete",
           :confirm => t('.sell_confirm', player_name: team_file.player_name) %>
-</br>
+  </td>
+</tr>
