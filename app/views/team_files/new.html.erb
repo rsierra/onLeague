@@ -1,19 +1,26 @@
-<%= @team.name %>: <%= @team.remaining_money %>
+<div id="new_team_file" class="row span8 offset2">
 
-<%= render 'search_form' %>
+  <%= @team.name %>: <%= @team.remaining_money %>
 
-<%= render "shared/form_errors", object: @team_file %>
+  <%= render 'search_form' %>
 
-<%= paginate @club_files %>
+  <%= render "shared/form_errors", object: @team_file %>
 
-<% @club_files.each do |club_file| %>
-  <%= club_file.player_name %>,
-  <%= club_file.value %>,
-  <%= form_for [@team, @team_file] do |f| %>
-    <%= hidden_field_tag :club_file_id, club_file.id %>
-    <%= f.submit t('.buy_player') %>
-  <% end %>
-  </br>
-<% end %>
+  <div id="club_files_list">
+    <%= paginate @club_files %>
 
-<%= paginate @club_files %>
+    <% @club_files.each do |club_file| %>
+      <%= club_file.player_name %>,
+      <%= club_file.value %>,
+      <%= form_for [@team, @team_file] do |f| %>
+        <%= hidden_field_tag :club_file_id, club_file.id %>
+        <%= f.submit t('.buy_player') %>
+      <% end %>
+      </br>
+    <% end %>
+
+    <%= paginate @club_files %>
+  </div>
+
+</div>
+
