@@ -8,17 +8,22 @@
 
   <div id="club_files_list">
     <%= paginate @club_files %>
-
-    <% @club_files.each do |club_file| %>
-      <%= club_file.player_name %>,
-      <%= club_file.value %>,
-      <%= form_for [@team, @team_file] do |f| %>
-        <%= hidden_field_tag :club_file_id, club_file.id %>
-        <%= f.submit t('.buy_player') %>
-      <% end %>
-      </br>
-    <% end %>
-
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th><%= ClubFile.human_attribute_name(:number) %></th>
+          <th><%= Player.human_attribute_name(:name) %></th>
+          <th><%= ClubFile.human_attribute_name(:position) %></th>
+          <th><%= ClubFile.human_attribute_name(:value) %></th>
+          <th><%= PlayerStat.human_attribute_name(:points) %></th>
+          <th><%= Country.model_name.human %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render(partial: 'club_file', collection: @club_files) || t('.no_results') %>
+      </tbody>
+    </table>
     <%= paginate @club_files %>
   </div>
 
