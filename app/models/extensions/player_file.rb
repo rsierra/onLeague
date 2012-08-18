@@ -28,8 +28,8 @@ module Extensions
       scope :of_clubs, ->(club_ids=[]) { where('club_id IN (?)', club_ids) }
       scope :exclude_id, ->(id=0) { where('id != ?', id) }
 
-      SQL_ATTRIBUTES = self.attribute_names.map{ |attr| "#{self.table_name}.#{attr}"}.join(',')
-      SQL_JOINS = "LEFT OUTER JOIN player_stats ON #{self.table_name}.player_id = player_stats.player_id " +
+      self::SQL_ATTRIBUTES = self.attribute_names.map{ |attr| "#{self.table_name}.#{attr}"}.join(',')
+      self::SQL_JOINS = "LEFT OUTER JOIN player_stats ON #{self.table_name}.player_id = player_stats.player_id " +
                   "LEFT OUTER JOIN games ON player_stats.game_id = games.id"
       scope :order_by_points_on_season, ->(season) {
              joins(SQL_JOINS)
