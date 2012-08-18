@@ -31,7 +31,7 @@ GEM
     acts_as_fu (0.0.8)
       activerecord
       sqlite3
-    addressable (2.3.1)
+    addressable (2.3.2)
     arel (3.0.2)
     aws-sdk (1.5.7)
       httparty (~> 0.7)
