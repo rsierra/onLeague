@@ -25,7 +25,16 @@ module Extensions
       scope :on, ->(date) { order(:date_in).where(['date_in <= ? AND (date_out >= ? OR date_out IS NULL)',date,date]) }
       scope :of, ->(player) { where(player_id: player) }
       scope :of_players, ->(player_ids=[]) { where('player_id IN (?)', player_ids) }
+      scope :of_clubs, ->(club_ids=[]) { where('club_id IN (?)', club_ids) }
       scope :exclude_id, ->(id=0) { where('id != ?', id) }
+
+      SQL_ATTRIBUTES = self.attribute_names.map{ |attr| "#{self.table_name}.#{attr}"}.join(',')
+      SQL_JOINS = "LEFT OUTER JOIN player_stats ON #{self.table_name}.player_id = player_stats.player_id"
+      scope :order_by_points, joins(SQL_JOINS)
+                              .current
+                              .select("#{SQL_ATTRIBUTES}, COALESCE(sum(player_stats.points),0) as points")
+                              .group(SQL_ATTRIBUTES)
+                              .order("COALESCE(sum(player_stats.points),0) DESC, #{self.table_name}.value ASC")
 
       validate :validate_date_out_blank, if: "new_record?"
       validate :validate_out_after_in, unless: "date_out.blank?"

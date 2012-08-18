@@ -66,4 +66,10 @@ class League < ActiveRecord::Base
       close_current_games
     end
   end
+
+  def season_club_ids(season=season)
+    games.includes(:club_home, :club_away).season(season).week(1).map do |game|
+      [game.club_home.id, game.club_away.id]
+    end.flatten
+  end
 end

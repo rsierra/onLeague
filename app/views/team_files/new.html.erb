@@ -7,7 +7,7 @@
   <%= render "shared/form_errors", object: @team_file %>
 
   <div id="club_files_list">
-    <%= paginate @club_files %>
+    <%= paginate @club_files, num_pages: @num_pages %>
     <table class="table table-striped player-files">
       <thead>
         <tr>
@@ -24,7 +24,7 @@
         <%= render(partial: 'club_file', collection: @club_files) || t('.no_results') %>
       </tbody>
     </table>
-    <%= paginate @club_files %>
+    <%= paginate @club_files, num_pages: @num_pages %>
   </div>
 
 </div>
