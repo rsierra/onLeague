@@ -29,12 +29,16 @@ module Extensions
       scope :exclude_id, ->(id=0) { where('id != ?', id) }
 
       SQL_ATTRIBUTES = self.attribute_names.map{ |attr| "#{self.table_name}.#{attr}"}.join(',')
-      SQL_JOINS = "LEFT OUTER JOIN player_stats ON #{self.table_name}.player_id = player_stats.player_id"
-      scope :order_by_points, joins(SQL_JOINS)
-                              .current
-                              .select("#{SQL_ATTRIBUTES}, COALESCE(sum(player_stats.points),0) as points")
-                              .group(SQL_ATTRIBUTES)
-                              .order("COALESCE(sum(player_stats.points),0) DESC, #{self.table_name}.value ASC")
+      SQL_JOINS = "LEFT OUTER JOIN player_stats ON #{self.table_name}.player_id = player_stats.player_id " +
+                  "LEFT OUTER JOIN games ON player_stats.game_id = games.id"
+      scope :order_by_points_on_season, ->(season) {
+             joins(SQL_JOINS)
+            .current
+            .select("#{SQL_ATTRIBUTES}, COALESCE(sum(player_stats.points),0) as points")
+            .where(games: {season: season})
+            .group(SQL_ATTRIBUTES)
+            .order("COALESCE(sum(player_stats.points),0) DESC, #{self.table_name}.value ASC")
+          }
 
       validate :validate_date_out_blank, if: "new_record?"
       validate :validate_out_after_in, unless: "date_out.blank?"
