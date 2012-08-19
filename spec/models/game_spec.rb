@@ -798,4 +798,18 @@ describe Game do
       end
     end
   end
+
+  describe "when get evaluated games" do
+    let(:league) { create(:league) }
+    let(:games) { create_list(:game, 4, league: league).sort }
+
+    before do
+      games[1].update_attribute(:status, 'evaluated')
+      games[2].update_attribute(:status, 'revised')
+      games[3].update_attribute(:status, 'closed')
+    end
+
+    it { Game.evaluated.should_not include games.first }
+    it { Game.evaluated.should eq games.drop(1) }
+  end
 end

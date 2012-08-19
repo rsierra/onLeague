@@ -58,6 +58,7 @@ class Game < ActiveRecord::Base
   scope :week, ->(week) { where week: week }
   scope :season, ->(season) { where season: season }
   scope :not_closeables, where("status = 'active' OR status = 'evaluated'")
+  scope :evaluated, where(status: %w(evaluated revised closed))
 
   before_save :trigger_status_events  , if: 'status_changed? && !new_record?'
 
