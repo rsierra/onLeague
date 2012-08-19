@@ -39,6 +39,14 @@ module Extensions
             .group(self::SQL_ATTRIBUTES)
             .order("COALESCE(sum(player_stats.points),0) DESC, #{self.table_name}.value ASC")
           }
+      scope :order_by_points_on_season_week, ->(season, week) {
+             joins(self::SQL_JOINS)
+            .current
+            .select("#{self::SQL_ATTRIBUTES}, COALESCE(sum(player_stats.points),0) as points")
+            .where(games: {season: season, week: week})
+            .group(self::SQL_ATTRIBUTES)
+            .order("COALESCE(sum(player_stats.points),0) DESC, #{self.table_name}.value ASC")
+          }
 
       validate :validate_date_out_blank, if: "new_record?"
       validate :validate_out_after_in, unless: "date_out.blank?"
