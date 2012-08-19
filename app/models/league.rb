@@ -39,6 +39,11 @@ class League < ActiveRecord::Base
     current_games.not_closeables.empty?
   end
 
+  def current_week
+    last_evaluated_game = games.season(season).evaluated.last
+    last_evaluated_game ? last_evaluated_game.week : week
+  end
+
   def next_week
     next_week = nil
     weeks = season_week_list
