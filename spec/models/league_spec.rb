@@ -333,4 +333,44 @@ describe League do
     it { game.status.should eq 'closed' }
     it { another_game.status.should eq 'closed' }
   end
+
+  describe "when get current week" do
+    let(:week) { 1 }
+    let(:league) { create(:league, week: week) }
+    let(:game) { create(:game, league: league) }
+
+    subject { league }
+
+    context "with no evaluated games" do
+      its(:current_week) { should eq league.week }
+    end
+
+    context "with evaluated games" do
+      before { game.update_attribute(:status, 'evaluated') }
+
+      its(:current_week) { should eq week }
+    end
+
+    context "with no evaluated games in the next week" do
+      let(:game_next_week) { create(:game, league: league) }
+      before do
+        game.update_attribute(:status, 'closed')
+        league.update_attributes(week: week + 1)
+        game_next_week
+      end
+
+      its(:current_week) { should eq game.week }
+    end
+
+    context "with no evaluated games in the next week" do
+      let(:game_next_week) { create(:game, league: league) }
+      before do
+        game.update_attribute(:status, 'closed')
+        league.update_attributes(week: week + 1)
+        game_next_week.update_attribute(:status, 'evaluated')
+      end
+
+      its(:current_week) { should eq game_next_week.week }
+    end
+  end
 end

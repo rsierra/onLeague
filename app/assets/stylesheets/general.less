@@ -21,24 +21,44 @@
 // TABLES
 
 table.player-files {
-    td, th {
+  td, th {
+    padding: 3px;
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  th {
+    font-size: 1.3em;
+    padding-bottom: 5px;
+  }
+
+  td {
+    font-size: 1.1em;
+
+    form {
+      margin: 0;
+      display: inline-block;
+    }
+  }
+}
+
+table.player-rank {
+    td {
       padding: 3px;
       vertical-align: middle;
       text-align: center;
     }
 
-    th {
-      font-size: 1.3em;
-      padding-bottom: 5px;
+    td.name {
+      width: 70%;
+      font-size: 1.1em;
+      font-weight: blod;
     }
 
-    td {
-      font-size: 1.1em;
-
-      form {
-        margin: 0;
-        display: inline-block;
-      }
+    td.points {
+      width: 15%;
+      font-family: @numberFont;
+      font-size: 1.5em;
     }
   }
 
