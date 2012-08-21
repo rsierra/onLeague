@@ -5,6 +5,7 @@ en:
     attributes:
       player:
         active: Active
+        age: Age
         born: Born date
         club: Club
         country: Country
