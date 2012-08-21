@@ -47,8 +47,9 @@ class TeamFilesController < ApplicationController
   end
 
   def search_club_files
-    @search = ClubFile.of_clubs(@current_league.season_club_ids).order('value DESC')
-      .order_by_points_on_season(@current_league.season).search(params[:q])
+    @search = ClubFile.of_clubs(@current_league.season_club_ids)
+      .order_by_points_on_season(@current_league.season).order(:value)
+      .search(params[:q])
     # There is a problem with kaminary and grouped scopes, becouse use count to get total pages
     # and gets a hash count, so we calculate total pages by hand to pass in pagination helper
     per_page = 10
