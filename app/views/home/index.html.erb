@@ -9,17 +9,7 @@
 <div class="row">
   <div class="span4">
     <h2><%= t('.top_players') %></h2>
-    <table class="table table-striped player-rank">
-      <tbody>
-      <% @top_club_files.each do |club_file| %>
-        <tr>
-          <td><%= jersey_with_number club_file %></td>
-          <td class="name"><%= club_file.player_name %></td>
-          <td class="points"><%= club_file.points %></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
+    <%= render partial: "shared/players_points", object: @top_players %>
   </div>
   <div class="span4">
     col2
