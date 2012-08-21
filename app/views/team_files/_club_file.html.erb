@@ -1,6 +1,9 @@
 <tr>
   <%= render partial: 'shared/file_row', object: club_file %>
   <td>
+    <%= club_file.club_name %>
+  </td>
+  <td>
     <%= form_for [@team, @team_file] do |f| %>
       <%= hidden_field_tag :club_file_id, club_file.id %>
       <%= image_submit_tag 'icons/pay-icon.png', alt: t('.buy_player'),

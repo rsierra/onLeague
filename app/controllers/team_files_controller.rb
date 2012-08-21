@@ -1,7 +1,13 @@
 # encoding: UTF-8
 
 class TeamFilesController < ApplicationController
-  before_filter :authenticate_user!, :find_team
+  before_filter :authenticate_user!, :find_team, except: [:show]
+  before_filter :only_xhr, only: [:show]
+
+  def show
+    @team_file = TeamFile.find params[:id]
+    render layout: false
+  end
 
   def new
     @team_file = TeamFile.new
@@ -42,7 +48,8 @@ class TeamFilesController < ApplicationController
 
   def search_club_files
     @search = ClubFile.of_clubs(@current_league.season_club_ids)
-      .order_by_points_on_season(@current_league.season).search(params[:q])
+      .order_by_points_on_season(@current_league.season).order(:value)
+      .search(params[:q])
     # There is a problem with kaminary and grouped scopes, becouse use count to get total pages
     # and gets a hash count, so we calculate total pages by hand to pass in pagination helper
     per_page = 10

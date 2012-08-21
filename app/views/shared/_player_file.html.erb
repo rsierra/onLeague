@@ -1,0 +1,55 @@
+<div class="player-file-modal">
+  <%= jersey_with_number player_file, :normal %>
+  <dl class="dl-horizontal player-info">
+    <dt><%= Player.human_attribute_name(:born) %></dt>
+    <dd><%= l player_file.player.born, format: :default %></dd>
+    <dt><%= Player.human_attribute_name(:age) %></dt>
+    <dd><%= distance_of_time_in_words_to_now player_file.player.born %></dd>
+    <dt><%= Player.human_attribute_name(:country) %></dt>
+    <dd>
+      <%= player_file.player.country.name %>
+      <%= country_flag player_file %>
+    </dd>
+    <dt><%= Club.model_name.human %></dt>
+    <dd><%= player_file.club_name %></dd>
+    <dt><%= ClubFile.human_attribute_name(:position) %></dt>
+    <dd><%= player_file.position.text %></dd>
+    <dt><%= ClubFile.human_attribute_name(:value) %></dt>
+    <dd><%= number_to_human(player_file.value_million) %></dd>
+  </dl>
+  <div class="player-points">
+    <span><%= player_file.player.season_stats(:points, @current_league) %></span>
+    <h3><%= PlayerStat.human_attribute_name(:points) %></h3>
+  </div>
+  <div class="player-stats">
+
+
+    <table class="table-bordered">
+      <thead>
+        <tr>
+          <th><span class="event-icon goal"></span></th>
+          <th><span class="event-icon assist"></span></th>
+          <th><span class="event-icon yellow-card"></span></th>
+          <th><span class="event-icon direct-red-card"></span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= player_file.player.season_stats(:goals_scored,@current_league) %></td>
+          <td><%= player_file.player.season_stats(:assists,@current_league) %></td>
+          <td><%= player_file.player.season_stats(:yellow_cards,@current_league) %></td>
+          <td><%= player_file.player.season_stats(:red_cards,@current_league) %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <dl class="dl-horizontal">
+      <dt><%= PlayerStat.human_attribute_name(:games_played) %></dt>
+      <dd><%= games_played = player_file.player.season_stats(:games_played,@current_league) %></dd>
+      <dt><%= PlayerStat.human_attribute_name(:lineups) %></dt>
+      <dd><%= player_file.player.season_stats(:lineups,@current_league) %></dd>
+      <dt><%= PlayerStat.human_attribute_name(:minutes_played_per_game) %></dt>
+      <dd><%= (player_file.player.season_stats(:minutes_played,@current_league) / games_played).to_i %>'</dd>
+    </dl>
+  </div>
+</div>

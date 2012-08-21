@@ -1,10 +1,6 @@
 <td><%= jersey_with_number file_row %></td>
-<td><%= file_row.player_name %></td>
+<td><%= link_to_modal_player_file file_row %></td>
 <td><%= file_row.position.text %></td>
 <td><%= file_row.value %></td>
 <td><%= file_row.respond_to?(:points) ? file_row.points : file_row.player.league_stats(:points,@current_league) %></td>
-<td>
-  <%= image_tag file_row.player.country.flag.url(:small),
-        alt: "#{file_row.player.country.name} #{Country.human_attribute_name(:flag)}" %>
-  <%= image_tag 'icons/no-eu.png', alt: "#{Player.human_attribute_name(:eu)}" unless file_row.player.eu %>
-</td>
+<td><%= country_flag file_row %></td>
