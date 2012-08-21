@@ -13,6 +13,7 @@ en:
         goals_scored: Goals
         lineups: lineups
         minutes_played: Minutes played
+        minutes_played_per_game: Minutes/game
         player: Player
         player_id: Player
         points: Points
