@@ -1,7 +1,12 @@
 # encoding: UTF-8
 
 class TeamFilesController < ApplicationController
-  before_filter :authenticate_user!, :find_team
+  before_filter :authenticate_user!, :find_team, except: [:show]
+
+  def show
+    @team_file = TeamFile.find params[:id]
+    render layout: false
+  end
 
   def new
     @team_file = TeamFile.new
