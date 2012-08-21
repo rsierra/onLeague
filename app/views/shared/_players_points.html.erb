@@ -3,21 +3,9 @@
 <% players_points.each do |player_file| %>
   <tr>
     <td><%= jersey_with_number player_file %></td>
-    <td class="name"><%= link_to player_file.player_name, [player_file], 'data-toggle' => 'modal', 'data-target' => "#show_player_#{player_file.id}_info" %></td>
+    <td class="name"><%= link_to_modal_player_file player_file %></td>
     <td class="points"><%= player_file.points %></td>
   </tr>
-
-  <div class="modal hide" id="show_player_<%= player_file.id %>_info">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal">×</button>
-      <h3><%= player_file.player_name %></h3>
-    </div>
-    <div class="modal-body">
-    </div>
-    <div class="modal-footer">
-      <a href="#" class="btn" data-dismiss="modal"><%= t('.close') %></a>
-    </div>
-  </div>
 <% end %>
 </tbody>
 </table>

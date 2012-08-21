@@ -19,4 +19,19 @@ module PlayerHelper
     flag += image_tag 'icons/no-eu.png', alt: "#{Player.human_attribute_name(:eu)}" unless file.player.eu
     flag
   end
+
+  def link_to_modal_player_file player_file
+    link_to(player_file.player_name, [player_file], 'data-toggle' => 'modal',
+      'data-target' => "#player_#{player_file.id}_info") +
+    content_tag(:div, class: "modal hide", id: "player_#{player_file.id}_info") do
+      content_tag(:div, class: "modal-header") do
+        button_tag('x', class: "close", 'data-dismiss' => "modal") +
+        content_tag(:h3, player_file.player_name)
+      end +
+      content_tag(:div, '', class: "modal-body") +
+      content_tag(:div, class: "modal-footer") do
+        link_to t('.close'), "#", class: "btn", 'data-dismiss' => "modal"
+      end
+    end
+  end
 end
