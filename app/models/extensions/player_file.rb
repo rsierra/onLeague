@@ -22,7 +22,7 @@ module Extensions
 
       scope :current, where(date_out: nil)
       scope :active, joins(:player).where(players: { active: true })
-      scope :on, ->(date) { order(:date_in).where(['date_in <= ? AND (date_out >= ? OR date_out IS NULL)',date,date]) }
+      scope :on, ->(date) { where(['date_in <= ? AND (date_out >= ? OR date_out IS NULL)',date,date]) }
       scope :of, ->(player) { where(player_id: player) }
       scope :of_players, ->(player_ids=[]) { where('player_id IN (?)', player_ids) }
       scope :of_clubs, ->(club_ids=[]) { where('club_id IN (?)', club_ids) }
@@ -31,21 +31,25 @@ module Extensions
       self::SQL_ATTRIBUTES = self.attribute_names.map{ |attr| "#{self.table_name}.#{attr}"}.join(',')
       self::SQL_JOINS = "LEFT OUTER JOIN player_stats ON #{self.table_name}.player_id = player_stats.player_id " +
                   "LEFT OUTER JOIN games ON player_stats.game_id = games.id"
-      scope :order_by_points_on_season, ->(season) {
-             joins(self::SQL_JOINS)
-            .current
+      scope :with_points, joins(self::SQL_JOINS)
             .select("#{self::SQL_ATTRIBUTES}, COALESCE(sum(player_stats.points),0) as points")
+            .group(self::SQL_ATTRIBUTES)
+
+      scope :with_points_on_season, ->(season) {
+            with_points
             .where(games: {season: season})
-            .group(self::SQL_ATTRIBUTES)
-            .order("COALESCE(sum(player_stats.points),0) DESC, #{self.table_name}.value ASC")
           }
-      scope :order_by_points_on_season_week, ->(season, week) {
-             joins(self::SQL_JOINS)
-            .current
-            .select("#{self::SQL_ATTRIBUTES}, COALESCE(sum(player_stats.points),0) as points")
-            .where(games: {season: season, week: week})
-            .group(self::SQL_ATTRIBUTES)
-            .order("COALESCE(sum(player_stats.points),0) DESC, #{self.table_name}.value ASC")
+      scope :with_points_on_season_week, ->(season, week) {
+            with_points_on_season(season)
+            .where(games: {week: week})
+          }
+      scope :order_by_points_on_season, ->(season) {
+            with_points_on_season(season)
+            .order("COALESCE(sum(player_stats.points),0) DESC")
+          }
+      scope :order_by_points_on_season_week, ->(season,week) {
+            order_by_points_on_season(season)
+            .where(games: {week: week})
           }
 
       validate :validate_date_out_blank, if: "new_record?"
@@ -55,6 +59,10 @@ module Extensions
 
     def current?
       date_out.blank?
+    end
+
+    def value_million
+      value * 1000000
     end
 
     private
