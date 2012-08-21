@@ -30,7 +30,7 @@ module PlayerHelper
       end +
       content_tag(:div, '', class: "modal-body") +
       content_tag(:div, class: "modal-footer") do
-        link_to t('.close'), "#", class: "btn", 'data-dismiss' => "modal"
+        link_to t('views.common.close'), "#", class: "btn", 'data-dismiss' => "modal"
       end
     end
   end
