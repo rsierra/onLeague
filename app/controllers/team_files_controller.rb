@@ -2,6 +2,7 @@
 
 class TeamFilesController < ApplicationController
   before_filter :authenticate_user!, :find_team, except: [:show]
+  before_filter :only_xhr, only: [:show]
 
   def show
     @team_file = TeamFile.find params[:id]
