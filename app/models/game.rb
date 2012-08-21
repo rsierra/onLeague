@@ -94,12 +94,44 @@ class Game < ActiveRecord::Base
     club_home.leagues.include? league
   end
 
+  def home_lineups_files
+    files_from home_lineups_players
+  end
+
+  def away_lineups_files
+    files_from away_lineups_players
+  end
+
+  def home_substitutions_files_in
+    files_from home_substitutions_players_in
+  end
+
+  def away_substitutions_files_in
+    files_from away_substitutions_players_in
+  end
+
+  def files_from players
+    ClubFile.of(players).on(date).order(:number).with_points_on_season_week(season,week)
+  end
+
   def home_lineups_players
-    home_lineups.map(&:player)
+    players_from home_lineups
   end
 
   def away_lineups_players
-    away_lineups.map(&:player)
+    players_from away_lineups
+  end
+
+  def home_substitutions_players_in
+    players_from home_substitutions, :player_in
+  end
+
+  def away_substitutions_players_in
+    players_from away_substitutions, :player_in
+  end
+
+  def players_from events, player_kind = :player
+    events.includes(player_kind).map(&player_kind)
   end
 
   def home_lineups
@@ -108,14 +140,6 @@ class Game < ActiveRecord::Base
 
   def away_lineups
     away_events_from lineups
-  end
-
-  def home_substitutions_players_in
-    home_substitutions.map(&:player_in)
-  end
-
-  def away_substitutions_players_in
-    away_substitutions.map(&:player_in)
   end
 
   def home_substitutions
