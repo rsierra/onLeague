@@ -32,6 +32,88 @@ input[type="image"] {
 }
 
 //---------------------------------------------------------
+// EVENT ICONS
+
+.event-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 15px;
+  background: url('icons/events-icons.gif') no-repeat right center;
+}
+
+.substitution {
+  background-position: -90px 50% !important;
+}
+
+.goal {
+  background-position: -65px 50% !important;
+}
+
+.yellow-card {
+  background-position: 0 50% !important;
+}
+
+.red-card {
+  background-position: -43px 50% !important;
+}
+
+.direct-red-card {
+  background-position: -21px 50% !important;
+}
+
+//---------------------------------------------------------
+// PLAYER INFO MODAL
+
+.player-file-modal {
+  text-align: left;
+
+  .jersey-normal {
+    float: left;
+  }
+
+  dl.player-info {
+    display: inline-block;
+
+    dt {
+      width: 140px;
+    }
+
+    dd {
+      margin-left: 150px;
+    }
+  }
+
+  .player-points {
+    float: right;
+    text-align: center;
+    margin: 20px;
+
+    span {
+      font-family: @numberFont;
+      font-size: 4em;
+    }
+
+    h3 {
+      border-top: 1px black solid;
+      margin-top: 5px;
+    }
+  }
+
+  .player-stats {
+    dl.dl-horizontal {
+      margin-left: 20px;
+    }
+
+    table {
+      width: 50%;
+      float: right;
+      margin-right: 20px;
+    }
+  }
+}
+
+//---------------------------------------------------------
 // TABLES
 
 table.player-files {
