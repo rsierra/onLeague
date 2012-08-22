@@ -14,8 +14,6 @@ module Extensions
       delegate :name, to: :player, prefix: true, allow_nil: true
 
       validates :club_id, presence: true
-      validates :player_id, presence: true,
-          uniqueness: { scope: :date_out, message: :only_one_curent_file_player }, if: "date_out.blank?"
       validates :position, presence: true, inclusion: { in: POSITION_TYPES }
       validates :value, presence: true, numericality: true
       validates :date_in, presence: true
