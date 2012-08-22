@@ -13,6 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap_custom_load
-//= require bootstrap
 //= require jquery.grayscale
 //= require_self
+
+$("a[rel=popover]").popover()
+$(".tooltip").tooltip()
+$(".tooltip_button").tooltip()
+$("a[rel=tooltip]").tooltip()
