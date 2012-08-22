@@ -32,7 +32,7 @@
       </div>
 
 
-      <h3><%= t '.events' %></h3>
+      <h3 class="sub-dotted"><%= t '.events' %></h3>
       <table class="table table-striped">
       <% @game.events.each do |event| %>
         <%= render partial: 'event', object: event %>
@@ -40,8 +40,8 @@
       </table>
     </div>
 
-    <div class="span6">
-      <h3><%= PlayerStat.human_attribute_name(:points) %></h3>
+    <div id="players_points" class="span6">
+      <h3 class="sub-dotted"><%= PlayerStat.human_attribute_name(:points) %></h3>
       <div class="row">
         <div id="home_lineups" class="span3">
           <%= render partial: "shared/players_points", object: @game.home_lineups_files %>
@@ -51,7 +51,7 @@
         </div>
       </div>
 
-      <h3><%= Substitution.model_name.human.pluralize %></h3>
+      <h3 class="sub-dotted"><%= Substitution.model_name.human.pluralize %></h3>
       <div class="row">
         <div id="home_substitutions" class="span3">
           <%= render partial: "shared/players_points", object: @game.home_substitutions_files_in %>
