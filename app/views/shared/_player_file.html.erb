@@ -31,6 +31,9 @@
           <th><span class="event-icon assist"></span></th>
           <th><span class="event-icon yellow-card"></span></th>
           <th><span class="event-icon direct-red-card"></span></th>
+          <% if player_file.position.goalkeeper? %>
+          <th><span class="event-icon goal-conceded"></span></th>
+          <% end %>
         </tr>
       </thead>
       <tbody>
@@ -39,6 +42,9 @@
           <td><%= player_file.player.season_stats(:assists,@current_league) %></td>
           <td><%= player_file.player.season_stats(:yellow_cards,@current_league) %></td>
           <td><%= player_file.player.season_stats(:red_cards,@current_league) %></td>
+          <% if player_file.position.goalkeeper? %>
+          <td><%= player_file.player.season_stats(:goals_conceded,@current_league) %></td>
+          <% end %>
         </tr>
       </tbody>
     </table>

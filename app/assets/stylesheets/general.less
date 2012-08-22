@@ -42,20 +42,20 @@ input[type="image"] {
   background: url('icons/events-icons.gif') no-repeat right center;
 }
 
+.goal-conceded {
+  background-position: -136px 50% !important;
+}
+
 .assist {
-  background-position: -109px 50% !important;
+  background-position: -111px 50% !important;
 }
 
 .substitution {
-  background-position: -90px 50% !important;
+  background-position: -88px 50% !important;
 }
 
 .goal {
-  background-position: -69px 50% !important;
-}
-
-.yellow-card {
-  background-position: -3px 50% !important;
+  background-position: -67px 50% !important;
 }
 
 .red-card {
@@ -63,7 +63,11 @@ input[type="image"] {
 }
 
 .direct-red-card {
-  background-position: -24px 50% !important;
+  background-position: -23px 50% !important;
+}
+
+.yellow-card {
+  background-position: -2px 50% !important;
 }
 
 //---------------------------------------------------------
@@ -110,9 +114,14 @@ input[type="image"] {
     }
 
     table {
+      vertical-align: middle;
       width: 50%;
       float: right;
       margin-right: 20px;
+
+      th{
+        text-align: center;
+      }
     }
   }
 }
