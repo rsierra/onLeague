@@ -8,6 +8,7 @@ es:
         active: Activo
         created_at: Fundado
         files: Fichajes
+        formation: Formación
         league: Liga
         league_id: Liga
         money: Presupuesto

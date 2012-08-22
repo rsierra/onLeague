@@ -104,6 +104,10 @@ class Team < ActiveRecord::Base
     forwards.count
   end
 
+  def formation
+    "#{defenders_count}-#{midfielders_count}-#{forwards_count}"
+  end
+
   private
 
   def max_per_user

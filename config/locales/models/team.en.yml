@@ -8,6 +8,7 @@ en:
         active: Active
         created_at: Founded
         files: Files
+        formation: Formation
         league: League
         league_id: League
         money: Money
