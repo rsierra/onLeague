@@ -1,6 +1,6 @@
 <% reasons = @team.player_not_buyable_reasons club_file %>
 <% buyable = reasons.empty? %>
-<tr <%= "class='not-buyable'" unless buyable %>>
+<tr class="<%= club_file.position %> <%= 'not-buyable' unless buyable %>">
   <%= render partial: 'shared/file_row', object: club_file %>
   <td>
     <%= club_file.club_name %>
