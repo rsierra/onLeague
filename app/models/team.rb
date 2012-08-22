@@ -116,6 +116,10 @@ class Team < ActiveRecord::Base
     forwards.count
   end
 
+  def files_by_position
+    goalkeepers + defenders + midfielders + forwards
+  end
+
   def formation
     "#{defenders_count}-#{midfielders_count}-#{forwards_count}"
   end

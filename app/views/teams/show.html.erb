@@ -21,6 +21,9 @@
         </div>
         <% end %>
 
+        <% if @team.files.empty? %>
+          <%= t('.no_files_yet') %>
+        <% else %>
         <table class="table table-striped player-files">
           <thead>
             <tr>
@@ -34,9 +37,10 @@
             </tr>
           </thead>
           <tbody>
-            <%= render(@team.files) || t('.no_files_yet') %>
+            <%= render @team.files_by_position %>
           </tbody>
         </table>
+        <% end %>
     </div>
 
     <div id="team_files_changes" class="span3 well">
