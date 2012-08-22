@@ -21,41 +21,8 @@
     <span><%= player_file.player.season_stats(:points, @current_league) %></span>
     <h3><%= PlayerStat.human_attribute_name(:points) %></h3>
   </div>
-  <div class="player-stats">
 
+  <%= render partial: 'shared/player_stats', object: player_file.player,
+              locals: { goalkeeper: player_file.position.goalkeeper? } %>
 
-    <table class="table-bordered">
-      <thead>
-        <tr>
-          <th><span class="event-icon goal"></span></th>
-          <th><span class="event-icon assist"></span></th>
-          <th><span class="event-icon yellow-card"></span></th>
-          <th><span class="event-icon direct-red-card"></span></th>
-          <% if player_file.position.goalkeeper? %>
-          <th><span class="event-icon goal-conceded"></span></th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><%= player_file.player.season_stats(:goals_scored,@current_league) %></td>
-          <td><%= player_file.player.season_stats(:assists,@current_league) %></td>
-          <td><%= player_file.player.season_stats(:yellow_cards,@current_league) %></td>
-          <td><%= player_file.player.season_stats(:red_cards,@current_league) %></td>
-          <% if player_file.position.goalkeeper? %>
-          <td><%= player_file.player.season_stats(:goals_conceded,@current_league) %></td>
-          <% end %>
-        </tr>
-      </tbody>
-    </table>
-
-    <dl class="dl-horizontal">
-      <dt><%= PlayerStat.human_attribute_name(:games_played) %></dt>
-      <dd><%= games_played = player_file.player.season_stats(:games_played,@current_league) %></dd>
-      <dt><%= PlayerStat.human_attribute_name(:lineups) %></dt>
-      <dd><%= player_file.player.season_stats(:lineups,@current_league) %></dd>
-      <dt><%= PlayerStat.human_attribute_name(:minutes_played_per_game) %></dt>
-      <dd><%= (player_file.player.season_stats(:minutes_played,@current_league) / games_played).to_i %>'</dd>
-    </dl>
-  </div>
 </div>
