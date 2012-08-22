@@ -22,6 +22,7 @@ module Extensions
 
       scope :current, where(date_out: nil)
       scope :active, joins(:player).where(players: { active: true })
+      scope :no_eu, joins(:player).where(players: { eu: false })
       scope :on, ->(date) { where(['date_in <= ? AND (date_out >= ? OR date_out IS NULL)',date,date]) }
       scope :of, ->(player) { where(player_id: player) }
       scope :of_players, ->(player_ids=[]) { where('player_id IN (?)', player_ids) }

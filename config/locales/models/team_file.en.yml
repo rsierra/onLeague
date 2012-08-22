@@ -21,6 +21,9 @@ en:
             team:
               cant_have_more: can't have more files in this team
               not_enough_money: no have enough money
+              cant_have_more_positions: can't have more %{position}
+              cant_have_more_clubs: can't have more players of %{club}
+              cant_have_more_no_eu: can't have more no european
             player_id:
               only_one_curent_file_player: only can have one current file (without date out)
             date_out:

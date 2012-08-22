@@ -32,4 +32,6 @@ es:
     not_buyable_reasons:
       not_enough_money: no tienes suficiente dinero
       not_remaining_files: no tienes fichajes disponibles
-      not_remaining_positions: no peudes fichar más %{position}
+      not_remaining_positions: no puedes fichar más %{position}
+      not_remaining_clubs: no puedes fichar más jugadores del %{club}
+      not_remaining_no_eu: no puedes fichar más extracomunitarios

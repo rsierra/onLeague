@@ -7,7 +7,8 @@ class TeamFile < ActiveRecord::Base
 
   validates :team_id, presence: true
 
-  validate :max_files_per_team, :max_positions_per_team, unless: 'team.blank?'
+  validate  :max_files_per_team, :max_positions_per_team,
+            :max_clubs_per_team, :max_no_eu_per_team, unless: 'team.blank?'
   validate :enough_money, unless: 'team.blank?'
 
   private
@@ -21,6 +22,14 @@ class TeamFile < ActiveRecord::Base
   end
 
   def max_positions_per_team
-    errors.add(:team, :cant_have_more) unless team.remaining_position? position
+    errors.add(:team, :cant_have_more_positions, position: position.text.downcase.pluralize) unless team.remaining_position? position
+  end
+
+  def max_clubs_per_team
+    errors.add(:team, :cant_have_more_clubs, club: club_name.capitalize) unless team.remaining_club? club
+  end
+
+  def max_no_eu_per_team
+    errors.add(:team, :cant_have_more_no_eu) unless player.eu || team.remaining_no_eu?
   end
 end

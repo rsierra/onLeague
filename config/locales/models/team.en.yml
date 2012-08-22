@@ -33,3 +33,5 @@ en:
       not_enough_money: not enough money
       not_remaining_files: not remaining money
       not_remaining_positions: can't buy more %{position}
+      not_remaining_clubs: can't buy more players from %{club}
+      not_remaining_no_eu: can't buy more no european
