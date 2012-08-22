@@ -28,3 +28,8 @@ en:
   flash:
     teams:
       create_success: The team was successfully created
+  teams:
+    not_buyable_reasons:
+      not_enough_money: not enough money
+      not_remaining_files: not remaining money
+      not_remaining_positions: can't buy more %{position}
