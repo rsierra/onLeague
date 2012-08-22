@@ -37,11 +37,11 @@ module Extensions
 
       scope :with_points_on_season, ->(season) {
             with_points
-            .where(games: {season: season})
+            .where(["games.season = ? OR games.season IS NULL",season])
           }
       scope :with_points_on_season_week, ->(season, week) {
             with_points_on_season(season)
-            .where(games: {week: week})
+            .where(["games.week = ? OR games.week IS NULL",week])
           }
       scope :order_by_points_on_season, ->(season) {
             with_points_on_season(season)
@@ -49,7 +49,7 @@ module Extensions
           }
       scope :order_by_points_on_season_week, ->(season,week) {
             order_by_points_on_season(season)
-            .where(games: {week: week})
+            .where(["games.week = ? OR games.week IS NULL",week])
           }
 
       validate :validate_date_out_blank, if: "new_record?"
