@@ -1,5 +1,11 @@
 class TeamFile < ActiveRecord::Base
   MAX_FILES = 11
+  POSITION_LIMITS = {
+    'goalkeeper'  =>  { minimum: 1, maximun: 1 },
+    'defender'    =>  { minimum: 3, maximun: 5 },
+    'midfielder'  =>  { minimum: 3, maximun: 5 },
+    'forward'     =>  { minimum: 1, maximun: 3 }
+  }
 
   belongs_to :team
   belongs_to :player
@@ -9,11 +15,15 @@ class TeamFile < ActiveRecord::Base
 
   validates :team_id, presence: true
 
-  validate :max_files_per_team, unless: 'team.blank?'
+  validate :max_files_per_team, :max_positions_per_team, unless: 'team.blank?'
   validate :enough_money, unless: 'team.blank?'
 
   def enough_money?
     team.remaining_money >= value
+  end
+
+  def remaining_position? position
+    team.players_in_positon(position).count < POSITION_LIMITS[position][:maximun]
   end
 
   private
@@ -24,5 +34,9 @@ class TeamFile < ActiveRecord::Base
 
   def enough_money
     errors.add(:team, :not_enough_money) unless enough_money?
+  end
+
+  def max_positions_per_team
+    errors.add(:team, :cant_have_more) unless remaining_position? position
   end
 end
