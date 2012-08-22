@@ -1,6 +1,15 @@
+# encoding: UTF-8
+
 class Team < ActiveRecord::Base
   MAX_TEAMS = 2
   INITIAL_MONEY = 200
+  MAX_FILES = 11
+  POSITION_LIMITS = {
+    'goalkeeper'  =>  { minimum: 1, maximun: 1 },
+    'defender'    =>  { minimum: 3, maximun: 5 },
+    'midfielder'  =>  { minimum: 3, maximun: 4 },
+    'forward'     =>  { minimum: 1, maximun: 3 }
+  }
 
   belongs_to :user
   belongs_to :league
@@ -61,7 +70,7 @@ class Team < ActiveRecord::Base
   end
 
   def remaining_files
-    TeamFile::MAX_FILES - files.count
+    MAX_FILES - files.count
   end
 
   def remaining_files?
@@ -106,6 +115,26 @@ class Team < ActiveRecord::Base
 
   def formation
     "#{defenders_count}-#{midfielders_count}-#{forwards_count}"
+  end
+
+  def remainig_files?
+    files.count < MAX_FILES
+  end
+
+  def remaining_position? position
+    players_in_positon(position).count < POSITION_LIMITS[position][:maximun]
+  end
+
+  def enough_money? value
+    remaining_money >= value.to_f
+  end
+
+  def player_not_buyable_reasons player_file
+    reasons = []
+    reasons << I18n.t('teams.not_buyable_reasons.not_enough_money') unless enough_money?(player_file.value)
+    reasons << I18n.t('teams.not_buyable_reasons.not_remaining_files') unless remainig_files?
+    reasons << I18n.t('teams.not_buyable_reasons.not_remaining_positions', position: player_file.position.text.pluralize.downcase) unless remaining_position?(player_file.position)
+    reasons
   end
 
   private

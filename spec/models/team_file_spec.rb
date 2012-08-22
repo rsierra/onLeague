@@ -29,7 +29,7 @@ describe TeamFile do
       let(:midfielders) { create_list(:team_file, 4, team: team, position: 'midfielder') }
       let(:forwards) { create_list(:team_file, 2, team: team, position: 'forward') }
 
-      let(:team_file) { build(:team_file, team: team) }
+      let(:team_file) { build(:team_file, team: team, position: 'defender') }
 
       before { goalkeepers; defenders; midfielders; forwards }
       subject { team_file }
@@ -77,7 +77,7 @@ describe TeamFile do
 
       let(:team) { create(:team) }
       let(:position) { 'goalkeeper' }
-      let(:team_files) { create_list(:team_file, TeamFile::POSITION_LIMITS[position][:maximun], team: team, position: position) }
+      let(:team_files) { create_list(:team_file, Team::POSITION_LIMITS[position][:maximun], team: team, position: position) }
       let(:team_file) { build(:team_file, team: team, position: position) }
 
       before { team_files }
