@@ -8,6 +8,7 @@ es:
         active: Activo
         created_at: Fundado
         files: Fichajes
+        formation: Formación
         league: Liga
         league_id: Liga
         money: Presupuesto
@@ -27,3 +28,11 @@ es:
   flash:
     teams:
       create_success: El equipo se ha creado correctamente
+  teams:
+    not_buyable_reasons:
+      not_enough_money: no tienes suficiente dinero
+      not_remaining_files: no tienes fichajes disponibles
+      not_remaining_positions: no puedes fichar más %{position}
+      not_remaining_clubs: no puedes fichar más jugadores del %{club}
+      not_remaining_no_eu: no puedes fichar más extracomunitarios
+      already_in_team: ya está en el equipo

@@ -21,6 +21,9 @@ es:
             team:
               cant_have_more: no puede tener más fichajes
               not_enough_money: no tiene suficiente dinero
+              cant_have_more_positions: no puede tener más %{position}
+              cant_have_more_clubs: no puede tener más jugadores del %{club}
+              cant_have_more_no_eu: no puede tener más extracomunitarios
             player_id:
               only_one_curent_file_player: sólo puede tener una ficha vigente (sin fecha de salida)
             date_out:

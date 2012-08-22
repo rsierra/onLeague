@@ -14,14 +14,13 @@ module Extensions
       delegate :name, to: :player, prefix: true, allow_nil: true
 
       validates :club_id, presence: true
-      validates :player_id, presence: true,
-          uniqueness: { scope: :date_out, message: :only_one_curent_file_player }, if: "date_out.blank?"
       validates :position, presence: true, inclusion: { in: POSITION_TYPES }
       validates :value, presence: true, numericality: true
       validates :date_in, presence: true
 
       scope :current, where(date_out: nil)
       scope :active, joins(:player).where(players: { active: true })
+      scope :no_eu, joins(:player).where(players: { eu: false })
       scope :on, ->(date) { where(['date_in <= ? AND (date_out >= ? OR date_out IS NULL)',date,date]) }
       scope :of, ->(player) { where(player_id: player) }
       scope :of_players, ->(player_ids=[]) { where('player_id IN (?)', player_ids) }
@@ -37,11 +36,11 @@ module Extensions
 
       scope :with_points_on_season, ->(season) {
             with_points
-            .where(games: {season: season})
+            .where(["games.season = ? OR games.season IS NULL",season])
           }
       scope :with_points_on_season_week, ->(season, week) {
             with_points_on_season(season)
-            .where(games: {week: week})
+            .where(["games.week = ? OR games.week IS NULL",week])
           }
       scope :order_by_points_on_season, ->(season) {
             with_points_on_season(season)
@@ -49,7 +48,7 @@ module Extensions
           }
       scope :order_by_points_on_season_week, ->(season,week) {
             order_by_points_on_season(season)
-            .where(games: {week: week})
+            .where(["games.week = ? OR games.week IS NULL",week])
           }
 
       validate :validate_date_out_blank, if: "new_record?"

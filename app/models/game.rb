@@ -164,11 +164,13 @@ class Game < ActiveRecord::Base
   end
 
   def home_goals
-    goals.of_scorers(club_home.player_ids_on_date(date)).count
+    goals.scored.of_scorers(club_home.player_ids_on_date(date)).count +
+    goals.owned.of_scorers(club_away.player_ids_on_date(date)).count
   end
 
   def away_goals
-    goals.of_scorers(club_away.player_ids_on_date(date)).count
+    goals.scored.of_scorers(club_away.player_ids_on_date(date)).count +
+    goals.owned.of_scorers(club_home.player_ids_on_date(date)).count
   end
 
   def winner_club

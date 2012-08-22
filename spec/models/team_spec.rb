@@ -192,4 +192,53 @@ describe Team do
       its(:remaining_files) { should eq TeamFile::MAX_FILES }
     end
   end
+
+  describe "when get number of" do
+    let(:team) { create(:team) }
+    subject { team }
+
+    context "goalkeepers" do
+      its(:goalkeepers_count) { should be_zero }
+
+      context "with goalkeepers" do
+        let(:team_file) { create(:team_file, team: team, position: :goalkeeper) }
+        before { team_file }
+
+        its(:goalkeepers_count) { should eq 1 }
+      end
+    end
+
+    context "defenders" do
+      its(:defenders_count) { should be_zero }
+
+      context "with defenders" do
+        let(:team_file) { create(:team_file, team: team, position: :defender) }
+        before { team_file }
+
+        its(:defenders_count) { should eq 1 }
+      end
+    end
+
+    context "midfielders" do
+      its(:midfielders_count) { should be_zero }
+
+      context "with midfielders" do
+        let(:team_file) { create(:team_file, team: team, position: :midfielder) }
+        before { team_file }
+
+        its(:midfielders_count) { should eq 1 }
+      end
+    end
+
+    context "forwards" do
+      its(:forwards_count) { should be_zero }
+
+      context "with forwards" do
+        let(:team_file) { create(:team_file, team: team, position: :forward) }
+        before { team_file }
+
+        its(:forwards_count) { should eq 1 }
+      end
+    end
+  end
 end

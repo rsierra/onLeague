@@ -1,12 +1,24 @@
+# encoding: UTF-8
+
 class Team < ActiveRecord::Base
   MAX_TEAMS = 2
   INITIAL_MONEY = 200
+  MAX_FILES = 11
+  MAX_FILES_PER_CLUB = 3
+  MAX_FILES_NO_EU = 3
+  POSITION_LIMITS = {
+    'goalkeeper'  =>  { minimum: 1, maximun: 1 },
+    'defender'    =>  { minimum: 3, maximun: 5 },
+    'midfielder'  =>  { minimum: 3, maximun: 4 },
+    'forward'     =>  { minimum: 1, maximun: 3 }
+  }
 
   belongs_to :user
   belongs_to :league
 
   has_many :team_files
-  has_many :files, :class_name => 'TeamFile', :conditions => 'date_out is null'
+  has_many :files, class_name: 'TeamFile', conditions: 'date_out is null'
+  has_many :players, through: :files
 
   attr_accessible :name, :active, :activation_week
 
@@ -61,11 +73,86 @@ class Team < ActiveRecord::Base
   end
 
   def remaining_files
-    TeamFile::MAX_FILES - files.count
+    MAX_FILES - files.count
   end
 
   def remaining_files?
     !remaining_files.zero?
+  end
+
+  def players_in_positon position
+    files.where(position: position)
+  end
+
+  def goalkeepers
+    players_in_positon :goalkeeper
+  end
+
+  def defenders
+    players_in_positon :defender
+  end
+
+  def midfielders
+    players_in_positon :midfielder
+  end
+
+  def forwards
+    players_in_positon :forward
+  end
+
+  def goalkeepers_count
+    goalkeepers.count
+  end
+
+  def defenders_count
+    defenders.count
+  end
+
+  def midfielders_count
+    midfielders.count
+  end
+
+  def forwards_count
+    forwards.count
+  end
+
+  def files_by_position
+    goalkeepers + defenders + midfielders + forwards
+  end
+
+  def formation
+    "#{defenders_count}-#{midfielders_count}-#{forwards_count}"
+  end
+
+  def remainig_files?
+    files.count < MAX_FILES
+  end
+
+  def remaining_position? position
+    players_in_positon(position).count < POSITION_LIMITS[position][:maximun]
+  end
+
+  def enough_money? value
+    remaining_money >= value.to_f
+  end
+
+  def remaining_club? club
+    files.where(club_id: club).count < MAX_FILES_PER_CLUB
+  end
+
+  def remaining_no_eu?
+    files.no_eu.count < MAX_FILES_NO_EU
+  end
+
+  def player_not_buyable_reasons player_file
+    reasons = []
+    reasons << I18n.t('teams.not_buyable_reasons.not_enough_money') unless enough_money?(player_file.value)
+    reasons << I18n.t('teams.not_buyable_reasons.not_remaining_files') unless remainig_files?
+    reasons << I18n.t('teams.not_buyable_reasons.not_remaining_positions', position: player_file.position.text.pluralize.downcase) unless remaining_position?(player_file.position)
+    reasons << I18n.t('teams.not_buyable_reasons.not_remaining_clubs', club: player_file.club_name.capitalize) unless remaining_club? player_file.club
+    reasons << I18n.t('teams.not_buyable_reasons.not_remaining_no_eu') unless player_file.player.eu || remaining_no_eu?
+    reasons << I18n.t('teams.not_buyable_reasons.already_in_team') if players.include? player_file.player
+    reasons
   end
 
   private
