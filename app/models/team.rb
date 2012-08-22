@@ -68,24 +68,24 @@ class Team < ActiveRecord::Base
     !remaining_files.zero?
   end
 
-  def player_in_positon position
+  def players_in_positon position
     files.where(position: position)
   end
 
   def goalkeepers
-    player_in_positon :goalkeeper
+    players_in_positon :goalkeeper
   end
 
   def defenders
-    player_in_positon :defender
+    players_in_positon :defender
   end
 
   def midfielders
-    player_in_positon :midfielder
+    players_in_positon :midfielder
   end
 
   def forwards
-    player_in_positon :forward
+    players_in_positon :forward
   end
 
   def goalkeepers_count
