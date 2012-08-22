@@ -17,7 +17,8 @@ class Team < ActiveRecord::Base
   belongs_to :league
 
   has_many :team_files
-  has_many :files, :class_name => 'TeamFile', :conditions => 'date_out is null'
+  has_many :files, class_name: 'TeamFile', conditions: 'date_out is null'
+  has_many :players, through: :files
 
   attr_accessible :name, :active, :activation_week
 
@@ -144,8 +145,9 @@ class Team < ActiveRecord::Base
     reasons << I18n.t('teams.not_buyable_reasons.not_enough_money') unless enough_money?(player_file.value)
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_files') unless remainig_files?
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_positions', position: player_file.position.text.pluralize.downcase) unless remaining_position?(player_file.position)
-    reasons << I18n.t('teams.not_buyable_reasons.not_remaining_clubs', club: player_file.club_name) unless remaining_club? player_file.club
+    reasons << I18n.t('teams.not_buyable_reasons.not_remaining_clubs', club: player_file.club_name.capitalize) unless remaining_club? player_file.club
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_no_eu') unless player_file.player.eu || remaining_no_eu?
+    reasons << I18n.t('teams.not_buyable_reasons.already_in_team') if players.include? player_file.player
     reasons
   end
 
