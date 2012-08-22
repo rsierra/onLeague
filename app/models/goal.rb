@@ -18,8 +18,8 @@ class Goal < ActiveRecord::Base
 
   scope :club, ->(club) { joins(:scorer => :club_files).where(club_files: {club_id: club}) }
   scope :of_scorers, ->(player_ids=[]) { where('scorer_id IN (?)', player_ids) }
-  scope :scored, where(kind: %w(regular penalty)) }
-  scope :owned, where(kind: 'own') }
+  scope :scored, where(kind: %w(regular penalty))
+  scope :owned, where(kind: 'own')
 
   before_validation :goalkeeper_association, if: 'minute_changed? && !minute.blank? && !kind.blank? && !scorer.blank?'
   before_save :update_scorer_stats, if: 'scorer_id_changed? || kind_changed?'
