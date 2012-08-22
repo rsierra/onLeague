@@ -68,6 +68,42 @@ class Team < ActiveRecord::Base
     !remaining_files.zero?
   end
 
+  def player_in_positon position
+    files.where(position: position)
+  end
+
+  def goalkeepers
+    player_in_positon :goalkeeper
+  end
+
+  def defenders
+    player_in_positon :defender
+  end
+
+  def midfielders
+    player_in_positon :midfielder
+  end
+
+  def forwards
+    player_in_positon :forward
+  end
+
+  def goalkeepers_count
+    goalkeepers.count
+  end
+
+  def defenders_count
+    defenders.count
+  end
+
+  def midfielders_count
+    midfielders.count
+  end
+
+  def forwards_count
+    forwards.count
+  end
+
   private
 
   def max_per_user
