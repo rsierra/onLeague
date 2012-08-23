@@ -9,5 +9,7 @@ FactoryGirl.define do
     value 1
     date_in { Date.yesterday }
     date_out nil
+
+    after(:build) { |team_file| team_file.player.stub(:played?).and_return(false) }
   end
 end

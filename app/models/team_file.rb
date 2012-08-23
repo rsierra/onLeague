@@ -9,8 +9,9 @@ class TeamFile < ActiveRecord::Base
   validates :player_id, uniqueness: { scope: [:team_id, :date_out], message: :only_one_curent_file_player }, if: "date_out.blank?"
 
   validate  :max_files_per_team, :max_positions_per_team,
-            :max_clubs_per_team, :max_no_eu_per_team, unless: 'team.blank?'
-  validate :enough_money, unless: 'team.blank?'
+            :max_clubs_per_team, :max_no_eu_per_team,
+            :enough_money, unless: 'team.blank?'
+  validate  :played, unless: 'player.blank?'
 
   private
 
@@ -32,5 +33,9 @@ class TeamFile < ActiveRecord::Base
 
   def max_no_eu_per_team
     errors.add(:team, :cant_have_more_no_eu) unless player.eu || team.remaining_no_eu?
+  end
+
+  def played
+    errors.add(:player, :cant_be_played) if player.played?
   end
 end
