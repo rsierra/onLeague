@@ -165,14 +165,14 @@ describe Team do
     subject { team }
 
     its(:remaining_files) { should eq 11 }
-    its(:remaining_files) { should eq TeamFile::MAX_FILES }
+    its(:remaining_files) { should eq Team::MAX_FILES }
 
     context "with a current file" do
       let(:team_file) { create(:team_file, team: team) }
       before { team_file }
 
       its(:remaining_files) { should eq 10 }
-      its(:remaining_files) { should eq TeamFile::MAX_FILES - 1 }
+      its(:remaining_files) { should eq Team::MAX_FILES - 1 }
     end
 
     context "with some current files" do
@@ -181,7 +181,7 @@ describe Team do
       before { team_files }
 
       its(:remaining_files) { should eq 11 - files_number }
-      its(:remaining_files) { should eq TeamFile::MAX_FILES - files_number }
+      its(:remaining_files) { should eq Team::MAX_FILES - files_number }
     end
 
     context "with a file closed" do
@@ -189,7 +189,7 @@ describe Team do
       before { team_file.update_attributes(date_out: team_file.date_in.next) }
 
       its(:remaining_files) { should eq 11 }
-      its(:remaining_files) { should eq TeamFile::MAX_FILES }
+      its(:remaining_files) { should eq Team::MAX_FILES }
     end
   end
 
