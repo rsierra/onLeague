@@ -136,13 +136,13 @@ describe Team do
 
   context "when get teams of a league on a season" do
     let(:league_one) { create(:league) }
-    let(:teams) { create_list(:team, 3, league: league_one).sort {|x,y| y.id <=> x.id } }
+    let(:teams) { create_list(:team, 3, league: league_one).sort }
     let(:league_two) { create(:league) }
     let(:team) { create(:team, league: league_two) }
     let(:league_empty) { create(:league) }
     before { teams; team }
 
-    it { Team.of_league_season(league_one).should eq teams }
+    it { Team.of_league_season(league_one).sort.should eq teams }
     it { Team.of_league_season(league_two).should eq [team] }
     it { Team.of_league_season(league_empty).should be_empty }
 
@@ -156,7 +156,7 @@ describe Team do
       end
 
       it { Team.of_league_season(league_one).should eq [team_another_season] }
-      it { Team.of_league_season(league_one, league_one.season - 1).should eq teams }
+      it { Team.of_league_season(league_one, league_one.season - 1).sort.should eq teams }
     end
   end
 
