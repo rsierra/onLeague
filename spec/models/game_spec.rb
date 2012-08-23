@@ -817,6 +817,7 @@ describe Game do
     let(:league) { create(:league) }
     let(:date_time) { DateTime.now }
     let(:game) { create(:game, league: league, date: date_time) }
+    before { game }
 
     it { Game.playing(date_time - 1.hour).should be_empty }
     it { Game.playing(date_time - Game::TIME_BEFORE).should eq [game] }
@@ -824,5 +825,37 @@ describe Game do
     it { Game.playing(date_time + 1.hour).should eq [game] }
     it { Game.playing(date_time + Game::TIME_AFTER).should eq [game] }
     it { Game.playing(date_time + 3.hour).should be_empty }
+  end
+
+  describe "when get games played" do
+    let(:league) { create(:league) }
+    let(:date_time) { DateTime.now }
+    let(:game) { create(:game, league: league, date: date_time) }
+    before { game }
+
+    it { Game.played(date_time - 1.hour).should be_empty }
+    it { Game.played(date_time - Game::TIME_BEFORE).should eq [game] }
+    it { Game.played(date_time).should eq [game] }
+    it { Game.played(date_time + 1.hour).should eq [game] }
+    it { Game.played(date_time + Game::TIME_AFTER).should eq [game] }
+    it { Game.played(date_time + 3.hour).should eq [game] }
+
+    context "next week" do
+      let(:next_week_date_time) { date_time + 7.days }
+      let(:next_week_game) { create(:game, league: league, date: next_week_date_time) }
+      before do
+        game
+        league.update_attributes(week: league.week + 1)
+        next_week_game
+      end
+
+      it { Game.played(date_time).should be_empty }
+      it { Game.played(next_week_date_time - 1.hour).should be_empty }
+      it { Game.played(next_week_date_time - Game::TIME_BEFORE).should eq [next_week_game] }
+      it { Game.played(next_week_date_time).should eq [next_week_game] }
+      it { Game.played(next_week_date_time + 1.hour).should eq [next_week_game] }
+      it { Game.played(next_week_date_time + Game::TIME_AFTER).should eq [next_week_game] }
+      it { Game.played(next_week_date_time + 3.hour).should eq [next_week_game] }
+    end
   end
 end

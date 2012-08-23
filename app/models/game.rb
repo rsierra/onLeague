@@ -62,6 +62,9 @@ class Game < ActiveRecord::Base
   scope :not_closeables, where("status = 'active' OR status = 'evaluated'")
   scope :evaluated, where(status: %w(evaluated revised closed))
   scope :playing, ->(time = Time.now) { where(date: (time - TIME_AFTER)..(time + TIME_BEFORE))}
+  scope :played, ->(time = Time.now) {
+        joins("INNER JOIN leagues ON leagues.id = games.league_id AND leagues.season = games.season AND leagues.week = games.week")
+        .where(["games.date <= ?",time + TIME_BEFORE])}
 
   before_save :trigger_status_events  , if: 'status_changed? && !new_record?'
 
