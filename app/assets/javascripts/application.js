@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap_custom_load
+//= require twitter/bootstrap
 //= require jquery.grayscale
 //= require_self
 

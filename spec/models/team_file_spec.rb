@@ -19,6 +19,38 @@ describe TeamFile do
       it { team_file.error_on(:team_id).should include I18n.t('errors.messages.blank') }
     end
 
+    describe "with another file" do
+      let(:error_translation_key) { 'activerecord.errors.models.team_file.attributes' }
+      let(:only_one_current_error_translation_key) { "#{error_translation_key}.player_id.only_one_curent_file_player" }
+
+      context "of the same player in another team without date_out" do
+        let(:first_team_file) { create(:team_file) }
+        let(:team_file) { build(:team_file, player: first_team_file.player) }
+        subject { team_file }
+
+        it { should be_valid }
+      end
+
+      context "of the same player in the same team without date_out" do
+        let(:first_team_file) { create(:team_file) }
+        let(:team_file) { build(:team_file, player: first_team_file.player, team: first_team_file.team) }
+        subject { team_file }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:player_id) }
+        it { team_file.error_on(:player_id).should include I18n.t(only_one_current_error_translation_key) }
+      end
+
+      context "of the same player in the same team with date_out before date in" do
+        let(:first_team_file) { create(:team_file) }
+        let(:team_file) { build(:team_file, player: first_team_file.player, team: first_team_file.team, date_in: first_team_file.date_out.next) }
+        before { first_team_file.update_attributes(date_out: first_team_file.date_in.next) }
+        subject { team_file }
+
+        it { should be_valid }
+      end
+    end
+
     context "with more than max files per team" do
       let(:error_translation_key) { 'activerecord.errors.models.team_file.attributes' }
       let(:cant_have_more_error_translation_key) { "#{error_translation_key}.team.cant_have_more" }

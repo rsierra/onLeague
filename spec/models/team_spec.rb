@@ -136,13 +136,13 @@ describe Team do
 
   context "when get teams of a league on a season" do
     let(:league_one) { create(:league) }
-    let(:teams) { create_list(:team, 3, league: league_one).sort {|x,y| y.id <=> x.id } }
+    let(:teams) { create_list(:team, 3, league: league_one).sort }
     let(:league_two) { create(:league) }
     let(:team) { create(:team, league: league_two) }
     let(:league_empty) { create(:league) }
     before { teams; team }
 
-    it { Team.of_league_season(league_one).should eq teams }
+    it { Team.of_league_season(league_one).sort.should eq teams }
     it { Team.of_league_season(league_two).should eq [team] }
     it { Team.of_league_season(league_empty).should be_empty }
 
@@ -156,7 +156,7 @@ describe Team do
       end
 
       it { Team.of_league_season(league_one).should eq [team_another_season] }
-      it { Team.of_league_season(league_one, league_one.season - 1).should eq teams }
+      it { Team.of_league_season(league_one, league_one.season - 1).sort.should eq teams }
     end
   end
 
@@ -165,23 +165,23 @@ describe Team do
     subject { team }
 
     its(:remaining_files) { should eq 11 }
-    its(:remaining_files) { should eq TeamFile::MAX_FILES }
+    its(:remaining_files) { should eq Team::MAX_FILES }
 
     context "with a current file" do
       let(:team_file) { create(:team_file, team: team) }
       before { team_file }
 
       its(:remaining_files) { should eq 10 }
-      its(:remaining_files) { should eq TeamFile::MAX_FILES - 1 }
+      its(:remaining_files) { should eq Team::MAX_FILES - 1 }
     end
 
     context "with some current files" do
-      let(:files_number) { 5 }
+      let(:files_number) { 4 }
       let(:team_files) { create_list(:team_file, files_number,team: team) }
       before { team_files }
 
       its(:remaining_files) { should eq 11 - files_number }
-      its(:remaining_files) { should eq TeamFile::MAX_FILES - files_number }
+      its(:remaining_files) { should eq Team::MAX_FILES - files_number }
     end
 
     context "with a file closed" do
@@ -189,7 +189,7 @@ describe Team do
       before { team_file.update_attributes(date_out: team_file.date_in.next) }
 
       its(:remaining_files) { should eq 11 }
-      its(:remaining_files) { should eq TeamFile::MAX_FILES }
+      its(:remaining_files) { should eq Team::MAX_FILES }
     end
   end
 

@@ -6,8 +6,7 @@ class TeamFile < ActiveRecord::Base
   include Extensions::PlayerFile
 
   validates :team_id, presence: true
-  validates :player_id, presence: true,
-          uniqueness: { scope: :team_id, message: :only_one_curent_file_player }, if: "date_out.blank?"
+  validates :player_id, uniqueness: { scope: [:team_id, :date_out], message: :only_one_curent_file_player }, if: "date_out.blank?"
 
   validate  :max_files_per_team, :max_positions_per_team,
             :max_clubs_per_team, :max_no_eu_per_team, unless: 'team.blank?'

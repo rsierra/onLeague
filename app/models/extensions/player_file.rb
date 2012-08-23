@@ -14,6 +14,7 @@ module Extensions
       delegate :name, to: :player, prefix: true, allow_nil: true
 
       validates :club_id, presence: true
+      validates :player_id, presence: true
       validates :position, presence: true, inclusion: { in: POSITION_TYPES }
       validates :value, presence: true, numericality: true
       validates :date_in, presence: true
