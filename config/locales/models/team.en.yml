@@ -25,6 +25,8 @@ en:
           attributes:
             user:
               cant_have_more: can't have more teams in this league on this season
+            active:
+              cant_activate: can't be set
   flash:
     teams:
       create_success: The team was successfully created
