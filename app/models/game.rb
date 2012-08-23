@@ -61,6 +61,7 @@ class Game < ActiveRecord::Base
   scope :season, ->(season) { where season: season }
   scope :not_closeables, where("status = 'active' OR status = 'evaluated'")
   scope :evaluated, where(status: %w(evaluated revised closed))
+  scope :of_club, ->(club_id) { where(["games.club_home_id = ? OR games.club_away_id = ?", club_id, club_id])}
   scope :playing, ->(time = Time.now) { where(date: (time - TIME_AFTER)..(time + TIME_BEFORE))}
   scope :played, ->(time = Time.now) {
         joins("INNER JOIN leagues ON leagues.id = games.league_id AND leagues.season = games.season AND leagues.week = games.week")

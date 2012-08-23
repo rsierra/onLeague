@@ -36,3 +36,4 @@ es:
       not_remaining_clubs: no puedes fichar más jugadores del %{club}
       not_remaining_no_eu: no puedes fichar más extracomunitarios
       already_in_team: ya está en el equipo
+      already_played: ya ha jugado su partido esta jornada

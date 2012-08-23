@@ -36,3 +36,4 @@ en:
       not_remaining_clubs: can't buy more players from %{club}
       not_remaining_no_eu: can't buy more no european
       already_in_team: is already in team
+      already_played: already played his game this week

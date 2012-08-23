@@ -147,11 +147,12 @@ class Team < ActiveRecord::Base
   def player_not_buyable_reasons player_file
     reasons = []
     reasons << I18n.t('teams.not_buyable_reasons.not_enough_money') unless enough_money?(player_file.value)
-    reasons << I18n.t('teams.not_buyable_reasons.not_remaining_files') unless remainig_files?
+    reasons << I18n.t('teams.not_buyable_reasons.not_remaining_files') unless remaining_files?
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_positions', position: player_file.position.text.pluralize.downcase) unless remaining_position?(player_file.position)
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_clubs', club: player_file.club_name.capitalize) unless remaining_club? player_file.club
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_no_eu') unless player_file.player.eu || remaining_no_eu?
     reasons << I18n.t('teams.not_buyable_reasons.already_in_team') if players.include? player_file.player
+    reasons << I18n.t('teams.not_buyable_reasons.already_played') if player_file.player.played?
     reasons
   end
 
