@@ -37,6 +37,7 @@ class Team < ActiveRecord::Base
                       length: { is: 4 }
 
   validate :max_per_user, unless: 'user_id.blank? || league_id.blank?'
+  validate :activation, if: 'active'
 
   scope :of_league, ->(league) { where(league_id: league) }
   scope :of_league_season, ->(league, season = league.season) { where(league_id: league, season: season) }
@@ -70,6 +71,16 @@ class Team < ActiveRecord::Base
 
   def activate
     update_attributes(active: true, activation_week: league.week)
+  end
+
+  def could_activate?
+    could = true
+    could &&= files.count == MAX_FILES
+    TeamFile.position.values.each do |position|
+      could &&= players_in_positon(position).count >= POSITION_LIMITS[position][:minimum]
+      could &&= players_in_positon(position).count <= POSITION_LIMITS[position][:maximun]
+    end
+    could
   end
 
   def remaining_files
@@ -147,11 +158,12 @@ class Team < ActiveRecord::Base
   def player_not_buyable_reasons player_file
     reasons = []
     reasons << I18n.t('teams.not_buyable_reasons.not_enough_money') unless enough_money?(player_file.value)
-    reasons << I18n.t('teams.not_buyable_reasons.not_remaining_files') unless remainig_files?
+    reasons << I18n.t('teams.not_buyable_reasons.not_remaining_files') unless remaining_files?
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_positions', position: player_file.position.text.pluralize.downcase) unless remaining_position?(player_file.position)
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_clubs', club: player_file.club_name.capitalize) unless remaining_club? player_file.club
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_no_eu') unless player_file.player.eu || remaining_no_eu?
     reasons << I18n.t('teams.not_buyable_reasons.already_in_team') if players.include? player_file.player
+    reasons << I18n.t('teams.not_buyable_reasons.already_played') if player_file.player.played?
     reasons
   end
 
@@ -159,5 +171,9 @@ class Team < ActiveRecord::Base
 
   def max_per_user
     errors.add(:user, :cant_have_more) if user.teams.of_league_season(league).count >= MAX_TEAMS
+  end
+
+  def activation
+    errors.add(:active, :cant_activate) unless could_activate?
   end
 end

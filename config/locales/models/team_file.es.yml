@@ -26,6 +26,8 @@ es:
               cant_have_more_no_eu: no puede tener más extracomunitarios
             player_id:
               only_one_curent_file_player: sólo puede tener una ficha vigente (sin fecha de salida)
+            player:
+              cant_be_played: no puede haber jugado ya esta jornada
             date_out:
               should_be_after_in: debe ser posterior a la de entrada
               should_be_blank_in_creation: debe estar vacía en al crear la ficha

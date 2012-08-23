@@ -8,6 +8,7 @@ es:
     edit: editar
     change: cambiar
     search: buscar
+    activate: activar
     # Devise
     admins: administradores
     users: usuarios

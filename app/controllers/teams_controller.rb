@@ -25,4 +25,17 @@ class TeamsController < ApplicationController
       render :new
     end
   end
+
+  def activate
+    @team = current_user.teams.of_league(@current_league).find(params[:team_id])
+    @team.activate
+
+    if @team.valid?
+      flash[:notice] = I18n.t('flash.teams.activation_success')
+      redirect_to team_path(@team)
+    else
+      flash[:error] = I18n.t('flash.teams.activation_error')
+      redirect_to team_path(@team)
+    end
+  end
 end

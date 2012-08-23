@@ -56,6 +56,14 @@ class Club < ActiveRecord::Base
     club_files.on(date).order(:player_id).where(position: position).select(:player_id).map(&:player_id)
   end
 
+  def playing? time = Time.now
+    Game.of_club(id).on_time(time).any?
+  end
+
+  def played? time = Time.now
+    Game.of_club(id).played(time).any?
+  end
+
   private
 
   def default_values

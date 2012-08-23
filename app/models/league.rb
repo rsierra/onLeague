@@ -67,8 +67,8 @@ class League < ActiveRecord::Base
 
   def close_week
     if week_closeable?
-      advance_week
       close_current_games
+      advance_week
     end
   end
 

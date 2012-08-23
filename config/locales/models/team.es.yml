@@ -24,10 +24,14 @@ es:
         team:
           attributes:
             user:
-              cant_have_more: no puede tener más equipos en esta liga esta temporada¡
+              cant_have_more: no puede tener más equipos en esta liga esta temporada
+            active:
+              cant_activate: no puede establecerse
   flash:
     teams:
       create_success: El equipo se ha creado correctamente
+      activation_success: El equipo se ha activado correctamente
+      activation_error: El equipo no puede activarse
   teams:
     not_buyable_reasons:
       not_enough_money: no tienes suficiente dinero
@@ -36,3 +40,4 @@ es:
       not_remaining_clubs: no puedes fichar más jugadores del %{club}
       not_remaining_no_eu: no puedes fichar más extracomunitarios
       already_in_team: ya está en el equipo
+      already_played: ya ha jugado su partido esta jornada

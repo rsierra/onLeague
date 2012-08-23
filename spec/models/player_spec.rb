@@ -284,4 +284,27 @@ describe Player do
       it { player.position_on_date(new_date_out + 1.day).should be_nil }
     end
   end
+
+  describe "when player played" do
+    let(:date_time) { DateTime.now }
+    let(:league) { create(:league) }
+    let(:club) { create(:club, leagues: [league]) }
+    let(:game) { create(:game, league: league, club_home: club, date: date_time) }
+    let(:player) { create(:player_in_game, player_game: game) }
+    before { player }
+    subject { player }
+
+    its(:played?) { should be_true }
+    it { player.played?(date_time - Game::TIME_BEFORE - 1.hour).should be_false }
+    it { player.played?(date_time - Game::TIME_BEFORE).should be_true }
+    it { player.played?(date_time).should be_true }
+    it { player.played?(date_time + Game::TIME_AFTER).should be_true }
+    it { player.played?(date_time + Game::TIME_AFTER + 1.hour).should be_true }
+
+    context "in next week" do
+      before { league.update_attributes(week: league.week + 1) }
+
+      its(:played?) { should be_false }
+    end
+  end
 end

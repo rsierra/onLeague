@@ -1,5 +1,7 @@
 class Game < ActiveRecord::Base
   STATUS_TYPES = %w(active inactive evaluated revised closed)
+  TIME_BEFORE = 30.minutes
+  TIME_AFTER = 120.minutes
 
   STATUS_TRANSITIONS = {
     'active' => ['evaluated','inactive'],
@@ -59,6 +61,11 @@ class Game < ActiveRecord::Base
   scope :season, ->(season) { where season: season }
   scope :not_closeables, where("status = 'active' OR status = 'evaluated'")
   scope :evaluated, where(status: %w(evaluated revised closed))
+  scope :of_club, ->(club_id) { where(["games.club_home_id = ? OR games.club_away_id = ?", club_id, club_id])}
+  scope :playing, ->(time = Time.now) { where(date: (time - TIME_AFTER)..(time + TIME_BEFORE))}
+  scope :played, ->(time = Time.now) {
+        joins("INNER JOIN leagues ON leagues.id = games.league_id AND leagues.season = games.season AND leagues.week = games.week")
+        .where(["games.date <= ?",time + TIME_BEFORE])}
 
   before_save :trigger_status_events  , if: 'status_changed? && !new_record?'
 
