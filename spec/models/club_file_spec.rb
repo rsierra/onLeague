@@ -55,6 +55,30 @@ describe ClubFile do
       it { should have(1).error_on(:number) }
       it { club_file.error_on(:number).should include I18n.t('errors.messages.less_than', count: 100) }
     end
+
+    describe "with another file" do
+      let(:error_translation_key) { 'activerecord.errors.models.club_file.attributes' }
+      let(:only_one_current_error_translation_key) { "#{error_translation_key}.player_id.only_one_curent_file_player" }
+
+      context "of the same player without date_out" do
+        let(:first_club_file) { create(:club_file) }
+        let(:club_file) { build(:club_file, player: first_club_file.player) }
+        subject { club_file }
+
+        it { should_not be_valid }
+        it { should have(1).error_on(:player_id) }
+        it { club_file.error_on(:player_id).should include I18n.t(only_one_current_error_translation_key) }
+      end
+
+      context "of the same player with date_out before date in" do
+        let(:first_club_file) { create(:club_file) }
+        let(:club_file) { build(:club_file, player: first_club_file.player, date_in: first_club_file.date_out.next) }
+        before { first_club_file.update_attributes(date_out: first_club_file.date_in.next) }
+        subject { club_file }
+
+        it { should be_valid }
+      end
+    end
   end
 
   describe "with versioning" do

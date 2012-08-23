@@ -124,26 +124,7 @@ describe Extensions::PlayerFile do
       it { dummy.error_on(:date_out).should include I18n.t(after_in_error_translation_key) }
     end
 
-    describe "with another club_file" do
-      context "of the same player without date_out" do
-        let(:dummy) { DummyModel.create(dummy_params) }
-        let(:another_dummy) { DummyModel.new(dummy_params.merge(player: dummy.player)) }
-        subject { another_dummy }
-
-        it { should_not be_valid }
-        it { should have(1).error_on(:player_id) }
-        it { another_dummy.error_on(:player_id).should include I18n.t(only_one_current_error_translation_key) }
-      end
-
-      context "of the same player with date_out before date in" do
-        let(:first_dummy) { DummyModel.create(dummy_params) }
-        let(:dummy) { DummyModel.new(dummy_params.merge(player: first_dummy.player, date_in: first_dummy.date_out.next)) }
-        before { first_dummy.update_attributes(date_out: first_dummy.date_in.next) }
-        subject { dummy }
-
-        it { should be_valid }
-      end
-
+    describe "with another file" do
       context "of the same player with date_out after date in" do
         let(:first_dummy) { DummyModel.create(dummy_params) }
         let(:dummy) { DummyModel.new(dummy_params.merge(player: first_dummy.player, date_in: first_dummy.date_in)) }

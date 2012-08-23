@@ -3,8 +3,7 @@ class ClubFile < ActiveRecord::Base
 
   has_paper_trail only: [:number, :value, :position], on: [:update, :destroy]
 
-  validates :player_id, presence: true,
-          uniqueness: { scope: :date_out, message: :only_one_curent_file_player }, if: "date_out.blank?"
+  validates :player_id, uniqueness: { scope: :date_out, message: :only_one_curent_file_player }, if: "date_out.blank?"
   validates :number, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than: 100 }
 
   validate :validate_versioning_only_in_current, on: :update

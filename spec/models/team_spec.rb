@@ -176,7 +176,7 @@ describe Team do
     end
 
     context "with some current files" do
-      let(:files_number) { 5 }
+      let(:files_number) { 4 }
       let(:team_files) { create_list(:team_file, files_number,team: team) }
       before { team_files }
 
