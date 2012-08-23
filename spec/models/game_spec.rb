@@ -812,4 +812,17 @@ describe Game do
     it { Game.evaluated.should_not include games.first }
     it { Game.evaluated.should eq games.drop(1) }
   end
+
+  describe "when get games on a time" do
+    let(:league) { create(:league) }
+    let(:date_time) { DateTime.now }
+    let(:game) { create(:game, league: league, date: date_time) }
+
+    it { Game.playing(date_time - 1.hour).should be_empty }
+    it { Game.playing(date_time - Game::TIME_BEFORE).should eq [game] }
+    it { Game.playing(date_time).should eq [game] }
+    it { Game.playing(date_time + 1.hour).should eq [game] }
+    it { Game.playing(date_time + Game::TIME_AFTER).should eq [game] }
+    it { Game.playing(date_time + 3.hour).should be_empty }
+  end
 end
