@@ -30,6 +30,8 @@ es:
   flash:
     teams:
       create_success: El equipo se ha creado correctamente
+      activation_success: El equipo se ha activado correctamente
+      activation_error: El equipo no puede activarse
   teams:
     not_buyable_reasons:
       not_enough_money: no tienes suficiente dinero

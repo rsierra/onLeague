@@ -1,10 +1,14 @@
 es:
   teams:
     show:
+      activate_team: Activar equipo
       activation_warning_title: Cuidado, tu equipo no está activo
       activation_warning_description: Necesitas completar todos lo jugadores para activar tu equipo. Mientras no esté activo, el equipo no puntua.
       buy_player: Comprar jugador
       changes: Cambios
+      could_activate_title: ¡Ya puedes activar tu equipo!
+      could_activate_description: Tu equipo ya cumple las condiciones necesarias para activarse.
+        Una vez el equipo esté activo, comenzará a acumular puntos y sólo podrás realizar 3 cambios por jornada.
       no_files_yet: No tienes jugadores
       remaining_files:
         one: Aún tienes un fichaje disponible.

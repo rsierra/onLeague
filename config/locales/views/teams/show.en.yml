@@ -1,10 +1,14 @@
 en:
   teams:
     show:
+      activate_team: Activate team
       activation_warning_title: Warning, your team is inactive
       activation_warning_description: You need to complete the team to activate it. Meanwhile, your team don't get points.
       buy_player: Buy player
       changes: Substitutions
+      could_activate_title: ¡You can activate your team now!
+      could_activate_description: Your team already meets the conditions necessary to activate.
+        Once the team is active, starts accumulating points and you can only make three changes per week.
       no_files_yet: You don't have players
       remaining_files:
         one: You have one remaining signing yet.

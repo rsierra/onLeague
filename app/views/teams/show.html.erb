@@ -2,11 +2,19 @@
 
   <div id="team_info" class="row span8 offset2">
     <% unless @team.active %>
-    <div id="activation_warning" class="alert alert-block alert-warning fade in">
-      <button type="button" class="close" data-dismiss="alert">×</button>
-      <h4><%= t '.activation_warning_title' %></h4>
-      <p><%= t '.activation_warning_description' %></p>
-    </div>
+      <% if @team.could_activate? %>
+      <div id="could_activate" class="alert alert-block alert-success fade in">
+        <h4><%= t '.could_activate_title' %></h4>
+        <p><%= t '.could_activate_description' %></p>
+        <%= button_to t('.activate_team'), team_activate_path(@team), class: "btn btn-primary" %>
+      </div>
+      <% else %>
+        <div id="activation_warning" class="alert alert-block alert-warning fade in">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          <h4><%= t '.activation_warning_title' %></h4>
+          <p><%= t '.activation_warning_description' %></p>
+        </div>
+      <% end %>
     <% end %>
 
     <%= render partial: 'team_info', object: @team %>
