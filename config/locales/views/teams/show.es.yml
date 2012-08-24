@@ -13,8 +13,9 @@ es:
       remaining_files:
         one: Aún tienes un fichaje disponible.
         other: Aún tienes %{count} fichajes disponibles.
+    team_info:
+      inactive: Inactivo
   team_files:
     team_file:
       sell_player: Vender jugador
       sell_confirm: ¿Esta seguro de vender a %{player_name}?
-

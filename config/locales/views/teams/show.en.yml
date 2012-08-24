@@ -13,6 +13,8 @@ en:
       remaining_files:
         one: You have one remaining signing yet.
         other: You have %{count} remaining signings yet.
+    team_info:
+      inactive: Inactive
   team_files:
     team_file:
       sell_player: Sell player
