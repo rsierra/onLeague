@@ -12,10 +12,11 @@
     <%= render partial: "shared/players_points", object: @top_players %>
   </div>
   <div class="span4">
-    col2
+    <h2><%= t('.top_teams') %></h2>
+    <%= render partial: "top_teams", object: @top_teams %>
   </div>
   <div class="span4">
-    <table class="table table-bordered table-striped">
+    <table class="table table-striped">
       <thead>
         <tr>
           <th></th>
