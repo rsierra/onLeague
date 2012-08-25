@@ -56,6 +56,7 @@ module OnLeague
     config.assets.enabled = true
     # For heroku not access the DB or load models when precompiling your assets
     config.assets.initialize_on_precompile = false
+    config.assets.precompile += ['team_editor.js']
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
