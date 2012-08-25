@@ -162,7 +162,23 @@ class Team < ActiveRecord::Base
     "#{defenders_count}-#{midfielders_count}-#{forwards_count}"
   end
 
-  def remainig_files?
+  def remaining_goalkeepers
+    POSITION_LIMITS['goalkeeper'][:maximun] - goalkeepers_count
+  end
+
+  def remaining_defenders
+    POSITION_LIMITS['defender'][:maximun] - defenders_count
+  end
+
+  def remaining_midfielders
+    POSITION_LIMITS['midfielder'][:maximun] - midfielders_count
+  end
+
+  def remaining_forwards
+    POSITION_LIMITS['forward'][:maximun] - forwards_count
+  end
+
+  def remaining_files?
     files.count < MAX_FILES
   end
 
