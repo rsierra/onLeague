@@ -1,0 +1,14 @@
+$('#find_file').find('tbody').fadeOut("slow", function() {
+  $(this).find(".tooltip_button").tooltip('destroy');
+  $(this).html("<%= escape_javascript(render partial: 'team_files/club_file', collection: @club_files) %>");
+  $(this).fadeIn("slow", function() {
+    $(this).find(".tooltip_button").tooltip();
+    teamEditor.addRemoteSearch();
+  });
+});
+
+$('#find_file').find('.pagination').fadeOut("slow", function() {
+  $(this).html("<%= escape_javascript(paginate @club_files, params: @paginator_params, remote: true, num_pages: @num_pages) %>");
+  $(this).fadeIn("slow");
+});
+

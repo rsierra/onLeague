@@ -4,5 +4,5 @@ es:
       buy_player: Comprar jugador
     search_form:
       search: Buscar
-      value_gteq: de precio mayor o igual que
-      value_lteq: y menor o igual que
+      value_gteq: de precio mayor que
+      value_lteq: y menor

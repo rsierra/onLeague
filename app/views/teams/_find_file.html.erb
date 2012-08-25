@@ -1,0 +1,32 @@
+<div id="find_file">
+
+  <%= render 'search_form' %>
+
+  <%= render "shared/form_errors", object: @team_file %>
+
+  <% if @club_files.empty? %>
+    <%= t('.no_results') %>
+  <% else %>
+  <div id="club_files_list">
+    <table class="table table-striped player-files">
+      <thead>
+        <tr>
+          <th></th>
+          <th><%= Player.human_attribute_name(:name) %></th>
+          <th><%= ClubFile.human_attribute_name(:position).first(3) %></th>
+          <th><%= ClubFile.human_attribute_name(:value) %></th>
+          <th><%= PlayerStat.human_attribute_name(:points) %></th>
+          <th><%= Country.model_name.human %></th>
+          <th><%= Club.model_name.human %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'team_files/club_file', collection: @club_files %>
+      </tbody>
+    </table>
+    <%= paginate @club_files, params: @paginator_params, remote: true, num_pages: @num_pages %>
+  </div>
+  <% end %>
+
+</div>

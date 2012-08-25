@@ -12,11 +12,5 @@
     <dd><%= team_info.user.name %></dd>
     <dt><%= Team.human_attribute_name(:created_at) %></dt>
     <dd><%= l team_info.created_at.to_date, format: :default %></dd>
-    <dt><%= Team.human_attribute_name(:value) %></dt>
-    <dd><%= number_to_human(team_info.real_value_million) %></dd>
-    <dt><%= Team.human_attribute_name(:remaining_money) %></dt>
-    <dd><%= number_to_human(team_info.remaining_money_million) %></dd>
-    <dt><%= Team.human_attribute_name(:formation) %></dt>
-    <dd><%= team_info.formation %></dd>
   </dl>
 </div>

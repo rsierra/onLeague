@@ -5,58 +5,18 @@
 <div id="show_team" class="row">
 
   <div id="team_info" class="row span8 offset2">
-    <% unless @team.active %>
-      <% if @team.could_activate? %>
-      <div id="could_activate" class="alert alert-block alert-success fade in">
-        <h4><%= t '.could_activate_title' %></h4>
-        <p><%= t '.could_activate_description' %></p>
-        <%= button_to t('.activate_team'), team_activate_path(@team), class: "btn btn-primary" %>
-      </div>
-      <% else %>
-        <div id="activation_warning" class="alert alert-block alert-warning fade in">
-          <button type="button" class="close" data-dismiss="alert">×</button>
-          <h4><%= t '.activation_warning_title' %></h4>
-          <p><%= t '.activation_warning_description' %></p>
-        </div>
-      <% end %>
-    <% end %>
-
     <%= render partial: 'team_info', object: @team %>
   </div>
 
   <div id="team_files" class"row">
-    <div id="team_files_list" class="span8">
-      <% if @team.remaining_files? %>
-        <div id="team_files" class="alert alert-block alert-success fade in">
-          <h4><%= t('.remaining_files', count: @team.remaining_files ) %></h4>
-          <%= link_to t('.buy_player'), new_team_team_file_path(@team), id: 'create_team_button', class:  "btn btn-primary" %>
-        </div>
-        <% end %>
-
-        <% if @team.files.empty? %>
-          <%= t('.no_files_yet') %>
-        <% else %>
-        <table class="table table-striped player-files">
-          <thead>
-            <tr>
-              <th><%= ClubFile.human_attribute_name(:number) %></th>
-              <th><%= Player.human_attribute_name(:name) %></th>
-              <th><%= ClubFile.human_attribute_name(:position) %></th>
-              <th><%= ClubFile.human_attribute_name(:value) %></th>
-              <th><%= PlayerStat.human_attribute_name(:points) %></th>
-              <th><%= Country.model_name.human %></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <%= render @team.files_by_position %>
-          </tbody>
-        </table>
-        <% end %>
+    <div class="span6">
+      <h2><%= t '.alignment' %></h2>
+      <%= render partial: 'files_list', object: @team.files_by_position %>
     </div>
 
-    <div id="team_files_changes" class="span3 well">
-      <h3><%= t('.changes') %></h3>
+    <div id="team_files_changes" class="span6">
+      <h2>Fichajes</h2>
+      <%= render partial: 'find_file', object: @team_file %>
     </div>
   </div>
 
