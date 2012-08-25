@@ -1,6 +1,9 @@
 en:
   teams:
     show:
+      alignment: Alignment
+      changes: Changes
+    files_list:
       activate_team: Activate team
       activation_warning_title: Warning, your team is inactive
       activation_warning_description: You need to complete the team to activate it. Meanwhile, your team don't get points.
@@ -13,6 +16,12 @@ en:
       remaining_files:
         one: You have one remaining signing yet.
         other: You have %{count} remaining signings yet.
+    team_info:
+      inactive: Inactive
+    search_form:
+      search: Search
+      value_gteq: with value greater than
+      value_lteq: and less than
   team_files:
     team_file:
       sell_player: Sell player

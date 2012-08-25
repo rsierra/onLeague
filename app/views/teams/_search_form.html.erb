@@ -1,0 +1,24 @@
+<%= search_form_for @search, url: team_search_path(@team), remote: true, method: :post,
+                        html: { class: "form-search well"  } do |f| %>
+  <div class="search_form_line">
+    <%= f.label :player_name_cont, ClubFile.human_attribute_name(:player) %>
+    <%= f.text_field :player_name_cont, class: 'input-mini' %>
+    <%= f.label :value_gteq, t('.value_gteq') %>
+    <%= f.text_field :value_gteq, class: 'input-mini' %>
+    <%= f.label :value_lteq, t('.value_lteq') %>
+    <%= f.text_field :value_lteq, class: 'input-mini' %>
+  </div>
+
+  <div class="search_form_line last_line">
+    <%= f.label :club_id_eq, ClubFile.human_attribute_name(:club) %>
+    <%= f.select :club_id_eq,
+          options_for_select(current_league_select_options, :selected => @search.club_id_eq),
+          {}, class: 'input-medium' %>
+    <%= f.label :position_eq, ClubFile.human_attribute_name(:position).first(3) %>
+    <%= f.select :position_eq,
+          options_for_select(players_position_select_options, :selected => @search.position_eq),
+          {}, class: 'input-medium' %>
+    <%= f.submit t('.search'), class: "btn btn-primary" %>
+  </div>
+
+<% end %>

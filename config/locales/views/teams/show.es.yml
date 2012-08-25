@@ -1,6 +1,9 @@
 es:
   teams:
     show:
+      alignment: Alineación
+      changes: Fichajes
+    files_list:
       activate_team: Activar equipo
       activation_warning_title: Cuidado, tu equipo no está activo
       activation_warning_description: Necesitas completar todos lo jugadores para activar tu equipo. Mientras no esté activo, el equipo no puntua.
@@ -13,8 +16,13 @@ es:
       remaining_files:
         one: Aún tienes un fichaje disponible.
         other: Aún tienes %{count} fichajes disponibles.
+    team_info:
+      inactive: Inactivo
+    search_form:
+      search: Buscar
+      value_gteq: de precio mayor que
+      value_lteq: y menor
   team_files:
     team_file:
       sell_player: Vender jugador
       sell_confirm: ¿Esta seguro de vender a %{player_name}?
-

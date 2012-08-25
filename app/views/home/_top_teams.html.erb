@@ -1,0 +1,15 @@
+<% if top_teams.empty? %>
+  <%= t('.no_teams') %>
+<% else %>
+<table class="table table-striped">
+  <tbody>
+    <% top_teams.each do |team| %>
+    <tr>
+      <td><%= team.name %></td>
+      <td><%= team.user.name %></td>
+      <td><%= team.points %></td>
+    </tr>
+    <% end -%>
+  </tbody>
+</table>
+<% end %>
