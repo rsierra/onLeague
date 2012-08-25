@@ -9,6 +9,8 @@ es:
     change: cambiar
     search: buscar
     activate: activar
+    create_file: fichar
+    destroy_file: vender
     # Devise
     admins: administradores
     users: usuarios
