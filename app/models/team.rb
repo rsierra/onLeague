@@ -63,7 +63,7 @@ class Team < ActiveRecord::Base
         .where(["games.week = ? OR games.week IS NULL",week])
       }
 
-  validate :max_per_user, unless: 'user_id.blank? || league_id.blank?'
+  validate :max_per_user, on: :create, unless: 'user_id.blank? || league_id.blank?'
   validate :activation, if: 'active'
 
   scope :of_league, ->(league) { where(league_id: league) }
