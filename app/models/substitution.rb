@@ -16,7 +16,7 @@ class Substitution < ActiveRecord::Base
   before_destroy :restore_stats
 
   def player_in_was
-    player_was player_in_id_was
+    player_was :player_in
   end
 
   def stats_in
@@ -33,7 +33,7 @@ class Substitution < ActiveRecord::Base
   end
 
   def player_out_was
-    player_was player_out_id_was
+    player_was :player_out
   end
 
   def stats_out

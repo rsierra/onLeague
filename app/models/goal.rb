@@ -36,7 +36,7 @@ class Goal < ActiveRecord::Base
   end
 
   def scorer_was
-    player_was scorer_id_was
+    player_was :scorer
   end
 
   def scorer_stats_by_kind(kind)
@@ -65,7 +65,7 @@ class Goal < ActiveRecord::Base
   end
 
   def assistant_was
-    player_was assistant_id_was
+    player_was :assistant
   end
 
   def assistant_stats
@@ -78,7 +78,7 @@ class Goal < ActiveRecord::Base
   end
 
   def goalkeeper_was
-    player_was goalkeeper_id_was
+    player_was :goalkeeper
   end
 
   def goalkeeper_stats_by_kind(kind)

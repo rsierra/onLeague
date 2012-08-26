@@ -7,8 +7,10 @@ module Extensions
 
     private
 
-    def player_was id_was = player_id_was
-      Player.find(id_was) if id_was
+    def player_was player_relation = 'player'
+      current_id = send("#{player_relation}_id")
+      current_id_was = send("#{player_relation}_id_was")
+      Player.find(current_id_was) if current_id_was and current_id != current_id_was
     end
 
     def update_player_stats player, player_stat
