@@ -15,10 +15,11 @@
     </div>
     <% else %>
 
-      <div class="btn-toolbar week-selector">
+      <div class="week-selector">
+        <span id="season-label"><%= Game.human_attribute_name(:season) %></span>
         <div class="btn-group">
           <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-            <%= "#{Game.human_attribute_name(:season)} #{@season}" %>
+            <%= @season %>
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
