@@ -41,3 +41,4 @@ en:
       not_remaining_no_eu: can't buy more no european
       already_in_team: is already in team
       already_played: already played his game this week
+      invalid_minimums: do not reach minimum por position

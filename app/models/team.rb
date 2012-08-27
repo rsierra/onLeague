@@ -181,6 +181,10 @@ class Team < ActiveRecord::Base
   def remaining_position position
     POSITION_LIMITS[position][:maximum] - players_in_positon(position).count
   end
+
+  def needed_position position
+    needed = POSITION_LIMITS[position][:minimum] - players_in_positon(position).count
+    needed > 0 ? needed : 0
   end
 
   def remaining_position? position
@@ -199,6 +203,14 @@ class Team < ActiveRecord::Base
     files.no_eu.count < MAX_FILES_NO_EU
   end
 
+  def valid_minimums? currrent_position
+    valid_minimums = true
+    TeamFile.position.values.each do |position|
+      valid_minimums &&= (remaining_files - (currrent_position == position ? 0 : 1) >= needed_position(position))
+    end
+    valid_minimums
+  end
+
   def player_not_buyable_reasons player_file
     reasons = []
     reasons << I18n.t('teams.not_buyable_reasons.not_enough_money') unless enough_money?(player_file.value)
@@ -208,6 +220,7 @@ class Team < ActiveRecord::Base
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_no_eu') unless player_file.player.eu || remaining_no_eu?
     reasons << I18n.t('teams.not_buyable_reasons.already_in_team') if players.include? player_file.player
     reasons << I18n.t('teams.not_buyable_reasons.already_played') if player_file.player.played?
+    reasons << I18n.t('teams.not_buyable_reasons.invalid_minimums') unless valid_minimums? player_file.position
     reasons
   end
 
