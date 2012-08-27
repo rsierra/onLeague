@@ -7,10 +7,10 @@ class Team < ActiveRecord::Base
   MAX_FILES_PER_CLUB = 3
   MAX_FILES_NO_EU = 3
   POSITION_LIMITS = {
-    'goalkeeper'  =>  { minimum: 1, maximun: 1 },
-    'defender'    =>  { minimum: 3, maximun: 5 },
-    'midfielder'  =>  { minimum: 3, maximun: 4 },
-    'forward'     =>  { minimum: 1, maximun: 3 }
+    'goalkeeper'  =>  { minimum: 1, maximum: 1 },
+    'defender'    =>  { minimum: 3, maximum: 5 },
+    'midfielder'  =>  { minimum: 3, maximum: 4 },
+    'forward'     =>  { minimum: 1, maximum: 3 }
   }
 
   belongs_to :user
@@ -105,7 +105,7 @@ class Team < ActiveRecord::Base
     could &&= files.count == MAX_FILES
     TeamFile.position.values.each do |position|
       could &&= players_in_positon(position).count >= POSITION_LIMITS[position][:minimum]
-      could &&= players_in_positon(position).count <= POSITION_LIMITS[position][:maximun]
+      could &&= players_in_positon(position).count <= POSITION_LIMITS[position][:maximum]
     end
     could
   end
@@ -183,7 +183,7 @@ class Team < ActiveRecord::Base
   end
 
   def remaining_position? position
-    players_in_positon(position).count < POSITION_LIMITS[position][:maximun]
+    players_in_positon(position).count < POSITION_LIMITS[position][:maximum]
   end
 
   def enough_money? value

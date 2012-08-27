@@ -107,7 +107,7 @@ describe TeamFile do
 
       let(:team) { create(:team) }
       let(:position) { 'goalkeeper' }
-      let(:team_files) { create_list(:team_file, Team::POSITION_LIMITS[position][:maximun], team: team, position: position) }
+      let(:team_files) { create_list(:team_file, Team::POSITION_LIMITS[position][:maximum], team: team, position: position) }
       let(:team_file) { build(:team_file, team: team, position: position) }
 
       before { team_files }
