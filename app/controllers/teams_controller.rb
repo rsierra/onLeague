@@ -87,7 +87,7 @@ class TeamsController < ApplicationController
       .search(params[:q])
     # There is a problem with kaminary and grouped scopes, becouse use count to get total pages
     # and gets a hash count, so we calculate total pages by hand to pass in pagination helper
-    per_page = 5
+    per_page = 6
     @num_pages = ClubFile.active.current.of_clubs(@current_league.season_club_ids).search(params[:q]).result.count / per_page + 1
     @club_files = @search.result.page(params[:page]).per(per_page)
   end
