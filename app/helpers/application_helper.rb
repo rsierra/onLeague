@@ -22,8 +22,9 @@ module ApplicationHelper
   end
 
   def players_needed team
-    TeamFile.position.values.map do |position|
+    sentence = TeamFile.position.values.map do |position|
       pluralize(team.needed_position(position), t("enumerize.team_file.position.#{position}").downcase) unless team.needed_position(position).zero?
     end.compact.to_sentence
+    "#{t('.players_needed_at_least')} #{sentence}." unless sentence.blank?
   end
 end

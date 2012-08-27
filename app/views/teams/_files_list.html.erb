@@ -14,7 +14,7 @@
         <% if @team.remaining_files? %>
         <p>
           <%= t('.remaining_files', count: @team.remaining_files ) %><br/>
-          <%= t '.players_needed_at_least' %> <%= players_needed @team %>
+          <%= players_needed @team %>
         </p>
         <% end %>
       </div>

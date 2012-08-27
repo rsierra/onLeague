@@ -6,7 +6,7 @@ es:
     files_list:
       activate_team: Activar equipo
       activation_warning_title: Cuidado, tu equipo no está activo
-      activation_warning_description: Necesitas completar todos lo jugadores para activar tu equipo. Mientras no esté activo, el equipo no puntua.
+      activation_warning_description: Necesitas completar todos los jugadores para activar tu equipo. Mientras no esté activo, el equipo no puntua.
       buy_player: Comprar jugador
       changes: Cambios
       could_activate_title: ¡Ya puedes activar tu equipo!
