@@ -55,7 +55,7 @@ class Goal < ActiveRecord::Base
   end
 
   def scorer_stats_was
-    last_kind = kind_was.blank? ? self.kind : self.kind_was
+    last_kind = kind_was.blank? ? self.kind : self.kind_was if changed?
     scorer_stats_by_kind(last_kind)
   end
 
@@ -73,7 +73,7 @@ class Goal < ActiveRecord::Base
   end
 
   def update_assistant_stats
-    restore_player_stats assistant_was, assistant_stats
+    restore_player_stats assistant_was, assistant_stats if changed?
     update_player_stats assistant, assistant_stats
   end
 
@@ -102,7 +102,7 @@ class Goal < ActiveRecord::Base
   end
 
   def update_goalkeeper_stats
-    restore_player_stats goalkeeper_was, goalkeeper_stats_was
+    restore_player_stats goalkeeper_was, goalkeeper_stats_was if changed?
     update_player_stats goalkeeper, goalkeeper_stats
   end
 

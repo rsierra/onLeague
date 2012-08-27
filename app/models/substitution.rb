@@ -28,7 +28,7 @@ class Substitution < ActiveRecord::Base
   end
 
   def update_in_stats
-    restore_player_stats player_in_was, stats_in_was
+    restore_player_stats player_in_was, stats_in_was if changed?
     update_player_stats player_in, stats_in
   end
 
@@ -45,7 +45,7 @@ class Substitution < ActiveRecord::Base
   end
 
   def update_out_stats
-    restore_player_stats player_out_was, stats_out_was
+    restore_player_stats player_out_was, stats_out_was if changed?
     update_player_stats player_out, stats_out
   end
 

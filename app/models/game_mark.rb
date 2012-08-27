@@ -20,7 +20,7 @@ class GameMark < ActiveRecord::Base
   end
 
   def update_stats
-    restore_player_stats player_was, stats_was
+    restore_player_stats player_was, stats_was if changed?
     update_player_stats player, stats
   end
 
