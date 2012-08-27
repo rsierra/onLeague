@@ -11,26 +11,22 @@
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4><%= t '.activation_warning_title' %></h4>
         <p><%= t '.activation_warning_description' %></p>
+        <% if @team.remaining_files? %>
+        <p>
+          <%= t('.remaining_files', count: @team.remaining_files ) %><br/>
+          <%= t '.players_needed_at_least' %> <%= players_needed @team %>
+        </p>
+        <% end %>
       </div>
     <% end %>
   <% end %>
 
-  <div id="team_files_info" class="alert alert-block alert-success fade in">
-    <p>
-    <%= Team.human_attribute_name(:value) %>: <%= number_to_human(@team.real_value_million) %>,
-    <%= Team.human_attribute_name(:remaining_money) %>: <%= number_to_human(@team.remaining_money_million) %>,
-    <%= Team.human_attribute_name(:formation) %>: <%= @team.formation %>
-    </p>
-    <p>
-    <%= t '.players_needed_at_least' %>:
-    POR: <%= @team.remaining_goalkeepers %>,
-    DEF: <%= @team.remaining_defenders %>,
-    CEN: <%= @team.remaining_midfielders %>,
-    DEL: <%= @team.remaining_forwards %>
-    </p>
-    <% if @team.remaining_files? %>
-    <p><%= t('.remaining_files', count: @team.remaining_files ) %></p>
-    <% end %>
+  <div id="team_files_info">
+    <span class="label label-success"><%= Team.human_attribute_name(:remaining_money) %></span>
+    <span class="million"><%= number_to_human(@team.remaining_money_million) %></span>
+
+    <span class="label label-success"><%= Team.human_attribute_name(:formation) %></span>
+    <span class="formation"><%= @team.formation %></span>
   </div>
 
   <% if files_list.empty? %>

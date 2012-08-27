@@ -13,6 +13,7 @@ en:
       could_activate_description: Your team already meets the conditions necessary to activate.
         Once the team is active, starts accumulating points and you can only make three changes per week.
       no_files_yet: You don't have players
+      players_needed_at_least: You need at least
       remaining_files:
         one: You have one remaining signing yet.
         other: You have %{count} remaining signings yet.

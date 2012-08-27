@@ -22,4 +22,5 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'gol', 'goles'
   inflect.irregular 'alineación', 'alineaciones'
   inflect.irregular 'tarjeta', 'tarjetas'
+  inflect.irregular 'centrocampista', 'centrocampistas'
 end

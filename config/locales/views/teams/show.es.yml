@@ -13,6 +13,7 @@ es:
       could_activate_description: Tu equipo ya cumple las condiciones necesarias para activarse.
         Una vez el equipo esté activo, comenzará a acumular puntos y sólo podrás realizar 3 cambios por jornada.
       no_files_yet: No tienes jugadores
+      players_needed_at_least: Necesitas por lo menos
       remaining_files:
         one: Aún tienes un fichaje disponible.
         other: Aún tienes %{count} fichajes disponibles.

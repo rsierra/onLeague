@@ -34,7 +34,7 @@ en:
             date_in:
               should_be_after_last_out: should be later than last player date out
   enumerize:
-    club_file:
+    team_file:
       position:
         goalkeeper: Goalkeeper
         defender: Defender
