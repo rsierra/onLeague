@@ -163,23 +163,24 @@ class Team < ActiveRecord::Base
   end
 
   def remaining_goalkeepers
-    POSITION_LIMITS['goalkeeper'][:maximun] - goalkeepers_count
+    remaining_position 'goalkeeper'
   end
 
   def remaining_defenders
-    POSITION_LIMITS['defender'][:maximun] - defenders_count
+    remaining_position 'defender'
   end
 
   def remaining_midfielders
-    POSITION_LIMITS['midfielder'][:maximun] - midfielders_count
+    remaining_position 'midfielder'
   end
 
   def remaining_forwards
-    POSITION_LIMITS['forward'][:maximun] - forwards_count
+    remaining_position 'forward'
   end
 
-  def remaining_files?
-    files.count < MAX_FILES
+  def remaining_position position
+    POSITION_LIMITS[position][:maximum] - players_in_positon(position).count
+  end
   end
 
   def remaining_position? position
