@@ -81,9 +81,9 @@ class Player < ActiveRecord::Base
     stats.in_league(league).season(season).week(week).sum(stat)
   end
 
-  def season_minutes_per_game(league, season=league.season)
+  def season_average_stats(stat,league, season=league.season)
     games_played = season_stats(:games_played,league)
-    games_played.zero? ? 0 : season_stats(:minutes_played,league) / games_played
+    games_played.zero? ? 0 : season_stats(stat,league) / games_played
   end
 
   def playing? time = Time.now

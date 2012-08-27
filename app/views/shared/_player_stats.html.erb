@@ -1,5 +1,6 @@
 <div class="player-stats">
   <table class="table-bordered">
+
     <thead>
       <tr>
         <th><span class="event-icon goal"></span></th>
@@ -30,6 +31,8 @@
     <dt><%= PlayerStat.human_attribute_name(:lineups) %></dt>
     <dd><%= player_stats.season_stats(:lineups,@current_league) %></dd>
     <dt><%= PlayerStat.human_attribute_name(:minutes_played_per_game) %></dt>
-    <dd><%= player_stats.season_minutes_per_game(@current_league) %>'</dd>
+    <dd><%= player_stats.season_average_stats(:minutes_played,@current_league) %>'</dd>
+    <dt><%= PlayerStat.human_attribute_name(:points_per_game) %></dt>
+    <dd><%= player_stats.season_average_stats(:points,@current_league) %></dd>
   </dl>
 </div>
