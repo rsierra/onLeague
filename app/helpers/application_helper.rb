@@ -20,4 +20,10 @@ module ApplicationHelper
   def players_position_select_options
     [[t('views.common.all_feme'),'']] + ClubFile.position.options
   end
+
+  def players_needed team
+    TeamFile.position.values.map do |position|
+      pluralize(team.needed_position(position), t("enumerize.team_file.position.#{position}")) unless team.needed_position(position).zero?
+    end.compact.to_sentence
+  end
 end
