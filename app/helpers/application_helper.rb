@@ -23,7 +23,7 @@ module ApplicationHelper
 
   def players_needed team
     TeamFile.position.values.map do |position|
-      pluralize(team.needed_position(position), t("enumerize.team_file.position.#{position}")) unless team.needed_position(position).zero?
+      pluralize(team.needed_position(position), t("enumerize.team_file.position.#{position}").downcase) unless team.needed_position(position).zero?
     end.compact.to_sentence
   end
 end
