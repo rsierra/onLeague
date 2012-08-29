@@ -16,6 +16,9 @@
 }
 
 #show_team {
+  overflow-x: hidden;
+  position: relative;
+
   #could_activate {
     form {
       text-align: center;
@@ -39,41 +42,73 @@
       border-bottom: 1px solid black;
     }
 
-    #team_files_list {
-      #could_activate, #activation_warning {
-        h4 {
+    #hide-changes-button {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      float: right;
+      background: url('icons/expand.png') no-repeat right top;
+    }
+
+    #hide-changes-button.contract {
+      background: url('icons/contract.png') no-repeat right top;
+    }
+
+    #team-alignment {
+      -webkit-transition: @transitions;
+      -moz-transition: @transitions;
+      -o-transition: @transitions;
+
+      #team_files_list {
+        #could_activate, #activation_warning {
+          h4 {
+            text-align: center;
+            margin-bottom: 5px;
+          }
+
+          p {
+
+            text-align: center;
+            font-size: 1.1em;
+          }
+        }
+
+        #team_files_info {
+          margin: 20px;
           text-align: center;
-          margin-bottom: 5px;
-        }
 
-        p {
-
-          text-align: center;
-          font-size: 1.1em;
-        }
-      }
-
-      #team_files_info {
-        margin: 20px;
-        text-align: center;
-
-        span.label {
-          font-size: 1.5em;
-          font-weight: bolder;
-        }
-        span.formation {
-          margin-left: 5px;
-          font-family: @numberFont;
-          letter-spacing:4px;
-          font-size: 1.3em;
-        }
-        span.million {
-          margin-left: 5px;
-          margin-right: 20px;
-          font-size: 1.5em;
+          span.label {
+            font-size: 1.5em;
+            font-weight: bolder;
+          }
+          span.formation {
+            margin-left: 5px;
+            font-family: @numberFont;
+            letter-spacing:4px;
+            font-size: 1.3em;
+          }
+          span.million {
+            margin-left: 5px;
+            margin-right: 20px;
+            font-size: 1.5em;
+          }
         }
       }
     }
+
+    #team_files_changes {
+      position: relative;
+      right: 0;
+      -webkit-transition: @transitions;
+      -moz-transition: @transitions;
+      -o-transition: @transitions;
+    }
+
+    #team_files_changes.hide-changes {
+      right: -800px;
+    }
+
   }
 
   #find_file {

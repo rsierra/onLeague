@@ -9,10 +9,11 @@
   </div>
 
   <div id="team_files" class"row">
-    <div class="span6">
+    <div id="team-alignment" class="span6">
       <h2>
         <%= image_tag 'icons/field.png', alt: t('.alignment') %>
         <%= t '.alignment' %>
+        <%= content_tag :span, nil, id: 'hide-changes-button' %>
       </h2>
       <%= render partial: 'files_list', object: @team.files_by_position %>
     </div>
