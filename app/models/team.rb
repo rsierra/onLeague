@@ -225,6 +225,12 @@ class Team < ActiveRecord::Base
     reasons
   end
 
+  def player_not_salable_reasons player_file
+    reasons = []
+    reasons << I18n.t('teams.not_buyable_reasons.already_played') if player_file.player.played?
+    reasons
+  end
+
   private
 
   def max_per_user
