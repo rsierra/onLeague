@@ -13,6 +13,8 @@ class TeamFile < ActiveRecord::Base
             :enough_money, :minimum_files, unless: 'team.blank?'
   validate  :played, unless: 'player.blank?'
 
+  before_destroy :played
+
   private
 
   def max_files_per_team

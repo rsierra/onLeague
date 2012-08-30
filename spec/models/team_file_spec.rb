@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe TeamFile do
-  describe "when create" do
-    let(:error_translation_key) { 'activerecord.errors.models.team_file.attributes' }
+  let(:error_translation_key) { 'activerecord.errors.models.team_file.attributes' }
 
+  describe "when create" do
     context "with correct data" do
       let(:team_file) { create(:team_file) }
       subject { team_file }
@@ -176,6 +176,28 @@ describe TeamFile do
       before { team_file; team.stub(:valid_minimums?).with(team_file.position).and_return(false) }
       subject { team_file }
 
+      it { should_not be_valid }
+      it { should have(1).error_on(:player) }
+      it { team_file.error_on(:player).should include I18n.t(cant_be_played_error_translation_key) }
+    end
+  end
+
+  describe "when destroy" do
+    context "with played player" do
+      let(:cant_be_played_error_translation_key) { "#{error_translation_key}.player.cant_be_played" }
+
+      let(:player) { create(:player) }
+      let(:team_file) { build(:team_file, player: player) }
+
+      before do
+        team_file
+        player.stub(:played?).and_return(true)
+        team_file.destroy
+      end
+
+      subject { team_file }
+
+      it { should_not be_nil }
       it { should_not be_valid }
       it { should have(1).error_on(:player) }
       it { team_file.error_on(:player).should include I18n.t(cant_be_played_error_translation_key) }
