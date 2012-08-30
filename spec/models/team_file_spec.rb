@@ -166,5 +166,19 @@ describe TeamFile do
       it { should have(1).error_on(:player) }
       it { team_file.error_on(:player).should include I18n.t(cant_be_played_error_translation_key) }
     end
+
+    context "with played that not let valid minimums" do
+      let(:cant_be_played_error_translation_key) { "#{error_translation_key}.player.cant_valid_minimums" }
+
+      let(:team) { create(:team) }
+      let(:team_file) { build(:team_file, team: team) }
+
+      before { team_file; team.stub(:valid_minimums?).with(team_file.position).and_return(false) }
+      subject { team_file }
+
+      it { should_not be_valid }
+      it { should have(1).error_on(:player) }
+      it { team_file.error_on(:player).should include I18n.t(cant_be_played_error_translation_key) }
+    end
   end
 end

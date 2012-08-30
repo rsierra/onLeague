@@ -28,6 +28,7 @@ en:
               only_one_curent_file_player: only can have one current file (without date out)
             player:
               cant_be_played: can't be played this week
+              cant_valid_minimums: can´t let valid minimum per position
             date_out:
               should_be_after_in: should be debe later than date in
               should_be_blank_in_creation: should be blank when is created
