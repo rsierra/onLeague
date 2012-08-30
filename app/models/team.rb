@@ -205,8 +205,9 @@ class Team < ActiveRecord::Base
 
   def valid_minimums? currrent_position
     valid_minimums = true
+    current_remaining_files = remaining_files
     TeamFile.position.values.each do |position|
-      valid_minimums &&= (remaining_files - (currrent_position == position ? 0 : 1) >= needed_position(position))
+      valid_minimums &&= (current_remaining_files - (currrent_position == position ? 0 : 1) >= needed_position(position))
     end
     valid_minimums
   end
