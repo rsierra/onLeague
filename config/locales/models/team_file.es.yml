@@ -43,5 +43,8 @@ es:
         forward: Delantero
   flash:
     team_files:
+      create_file_error: Ha habido algún problema en la compra del jugador
       destroy_success: Jugador vendido
-      destroy_error: Ha habido algún problema en al venta del jugador
+      destroy_error: Ha habido algún problema en la venta del jugador
+      sell_player_error: No tienes más cambios disponibles esta semana
+

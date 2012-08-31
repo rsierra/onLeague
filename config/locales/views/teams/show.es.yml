@@ -3,6 +3,16 @@ es:
     show:
       alignment: Alineación
       changes: Fichajes
+    file_cart:
+      buying: Compra
+      checkout_cart: Confirmar negociaciones
+      checkout_cart_confirm: ¿Esta seguro de que desea confirmar todas las negociaciones?
+      checkouting_cart: Confirmando negociaciones...
+      empty_cart: Cancelar negociaciones
+      empty_cart_confirm: ¿Está seguro de que desea cancelar todas las negociaciones?
+      emptying_cart: Cancelando negociaciones...
+      negotiations: Negociaciones
+      selling: En venta
     files_list:
       activate_team: Activar equipo
       activating_team: Activando...

@@ -55,6 +55,55 @@
       background: url('icons/contract.png') no-repeat right top;
     }
 
+    #file-cart {
+      h2 {
+        position: relative;
+        border: 0;
+        margin: -30px 5px 5px 5px;
+        top: 30px;
+        text-align: center;
+        font-size: 1.7em;
+        font-weight: bolder;
+        line-height: 24px;
+      }
+
+      #sale-files, #buy-files {
+        display: inline-block;
+        vertical-align: middle;
+        width: 49%;
+
+        h3 {
+          font-size: 1.2em;
+          line-height: 24px;
+          margin: 5px;
+          padding-left: 30px;
+        }
+      }
+
+      #sale-files {
+        h3 {
+          padding-left: 30px;
+          background: url('icons/right-arrow.png') no-repeat left top;
+        }
+      }
+
+      #buy-files {
+        h3 {
+          text-align: right;
+          padding-right: 30px;
+          background: url('icons/left-arrow.png') no-repeat right top;
+        }
+      }
+
+      #file-cart-buttons {
+        text-align: center;
+        form {
+          display: inline-block;
+          vertical-align: middle;
+        }
+      }
+    }
+
     #team-alignment {
       -webkit-transition: @transitions;
       -moz-transition: @transitions;
@@ -78,20 +127,22 @@
           margin: 20px;
           text-align: center;
 
+          span {
+            margin:0 5px;
+          }
+
           span.label {
-            font-size: 1.5em;
+            font-size: 1.4em;
             font-weight: bolder;
           }
-          span.formation {
-            margin-left: 5px;
+
+          span.million, span.formation, span.changes {
             font-family: @numberFont;
-            letter-spacing:4px;
             font-size: 1.3em;
           }
-          span.million {
-            margin-left: 5px;
-            margin-right: 20px;
-            font-size: 1.5em;
+
+          span.formation {
+            letter-spacing:4px;
           }
         }
       }

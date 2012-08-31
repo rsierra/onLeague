@@ -43,5 +43,7 @@ en:
         forward: Forward
   flash:
     team_files:
+      create_file_error: There has been a problem in buying the player
       destroy_success: Player sold
       destroy_error: There has been a problem with the sale of the player
+      sell_player_error: You don't hame more changes this week

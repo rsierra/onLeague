@@ -1,0 +1,38 @@
+<div id="file-cart">
+  <h2><%= t('.negotiations') %></h2>
+
+  <div id="sale-files">
+    <h3>En venta</h3>
+    <table class="table table-striped player-files">
+      <tbody>
+        <%= render partial: 'file_in_cart', collection: @team.sale_files %>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="buy-files">
+    <h3>Compra</h3>
+    <table class="table table-striped player-files">
+      <tbody>
+        <%= render partial: 'file_in_cart', collection: @team.buy_files %>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="file-cart-buttons">
+    <%= form_tag team_empty_cart_path(@team), method: :delete,
+          remote: true, html: { class: 'add-remote-search' } do %>
+      <%= submit_tag t('.empty_cart'), class: "btn btn-danger",
+              'data-disable-with' => t('.emptying_cart'),
+              data: { confirm: t('.empty_cart_confirm') } %>
+    <% end %>
+
+    <%= form_tag team_checkout_cart_path(@team), method: :post,
+          remote: true, html: { class: 'add-remote-search' } do |f| %>
+      <%= submit_tag t('.checkout_cart'), class: "btn btn-primary",
+              'data-disable-with' => t('.checkouting_cart'),
+              data: { confirm: t('.checkout_cart_confirm') } %>
+    <% end %>
+  </div>
+
+</div>

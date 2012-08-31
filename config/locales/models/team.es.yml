@@ -12,6 +12,7 @@ es:
         league: Liga
         league_id: Liga
         money: Presupuesto
+        remaining_changes: Cambios
         remaining_money: Presupuesto
         name: Nombre
         season: Temporada
@@ -29,9 +30,11 @@ es:
               cant_activate: no puede establecerse
   flash:
     teams:
-      create_success: El equipo se ha creado correctamente
-      activation_success: El equipo se ha activado correctamente
       activation_error: El equipo no puede activarse
+      activation_success: El equipo se ha activado correctamente
+      checkout_cart_error: Hay algún problema con las negociaciones
+      checkout_cart_success: Las negociaciones se han resuelto sin ningún problema
+      create_success: El equipo se ha creado correctamente
   teams:
     not_buyable_reasons:
       not_enough_money: no tienes suficiente dinero
@@ -41,4 +44,9 @@ es:
       not_remaining_no_eu: no puedes fichar más extracomunitarios
       already_in_team: ya está en el equipo
       already_played: ya ha jugado su partido esta jornada
+      already_buyed: está en proceso de compra
+      already_sold: está en proceso de venta
       invalid_minimums: no cumples los mínimos por posición
+    not_salable_reasons:
+      already_played: ya ha jugado su partido esta jornada
+      not_remaining_changes: no tienes cambios disponibles
