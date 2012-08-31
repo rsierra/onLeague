@@ -20,6 +20,10 @@ module Extensions
       validates :date_in, presence: true
 
       scope :current, where(date_out: nil)
+      scope :closed, where("#{self.table_name}.date_out IS NOT NULL")
+      scope :after, ->(date) { where("#{self.table_name}.date_out > ?", date) }
+      scope :closed_after, ->(date) { closed.after date }
+
       scope :active, joins(:player).where(players: { active: true })
       scope :no_eu, joins(:player).where(players: { eu: false })
       scope :on, ->(date) { where(["#{self.table_name}.date_in <= ? AND (#{self.table_name}.date_out >= ? OR #{self.table_name}.date_out IS NULL)",date,date]) }
@@ -27,6 +31,7 @@ module Extensions
       scope :of_players, ->(player_ids=[]) { where("#{self.table_name}.player_id IN (?)", player_ids) }
       scope :of_clubs, ->(club_ids=[]) { where("#{self.table_name}.club_id IN (?)", club_ids) }
       scope :exclude_id, ->(id=0) { where("#{self.table_name}.id != ?", id) }
+      scope :exclude_ids, ->(ids=[0]) { where("#{self.table_name}.id NOT IN (?)", ids) }
 
       self::SQL_ATTRIBUTES = self.attribute_names.map{ |attr| "#{self.table_name}.#{attr}"}.join(',')
       self::SQL_JOINS = "LEFT OUTER JOIN player_stats ON #{self.table_name}.player_id = player_stats.player_id " +
