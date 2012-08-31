@@ -241,4 +241,51 @@ describe Team do
       end
     end
   end
+
+  describe "when valid minimums" do
+    let(:team) { create(:team) }
+    before do
+      team.stub(:remaining_files).and_return(remaining_files)
+      team.stub(:needed_position).with('goalkeeper').and_return(1)
+      team.stub(:needed_position).with('defender').and_return(0)
+      team.stub(:needed_position).with('midfielder').and_return(0)
+      team.stub(:needed_position).with('forward').and_return(0)
+    end
+
+    describe "with enough remaining files, not minimum at one position" do
+      let(:remaining_files) { 2 }
+
+      context "and check this position" do
+        let(:position) { 'goalkeeper' }
+        subject { team.valid_minimums? position }
+
+        it { should be_true }
+      end
+
+      context "and check another" do
+        let(:position) { 'defender' }
+        subject { team.valid_minimums? position }
+
+        it { should be_true }
+      end
+    end
+
+    describe "without enough remaining files, not minimum at one position" do
+      let(:remaining_files) { 1 }
+
+      context "and check this position" do
+        let(:position) { 'goalkeeper' }
+        subject { team.valid_minimums? position }
+
+        it { should be_true }
+      end
+
+      context "and check another" do
+        let(:position) { 'defender' }
+        subject { team.valid_minimums? position }
+
+        it { should be_false }
+      end
+    end
+  end
 end

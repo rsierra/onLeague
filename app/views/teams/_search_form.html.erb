@@ -18,7 +18,7 @@
     <%= f.select :position_eq,
           options_for_select(players_position_select_options, :selected => @search.position_eq),
           {}, class: 'input-medium' %>
-    <%= f.submit t('.search'), class: "btn btn-primary" %>
+    <%= f.submit t('.search'), class: "btn btn-primary", 'data-disable-with' => t('.searching') %>
   </div>
 
 <% end %>

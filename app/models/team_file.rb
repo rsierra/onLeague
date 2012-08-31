@@ -10,10 +10,18 @@ class TeamFile < ActiveRecord::Base
 
   validate  :max_files_per_team, :max_positions_per_team,
             :max_clubs_per_team, :max_no_eu_per_team,
-            :enough_money, unless: 'team.blank?'
+            :enough_money, :minimum_files, unless: 'team.blank?', on: :create
   validate  :played, unless: 'player.blank?'
 
+  before_destroy :played
+
+  after_initialize :default_values
+
   private
+
+  def default_values
+    self.date_in ||= Date.today
+  end
 
   def max_files_per_team
     errors.add(:team, :cant_have_more) unless team.remaining_files?
@@ -37,5 +45,9 @@ class TeamFile < ActiveRecord::Base
 
   def played
     errors.add(:player, :cant_be_played) if player.played?
+  end
+
+  def minimum_files
+    errors.add(:player, :cant_valid_minimums) unless team.valid_minimums? position
   end
 end

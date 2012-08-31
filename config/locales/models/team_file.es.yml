@@ -28,6 +28,7 @@ es:
               only_one_curent_file_player: sólo puede tener una ficha vigente (sin fecha de salida)
             player:
               cant_be_played: no puede haber jugado ya esta jornada
+              cant_valid_minimums: no permite cumplir los mínimos por posición
             date_out:
               should_be_after_in: debe ser posterior a la de entrada
               should_be_blank_in_creation: debe estar vacía en al crear la ficha
@@ -42,5 +43,8 @@ es:
         forward: Delantero
   flash:
     team_files:
+      create_file_error: Ha habido algún problema en la compra del jugador
       destroy_success: Jugador vendido
-      destroy_error: Ha habido algún problema en al venta del jugador
+      destroy_error: Ha habido algún problema en la venta del jugador
+      sell_player_error: No tienes más cambios disponibles esta semana
+

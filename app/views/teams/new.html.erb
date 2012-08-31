@@ -4,6 +4,6 @@
     <%= render "shared/form_errors", :object => @team %>
 
     <%= f.text_field :name, placeholder: t('.name_placeholder') %>
-    <%= f.submit t('.create'), class: "btn btn-primary" %>
+    <%= f.submit t('.create'), class: "btn btn-primary", 'data-disable-with' => t('.creating') %>
   <% end %>
 </div>

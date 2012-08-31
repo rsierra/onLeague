@@ -3,6 +3,7 @@
 class Team < ActiveRecord::Base
   MAX_TEAMS = 2
   INITIAL_MONEY = 200
+  WEEK_CHANGES = 3
   MAX_FILES = 11
   MAX_FILES_PER_CLUB = 3
   MAX_FILES_NO_EU = 3
@@ -12,6 +13,8 @@ class Team < ActiveRecord::Base
     'midfielder'  =>  { minimum: 3, maximum: 4 },
     'forward'     =>  { minimum: 1, maximum: 3 }
   }
+
+  attr_accessor :file_cart
 
   belongs_to :user
   belongs_to :league
@@ -80,8 +83,36 @@ class Team < ActiveRecord::Base
     "#{name} #{league.name} #{league.season}" unless league.blank?
   end
 
+  def sale_ids
+    file_cart.blank? ? [0] : file_cart.sale_ids
+  end
+
+  def current_files
+    files.exclude_ids(sale_ids)
+  end
+
+  def current_players
+    current_files.includes(:player).map(&:player)
+  end
+
+  def buy_files
+    file_cart.blank? ? ClubFile.limit(0) : file_cart.buy_files
+  end
+
+  def sale_files
+    file_cart.blank? ? ClubFile.limit(0) : file_cart.sale_files
+  end
+
+  def sale_players
+    sale_files.includes(:player).map(&:player)
+  end
+
+  def buy_money
+    buy_files.sum(:value)
+  end
+
   def remaining_money
-    money - files.sum(:value)
+    money - current_files.sum(:value) - buy_money
   end
 
   def remaining_money_million
@@ -111,7 +142,7 @@ class Team < ActiveRecord::Base
   end
 
   def remaining_files
-    MAX_FILES - files.count
+    MAX_FILES - current_files.count - buy_files.count
   end
 
   def remaining_files?
@@ -119,7 +150,7 @@ class Team < ActiveRecord::Base
   end
 
   def players_in_positon position
-    files.where(position: position)
+    current_files.where(position: position)
   end
 
   def goalkeepers
@@ -139,19 +170,19 @@ class Team < ActiveRecord::Base
   end
 
   def goalkeepers_count
-    goalkeepers.count
+    goalkeepers.count + buy_files.where(position: :goalkeeper).count
   end
 
   def defenders_count
-    defenders.count
+    defenders.count + buy_files.where(position: :defender).count
   end
 
   def midfielders_count
-    midfielders.count
+    midfielders.count + buy_files.where(position: :midfielder).count
   end
 
   def forwards_count
-    forwards.count
+    forwards.count + buy_files.where(position: :forward).count
   end
 
   def files_by_position
@@ -178,17 +209,21 @@ class Team < ActiveRecord::Base
     remaining_position 'forward'
   end
 
+  def current_players_in_position_count position
+    players_in_positon(position).count + buy_files.where(position: position).count
+  end
+
   def remaining_position position
-    POSITION_LIMITS[position][:maximum] - players_in_positon(position).count
+    POSITION_LIMITS[position][:maximum] - current_players_in_position_count(position)
   end
 
   def needed_position position
-    needed = POSITION_LIMITS[position][:minimum] - players_in_positon(position).count
+    needed = POSITION_LIMITS[position][:minimum] - current_players_in_position_count(position)
     needed > 0 ? needed : 0
   end
 
   def remaining_position? position
-    players_in_positon(position).count < POSITION_LIMITS[position][:maximum]
+     current_players_in_position_count(position) < POSITION_LIMITS[position][:maximum]
   end
 
   def enough_money? value
@@ -196,19 +231,28 @@ class Team < ActiveRecord::Base
   end
 
   def remaining_club? club
-    files.where(club_id: club).count < MAX_FILES_PER_CLUB
+    current_files.where(club_id: club).count + buy_files.where(club_id: club).count < MAX_FILES_PER_CLUB
   end
 
   def remaining_no_eu?
-    files.no_eu.count < MAX_FILES_NO_EU
+    current_files.no_eu.count + buy_files.no_eu.count < MAX_FILES_NO_EU
   end
 
   def valid_minimums? currrent_position
     valid_minimums = true
+    current_remaining_files = remaining_files
     TeamFile.position.values.each do |position|
-      valid_minimums &&= (remaining_files - (currrent_position == position ? 0 : 1) >= needed_position(position))
+      valid_minimums &&= (current_remaining_files - (currrent_position == position ? 0 : 1) >= needed_position(position))
     end
     valid_minimums
+  end
+
+  def remaining_changes
+    Team::WEEK_CHANGES - team_files.closed_after(league.end_date_of_week(league.week - 1)).count - sale_files.count
+  end
+
+  def remaining_changes?
+    !remaining_changes.zero?
   end
 
   def player_not_buyable_reasons player_file
@@ -218,10 +262,32 @@ class Team < ActiveRecord::Base
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_positions', position: player_file.position.text.pluralize.downcase) unless remaining_position?(player_file.position)
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_clubs', club: player_file.club_name.capitalize) unless remaining_club? player_file.club
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_no_eu') unless player_file.player.eu || remaining_no_eu?
-    reasons << I18n.t('teams.not_buyable_reasons.already_in_team') if players.include? player_file.player
+    reasons << I18n.t('teams.not_buyable_reasons.already_in_team') if current_players.include? player_file.player
     reasons << I18n.t('teams.not_buyable_reasons.already_played') if player_file.player.played?
+    reasons << I18n.t('teams.not_buyable_reasons.already_sold') if sale_players.include? player_file.player
+    reasons << I18n.t('teams.not_buyable_reasons.already_buyed') if buy_files.include? player_file
     reasons << I18n.t('teams.not_buyable_reasons.invalid_minimums') unless valid_minimums? player_file.position
     reasons
+  end
+
+  def player_not_salable_reasons player_file
+    reasons = []
+    reasons << I18n.t('teams.not_salable_reasons.already_played') if player_file.player.played?
+    reasons << I18n.t('teams.not_salable_reasons.not_remaining_changes') unless remaining_changes?
+    reasons
+  end
+
+  def checkout_cart
+    message = nil
+    begin
+      TeamFile.transaction do
+        sale_files.each { |file| file.update_attributes!(date_out: Date.today) }
+        buy_files.each { |file| files.create!(file.attributes_for_team_file) }
+      end
+      return nil
+    rescue Exception => e
+      return e.message
+    end
   end
 
   private

@@ -3,8 +3,19 @@ en:
     show:
       alignment: Alignment
       changes: Changes
+    file_cart:
+      buying: Buying
+      checkout_cart: Confirm negociaciones
+      checkout_cart_confirm: ¿Esta seguro de que desea confirmar todas las negociaciones?
+      checkouting_cart: Confirming negotiations...
+      empty_cart: Cancelar negociaciones
+      empty_cart_confirm: ¿Está seguro de que desea cancelar todas las negociaciones?
+      emptying_cart: Canceling negotiations...
+      negotiations: Negotiations
+      selling: Selling
     files_list:
       activate_team: Activate team
+      activating_team: Activating...
       activation_warning_title: Warning, your team is inactive
       activation_warning_description: You need to complete the team to activate it. Meanwhile, your team don't get points.
       buy_player: Buy player
@@ -21,6 +32,7 @@ en:
       inactive: Inactive
     search_form:
       search: Search
+      searching: Searching...
       value_gteq: with value greater than
       value_lteq: and less than
   team_files:
