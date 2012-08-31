@@ -13,6 +13,8 @@ class Team < ActiveRecord::Base
     'forward'     =>  { minimum: 1, maximum: 3 }
   }
 
+  attr_accessor :file_cart
+
   belongs_to :user
   belongs_to :league
 

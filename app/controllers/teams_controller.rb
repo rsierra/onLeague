@@ -7,7 +7,7 @@ class TeamsController < ApplicationController
   end
 
   def show
-    @team = current_user.teams.of_league(@current_league).find(params[:id])
+    load_team params[:id]
     @team_file = @team.files.build
     search_club_files
   end
@@ -30,7 +30,7 @@ class TeamsController < ApplicationController
   end
 
   def create_file
-    @team = current_user.teams.of_league(@current_league).find(params[:team_id])
+    load_team params[:team_id]
     club_file = ClubFile.active.current.find params[:club_file_id]
     @team_file = @team.files.build(club_file.attributes_for_team_file)
     search_club_files
@@ -41,9 +41,9 @@ class TeamsController < ApplicationController
   end
 
   def destroy_file
-    @team = current_user.teams.of_league(@current_league).find(params[:team_id])
     if !@team.active && @team.files.destroy(params[:team_file_id])
       flash[:notice] = I18n.t('flash.team_files.destroy_success')
+    load_team params[:team_id]
     else
       flash[:error] = I18n.t('flash.team_files.destroy_error')
     end
@@ -53,7 +53,7 @@ class TeamsController < ApplicationController
   end
 
   def activate
-    @team = current_user.teams.of_league(@current_league).find(params[:team_id])
+    load_team params[:team_id]
     @team.activate
 
     if @team.valid?
@@ -66,7 +66,7 @@ class TeamsController < ApplicationController
   end
 
   def search
-    @team = current_user.teams.of_league(@current_league).find(params[:team_id])
+    load_team params[:team_id]
     search_club_files
     render partial: 'update_find_file'
   end
@@ -89,5 +89,10 @@ class TeamsController < ApplicationController
     per_page = 6
     @num_pages = ClubFile.active.current.of_clubs(@current_league.season_club_ids).search(params[:q]).result.count / per_page + 1
     @club_files = @search.result.page(params[:page]).per(per_page)
+  end
+
+  def load_team id
+    @team = current_user.teams.of_league(@current_league).find(id)
+    @team.file_cart = session[@team.slug] if session[@team.slug]
   end
 end
