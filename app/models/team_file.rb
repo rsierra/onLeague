@@ -15,7 +15,13 @@ class TeamFile < ActiveRecord::Base
 
   before_destroy :played
 
+  after_initialize :default_values
+
   private
+
+  def default_values
+    self.date_in ||= Date.today
+  end
 
   def max_files_per_team
     errors.add(:team, :cant_have_more) unless team.remaining_files?

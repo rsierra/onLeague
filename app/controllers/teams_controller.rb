@@ -33,7 +33,6 @@ class TeamsController < ApplicationController
     @team = current_user.teams.of_league(@current_league).find(params[:team_id])
     club_file = ClubFile.active.current.find params[:club_file_id]
     @team_file = @team.files.build(club_file.attributes_for_team_file)
-    @team_file.date_in = Date.today
     search_club_files
     if @team_file.save
       @team_file = @team.files.build
