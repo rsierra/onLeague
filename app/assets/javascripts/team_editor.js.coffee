@@ -3,10 +3,11 @@ class TeamEditor
     this.addRemoteSearch()
     this.addHideChanges()
 
-
-
   addRemoteSearch : ->
     $('.add-remote-search').submit ->
+      return false if this.beenSubmitted
+      this.beenSubmitted = true
+
       url = $(this).attr 'action'
       data = "#{ $(this).serialize() }&#{ $('#club_file_search').serialize() }"
 
