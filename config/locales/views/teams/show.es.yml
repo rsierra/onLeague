@@ -5,6 +5,7 @@ es:
       changes: Fichajes
     files_list:
       activate_team: Activar equipo
+      activating_team: Activando...
       activation_warning_title: Cuidado, tu equipo no está activo
       activation_warning_description: Necesitas completar todos los jugadores para activar tu equipo. Mientras no esté activo, el equipo no puntua.
       buy_player: Comprar jugador
@@ -21,6 +22,7 @@ es:
       inactive: Inactivo
     search_form:
       search: Buscar
+      searching: Buscando...
       value_gteq: de precio mayor que
       value_lteq: y menor
   team_files:

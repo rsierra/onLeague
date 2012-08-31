@@ -5,6 +5,7 @@ en:
       changes: Changes
     files_list:
       activate_team: Activate team
+      activating_team: Activating...
       activation_warning_title: Warning, your team is inactive
       activation_warning_description: You need to complete the team to activate it. Meanwhile, your team don't get points.
       buy_player: Buy player
@@ -21,6 +22,7 @@ en:
       inactive: Inactive
     search_form:
       search: Search
+      searching: Searching...
       value_gteq: with value greater than
       value_lteq: and less than
   team_files:

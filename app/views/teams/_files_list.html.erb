@@ -4,7 +4,8 @@
     <div id="could_activate" class="alert alert-block alert-success fade in">
       <h4><%= t '.could_activate_title' %></h4>
       <p><%= t '.could_activate_description' %></p>
-      <%= button_to t('.activate_team'), team_activate_path(@team), class: "btn btn-primary" %>
+      <%= button_to t('.activate_team'), team_activate_path(@team), class: "btn btn-primary",
+            'data-disable-with' => t('.activating_team') %>
     </div>
     <% else %>
       <div id="activation_warning" class="alert alert-block alert-warning fade in">
