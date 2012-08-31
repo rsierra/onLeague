@@ -264,13 +264,15 @@ class Team < ActiveRecord::Base
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_no_eu') unless player_file.player.eu || remaining_no_eu?
     reasons << I18n.t('teams.not_buyable_reasons.already_in_team') if current_players.include? player_file.player
     reasons << I18n.t('teams.not_buyable_reasons.already_played') if player_file.player.played?
+    reasons << I18n.t('teams.not_buyable_reasons.already_sold') if sale_players.include? player_file.player
+    reasons << I18n.t('teams.not_buyable_reasons.already_buyed') if buy_files.include? player_file
     reasons << I18n.t('teams.not_buyable_reasons.invalid_minimums') unless valid_minimums? player_file.position
     reasons
   end
 
   def player_not_salable_reasons player_file
     reasons = []
-    reasons << I18n.t('teams.not_buyable_reasons.already_played') if player_file.player.played?
+    reasons << I18n.t('teams.not_salable_reasons.already_played') if player_file.player.played?
     reasons << I18n.t('teams.not_salable_reasons.not_remaining_changes') unless remaining_changes?
     reasons
   end
