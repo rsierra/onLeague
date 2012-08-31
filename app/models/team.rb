@@ -82,6 +82,26 @@ class Team < ActiveRecord::Base
     "#{name} #{league.name} #{league.season}" unless league.blank?
   end
 
+  def sale_ids
+    file_cart.blank? ? [0] : file_cart.sale_ids
+  end
+
+  def buy_files
+    file_cart.blank? ? ClubFile.limit(0) : file_cart.buy_files
+  end
+
+  def sale_files
+    file_cart.blank? ? ClubFile.limit(0) : file_cart.sale_files
+  end
+
+  def sale_players
+    sale_files.includes(:player).map(&:player)
+  end
+
+  def buy_money
+    buy_files.sum(:value)
+  end
+
   def remaining_money
     money - files.sum(:value)
   end
