@@ -3,6 +3,7 @@
 class Team < ActiveRecord::Base
   MAX_TEAMS = 2
   INITIAL_MONEY = 200
+  WEEK_CHANGES = 3
   MAX_FILES = 11
   MAX_FILES_PER_CLUB = 3
   MAX_FILES_NO_EU = 3
@@ -246,6 +247,14 @@ class Team < ActiveRecord::Base
     valid_minimums
   end
 
+  def remaining_changes
+    Team::WEEK_CHANGES - team_files.closed_after(league.end_date_of_week(league.week - 1)).count - sale_files.count
+  end
+
+  def remaining_changes?
+    !remaining_changes.zero?
+  end
+
   def player_not_buyable_reasons player_file
     reasons = []
     reasons << I18n.t('teams.not_buyable_reasons.not_enough_money') unless enough_money?(player_file.value)
@@ -262,6 +271,7 @@ class Team < ActiveRecord::Base
   def player_not_salable_reasons player_file
     reasons = []
     reasons << I18n.t('teams.not_buyable_reasons.already_played') if player_file.player.played?
+    reasons << I18n.t('teams.not_salable_reasons.not_remaining_changes') unless remaining_changes?
     reasons
   end
 
