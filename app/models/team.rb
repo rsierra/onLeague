@@ -277,6 +277,19 @@ class Team < ActiveRecord::Base
     reasons
   end
 
+  def checkout_cart
+    message = nil
+    begin
+      TeamFile.transaction do
+        sale_files.each { |file| file.update_attributes!(date_out: Date.today) }
+        buy_files.each { |file| files.create!(file.attributes_for_team_file) }
+      end
+      return nil
+    rescue Exception => e
+      return e.message
+    end
+  end
+
   private
 
   def max_per_user
