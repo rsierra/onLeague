@@ -10,7 +10,7 @@ class TeamFile < ActiveRecord::Base
 
   validate  :max_files_per_team, :max_positions_per_team,
             :max_clubs_per_team, :max_no_eu_per_team,
-            :enough_money, :minimum_files, unless: 'team.blank?'
+            :enough_money, :minimum_files, unless: 'team.blank?', on: :create
   validate  :played, unless: 'player.blank?'
 
   before_destroy :played
