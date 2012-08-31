@@ -86,6 +86,14 @@ class Team < ActiveRecord::Base
     file_cart.blank? ? [0] : file_cart.sale_ids
   end
 
+  def current_files
+    files.exclude_ids(sale_ids)
+  end
+
+  def current_players
+    current_files.includes(:player).map(&:player)
+  end
+
   def buy_files
     file_cart.blank? ? ClubFile.limit(0) : file_cart.buy_files
   end
@@ -103,7 +111,7 @@ class Team < ActiveRecord::Base
   end
 
   def remaining_money
-    money - files.sum(:value)
+    money - current_files.sum(:value) - buy_money
   end
 
   def remaining_money_million
@@ -133,7 +141,7 @@ class Team < ActiveRecord::Base
   end
 
   def remaining_files
-    MAX_FILES - files.count
+    MAX_FILES - current_files.count - buy_files.count
   end
 
   def remaining_files?
@@ -141,7 +149,7 @@ class Team < ActiveRecord::Base
   end
 
   def players_in_positon position
-    files.where(position: position)
+    current_files.where(position: position)
   end
 
   def goalkeepers
@@ -161,19 +169,19 @@ class Team < ActiveRecord::Base
   end
 
   def goalkeepers_count
-    goalkeepers.count
+    goalkeepers.count + buy_files.where(position: :goalkeeper).count
   end
 
   def defenders_count
-    defenders.count
+    defenders.count + buy_files.where(position: :defender).count
   end
 
   def midfielders_count
-    midfielders.count
+    midfielders.count + buy_files.where(position: :midfielder).count
   end
 
   def forwards_count
-    forwards.count
+    forwards.count + buy_files.where(position: :forward).count
   end
 
   def files_by_position
@@ -200,17 +208,21 @@ class Team < ActiveRecord::Base
     remaining_position 'forward'
   end
 
+  def current_players_in_position_count position
+    players_in_positon(position).count + buy_files.where(position: position).count
+  end
+
   def remaining_position position
-    POSITION_LIMITS[position][:maximum] - players_in_positon(position).count
+    POSITION_LIMITS[position][:maximum] - current_players_in_position_count(position)
   end
 
   def needed_position position
-    needed = POSITION_LIMITS[position][:minimum] - players_in_positon(position).count
+    needed = POSITION_LIMITS[position][:minimum] - current_players_in_position_count(position)
     needed > 0 ? needed : 0
   end
 
   def remaining_position? position
-    players_in_positon(position).count < POSITION_LIMITS[position][:maximum]
+     current_players_in_position_count(position) < POSITION_LIMITS[position][:maximum]
   end
 
   def enough_money? value
@@ -218,11 +230,11 @@ class Team < ActiveRecord::Base
   end
 
   def remaining_club? club
-    files.where(club_id: club).count < MAX_FILES_PER_CLUB
+    current_files.where(club_id: club).count + buy_files.where(club_id: club).count < MAX_FILES_PER_CLUB
   end
 
   def remaining_no_eu?
-    files.no_eu.count < MAX_FILES_NO_EU
+    current_files.no_eu.count + buy_files.no_eu.count < MAX_FILES_NO_EU
   end
 
   def valid_minimums? currrent_position
@@ -241,7 +253,7 @@ class Team < ActiveRecord::Base
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_positions', position: player_file.position.text.pluralize.downcase) unless remaining_position?(player_file.position)
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_clubs', club: player_file.club_name.capitalize) unless remaining_club? player_file.club
     reasons << I18n.t('teams.not_buyable_reasons.not_remaining_no_eu') unless player_file.player.eu || remaining_no_eu?
-    reasons << I18n.t('teams.not_buyable_reasons.already_in_team') if players.include? player_file.player
+    reasons << I18n.t('teams.not_buyable_reasons.already_in_team') if current_players.include? player_file.player
     reasons << I18n.t('teams.not_buyable_reasons.already_played') if player_file.player.played?
     reasons << I18n.t('teams.not_buyable_reasons.invalid_minimums') unless valid_minimums? player_file.position
     reasons
