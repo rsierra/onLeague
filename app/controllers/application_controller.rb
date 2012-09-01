@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_locale_from_url
   before_filter :set_league
 
-  rescue_from Exception, with: :render_404 unless Rails.env.development?
+  rescue_from Exception, with: :render_404 if Rails.env.production?
 
   private
 
