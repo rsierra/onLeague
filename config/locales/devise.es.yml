@@ -40,7 +40,7 @@ es:
       signed_up_but_locked: 'Te has identificado correctamente, pero su cuenta está bloqueada.'
       updated: 'Ha actualizado su cuenta correctamente.'
       update_needs_confirmation: "Ha actualizado su cuenta correctamente, pero encesitamos que confirmes su correo. Por favor, consulta su correo y sigue el enlace para activar su cuenta."
-      destroyed: 'Adios! Su cuenta ha sido cancelada exitosamente. Esperamos verlo pronto.'
+      destroyed: 'Adios! Su cuenta ha sido cancelada exitosamente. Esperamos verle pronto.'
     unlocks:
       send_instructions: "Usted recibirá un email con instrucciones sobre como des bloquear su cuenta en unos minutos."
       unlocked: 'Su cuenta ha sido des bloqueada exitosamente. Ahora usted ingresar.'
