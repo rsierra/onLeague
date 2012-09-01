@@ -26,7 +26,7 @@
       <tbody>
         <% @users.each do |user| %>
         <tr>
-          <td><%= image_tag user.avatar_url %></td>
+          <td><%= image_tag user.avatar_url, class: 'avatar' %></td>
           <td><%= user.name %></td>
         </tr>
         <% end -%>

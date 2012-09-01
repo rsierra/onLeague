@@ -82,6 +82,9 @@ GEM
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
       paper_trail (~> 2)
+    google_plus (0.2.2)
+      json
+      rest-client (~> 1.6.1)
     gravtastic (3.2.6)
     growl (1.0.3)
     guard (1.2.3)
@@ -129,6 +132,9 @@ GEM
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
       railties (>= 3.0.0)
+    koala (1.5.0)
+      faraday (~> 0.7)
+      multi_json (~> 1.3)
     launchy (2.0.3)
     less (2.2.1)
       commonjs (~> 0.2.6)
@@ -280,6 +286,7 @@ GEM
       tilt (~> 1.3)
     simple-navigation (3.7.0)
       activesupport (>= 2.3.2)
+    simple_oauth (0.1.9)
     spork (1.0.0rc3)
     sprockets (2.1.3)
       hike (~> 1.2)
@@ -297,6 +304,10 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
+    twitter (3.7.0)
+      faraday (~> 0.8)
+      multi_json (~> 1.3)
+      simple_oauth (~> 0.1.6)
     twitter-bootstrap-rails (2.1.2)
       actionpack (>= 3.1)
       less-rails (~> 2.2.3)
@@ -323,6 +334,7 @@ DEPENDENCIES
   factory_girl_rails
   friendly_id (~> 4.0.1)
   globalize3
+  google_plus
   gravtastic
   growl
   guard-livereload
@@ -331,6 +343,7 @@ DEPENDENCIES
   guard-spork
   heroku
   jquery-rails
+  koala
   omniauth
   omniauth-facebook
   omniauth-google-oauth2
@@ -350,6 +363,7 @@ DEPENDENCIES
   spork (~> 1.0rc)
   therubyracer
   thin
+  twitter
   twitter-bootstrap-rails
   uglifier (>= 1.0.3)
   yajl-ruby

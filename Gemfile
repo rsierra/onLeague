@@ -93,3 +93,7 @@ gem 'enumerize'
 gem 'paper_trail', '~> 2'
 
 gem 'ransack'
+
+gem 'google_plus'
+gem 'twitter'
+gem 'koala'
