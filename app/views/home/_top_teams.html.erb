@@ -5,6 +5,7 @@
   <tbody>
     <% top_teams.each do |team| %>
     <tr>
+      <td><%= image_tag team.user.avatar_url, class: 'avatar' %></td>
       <td><%= team.name %></td>
       <td><%= team.user.name %></td>
       <td><%= team.points %></td>
