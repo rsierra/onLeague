@@ -50,11 +50,11 @@ es:
       failure: 'No podemos identificarle desde %{kind} porque "%{reason}".'
     mailer:
       confirmation_instructions:
-        subject: "Instrucciones de confirmación"
+        subject: "[onLeague] Instrucciones de confirmación"
       reset_password_instructions:
-        subject: "Instrucciones para reestablecer contraseña"
+        subject: "[onLeague] Instrucciones para reestablecer contraseña"
       unlock_instructions:
-        subject: 'Instrucciones de desbloqueo'
+        subject: '[onLeague] Instrucciones de desbloqueo'
 
     texts:
       sign_in: Identificarse
