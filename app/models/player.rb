@@ -90,5 +90,11 @@ class Player < ActiveRecord::Base
     file.club.played_on_league? league, time
   end
 
+  def last_game_on_league league
+    club.last_game_on_league league
+  end
+
+  def next_game_on_league league
+    club.next_game_on_league league
   end
 end

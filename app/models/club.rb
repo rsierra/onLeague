@@ -60,13 +60,27 @@ class Club < ActiveRecord::Base
     Game.on_league(league).of_club(id).played(time).any?
   end
 
+  def last_game_on_league league
+    if played_on_league?(league)
+      Game.on_league(league).of_club(id).current_week.first
+    else
+      Game.on_league(league).of_club(id).last_week.first
+    end
+  end
+
+  def next_game_on_league league
+    if played_on_league?(league)
+      Game.on_league(league).of_club(id).next_week.first
+    else
+      Game.on_league(league).of_club(id).current_week.first
+    end
   end
 
   private
 
   def default_values
     I18n.available_locales.each do |locale|
-      club_translations << ClubTranslation.create({ :locale => locale }) unless club_translations.exists?(:locale => locale)
+      club_translations << ClubTranslation.create({ locale: locale }) unless club_translations.exists?(locale: locale)
     end
   end
 end
