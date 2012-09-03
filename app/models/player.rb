@@ -86,7 +86,9 @@ class Player < ActiveRecord::Base
     games_played.zero? ? 0 : season_stats(stat,league) / games_played
   end
 
-  def played? time = Time.now
-    file.club.played? time
+  def played_on_league? league, time = Time.now
+    file.club.played_on_league? league, time
+  end
+
   end
 end

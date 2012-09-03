@@ -56,8 +56,10 @@ class Club < ActiveRecord::Base
     club_files.on(date).order(:player_id).where(position: position).select(:player_id).map(&:player_id)
   end
 
-  def played? time = Time.now
-    Game.of_club(id).played(time).any?
+  def played_on_league? league, time = Time.now
+    Game.on_league(league).of_club(id).played(time).any?
+  end
+
   end
 
   private
