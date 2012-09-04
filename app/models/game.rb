@@ -65,7 +65,7 @@ class Game < ActiveRecord::Base
   scope :on_league, ->(league_id) { where(league_id: league_id) }
   scope :playing, ->(time = Time.now) { where(date: (time - TIME_AFTER)..(time + TIME_BEFORE))}
   scope :last_week, joins("INNER JOIN leagues ON leagues.id = games.league_id AND leagues.season = games.season AND leagues.week - 1 = games.week")
-  scope :nexr_week, joins("INNER JOIN leagues ON leagues.id = games.league_id AND leagues.season = games.season AND leagues.week + 1 = games.week")
+  scope :next_week, joins("INNER JOIN leagues ON leagues.id = games.league_id AND leagues.season = games.season AND leagues.week + 1 = games.week")
   scope :current_week, joins("INNER JOIN leagues ON leagues.id = games.league_id AND leagues.season = games.season AND leagues.week = games.week")
   scope :played, ->(time = Time.now) {
         current_week

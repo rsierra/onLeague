@@ -285,7 +285,7 @@ describe Player do
     end
   end
 
-  describe "when player played" do
+  describe "when player played on league" do
     let(:date_time) { DateTime.now }
     let(:league) { create(:league) }
     let(:club) { create(:club, leagues: [league]) }
@@ -294,17 +294,17 @@ describe Player do
     before { player }
     subject { player }
 
-    its(:played?) { should be_true }
-    it { player.played?(date_time - Game::TIME_BEFORE - 1.hour).should be_false }
-    it { player.played?(date_time - Game::TIME_BEFORE).should be_true }
-    it { player.played?(date_time).should be_true }
-    it { player.played?(date_time + Game::TIME_AFTER).should be_true }
-    it { player.played?(date_time + Game::TIME_AFTER + 1.hour).should be_true }
+    it { player.played_on_league?(league).should be_true }
+    it { player.played_on_league?(league, date_time - Game::TIME_BEFORE - 1.hour).should be_false }
+    it { player.played_on_league?(league, date_time - Game::TIME_BEFORE).should be_true }
+    it { player.played_on_league?(league, date_time).should be_true }
+    it { player.played_on_league?(league, date_time + Game::TIME_AFTER).should be_true }
+    it { player.played_on_league?(league, date_time + Game::TIME_AFTER + 1.hour).should be_true }
 
     context "in next week" do
       before { league.update_attributes(week: league.week + 1) }
 
-      its(:played?) { should be_false }
+      it { player.played_on_league?(league).should be_false }
     end
   end
 end

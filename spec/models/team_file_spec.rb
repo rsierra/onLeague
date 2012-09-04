@@ -153,13 +153,13 @@ describe TeamFile do
       it { team_file.error_on(:team).should include I18n.t(cant_have_more_no_eu_error_translation_key) }
     end
 
-    context "with played player" do
+    context "with player played on league" do
       let(:cant_be_played_error_translation_key) { "#{error_translation_key}.player.cant_be_played" }
 
       let(:player) { create(:player) }
       let(:team_file) { build(:team_file, player: player) }
 
-      before { team_file; player.stub(:played?).and_return(true) }
+      before { team_file; player.stub(:played_on_league?).and_return(true) }
       subject { team_file }
 
       it { should_not be_valid }
@@ -183,7 +183,7 @@ describe TeamFile do
   end
 
   describe "when destroy" do
-    context "with played player" do
+    context "with player played on league" do
       let(:cant_be_played_error_translation_key) { "#{error_translation_key}.player.cant_be_played" }
 
       let(:player) { create(:player) }
@@ -191,7 +191,7 @@ describe TeamFile do
 
       before do
         team_file
-        player.stub(:played?).and_return(true)
+        player.stub(:played_on_league?).and_return(true)
         team_file.destroy
       end
 
