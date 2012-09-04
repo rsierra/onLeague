@@ -19,7 +19,7 @@ class Team < ActiveRecord::Base
   belongs_to :user
   belongs_to :league
 
-  has_many :team_files
+  has_many :team_files, dependent: :destroy
   has_many :files, class_name: 'TeamFile', conditions: 'date_out is null'
   has_many :players, through: :files
 
