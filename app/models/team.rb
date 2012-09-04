@@ -42,20 +42,20 @@ class Team < ActiveRecord::Base
   self::SQL_ATTRIBUTES = self.attribute_names.map{ |attr| "#{self.table_name}.#{attr}"}.join(',')
   self::SQL_JOINS = "LEFT OUTER JOIN team_files ON team_files.team_id = teams.id " +
     "LEFT OUTER JOIN player_stats ON team_files.player_id = player_stats.player_id " +
-    "INNER JOIN games ON player_stats.game_id = games.id " +
-    "AND games.week >= teams.activation_week " +
-    "AND games.date >= team_files.date_in " +
-    "AND games.date <= COALESCE(team_files.date_out,NOW()) "
+    "LEFT OUTER JOIN games ON player_stats.game_id = games.id "
   scope :with_points, joins(self::SQL_JOINS)
         .select("#{self::SQL_ATTRIBUTES}, COALESCE(sum(player_stats.points),0) as points")
+        .where("games.week IS NULL OR games.week >= teams.activation_week")
+        .where("games.week IS NULL OR games.date >= team_files.date_in")
+        .where("games.week IS NULL OR games.date <= COALESCE(team_files.date_out,NOW())")
         .group(self::SQL_ATTRIBUTES)
   scope :with_points_on_season, ->(season) {
         with_points
-        .where(["games.season = ? OR games.season IS NULL",season])
+        .where("games.season IS NULL OR games.season = ?",season)
       }
   scope :with_points_on_season_week, ->(season, week) {
         with_points_on_season(season)
-        .where(["games.week = ? OR games.week IS NULL",week])
+        .where("games.week IS NULL OR games.week = ?",week)
       }
   scope :order_by_points_on_season, ->(season) {
         with_points_on_season(season)
@@ -63,7 +63,7 @@ class Team < ActiveRecord::Base
       }
   scope :order_by_points_on_season_week, ->(season,week) {
         order_by_points_on_season(season)
-        .where(["games.week = ? OR games.week IS NULL",week])
+        .where(["games.week IS NULL OR games.week = ?",week])
       }
 
   validate :max_per_user, on: :create, unless: 'user_id.blank? || league_id.blank?'
