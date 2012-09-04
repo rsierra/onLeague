@@ -22,6 +22,8 @@
     <h3><%= PlayerStat.human_attribute_name(:points) %></h3>
   </div>
 
+  <%= render partial: 'shared/player_games', object: player_file.player %>
+
   <%= render partial: 'shared/player_stats', object: player_file.player,
               locals: { goalkeeper: player_file.position.goalkeeper? } %>
 

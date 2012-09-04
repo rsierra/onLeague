@@ -17,6 +17,7 @@ en:
         player: Player
         player_id: Player
         points: Points
+        points_tot_last: Pts Tot/Last
         points_per_game: Points/game
         red_cards: Red cards
         updated_at: Updated at

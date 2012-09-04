@@ -17,6 +17,7 @@ es:
         player: Jugador
         player_id: Jugador
         points: Puntos
+        points_tot_last: Pts Tot/Últ
         points_per_game: Puntos/partido
         red_cards: Rojas
         updated_at: Actualizado en

@@ -1,0 +1,5 @@
+es:
+  shared:
+    player_games:
+      last_game: Last game
+      next_game: Next game

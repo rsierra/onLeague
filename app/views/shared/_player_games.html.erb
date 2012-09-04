@@ -1,0 +1,16 @@
+<dl class="dl-horizontal player-games">
+  <dt><%= t '.last_game' %></dt>
+  <dd>
+    <% last_game = player_games.last_game_on_league(@current_league) %>
+    <% if last_game %>
+    <%= last_game.is_visible? ? link_to(last_game.name, game_path(last_game)) : last_game.name %>
+    (<%= player_games.week_stats(:points, @current_league, @current_league.season, @current_league.current_week) %>
+    <%= PlayerStat.human_attribute_name(:points) %>)
+    <% end %>
+  </dd>
+  <dt><%= t '.next_game' %></dt>
+  <dd>
+    <% next_game = player_games.next_game_on_league(@current_league) %>
+    <%= next_game.name if next_game %>
+  </dd>
+</dl>
