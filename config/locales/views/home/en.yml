@@ -2,4 +2,8 @@ en:
   home:
     index:
       title: onLeague
+      top_players: Players of the week
+      top_teams: Teams of the week
       welcome: Welcome to onLeage
+    top_teams:
+      no_teams: No teams this week

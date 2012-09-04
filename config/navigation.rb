@@ -72,8 +72,9 @@ SimpleNavigation::Configuration.run do |navigation|
     # primary.auto_highlight = false
 
     primary.item :home, t('shared.navbar.home'), root_path
-    primary.item :clubs, Club.model_name.human.pluralize, clubs_path, :highlights_on => :subpath
-    primary.item :games, Game.model_name.human.pluralize, games_path, :highlights_on => :subpath
+    primary.item :teams, t('shared.navbar.your_teams'), teams_path, highlights_on: :subpath, if: Proc.new { user_signed_in? }
+    primary.item :clubs, Club.model_name.human.pluralize, clubs_path, highlights_on: :subpath
+    primary.item :games, Game.model_name.human.pluralize, games_path, highlights_on: :subpath
   end
 
 end

@@ -1,0 +1,41 @@
+es:
+  teams:
+    show:
+      alignment: Alineación
+      changes: Fichajes
+    file_cart:
+      buying: Compra
+      checkout_cart: Confirmar negociaciones
+      checkout_cart_confirm: ¿Esta seguro de que desea confirmar todas las negociaciones?
+      checkouting_cart: Confirmando negociaciones...
+      empty_cart: Cancelar negociaciones
+      empty_cart_confirm: ¿Está seguro de que desea cancelar todas las negociaciones?
+      emptying_cart: Cancelando negociaciones...
+      negotiations: Negociaciones
+      selling: En venta
+    files_list:
+      activate_team: Activar equipo
+      activating_team: Activando...
+      activation_warning_title: Cuidado, tu equipo no está activo
+      activation_warning_description: Necesitas completar todos los jugadores para activar tu equipo. Mientras no esté activo, el equipo no puntua.
+      buy_player: Comprar jugador
+      changes: Cambios
+      could_activate_title: ¡Ya puedes activar tu equipo!
+      could_activate_description: Tu equipo ya cumple las condiciones necesarias para activarse.
+        Una vez el equipo esté activo, comenzará a acumular puntos y sólo podrás realizar 3 cambios por jornada.
+      no_files_yet: No tienes jugadores
+      players_needed_at_least: Necesitas por lo menos
+      remaining_files:
+        one: Aún tienes un fichaje disponible.
+        other: Aún tienes %{count} fichajes disponibles.
+    team_info:
+      inactive: Inactivo
+    search_form:
+      search: Buscar
+      searching: Buscando...
+      value_gteq: de precio mayor que
+      value_lteq: y menor
+  team_files:
+    team_file:
+      sell_player: Vender jugador
+      sell_confirm: ¿Esta seguro de vender a %{player_name}?

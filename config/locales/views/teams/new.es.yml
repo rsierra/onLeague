@@ -1,0 +1,7 @@
+es:
+  teams:
+    new:
+      create_team: Crear equipo
+      create: Crear
+      creating: Creando...
+      name_placeholder: Dale un nombre a tu equipo...

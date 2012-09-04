@@ -1,0 +1,15 @@
+es:
+  games:
+    show:
+      events: Eventos
+    show_seo:
+      description: Goles, cambios, tarjetas y puntuaciones de los jugadores
+                  del partido entre %{club_home} y %{club_away}
+                  de la %{league} en la %{season}, %{week}
+    event:
+      substitution: Entra %{in} por %{out}
+      assistant: "a pase de %{name}"
+      own: "%{name} en propia puerta"
+      penalty: "%{name} de penalti"
+      penalty_saved: "Detienen el penalti de %{name}"
+      penalty_out: "%{name} falla un penalti"

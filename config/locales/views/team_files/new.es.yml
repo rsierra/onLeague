@@ -1,0 +1,8 @@
+es:
+  team_files:
+    club_file:
+      buy_player: Comprar jugador
+    search_form:
+      search: Buscar
+      value_gteq: de precio mayor que
+      value_lteq: y menor

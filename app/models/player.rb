@@ -15,6 +15,7 @@ class Player < ActiveRecord::Base
   has_many :direct_red_cards, :class_name => 'Card', :conditions => { kind: 'direct_red' }
   has_many :substitutions_out, :class_name => 'Substitution', foreign_key: :player_out_id
   has_many :substitutions_in, :class_name => 'Substitution', foreign_key: :player_in_id
+  has_many :marks, :class_name => 'GameMark'
   has_many :stats, :class_name => 'PlayerStat'
 
   extend FriendlyId
@@ -54,13 +55,17 @@ class Player < ActiveRecord::Base
     stat.blank? ? 0 : stat.minutes_played
   end
 
+  def club_file_on_date(date=Date.today)
+    club_files.on(date).first
+  end
+
   def club_on_date(date=Date.today)
-    club_file = club_files.on(date).first
+    club_file = club_file_on_date date
     club_file.blank? ? nil : club_file.club
   end
 
   def position_on_date(date=Date.today)
-    club_file = club_files.on(date).first
+    club_file = club_file_on_date date
     club_file.blank? ? nil : club_file.version_at(date).position
   end
 
@@ -74,5 +79,22 @@ class Player < ActiveRecord::Base
 
   def week_stats(stat,league, season=league.season, week=league.week)
     stats.in_league(league).season(season).week(week).sum(stat)
+  end
+
+  def season_average_stats(stat,league, season=league.season)
+    games_played = season_stats(:games_played,league)
+    games_played.zero? ? 0 : season_stats(stat,league) / games_played
+  end
+
+  def played_on_league? league, time = Time.now
+    file.club.played_on_league? league, time
+  end
+
+  def last_game_on_league league
+    club.last_game_on_league league
+  end
+
+  def next_game_on_league league
+    club.next_game_on_league league
   end
 end

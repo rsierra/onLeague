@@ -1,5 +1,7 @@
 class Game < ActiveRecord::Base
   STATUS_TYPES = %w(active inactive evaluated revised closed)
+  TIME_BEFORE = 30.minutes
+  TIME_AFTER = 120.minutes
 
   STATUS_TRANSITIONS = {
     'active' => ['evaluated','inactive'],
@@ -30,6 +32,8 @@ class Game < ActiveRecord::Base
   accepts_nested_attributes_for :cards
   has_many :substitutions
   accepts_nested_attributes_for :substitutions
+  has_many :marks, class_name: 'GameMark'
+  accepts_nested_attributes_for :marks
 
   extend FriendlyId
   friendly_id :custom_slug, use: :slugged
@@ -56,6 +60,16 @@ class Game < ActiveRecord::Base
   scope :week, ->(week) { where week: week }
   scope :season, ->(season) { where season: season }
   scope :not_closeables, where("status = 'active' OR status = 'evaluated'")
+  scope :evaluated, where(status: %w(evaluated revised closed))
+  scope :of_club, ->(club_id) { where(["games.club_home_id = ? OR games.club_away_id = ?", club_id, club_id])}
+  scope :on_league, ->(league_id) { where(league_id: league_id) }
+  scope :playing, ->(time = Time.now) { where(date: (time - TIME_AFTER)..(time + TIME_BEFORE))}
+  scope :last_week, joins("INNER JOIN leagues ON leagues.id = games.league_id AND leagues.season = games.season AND leagues.week - 1 = games.week")
+  scope :nexr_week, joins("INNER JOIN leagues ON leagues.id = games.league_id AND leagues.season = games.season AND leagues.week + 1 = games.week")
+  scope :current_week, joins("INNER JOIN leagues ON leagues.id = games.league_id AND leagues.season = games.season AND leagues.week = games.week")
+  scope :played, ->(time = Time.now) {
+        current_week
+        .where(["games.date <= ?",time + TIME_BEFORE]) }
 
   before_save :trigger_status_events  , if: 'status_changed? && !new_record?'
 
@@ -71,6 +85,14 @@ class Game < ActiveRecord::Base
     Game.status.values
   end
 
+  def season_name
+    "#{Game.human_attribute_name(:season)} #{season}"
+  end
+
+  def week_name
+    "#{Game.human_attribute_name(:week)} #{week}"
+  end
+
   def play_himself?
     club_home == club_away
   end
@@ -83,12 +105,83 @@ class Game < ActiveRecord::Base
     club_home.leagues.include? league
   end
 
+  def home_lineups_files
+    files_from home_lineups_players
+  end
+
+  def away_lineups_files
+    files_from away_lineups_players
+  end
+
+  def home_substitutions_files_in
+    files_from home_substitutions_players_in
+  end
+
+  def away_substitutions_files_in
+    files_from away_substitutions_players_in
+  end
+
+  def files_from players
+    ClubFile.of(players).on(date).order(:number).with_points_on_season_week(season,week)
+  end
+
+  def home_lineups_players
+    players_from home_lineups
+  end
+
+  def away_lineups_players
+    players_from away_lineups
+  end
+
+  def home_substitutions_players_in
+    players_from home_substitutions, :player_in
+  end
+
+  def away_substitutions_players_in
+    players_from away_substitutions, :player_in
+  end
+
+  def players_from events, player_kind = :player
+    events.includes(player_kind).map(&player_kind)
+  end
+
+  def home_lineups
+    home_events_from lineups
+  end
+
+  def away_lineups
+    away_events_from lineups
+  end
+
+  def home_substitutions
+    home_events_from substitutions
+  end
+
+  def away_substitutions
+    away_events_from substitutions
+  end
+
+  def home_events_from events
+    events.of_players(club_home.player_ids_on_date(date))
+  end
+
+  def away_events_from events
+    events.of_players(club_away.player_ids_on_date(date))
+  end
+
+  def events
+    game_events = substitutions + cards + goals
+    game_events.sort {|x,y| x.minute <=> y.minute }
+  end
+
   def home_goals
-    goals.of_scorers(club_home.player_ids_on_date(date)).count
+    goals.scored.of_scorers(club_home.player_ids_on_date(date)).count +
+    goals.owned.of_scorers(club_away.player_ids_on_date(date)).count
   end
 
   def away_goals
-    goals.of_scorers(club_away.player_ids_on_date(date)).count
+    goals.scored.of_scorers(club_away.player_ids_on_date(date)).count +
+    goals.owned.of_scorers(club_home.player_ids_on_date(date)).count
   end
 
   def winner_club
@@ -107,8 +200,12 @@ class Game < ActiveRecord::Base
     league.end_date_of_week(week,season)
   end
 
+  def is_visible?
+    status.closed? || status.revised? || status.evaluated?
+  end
+
   def result
-    status.closed? ? "#{home_goals} - #{away_goals}" : "-"
+    is_visible? ? "#{home_goals} - #{away_goals}" : "-"
   end
 
   def player_in_club_home? player

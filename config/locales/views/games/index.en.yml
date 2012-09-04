@@ -2,3 +2,6 @@ en:
   games:
     index:
       no_games_in_week: No games this week
+    index_seo:
+      results: Results
+      description: Dates and results of games of %{league} in %{season}, %{week}

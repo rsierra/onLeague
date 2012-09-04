@@ -1,0 +1,12 @@
+<% season = "#{Game.human_attribute_name(:season)} #{@season}" %>
+<% week = "#{Game.human_attribute_name(:week)} #{@week}" %>
+<% keywords = [Game.model_name.human.pluralize,
+                Game.human_attribute_name(:date).pluralize,
+                t('.results'),
+                season,
+                week] %>
+
+<title><%= Game.model_name.human.pluralize %> <%= @current_league.name %></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="<%= t('.description', league: @current_league.name, season: season, week: week) %>" />
+<meta name="keywords" content="<%= keywords.join(', ') %>" />

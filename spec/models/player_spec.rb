@@ -77,7 +77,7 @@ describe Player do
       let(:club_file) { create(:club_file, player: player)}
       subject { player }
 
-      its(:last_date_out) { should == club_file.date_out }
+      its(:last_date_out) { should eq club_file.date_out }
     end
 
     context "when have one club file with date out" do
@@ -86,7 +86,7 @@ describe Player do
       before { club_file.update_attributes(date_out: club_file.date_in.next) }
       subject { player }
 
-      its(:last_date_out) { should == club_file.date_out }
+      its(:last_date_out) { should eq club_file.date_out }
     end
 
     context "when have club file with date out and one current" do
@@ -98,7 +98,7 @@ describe Player do
       end
       subject { player }
 
-      its(:last_date_out) { should == club_file.date_out }
+      its(:last_date_out) { should eq club_file.date_out }
     end
   end
 
@@ -108,7 +108,7 @@ describe Player do
 
     before { player_active; player_inactive }
 
-    it { Player.active.should == [player_active] }
+    it { Player.active.should eq [player_active] }
   end
 
   context "when update stats" do
@@ -120,7 +120,7 @@ describe Player do
     subject { player.stats.season(game.season).week(game.week).first }
 
     it { should_not be_nil }
-    its(:points) { should eql points }
+    its(:points) { should eq points }
 
     context "and the player already has points" do
       let(:another_points) { 2 }
@@ -129,7 +129,7 @@ describe Player do
 
       it { player.should have(1).stats }
       it { should_not be_nil }
-      its(:points) { should eql points + another_points}
+      its(:points) { should eq points + another_points}
     end
 
     context "and remove stats" do
@@ -139,7 +139,7 @@ describe Player do
 
       it { player.should have(1).stats }
       it { should_not be_nil }
-      its(:points) { should eql points - another_points}
+      its(:points) { should eq points - another_points}
     end
   end
 
@@ -150,7 +150,7 @@ describe Player do
       let(:player) { create(:player_in_game, player_game: game) }
       subject { player }
 
-      it { player.minutes_played_in_game(game.id).should eql Player::MAX_MINUTES }
+      it { player.minutes_played_in_game(game.id).should eq Player::MAX_MINUTES }
     end
 
     context "in a not played game" do
@@ -168,10 +168,10 @@ describe Player do
     let(:club_file) { create(:club_file, player: player, club: club, date_in: date_in) }
     before { club_file }
 
-    it { player.club_on_date.should eql club }
+    it { player.club_on_date.should eq club }
     it { player.club_on_date(date_in - 1.day).should be_nil }
-    it { player.club_on_date(date_in).should eql club }
-    it { player.club_on_date(date_in + 1.day).should eql club }
+    it { player.club_on_date(date_in).should eq club }
+    it { player.club_on_date(date_in + 1.day).should eq club }
 
     context "and player changed club" do
       let(:new_club) { create(:club) }
@@ -184,11 +184,11 @@ describe Player do
        new_club_file.update_attributes(date_out: new_date_out)
       end
 
-      it { player.club_on_date(new_date_in - 1.day).should eql club }
-      it { player.club_on_date(new_date_in).should eql new_club }
-      it { player.club_on_date(new_date_in + 1.day).should eql new_club }
-      it { player.club_on_date(new_date_out - 1.day).should eql new_club }
-      it { player.club_on_date(new_date_out).should eql new_club }
+      it { player.club_on_date(new_date_in - 1.day).should eq club }
+      it { player.club_on_date(new_date_in).should eq new_club }
+      it { player.club_on_date(new_date_in + 1.day).should eq new_club }
+      it { player.club_on_date(new_date_out - 1.day).should eq new_club }
+      it { player.club_on_date(new_date_out).should eq new_club }
       it { player.club_on_date(new_date_out + 1.day).should be_nil }
     end
   end
@@ -207,12 +207,12 @@ describe Player do
     it { player.week_stats(:points, another_league).should be_zero  }
     it { player.week_stats(:goals_scored, another_league).should be_zero  }
 
-    it { player.league_stats(:points, league).should eql player_stat.points  }
-    it { player.league_stats(:goals_scored, league).should eql player_stat.goals_scored  }
-    it { player.season_stats(:points, league).should eql player_stat.points }
-    it { player.season_stats(:goals_scored, league).should eql player_stat.goals_scored  }
-    it { player.week_stats(:points, league).should eql player_stat.points  }
-    it { player.week_stats(:goals_scored, league).should eql player_stat.goals_scored  }
+    it { player.league_stats(:points, league).should eq player_stat.points  }
+    it { player.league_stats(:goals_scored, league).should eq player_stat.goals_scored  }
+    it { player.season_stats(:points, league).should eq player_stat.points }
+    it { player.season_stats(:goals_scored, league).should eq player_stat.goals_scored  }
+    it { player.week_stats(:points, league).should eq player_stat.points  }
+    it { player.week_stats(:goals_scored, league).should eq player_stat.goals_scored  }
 
     context "with games in diferent seasons" do
       let(:another_game) { create(:game, league: league, season: league.season + 1, week: league.week)}
@@ -220,12 +220,12 @@ describe Player do
       before { another_player_stat }
       subject { player }
 
-      it { player.league_stats(:points, league).should eql player_stat.points + another_player_stat.points  }
-      it { player.league_stats(:goals_scored, league).should eql player_stat.goals_scored + another_player_stat.goals_scored  }
-      it { player.season_stats(:points, league).should eql player_stat.points }
-      it { player.season_stats(:goals_scored, league).should eql player_stat.goals_scored  }
-      it { player.season_stats(:points, league, another_game.season).should eql another_player_stat.points }
-      it { player.season_stats(:goals_scored, league, another_game.season).should eql another_player_stat.goals_scored  }
+      it { player.league_stats(:points, league).should eq player_stat.points + another_player_stat.points  }
+      it { player.league_stats(:goals_scored, league).should eq player_stat.goals_scored + another_player_stat.goals_scored  }
+      it { player.season_stats(:points, league).should eq player_stat.points }
+      it { player.season_stats(:goals_scored, league).should eq player_stat.goals_scored  }
+      it { player.season_stats(:points, league, another_game.season).should eq another_player_stat.points }
+      it { player.season_stats(:goals_scored, league, another_game.season).should eq another_player_stat.goals_scored  }
     end
 
     context "with games in diferent weeks" do
@@ -234,12 +234,12 @@ describe Player do
       before { another_player_stat }
       subject { player }
 
-      it { player.league_stats(:points, league).should eql player_stat.points + another_player_stat.points  }
-      it { player.league_stats(:goals_scored, league).should eql player_stat.goals_scored + another_player_stat.goals_scored  }
-      it { player.week_stats(:points, league).should eql player_stat.points }
-      it { player.week_stats(:goals_scored, league).should eql player_stat.goals_scored  }
-      it { player.week_stats(:points, league, another_game.season, another_game.week).should eql another_player_stat.points }
-      it { player.week_stats(:goals_scored, league, another_game.season, another_game.week).should eql another_player_stat.goals_scored  }
+      it { player.league_stats(:points, league).should eq player_stat.points + another_player_stat.points  }
+      it { player.league_stats(:goals_scored, league).should eq player_stat.goals_scored + another_player_stat.goals_scored  }
+      it { player.week_stats(:points, league).should eq player_stat.points }
+      it { player.week_stats(:goals_scored, league).should eq player_stat.goals_scored  }
+      it { player.week_stats(:points, league, another_game.season, another_game.week).should eq another_player_stat.points }
+      it { player.week_stats(:goals_scored, league, another_game.season, another_game.week).should eq another_player_stat.goals_scored  }
     end
   end
 
@@ -251,17 +251,17 @@ describe Player do
     let(:club_file) { create(:club_file, player: player, club: club, date_in: date_in, position: position) }
     before { club_file }
 
-    it { player.position_on_date.should eql position }
+    it { player.position_on_date.should eq position }
     it { player.position_on_date(date_in - 1.day).should be_nil }
-    it { player.position_on_date(date_in).should eql position }
-    it { player.position_on_date(date_in + 1.day).should eql position }
+    it { player.position_on_date(date_in).should eq position }
+    it { player.position_on_date(date_in + 1.day).should eq position }
 
     context "and change position" do
       let(:new_position) { 'forward' }
       before { club_file.update_attributes(position: new_position) }
 
-      it { player.position_on_date(Date.yesterday).should eql position }
-      it { player.position_on_date(Date.tomorrow).should eql new_position }
+      it { player.position_on_date(Date.yesterday).should eq position }
+      it { player.position_on_date(Date.tomorrow).should eq new_position }
     end
 
     context "and player changed club" do
@@ -276,12 +276,35 @@ describe Player do
        new_club_file.update_attributes(date_out: new_date_out)
       end
 
-      it { player.position_on_date(new_date_in - 1.day).should eql position }
-      it { player.position_on_date(new_date_in).should eql new_position }
-      it { player.position_on_date(new_date_in + 1.day).should eql new_position }
-      it { player.position_on_date(new_date_out - 1.day).should eql new_position }
-      it { player.position_on_date(new_date_out).should eql new_position }
+      it { player.position_on_date(new_date_in - 1.day).should eq position }
+      it { player.position_on_date(new_date_in).should eq new_position }
+      it { player.position_on_date(new_date_in + 1.day).should eq new_position }
+      it { player.position_on_date(new_date_out - 1.day).should eq new_position }
+      it { player.position_on_date(new_date_out).should eq new_position }
       it { player.position_on_date(new_date_out + 1.day).should be_nil }
+    end
+  end
+
+  describe "when player played" do
+    let(:date_time) { DateTime.now }
+    let(:league) { create(:league) }
+    let(:club) { create(:club, leagues: [league]) }
+    let(:game) { create(:game, league: league, club_home: club, date: date_time) }
+    let(:player) { create(:player_in_game, player_game: game) }
+    before { player }
+    subject { player }
+
+    its(:played?) { should be_true }
+    it { player.played?(date_time - Game::TIME_BEFORE - 1.hour).should be_false }
+    it { player.played?(date_time - Game::TIME_BEFORE).should be_true }
+    it { player.played?(date_time).should be_true }
+    it { player.played?(date_time + Game::TIME_AFTER).should be_true }
+    it { player.played?(date_time + Game::TIME_AFTER + 1.hour).should be_true }
+
+    context "in next week" do
+      before { league.update_attributes(week: league.week + 1) }
+
+      its(:played?) { should be_false }
     end
   end
 end

@@ -14,3 +14,9 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require jquery.grayscale
+//= require_self
+
+$("a[rel=popover]").popover()
+$(".tooltip").tooltip()
+$(".tooltip_button").tooltip()
+$("a[rel=tooltip]").tooltip()

@@ -1,0 +1,124 @@
+//---------------------------------------------------------
+// GAMES
+
+#games_index {
+  .week-selector {
+    text-align: center;
+
+    span#season-label, span#week-label {
+      font-weight: bolder;
+      margin: 0 5px;
+      font-size: 1.2em;
+    }
+  }
+
+  .pagination {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .btn-group {
+    vertical-align: middle;
+    display: inline-block;
+  }
+
+  .table {
+    width: 90%;
+    margin: auto;
+
+    td, th {
+      padding: 3px;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    th {
+      font-size: 1.2em;
+      padding-bottom: 5px;
+    }
+
+    td {
+      font-size: 1.1em;
+    }
+
+    td.result {
+      font-family: @numberFont;
+      font-size: 1.5em;
+    }
+  }
+}
+
+#game_show {
+  h3.sub-dotted {
+    text-align: center;
+    color: @greenDarker;
+    margin-bottom: 20px;
+    border-bottom: 1px @greenDarker dotted;
+  }
+
+  #game_scorer {
+    text-align: center;
+
+    #scorer {
+      display: inline-block;
+      margin: auto;
+      font-size: 2em;
+
+      .club {
+        display: inline-block;
+        vertical-align: middle;
+        img {
+          display: block;
+        }
+        a {
+          text-decoration: none;
+        }
+      }
+
+      #result {
+        display: inline-block;
+        vertical-align: middle;
+        font-family: @numberFont;
+        font-size: 2em;
+      }
+    }
+
+    #game_date {
+      margin: 15px 15%;
+      border-top: 1px @grayLight solid;
+      padding-top: 5px;
+      font-size: 1em;
+      color: @grayLight;
+      span {
+        display: block;
+      }
+      clear: both;
+    }
+  }
+
+  .table {
+    td {
+      padding: 3px;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    td.column-minute, td.column-icon {
+      min-width: 20px;
+    }
+
+    @text-column-padding: 5px;
+    @text-column-width: 50%;
+    td.column-home {
+      width: @text-column-width;
+      padding-right: @text-column-padding;
+      text-align: right;
+    }
+
+    td.column-away {
+      width: @text-column-width;
+      padding-left: @text-column-padding;
+      text-align: left;
+    }
+  }
+}

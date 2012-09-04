@@ -70,6 +70,19 @@ OnLeague::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+
+  ActionMailer::Base.smtp_settings = {
+    :address        => 'smtp.sendgrid.net',
+    :port           => '587',
+    :authentication => :plain,
+    :user_name      => ENV['SENDGRID_USERNAME'],
+    :password       => ENV['SENDGRID_PASSWORD'],
+    :domain         => 'heroku.com'
+  }
+
+  ActionMailer::Base.delivery_method = :smtp
+
+  config.action_mailer.default_url_options = { :host => 'onleague.org' }
 end
 
 # S3 AWS-SDK FIX
@@ -87,3 +100,25 @@ Paperclip::Attachment.default_options.merge!({
   :path => "system/:class/:attachment/:id/:style/:filename",
   :url  => ":s3_eu_url"
 })
+
+# Social networks APIs configurations
+GooglePlus.api_key = ENV['GOOGLE_API_KEY']
+
+Twitter.configure do |config|
+  config.consumer_key = ENV['TWITTER_KEY']
+  config.consumer_secret = ENV['TWITTER_SECRET']
+end
+
+Koala::Facebook::OAuth.class_eval do
+  def initialize_with_default_settings(*args)
+    case args.size
+      when 0, 1
+        raise "application id and/or secret are not specified in the config" unless ENV['FACEBOOK_KEY'] && ENV['FACEBOOK_SECRET']
+        initialize_without_default_settings(ENV['FACEBOOK_KEY'], ENV['FACEBOOK_SECRET'], args.first)
+      when 2, 3
+        initialize_without_default_settings(*args)
+    end
+  end
+
+  alias_method_chain :initialize, :default_settings
+end

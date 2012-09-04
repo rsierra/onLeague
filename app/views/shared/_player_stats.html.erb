@@ -1,0 +1,38 @@
+<div class="player-stats">
+  <table class="table-bordered">
+
+    <thead>
+      <tr>
+        <th><span class="event-icon goal"></span></th>
+        <th><span class="event-icon assist"></span></th>
+        <th><span class="event-icon yellow-card"></span></th>
+        <th><span class="event-icon direct-red-card"></span></th>
+        <% if goalkeeper %>
+        <th><span class="event-icon goal-conceded"></span></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= player_stats.season_stats(:goals_scored,@current_league) %></td>
+        <td><%= player_stats.season_stats(:assists,@current_league) %></td>
+        <td><%= player_stats.season_stats(:yellow_cards,@current_league) %></td>
+        <td><%= player_stats.season_stats(:red_cards,@current_league) %></td>
+        <% if goalkeeper %>
+        <td><%= player_stats.season_stats(:goals_conceded,@current_league) %></td>
+        <% end %>
+      </tr>
+    </tbody>
+  </table>
+
+  <dl class="dl-horizontal">
+    <dt><%= PlayerStat.human_attribute_name(:games_played) %></dt>
+    <dd><%= player_stats.season_stats(:games_played,@current_league) %></dd>
+    <dt><%= PlayerStat.human_attribute_name(:lineups) %></dt>
+    <dd><%= player_stats.season_stats(:lineups,@current_league) %></dd>
+    <dt><%= PlayerStat.human_attribute_name(:minutes_played_per_game) %></dt>
+    <dd><%= player_stats.season_average_stats(:minutes_played,@current_league) %>'</dd>
+    <dt><%= PlayerStat.human_attribute_name(:points_per_game) %></dt>
+    <dd><%= player_stats.season_average_stats(:points,@current_league) %></dd>
+  </dl>
+</div>

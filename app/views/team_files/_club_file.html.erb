@@ -1,0 +1,21 @@
+<% reasons = @team.player_not_buyable_reasons club_file %>
+<% buyable = reasons.empty? %>
+<tr class="<%= club_file.position %> <%= 'not-buyable' unless buyable %>">
+  <%= render partial: 'shared/file_row', object: club_file %>
+  <td>
+     <%= image_tag club_file.club.logo.url(:thumb),
+                    alt: "#{club_file.club.name} #{Club.human_attribute_name(:logo)}" %>
+  </td>
+  <td>
+    <% if buyable %>
+      <%= form_for @team, url: team_create_file_path(@team), method: :post,
+            remote: true, html: { class: 'add-remote-search' } do |f| %>
+        <%= hidden_field_tag :club_file_id, club_file.id %>
+        <%= image_submit_tag 'icons/pay-icon.png', alt: t('.buy_player'),
+              class: 'tooltip_button', title: t('.buy_player') %>
+      <% end %>
+    <% else %>
+      <%= image_tag 'icons/error.png', class: 'tooltip_button', title: reasons.to_sentence.capitalize %>
+    <% end %>
+  </td>
+</tr>

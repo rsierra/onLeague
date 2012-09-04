@@ -13,15 +13,15 @@ describe Card do
 
       it { should be_valid }
       it { card.class.include?(Extensions::GameEvent).should be_true }
-      its(:player_relation) { should eql :player }
+      its(:player_relation) { should eq :player }
       its(:player) { should have(1).stats }
 
       context "the player stats" do
         let(:player_stat) { card.player.stats.season(card.game.season).week(card.game.week).first }
         subject { player_stat }
 
-        its(:points) { should eql Lineup::STATS[:points] + card.card_stats[:points] }
-        its(:yellow_cards) { should eql card.card_stats[:yellow_cards] }
+        its(:points) { should eq Lineup::STATS[:points] + card.card_stats[:points] }
+        its(:yellow_cards) { should eq card.card_stats[:yellow_cards] }
         its(:red_cards) { should be_zero }
       end
 
@@ -42,14 +42,14 @@ describe Card do
         before { last_player_stat; card.update_attributes(kind: new_kind) }
         subject { new_player_stat }
 
-        its(:minutes_played) { should eql card.minute }
-        its(:minutes_played) { should eql last_player_stat.minutes_played + card.card_stats[:minutes_played] }
-        its(:points) { should eql -1 }
-        its(:points) { should eql last_player_stat.points - Card::STATS_YELLOW[:points] + Card::STATS_DIRECT_RED[:points] }
-        its(:yellow_cards) { should eql 0 }
-        its(:yellow_cards) { should eql last_player_stat.yellow_cards - Card::STATS_YELLOW[:yellow_cards] }
-        its(:red_cards) { should eql 1 }
-        its(:red_cards) { should eql last_player_stat.red_cards + Card::STATS_DIRECT_RED[:red_cards] }
+        its(:minutes_played) { should eq card.minute }
+        its(:minutes_played) { should eq last_player_stat.minutes_played + card.card_stats[:minutes_played] }
+        its(:points) { should eq -1 }
+        its(:points) { should eq last_player_stat.points - Card::STATS_YELLOW[:points] + Card::STATS_DIRECT_RED[:points] }
+        its(:yellow_cards) { should eq 0 }
+        its(:yellow_cards) { should eq last_player_stat.yellow_cards - Card::STATS_YELLOW[:yellow_cards] }
+        its(:red_cards) { should eq 1 }
+        its(:red_cards) { should eq last_player_stat.red_cards + Card::STATS_DIRECT_RED[:red_cards] }
       end
 
       context "and change minute" do
@@ -59,7 +59,7 @@ describe Card do
         before { last_player_stat; card.update_attributes(minute: new_minute) }
         subject { new_player_stat }
 
-        it { should eql last_player_stat }
+        it { should eq last_player_stat }
       end
 
       context "and change player" do
@@ -72,8 +72,8 @@ describe Card do
           let(:last_player_stat) { last_player.stats.season(card.game.season).week(card.game.week).first }
           subject { last_player_stat }
 
-          its(:points) { should eql 2 }
-          its(:points) { should eql Lineup::STATS[:points] }
+          its(:points) { should eq 2 }
+          its(:points) { should eq Lineup::STATS[:points] }
           its(:yellow_cards) { should be_zero }
           its(:red_cards) { should be_zero }
         end
@@ -82,8 +82,8 @@ describe Card do
           let(:new_player_stat) { new_player.stats.season(card.game.season).week(card.game.week).first }
           subject { new_player_stat }
 
-          its(:points) { should eql Lineup::STATS[:points] + card.card_stats[:points] }
-          its(:yellow_cards) { should eql Card::STATS_YELLOW[:yellow_cards] }
+          its(:points) { should eq Lineup::STATS[:points] + card.card_stats[:points] }
+          its(:yellow_cards) { should eq Card::STATS_YELLOW[:yellow_cards] }
           its(:red_cards) { should be_zero }
         end
       end
@@ -93,8 +93,8 @@ describe Card do
         before { player_stat; card.destroy }
         subject { player_stat.reload }
 
-        its(:points) { should eql 2 }
-        its(:points) { should eql Lineup::STATS[:points] }
+        its(:points) { should eq 2 }
+        its(:points) { should eq Lineup::STATS[:points] }
         its(:yellow_cards) { should be_zero }
         its(:red_cards) { should be_zero }
       end
@@ -106,7 +106,7 @@ describe Card do
 
       it { should be_valid }
       it { card.class.include?(Extensions::GameEvent).should be_true }
-      its(:player_relation) { should eql :player }
+      its(:player_relation) { should eq :player }
       its(:player) { should have(1).stats }
 
       context "the player stats" do
@@ -114,9 +114,9 @@ describe Card do
         subject { player_stat }
 
         its(:points) { should be_zero }
-        its(:red_cards) { should eql 1 }
-        its(:yellow_cards) { should eql 2 }
-        its(:minutes_played) { should eql card.minute }
+        its(:red_cards) { should eq 1 }
+        its(:yellow_cards) { should eq 2 }
+        its(:minutes_played) { should eq card.minute }
       end
 
       context "and change kind to yellow" do
@@ -136,14 +136,14 @@ describe Card do
         before { card; last_player_stat; card.update_attributes(kind: new_kind) }
         subject { new_player_stat }
 
-        its(:minutes_played) { should eql card.minute }
-        its(:minutes_played) { should eql last_player_stat.minutes_played }
-        its(:points) { should eql -2 }
-        its(:points) { should eql last_player_stat.points - Card::STATS_RED[:points] + Card::STATS_DIRECT_RED[:points] }
-        its(:yellow_cards) { should eql 1 }
-        its(:yellow_cards) { should eql last_player_stat.yellow_cards - Card::STATS_RED[:yellow_cards] }
-        its(:red_cards) { should eql 1 }
-        its(:red_cards) { should eql last_player_stat.red_cards }
+        its(:minutes_played) { should eq card.minute }
+        its(:minutes_played) { should eq last_player_stat.minutes_played }
+        its(:points) { should eq -2 }
+        its(:points) { should eq last_player_stat.points - Card::STATS_RED[:points] + Card::STATS_DIRECT_RED[:points] }
+        its(:yellow_cards) { should eq 1 }
+        its(:yellow_cards) { should eq last_player_stat.yellow_cards - Card::STATS_RED[:yellow_cards] }
+        its(:red_cards) { should eq 1 }
+        its(:red_cards) { should eq last_player_stat.red_cards }
       end
 
       context "and change minute" do
@@ -153,11 +153,11 @@ describe Card do
         before { last_player_stat; card.update_attributes(minute: new_minute) }
         subject { new_player_stat }
 
-        its(:points) { should eql last_player_stat.points }
-        its(:red_cards) { should eql last_player_stat.red_cards }
-        its(:yellow_cards) { should eql last_player_stat.yellow_cards }
-        its(:minutes_played) { should_not eql last_player_stat.minutes_played }
-        its(:minutes_played) { should eql card.minute }
+        its(:points) { should eq last_player_stat.points }
+        its(:red_cards) { should eq last_player_stat.red_cards }
+        its(:yellow_cards) { should eq last_player_stat.yellow_cards }
+        its(:minutes_played) { should_not eq last_player_stat.minutes_played }
+        its(:minutes_played) { should eq card.minute }
       end
 
       context "and change player" do
@@ -173,9 +173,9 @@ describe Card do
           let(:last_player_stat) { last_player.stats.season(card.game.season).week(card.game.week).first }
           subject { last_player_stat }
 
-          its(:points) { should eql 1 }
-          its(:points) { should eql Lineup::STATS[:points] + Card::STATS_YELLOW[:points] }
-          its(:yellow_cards) { should eql 1 }
+          its(:points) { should eq 1 }
+          its(:points) { should eq Lineup::STATS[:points] + Card::STATS_YELLOW[:points] }
+          its(:yellow_cards) { should eq 1 }
           its(:red_cards) { should be_zero }
         end
 
@@ -183,10 +183,10 @@ describe Card do
           let(:new_player_stat) { new_player.stats.season(card.game.season).week(card.game.week).first }
           subject { new_player_stat }
 
-          its(:points) { should eql 0 }
-          its(:points) { should eql Lineup::STATS[:points] + Card::STATS_YELLOW[:points] + Card::STATS_RED[:points] }
-          its(:yellow_cards) { should eql 2 }
-          its(:red_cards) { should eql 1 }
+          its(:points) { should eq 0 }
+          its(:points) { should eq Lineup::STATS[:points] + Card::STATS_YELLOW[:points] + Card::STATS_RED[:points] }
+          its(:yellow_cards) { should eq 2 }
+          its(:red_cards) { should eq 1 }
         end
       end
 
@@ -195,9 +195,9 @@ describe Card do
         before { player_stat; card.destroy }
         subject { player_stat.reload }
 
-        its(:points) { should eql 1 }
-        its(:points) { should eql Lineup::STATS[:points] + Card::STATS_YELLOW[:points]}
-        its(:yellow_cards) { should eql 1 }
+        its(:points) { should eq 1 }
+        its(:points) { should eq Lineup::STATS[:points] + Card::STATS_YELLOW[:points]}
+        its(:yellow_cards) { should eq 1 }
         its(:red_cards) { should be_zero }
       end
     end
@@ -208,17 +208,17 @@ describe Card do
 
       it { should be_valid }
       it { card.class.include?(Extensions::GameEvent).should be_true }
-      its(:player_relation) { should eql :player }
+      its(:player_relation) { should eq :player }
       its(:player) { should have(1).stats }
 
       context "the player stats" do
         let(:player_stat) { card.player.stats.season(card.game.season).week(card.game.week).first }
         subject { player_stat }
 
-        its(:points) { should eql Lineup::STATS[:points] + card.card_stats[:points] }
-        its(:red_cards) { should eql 1 }
+        its(:points) { should eq Lineup::STATS[:points] + card.card_stats[:points] }
+        its(:red_cards) { should eq 1 }
         its(:yellow_cards) { should be_zero }
-        its(:minutes_played) { should eql card.minute }
+        its(:minutes_played) { should eq card.minute }
       end
 
       context "and change kind to yellow" do
@@ -228,10 +228,10 @@ describe Card do
         before { card; last_player_stat; card.update_attributes(kind: new_kind) }
         subject { new_player_stat }
 
-        its(:minutes_played) { should eql Player::MAX_MINUTES }
-        its(:points) { should eql 1 }
-        its(:points) { should eql last_player_stat.points - Card::STATS_DIRECT_RED[:points] + Card::STATS_YELLOW[:points] }
-        its(:yellow_cards) { should eql 1 }
+        its(:minutes_played) { should eq Player::MAX_MINUTES }
+        its(:points) { should eq 1 }
+        its(:points) { should eq last_player_stat.points - Card::STATS_DIRECT_RED[:points] + Card::STATS_YELLOW[:points] }
+        its(:yellow_cards) { should eq 1 }
         its(:red_cards) { should be_zero }
       end
 
@@ -245,12 +245,12 @@ describe Card do
         before { last_player_stat; card.update_attributes(kind: new_kind) }
         subject { new_player_stat }
 
-        its(:minutes_played) { should eql card.minute }
-        its(:minutes_played) { should eql last_player_stat.minutes_played }
-        its(:points) { should eql 0 }
-        its(:points) { should eql last_player_stat.points - Card::STATS_DIRECT_RED[:points] + Card::STATS_RED[:points] }
-        its(:yellow_cards) { should eql 2 }
-        its(:red_cards) { should eql 1 }
+        its(:minutes_played) { should eq card.minute }
+        its(:minutes_played) { should eq last_player_stat.minutes_played }
+        its(:points) { should eq 0 }
+        its(:points) { should eq last_player_stat.points - Card::STATS_DIRECT_RED[:points] + Card::STATS_RED[:points] }
+        its(:yellow_cards) { should eq 2 }
+        its(:red_cards) { should eq 1 }
       end
 
       context "and change minute" do
@@ -260,11 +260,11 @@ describe Card do
         before { last_player_stat; card.update_attributes(minute: new_minute) }
         subject { new_player_stat }
 
-        its(:points) { should eql last_player_stat.points }
-        its(:red_cards) { should eql last_player_stat.red_cards }
-        its(:yellow_cards) { should eql last_player_stat.yellow_cards }
-        its(:minutes_played) { should_not eql last_player_stat.minutes_played }
-        its(:minutes_played) { should eql card.minute }
+        its(:points) { should eq last_player_stat.points }
+        its(:red_cards) { should eq last_player_stat.red_cards }
+        its(:yellow_cards) { should eq last_player_stat.yellow_cards }
+        its(:minutes_played) { should_not eq last_player_stat.minutes_played }
+        its(:minutes_played) { should eq card.minute }
       end
 
       context "and change player" do
@@ -277,8 +277,8 @@ describe Card do
           let(:last_player_stat) { last_player.stats.season(card.game.season).week(card.game.week).first }
           subject { last_player_stat }
 
-          its(:points) { should eql 2 }
-          its(:points) { should eql Lineup::STATS[:points] }
+          its(:points) { should eq 2 }
+          its(:points) { should eq Lineup::STATS[:points] }
           its(:yellow_cards) { should be_zero }
           its(:red_cards) { should be_zero }
         end
@@ -287,10 +287,10 @@ describe Card do
           let(:new_player_stat) { new_player.stats.season(card.game.season).week(card.game.week).first }
           subject { new_player_stat }
 
-          its(:points) { should eql -1 }
-          its(:points) { should eql Lineup::STATS[:points] + Card::STATS_DIRECT_RED[:points] }
+          its(:points) { should eq -1 }
+          its(:points) { should eq Lineup::STATS[:points] + Card::STATS_DIRECT_RED[:points] }
           its(:yellow_cards) { should be_zero }
-          its(:red_cards) { should eql 1 }
+          its(:red_cards) { should eq 1 }
         end
       end
 
@@ -299,8 +299,8 @@ describe Card do
         before { player_stat; card.destroy }
         subject { player_stat.reload }
 
-        its(:points) { should eql 2 }
-        its(:points) { should eql Lineup::STATS[:points] }
+        its(:points) { should eq 2 }
+        its(:points) { should eq Lineup::STATS[:points] }
         its(:yellow_cards) { should be_zero }
         its(:red_cards) { should be_zero }
       end
@@ -313,10 +313,10 @@ describe Card do
         let(:player_stat) { card.player.stats.season(card.game.season).week(card.game.week).first }
         subject { player_stat }
 
-        its(:points) { should eql Substitution::STATS_IN[:points] + card.card_stats[:points] }
-        its(:red_cards) { should eql 1 }
+        its(:points) { should eq Substitution::STATS_IN[:points] + card.card_stats[:points] }
+        its(:red_cards) { should eq 1 }
         its(:yellow_cards) { should be_zero }
-        its(:minutes_played) { should eql minute_red - minute_in }
+        its(:minutes_played) { should eq minute_red - minute_in }
       end
 
       describe "a duplicated" do
@@ -391,7 +391,7 @@ describe Card do
 
     before { card; red_card }
 
-    it { Card.red.should == [red_card] }
+    it { Card.red.should eq [red_card] }
   end
 
   context "when get cards in a game" do
@@ -401,8 +401,8 @@ describe Card do
 
     before { card; red_card; direct_red_card }
 
-    it { Card.in_game(card.game).should == [card] }
-    it { Card.red.in_game(red_card.game).should == [red_card] }
-    it { Card.in_game(direct_red_card.game).should == [direct_red_card] }
+    it { Card.in_game(card.game).should eq [card] }
+    it { Card.red.in_game(red_card.game).should eq [red_card] }
+    it { Card.in_game(direct_red_card.game).should eq [direct_red_card] }
   end
 end

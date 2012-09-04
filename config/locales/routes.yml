@@ -7,6 +7,10 @@ es:
     new: nuevo
     edit: editar
     change: cambiar
+    search: buscar
+    activate: activar
+    create_file: fichar
+    destroy_file: vender
     # Devise
     admins: administradores
     users: usuarios
@@ -19,3 +23,6 @@ es:
     leagues: ligas
     clubs: clubs
     games: partidos
+    teams: equipos
+    team_files: fichajes
+    club_files: ficha_de_club

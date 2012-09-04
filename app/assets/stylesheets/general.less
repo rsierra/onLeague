@@ -1,0 +1,256 @@
+//---------------------------------------------------------
+// GENERAL
+
+input[type="image"] {
+  width: auto;
+}
+
+.jersey-thumb, .jersey-normal {
+  display: inline-block;
+  position: relative;
+
+  span {
+    font-family: @numberFont;
+    font-size: 1.3em;
+    position: absolute;
+    text-align: center;
+    top: 0.4em;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+  }
+}
+
+.jersey-normal {
+  span {
+    font-size: 2.7em;
+    top: 0.7em;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+  }
+}
+
+img.avatar {
+  width: 36px;
+  height: 36px;
+}
+
+//---------------------------------------------------------
+// EVENT ICONS
+
+.event-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 15px;
+  background: url('icons/events-icons.gif') no-repeat right center;
+}
+
+.goal-conceded {
+  background-position: -136px 50% !important;
+}
+
+.assist {
+  background-position: -111px 50% !important;
+}
+
+.substitution {
+  background-position: -88px 50% !important;
+}
+
+.goal {
+  background-position: -67px 50% !important;
+}
+
+.red-card {
+  background-position: -46px 50% !important;
+}
+
+.direct-red-card {
+  background-position: -23px 50% !important;
+}
+
+.yellow-card {
+  background-position: -2px 50% !important;
+}
+
+//---------------------------------------------------------
+// PLAYER INFO MODAL
+
+.modal-header {
+  h3 {
+    text-align: center;
+  }
+}
+
+.player-file-modal {
+  text-align: left;
+
+  .jersey-normal {
+    float: left;
+  }
+
+  dl {
+    margin-bottom: 10px;
+  }
+
+  dl.player-info {
+    display: inline-block;
+
+    dt {
+      width: 140px;
+    }
+
+    dd {
+      margin-left: 150px;
+    }
+  }
+
+  .player-points {
+    float: right;
+    text-align: center;
+    margin: 20px;
+
+    span {
+      font-family: @numberFont;
+      font-size: 4em;
+    }
+
+    h3 {
+      border-top: 1px black solid;
+      margin-top: 5px;
+    }
+  }
+
+  .player-games {
+    margin: 0 0 0 105px;
+  }
+
+  .player-stats {
+    dl.dl-horizontal {
+      margin-left: 20px;
+    }
+
+    table {
+      vertical-align: middle;
+      width: 50%;
+      float: right;
+      margin-right: 20px;
+
+      th{
+        text-align: center;
+      }
+
+      td {
+        font-family: @numberFont;
+        font-size: 1.1em;
+      }
+    }
+  }
+}
+
+//---------------------------------------------------------
+// TABLES
+
+table.player-files {
+  td, th {
+    padding: 3px;
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  th {
+    font-size: 1.3em;
+    padding-bottom: 5px;
+  }
+
+  td {
+    font-size: 1.1em;
+
+    form {
+      margin: 0;
+      display: inline-block;
+    }
+  }
+
+
+  tr.goalkeeper {
+    td {
+      background-color: @grayLighter;
+    }
+  }
+
+  tr.defender {
+    td {
+      background-color: @successBackground;
+    }
+  }
+
+  tr.midfielder {
+    td {
+      background-color: @warningBackground;
+    }
+  }
+
+  tr.forward {
+    td {
+      background-color: @infoBackground;
+    }
+  }
+
+  tr.not-buyable {
+    td {
+      background-color: @errorBackground;
+    }
+  }
+}
+
+table.player-rank {
+    td {
+      padding: 3px;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    td.name {
+      width: 70%;
+      font-size: 1.1em;
+      font-weight: blod;
+    }
+
+    td.points {
+      width: 15%;
+      font-family: @numberFont;
+      font-size: 1.5em;
+    }
+  }
+
+//---------------------------------------------------------
+// LAYAOUT
+
+.navbar {
+  img.avatar {
+    margin-top: 3px;
+  }
+}
+
+#sign_in_modal.modal {
+  width: 582px;
+}
+
+#footer_grass {
+  display: block;
+  clear: both;
+  height: 42px;
+  margin-top: 40px;
+  background: url(footer_grass.png) repeat-x top left;
+}
+
+footer {
+  padding: 15px 200px;
+  border-top: 10px solid @green;
+  text-align: right;
+  color: @white;
+  #gradient > .vertical(#9e211a, #ee5f5b);
+}

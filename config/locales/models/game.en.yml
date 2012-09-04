@@ -15,6 +15,7 @@ en:
         league: League
         league_id: League
         lineups: Lineups
+        marks: Marks
         name: Name
         season: Season
         status: Status
@@ -42,3 +43,4 @@ en:
         closed: Closed
         evaluated: Evaluated
         inactive: Inactive
+        revised: Revised

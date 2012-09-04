@@ -1,0 +1,76 @@
+<div id="team_files_list">
+  <% if flash[:js_notice] %>
+  <div class="alert alert-success fade in">
+    <a class="close fade" data-dismiss="alert" href="#">x</a>
+    <i class="icon-ok"></i>
+    <%= flash[:js_notice] %>
+  </div>
+  <% end -%>
+
+  <% if flash[:js_error] %>
+  <div class="alert alert-error fade in">
+    <a class="close" data-dismiss="alert" href="#">x</a>
+    <i class="icon-warning-sign"></i>
+    <%= flash[:js_error] %>
+  </div>
+  <% end -%>
+
+  <%= render 'file_cart' if @team.file_cart %>
+
+  <% unless @team.active %>
+    <% if @team.could_activate? %>
+    <div id="could_activate" class="alert alert-block alert-success fade in">
+      <h4><%= t '.could_activate_title' %></h4>
+      <p><%= t '.could_activate_description' %></p>
+      <%= button_to t('.activate_team'), team_activate_path(@team), class: "btn btn-primary",
+            'data-disable-with' => t('.activating_team') %>
+    </div>
+    <% else %>
+      <div id="activation_warning" class="alert alert-block alert-warning fade in">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h4><%= t '.activation_warning_title' %></h4>
+        <p><%= t '.activation_warning_description' %></p>
+        <% if @team.remaining_files? %>
+        <p>
+          <%= t('.remaining_files', count: @team.remaining_files ) %><br/>
+          <%= players_needed @team %>
+        </p>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div id="team_files_info">
+    <span class="label label-success"><%= Team.human_attribute_name(:remaining_money) %></span>
+    <span class="million"><%= number_to_human(@team.remaining_money_million) %></span>
+
+    <span class="label label-success"><%= Team.human_attribute_name(:formation) %></span>
+    <span class="formation"><%= @team.formation %></span>
+
+    <% if @team.active %>
+      <span class="label label-success"><%= Team.human_attribute_name(:remaining_changes) %></span>
+      <span class="changes"><%= @team.remaining_changes %></span>
+    <% end %>
+  </div>
+
+  <% if files_list.empty? %>
+    <%= t('.no_files_yet') %>
+  <% else %>
+  <table class="table table-striped player-files">
+    <thead>
+      <tr>
+        <th></th>
+        <th><%= Player.human_attribute_name(:name) %></th>
+        <th><%= ClubFile.human_attribute_name(:position).first(3) %></th>
+        <th><%= ClubFile.human_attribute_name(:value) %></th>
+        <th><%= PlayerStat.human_attribute_name(:points_tot_last) %></th>
+        <th><%= Country.model_name.human %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render files_list %>
+    </tbody>
+  </table>
+  <% end %>
+</div>

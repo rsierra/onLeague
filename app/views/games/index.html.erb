@@ -1,7 +1,11 @@
+<% content_for :seo_metas do %>
+  <%= render partial: 'index_seo' %>
+<% end %>
+
 <div class="row">
   <div id="games_index" class="span12">
     <h1>
-      <%= t Game.model_name.human.pluralize %>
+      <%= Game.model_name.human.pluralize %>
       <%= @current_league.name %>
     </h1>
 
@@ -11,10 +15,11 @@
     </div>
     <% else %>
 
-      <div class="btn-toolbar">
+      <div class="week-selector">
+        <span id="season-label"><%= Game.human_attribute_name(:season) %></span>
         <div class="btn-group">
-          <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">
-            <%= "#{Game.human_attribute_name(:season)} #{@season}" %>
+          <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+            <%= @season %>
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
@@ -25,11 +30,11 @@
             <% end %>
           </ul>
         </div>
-
+        <span id="week-label"><%= Game.human_attribute_name(:week) %></span>
         <%= paginate @weeks, param_name: :week, :params => { :season => @season } %>
       </div>
 
-      <table class="table table-bordered table-striped">
+      <table class="table table-striped">
         <thead>
           <tr>
             <th><%= Game.human_attribute_name(:date) %></th>
@@ -38,21 +43,11 @@
             <th></th>
             <th></th>
             <th><%= Game.human_attribute_name(:club_away) %></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          <% @games.each do |game| %>
-          <tr>
-            <td><%= l_with_timezone game.date, format: :custom %></td>
-            <td><%= game.club_home.name %></td>
-            <td><%= image_tag game.club_home.logo.url(:thumb),
-                    alt: "#{game.club_home.name} #{Club.human_attribute_name(:logo)}" %></td>
-            <td><%= game.result %></td>
-            <td><%= image_tag game.club_away.logo.url(:thumb),
-                    alt: "#{game.club_away.name} #{Club.human_attribute_name(:logo)}" %></td>
-            <td><%= game.club_away.name %></td>
-          </tr>
-          <% end -%>
+          <%= render @games %>
         </tbody>
       </table>
 

@@ -1,0 +1,32 @@
+<div id="new_team_file" class="row span8 offset2">
+
+  <%= @team.name %>: <%= @team.remaining_money %>
+
+  <%= render 'search_form' %>
+
+  <%= render "shared/form_errors", object: @team_file %>
+
+  <div id="club_files_list">
+    <%= paginate @club_files, num_pages: @num_pages %>
+    <table class="table table-striped player-files">
+      <thead>
+        <tr>
+          <th><%= ClubFile.human_attribute_name(:number) %></th>
+          <th><%= Player.human_attribute_name(:name) %></th>
+          <th><%= ClubFile.human_attribute_name(:position) %></th>
+          <th><%= ClubFile.human_attribute_name(:value) %></th>
+          <th><%= PlayerStat.human_attribute_name(:points) %></th>
+          <th><%= Country.model_name.human %></th>
+          <th><%= Club.model_name.human %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render(partial: 'club_file', collection: @club_files) || t('.no_results') %>
+      </tbody>
+    </table>
+    <%= paginate @club_files, num_pages: @num_pages %>
+  </div>
+
+</div>
+

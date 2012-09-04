@@ -1,34 +1,19 @@
 <div id="club_show" class="row">
-  <h1><%= @club.name %> (<%= @club.short_name %>)</h1>
+  <h1><%= @club.name %></h1>
   <div id="club_files" class="span5">
-    <h2><%= Player.model_name.human.pluralize %></h2>
-    <table class="table table-bordered table-striped">
+    <table class="table table-striped player-files">
       <thead>
         <tr>
           <th><%= ClubFile.human_attribute_name(:number) %></th>
           <th><%= Player.human_attribute_name(:name) %></th>
           <th><%= ClubFile.human_attribute_name(:position) %></th>
           <th><%= ClubFile.human_attribute_name(:value) %></th>
-          <th><%= ClubFile.human_attribute_name(:points) %></th>
+          <th><%= PlayerStat.human_attribute_name(:points_tot_last) %></th>
           <th><%= Country.model_name.human %></th>
         </tr>
       </thead>
       <tbody>
-        <% @club.files.active.each do |file| %>
-        <tr>
-          <td style="color:#<%= @club.number_color %>">
-            <%= file.number %>
-            <%= image_tag @club.jersey.url(:thumb),
-                alt: "#{@club.name} #{Club.human_attribute_name(:jersey)}" %>
-          </td>
-          <td><%= file.player_name %></td>
-          <td><%= file.position.text %></td>
-          <td><%= file.value %></td>
-          <td><%= file.player.league_stats(:points,@current_league) %></td>
-          <td><%= image_tag file.player.country.flag.url(:small),
-                  alt: "#{file.player.country.name} #{Country.human_attribute_name(:flag)}" %></td>
-        </tr>
-        <% end -%>
+        <%= render @club.files.active %>
       </tbody>
     </table>
   </div>

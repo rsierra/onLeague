@@ -121,7 +121,7 @@ describe League do
 
     before { league_active; league_inactive }
 
-    it { League.active.should == [league_active] }
+    it { League.active.should eq [league_active] }
   end
 
   context "when get all except one" do
@@ -130,8 +130,8 @@ describe League do
 
     before { league; second_league }
 
-    it { League.except(second_league).should == [league] }
-    it { League.except(league).should == [second_league] }
+    it { League.except(second_league).should eq [league] }
+    it { League.except(league).should eq [second_league] }
   end
 
   context "when get current games" do
@@ -247,7 +247,7 @@ describe League do
 
       before { next_game }
 
-      its(:next_week) { should eql next_game.week }
+      its(:next_week) { should eq next_game.week }
     end
 
     context "without games next week but two weeks from now" do
@@ -255,7 +255,7 @@ describe League do
 
       before { next_game }
 
-      its(:next_week) { should eql next_game.week }
+      its(:next_week) { should eq next_game.week }
     end
 
     context "with games next week and league in the last week" do
@@ -277,7 +277,7 @@ describe League do
 
     context "without games next week" do
       before { last_week; league.advance_week }
-      its(:week) { should eql last_week }
+      its(:week) { should eq last_week }
     end
 
     context "with league week in no games week" do
@@ -286,7 +286,7 @@ describe League do
         last_week; league.advance_week
       end
 
-      its(:week) { should eql last_week }
+      its(:week) { should eq last_week }
     end
 
     context "with games next week" do
@@ -294,7 +294,7 @@ describe League do
 
       before { next_game; league.advance_week }
 
-      its(:week) { should eql next_game.week }
+      its(:week) { should eq next_game.week }
     end
 
     context "without games next week but two weeks from now" do
@@ -302,7 +302,7 @@ describe League do
 
       before { next_game; league.advance_week }
 
-      its(:week) { should eql next_game.week }
+      its(:week) { should eq next_game.week }
     end
 
     context "with games next week and league in the last week" do
@@ -313,7 +313,7 @@ describe League do
         last_week; league.advance_week
       end
 
-      its(:week) { should eql last_week }
+      its(:week) { should eq last_week }
     end
   end
 
@@ -330,7 +330,47 @@ describe League do
       game.reload; another_game.reload
     end
 
-    it { game.status.should eql 'closed' }
-    it { another_game.status.should eql 'closed' }
+    it { game.status.should eq 'closed' }
+    it { another_game.status.should eq 'closed' }
+  end
+
+  describe "when get current week" do
+    let(:week) { 1 }
+    let(:league) { create(:league, week: week) }
+    let(:game) { create(:game, league: league) }
+
+    subject { league }
+
+    context "with no evaluated games" do
+      its(:current_week) { should eq league.week }
+    end
+
+    context "with evaluated games" do
+      before { game.update_attribute(:status, 'evaluated') }
+
+      its(:current_week) { should eq week }
+    end
+
+    context "with no evaluated games in the next week" do
+      let(:game_next_week) { create(:game, league: league) }
+      before do
+        game.update_attribute(:status, 'closed')
+        league.update_attributes(week: week + 1)
+        game_next_week
+      end
+
+      its(:current_week) { should eq game.week }
+    end
+
+    context "with no evaluated games in the next week" do
+      let(:game_next_week) { create(:game, league: league) }
+      before do
+        game.update_attribute(:status, 'closed')
+        league.update_attributes(week: week + 1)
+        game_next_week.update_attribute(:status, 'evaluated')
+      end
+
+      its(:current_week) { should eq game_next_week.week }
+    end
   end
 end

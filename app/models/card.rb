@@ -48,7 +48,7 @@ class Card < ActiveRecord::Base
   end
 
   def update_stats
-    restore_player_stats player_was, card_stats_was
+    restore_player_stats player_was, card_stats_was if changed?
     update_player_stats player, card_stats
   end
 

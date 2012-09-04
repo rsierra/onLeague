@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
 
+  has_many :teams
+
   has_many :oauth_providers, :dependent => :destroy
 
   validates :name, :presence => true
@@ -20,7 +22,14 @@ class User < ActiveRecord::Base
   scope :latest, ->(n=10) { order("created_at DESC").limit(n) }
 
   def avatar_url
-    gravatar_url
+    provider = oauth_providers.first
+    provider_name = provider ? provider.provider : nil
+    case provider_name
+      when 'google' then GooglePlus::Person.get(provider.uid).image.url
+      when 'twitter' then Twitter.user(provider.uid.to_i).profile_image_url
+      when 'facebook' then Koala::Facebook::API.new.get_picture(provider.uid)
+      else gravatar_url
+    end
   end
 
   def has_provider?(provider)
@@ -37,5 +46,9 @@ class User < ActiveRecord::Base
     else
       oauth_providers.create(oauth_providers_params)
     end
+  end
+
+  def remaining_teams_in_league league
+    Team::MAX_TEAMS - teams.of_league_season(league).count
   end
 end

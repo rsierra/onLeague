@@ -21,9 +21,10 @@ group :assets do
   # gem 'therubyracer'
 
   gem 'uglifier', '>= 1.0.3'
-
-  gem 'twitter-bootstrap-rails'
 end
+
+gem 'twitter-bootstrap-rails'
+gem 'therubyracer'
 
 gem 'jquery-rails'
 
@@ -90,3 +91,9 @@ gem 'aws-sdk', '~> 1.5.1'
 gem 'enumerize'
 
 gem 'paper_trail', '~> 2'
+
+gem 'ransack'
+
+gem 'google_plus'
+gem 'twitter'
+gem 'koala'

@@ -1,0 +1,30 @@
+<% content_for :javascripts do %>
+  <%= javascript_include_tag "team_editor" %>
+<% end %>
+
+<div id="show_team" class="row">
+
+  <div id="team_info" class="row span8 offset2">
+    <%= render partial: 'team_info', object: @team %>
+  </div>
+
+  <div id="team_files" class"row">
+    <div id="team-alignment" class="span6">
+      <h2>
+        <%= image_tag 'icons/field.png', alt: t('.alignment') %>
+        <%= t '.alignment' %>
+        <%= content_tag :span, nil, id: 'hide-changes-button' %>
+      </h2>
+      <%= render partial: 'files_list', object: @team.files_by_position %>
+    </div>
+
+    <div id="team_files_changes" class="span6">
+      <h2>
+        <%= image_tag 'icons/handshake.png', alt: t('.changes') %>
+        <%= t '.changes' %>
+      </h2>
+      <%= render partial: 'find_file', object: @team_file %>
+    </div>
+  </div>
+
+</div>

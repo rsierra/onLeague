@@ -50,8 +50,8 @@ en:
       failure: 'Could not authorize you from %{kind} because "%{reason}".'
     mailer:
       confirmation_instructions:
-        subject: 'Confirmation instructions'
+        subject: '[onLeague] Confirmation instructions'
       reset_password_instructions:
-        subject: 'Reset password instructions'
+        subject: '[onLeague] Reset password instructions'
       unlock_instructions:
-        subject: 'Unlock Instructions'
+        subject: '[onLeague] Unlock Instructions'

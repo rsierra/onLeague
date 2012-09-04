@@ -1,0 +1,52 @@
+en:
+  activerecord:
+    models:
+      team: Team
+    attributes:
+      team:
+        activation_week: Activation weel
+        active: Active
+        created_at: Founded
+        files: Files
+        formation: Formation
+        league: League
+        league_id: League
+        money: Money
+        remaining_changes: Changes
+        remaining_money: Remaining money
+        name: Name
+        season: Season
+        updated_at: Actualizado en
+        user: Owner
+        user_id: Owner
+        value: Value
+    errors:
+      models:
+        team:
+          attributes:
+            user:
+              cant_have_more: can't have more teams in this league on this season
+            active:
+              cant_activate: can't be set
+  flash:
+    teams:
+      create_success: The team was successfully created
+      checkout_cart_error: Is there a problem with the negotiations
+      checkout_cart_success: The negotiations have been resolved without any problems
+      activation_success: The team was successfully activate
+      activation_error: The team can't be activated
+  teams:
+    not_buyable_reasons:
+      not_enough_money: not enough money
+      not_remaining_files: not remaining money
+      not_remaining_positions: can't buy more %{position}
+      not_remaining_clubs: can't buy more players from %{club}
+      not_remaining_no_eu: can't buy more no european
+      already_in_team: is already in team
+      already_played: already played his game this week
+      already_buyed: in buy process
+      already_sold: on sale process
+      invalid_minimums: do not reach minimum por position
+    not_salable_reasons:
+      already_played: already played his game this week
+      not_remaining_changes: not remaining changes

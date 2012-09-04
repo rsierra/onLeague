@@ -156,14 +156,16 @@ es:
         format: ! '%n %u'
         units:
           billion: mil millones
-          million: millón
+          million:
+            one: millón
+            other: millones
           quadrillion: mil billones
           thousand: mil
           trillion: billón
           unit: ''
       format:
         delimiter: ''
-        precision: 1
+        precision: 3
         significant: true
         strip_insignificant_zeros: true
       storage_units:
@@ -184,7 +186,7 @@ es:
         delimiter: ''
   support:
     array:
-      last_word_connector: ! ', y '
+      last_word_connector: ! ' y '
       two_words_connector: ! ' y '
       words_connector: ! ', '
   time:

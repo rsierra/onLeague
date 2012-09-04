@@ -1,0 +1,50 @@
+es:
+  activerecord:
+    models:
+      team_file: Ficha
+    attributes:
+      team_file:
+        team: Equipo
+        team_id: Equipo
+        created_at: Creado en
+        date_in: Fecha de entrada
+        date_out: Fecha de salida
+        player: Jugador
+        player_id: Jugador
+        position: Demarcación
+        updated_at: Actualizado en
+        value: Valor
+    errors:
+      models:
+        team_file:
+          attributes:
+            team:
+              cant_have_more: no puede tener más fichajes
+              not_enough_money: no tiene suficiente dinero
+              cant_have_more_positions: no puede tener más %{position}
+              cant_have_more_clubs: no puede tener más jugadores del %{club}
+              cant_have_more_no_eu: no puede tener más extracomunitarios
+            player_id:
+              only_one_curent_file_player: sólo puede tener una ficha vigente (sin fecha de salida)
+            player:
+              cant_be_played: no puede haber jugado ya esta jornada
+              cant_valid_minimums: no permite cumplir los mínimos por posición
+            date_out:
+              should_be_after_in: debe ser posterior a la de entrada
+              should_be_blank_in_creation: debe estar vacía en al crear la ficha
+            date_in:
+              should_be_after_last_out: debe ser posterior a la última de salida
+  enumerize:
+    team_file:
+      position:
+        goalkeeper: Portero
+        defender: Defensa
+        midfielder: Centrocampista
+        forward: Delantero
+  flash:
+    team_files:
+      create_file_error: Ha habido algún problema en la compra del jugador
+      destroy_success: Jugador vendido
+      destroy_error: Ha habido algún problema en la venta del jugador
+      sell_player_error: No tienes más cambios disponibles esta semana
+

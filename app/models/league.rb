@@ -39,6 +39,11 @@ class League < ActiveRecord::Base
     current_games.not_closeables.empty?
   end
 
+  def current_week
+    last_evaluated_game = games.season(season).evaluated.last
+    last_evaluated_game ? last_evaluated_game.week : week
+  end
+
   def next_week
     next_week = nil
     weeks = season_week_list
@@ -62,8 +67,14 @@ class League < ActiveRecord::Base
 
   def close_week
     if week_closeable?
-      advance_week
       close_current_games
+      advance_week
     end
+  end
+
+  def season_club_ids(season=season)
+    games.includes(:club_home, :club_away).season(season).week(1).map do |game|
+      [game.club_home.id, game.club_away.id]
+    end.flatten
   end
 end

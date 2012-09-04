@@ -1,0 +1,9 @@
+$('#team_files_list').fadeOut("slow", function(){
+  $(this).find(".tooltip_button").tooltip('destroy');
+  $(this).html("<%= escape_javascript(render partial: 'teams/files_list', object: @team.files_by_position) %>");
+  $(this).fadeIn("slow", function() {
+    $(this).find(".tooltip_button").tooltip();
+    teamEditor.addRemoteSearch();
+  });
+});
+<%= render 'update_find_file' %>

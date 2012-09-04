@@ -8,13 +8,15 @@
 
 <div class="row">
   <div class="span4">
-    col1
+    <h2><%= t('.top_players') %></h2>
+    <%= render partial: "shared/players_points", object: @top_players %>
   </div>
   <div class="span4">
-    col2
+    <h2><%= t('.top_teams') %></h2>
+    <%= render partial: "top_teams", object: @top_teams %>
   </div>
   <div class="span4">
-    <table class="table table-bordered table-striped">
+    <table class="table table-striped">
       <thead>
         <tr>
           <th></th>
@@ -24,7 +26,7 @@
       <tbody>
         <% @users.each do |user| %>
         <tr>
-          <td><%= image_tag user.avatar_url %></td>
+          <td><%= image_tag user.avatar_url, class: 'avatar' %></td>
           <td><%= user.name %></td>
         </tr>
         <% end -%>

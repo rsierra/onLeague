@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120715160439) do
+ActiveRecord::Schema.define(:version => 20120815201452) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -117,6 +117,17 @@ ActiveRecord::Schema.define(:version => 20120715160439) do
   add_index "country_translations", ["country_id"], :name => "index_country_translations_on_country_id"
   add_index "country_translations", ["locale"], :name => "index_country_translations_on_locale"
 
+  create_table "game_marks", :force => true do |t|
+    t.integer  "player_id"
+    t.integer  "game_id"
+    t.integer  "mark",       :limit => 2, :default => 0
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+  end
+
+  add_index "game_marks", ["game_id"], :name => "index_game_marks_on_game_id"
+  add_index "game_marks", ["player_id"], :name => "index_game_marks_on_player_id"
+
   create_table "games", :force => true do |t|
     t.integer  "league_id"
     t.datetime "date"
@@ -186,17 +197,17 @@ ActiveRecord::Schema.define(:version => 20120715160439) do
   create_table "player_stats", :force => true do |t|
     t.integer  "player_id"
     t.integer  "game_id"
-    t.integer  "points",         :limit => 2, :default => 0
-    t.integer  "goals_scored",   :limit => 2, :default => 0
-    t.integer  "assists",        :limit => 2, :default => 0
-    t.integer  "goals_conceded", :limit => 2, :default => 0
-    t.integer  "yellow_cards",   :limit => 2, :default => 0
-    t.integer  "red_cards",      :limit => 2, :default => 0
-    t.integer  "lineups",        :limit => 2, :default => 0
-    t.integer  "games_played",   :limit => 2, :default => 0
-    t.integer  "minutes_played", :limit => 2, :default => 0
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.integer  "points",         :default => 0
+    t.integer  "goals_scored",   :default => 0
+    t.integer  "assists",        :default => 0
+    t.integer  "goals_conceded", :default => 0
+    t.integer  "yellow_cards",   :default => 0
+    t.integer  "red_cards",      :default => 0
+    t.integer  "lineups",        :default => 0
+    t.integer  "games_played",   :default => 0
+    t.integer  "minutes_played", :default => 0
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   add_index "player_stats", ["game_id"], :name => "index_player_stats_on_game_id"
@@ -241,6 +252,39 @@ ActiveRecord::Schema.define(:version => 20120715160439) do
   add_index "substitutions", ["game_id"], :name => "index_substitutions_on_game_id"
   add_index "substitutions", ["player_in_id"], :name => "index_substitutions_on_player_in_id"
   add_index "substitutions", ["player_out_id"], :name => "index_substitutions_on_player_out_id"
+
+  create_table "team_files", :force => true do |t|
+    t.integer  "team_id"
+    t.integer  "player_id"
+    t.string   "position"
+    t.float    "value"
+    t.date     "date_in"
+    t.date     "date_out"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "club_id"
+  end
+
+  add_index "team_files", ["club_id"], :name => "index_team_files_on_club_id"
+  add_index "team_files", ["player_id"], :name => "index_team_files_on_player_id"
+  add_index "team_files", ["team_id"], :name => "index_team_files_on_team_id"
+
+  create_table "teams", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "league_id"
+    t.integer  "season"
+    t.string   "name",            :limit => 25
+    t.float    "money"
+    t.boolean  "active",                        :default => false
+    t.integer  "activation_week", :limit => 2
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+    t.string   "slug"
+  end
+
+  add_index "teams", ["league_id"], :name => "index_teams_on_league_id"
+  add_index "teams", ["slug"], :name => "index_teams_on_slug", :unique => true
+  add_index "teams", ["user_id"], :name => "index_teams_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

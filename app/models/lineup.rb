@@ -12,7 +12,7 @@ class Lineup < ActiveRecord::Base
   before_destroy :restore_stats
 
   def update_stats
-    restore_player_stats player_was, STATS
+    restore_player_stats player_was, STATS if changed?
     update_player_stats player, STATS
   end
 

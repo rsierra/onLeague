@@ -1,0 +1,170 @@
+#teams_index {
+  #new_team_info {
+    margin: 20px 0;
+    text-align: center;
+    h4 {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+#new_team {
+  form {
+    margin: 20px;
+    text-align: center;
+  }
+}
+
+#show_team {
+  overflow-x: hidden;
+  position: relative;
+
+  #could_activate {
+    form {
+      text-align: center;
+      margin: 10px 0 0;
+    }
+  }
+  #team_info {
+    #inactive_team {
+      color: @red;
+      float: right;
+      font-weight: bolder;
+      font-size: 1.2em;
+      span {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  #team_files {
+    h2 {
+      border-bottom: 1px solid black;
+    }
+
+    #hide-changes-button {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      float: right;
+      background: url('icons/expand.png') no-repeat right top;
+    }
+
+    #hide-changes-button.contract {
+      background: url('icons/contract.png') no-repeat right top;
+    }
+
+    #file-cart {
+      h2 {
+        position: relative;
+        border: 0;
+        margin: -30px 5px 5px 5px;
+        top: 30px;
+        text-align: center;
+        font-size: 1.7em;
+        font-weight: bolder;
+        line-height: 24px;
+      }
+
+      #sale-files, #buy-files {
+        display: inline-block;
+        vertical-align: middle;
+        width: 49%;
+
+        h3 {
+          font-size: 1.2em;
+          line-height: 24px;
+          margin: 5px;
+          padding-left: 30px;
+        }
+      }
+
+      #sale-files {
+        h3 {
+          padding-left: 30px;
+          background: url('icons/right-arrow.png') no-repeat left top;
+        }
+      }
+
+      #buy-files {
+        h3 {
+          text-align: right;
+          padding-right: 30px;
+          background: url('icons/left-arrow.png') no-repeat right top;
+        }
+      }
+
+      #file-cart-buttons {
+        text-align: center;
+        form {
+          display: inline-block;
+          vertical-align: middle;
+        }
+      }
+    }
+
+    #team-alignment {
+      -webkit-transition: @transitions;
+      -moz-transition: @transitions;
+      -o-transition: @transitions;
+
+      #team_files_list {
+        #could_activate, #activation_warning {
+          h4 {
+            text-align: center;
+            margin-bottom: 5px;
+          }
+
+          p {
+
+            text-align: center;
+            font-size: 1.1em;
+          }
+        }
+
+        #team_files_info {
+          margin: 20px;
+          text-align: center;
+
+          span {
+            margin:0 5px;
+          }
+
+          span.label {
+            font-size: 1.4em;
+            font-weight: bolder;
+          }
+
+          span.million, span.formation, span.changes {
+            font-family: @numberFont;
+            font-size: 1.3em;
+          }
+
+          span.formation {
+            letter-spacing:4px;
+          }
+        }
+      }
+    }
+
+    #team_files_changes {
+      position: relative;
+      right: 0;
+      -webkit-transition: @transitions;
+      -moz-transition: @transitions;
+      -o-transition: @transitions;
+    }
+
+    #team_files_changes.hide-changes {
+      right: -800px;
+    }
+
+  }
+
+  #find_file {
+    .pagination {
+      text-align: center;
+    }
+  }
+}

@@ -18,6 +18,8 @@ class Goal < ActiveRecord::Base
 
   scope :club, ->(club) { joins(:scorer => :club_files).where(club_files: {club_id: club}) }
   scope :of_scorers, ->(player_ids=[]) { where('scorer_id IN (?)', player_ids) }
+  scope :scored, where(kind: %w(regular penalty))
+  scope :owned, where(kind: 'own')
 
   before_validation :goalkeeper_association, if: 'minute_changed? && !minute.blank? && !kind.blank? && !scorer.blank?'
   before_save :update_scorer_stats, if: 'scorer_id_changed? || kind_changed?'
@@ -34,7 +36,7 @@ class Goal < ActiveRecord::Base
   end
 
   def scorer_was
-    player_was scorer_id_was
+    player_was :scorer
   end
 
   def scorer_stats_by_kind(kind)
@@ -53,7 +55,7 @@ class Goal < ActiveRecord::Base
   end
 
   def scorer_stats_was
-    last_kind = kind_was.blank? ? self.kind : self.kind_was
+    last_kind = kind_was.blank? ? self.kind : self.kind_was if changed?
     scorer_stats_by_kind(last_kind)
   end
 
@@ -63,7 +65,7 @@ class Goal < ActiveRecord::Base
   end
 
   def assistant_was
-    player_was assistant_id_was
+    player_was :assistant
   end
 
   def assistant_stats
@@ -71,12 +73,12 @@ class Goal < ActiveRecord::Base
   end
 
   def update_assistant_stats
-    restore_player_stats assistant_was, assistant_stats
+    restore_player_stats assistant_was, assistant_stats if changed?
     update_player_stats assistant, assistant_stats
   end
 
   def goalkeeper_was
-    player_was goalkeeper_id_was
+    player_was :goalkeeper
   end
 
   def goalkeeper_stats_by_kind(kind)
@@ -100,7 +102,7 @@ class Goal < ActiveRecord::Base
   end
 
   def update_goalkeeper_stats
-    restore_player_stats goalkeeper_was, goalkeeper_stats_was
+    restore_player_stats goalkeeper_was, goalkeeper_stats_was if changed?
     update_player_stats goalkeeper, goalkeeper_stats
   end
 

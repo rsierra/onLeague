@@ -1,0 +1,19 @@
+<% reasons = @team.player_not_salable_reasons team_file %>
+<% salable = reasons.empty? %>
+<tr class="<%= team_file.position %>">
+  <%= render partial: 'shared/file_row', object: team_file %>
+
+  <td>
+    <% if salable %>
+      <%= form_for @team, url: team_destroy_file_path(@team), method: :delete,
+            remote: true, html: { class: 'add-remote-search' } do |f| %>
+        <%= hidden_field_tag :team_file_id, team_file.id %>
+        <%= image_submit_tag 'icons/exchange.png', alt: t('.sell_player'),
+              class: 'tooltip_button', title: t('.sell_player'),
+              data: { confirm: t('.sell_confirm', player_name: team_file.player_name) } %>
+      <% end %>
+    <% else %>
+      <%= image_tag 'icons/error.png', class: 'tooltip_button', title: reasons.to_sentence.capitalize %>
+    <% end %>
+  </td>
+</tr>

@@ -7,8 +7,9 @@ module Extensions
 
     private
 
-    def player_was id_was = player_id_was
-      Player.find(id_was) if id_was
+    def player_was player_relation = 'player'
+      dirty_id = send("#{player_relation}_id_was")
+      Player.find(dirty_id) if dirty_id
     end
 
     def update_player_stats player, player_stat

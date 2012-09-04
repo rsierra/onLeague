@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= I18n.locale %>">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>onLeague</title>
+
+    <% if content_for?(:seo_metas) %>
+      <%= yield(:seo_metas) %>
+    <% else %>
+      <%= render partial: 'shared/default_seo' %>
+    <% end %>
+
     <%= csrf_meta_tags %>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -17,7 +23,7 @@
   </head>
   <body>
 
-    <%= render :partial => 'shared/navbar' %>
+    <%= render partial: 'shared/navbar' %>
 
     <div class="container">
 
@@ -41,11 +47,9 @@
           <%= yield %>
         </div>
 
-      <footer>
-        <p>&copy; onLeague 2012</p>
-      </footer>
-
     </div> <!-- /container -->
+
+    <%= render partial: 'shared/footer' %>
 
     <%= javascript_include_tag "application" %>
 

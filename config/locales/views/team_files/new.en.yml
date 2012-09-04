@@ -1,0 +1,8 @@
+en:
+  team_files:
+    club_file:
+      buy_player: Buy player
+    search_form:
+      search: Search
+      value_gteq: with value greater than
+      value_lteq: and less than

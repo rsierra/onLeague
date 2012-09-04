@@ -1,21 +1,35 @@
 OnLeague::Application.routes.draw do
-  match '/games(/:season(/:week))' => "games#index", :as => :games
+  resources :club_files, :team_files, only: [:show]
 
-  resources :clubs, :only => [:index, :show]
+  resources :teams, only: [:index, :new, :create, :show] do
+    post 'activate', 'create_file', 'checkout_cart'
+    delete 'destroy_file', 'empty_cart'
+    match 'search' => 'teams#search', :via => [:get, :post], :as => :search
+    resources :team_files, only: [:new, :create, :destroy] do
+      collection do
+        match 'search' => 'team_files#search', :via => [:get, :post], :as => :search
+      end
+    end
+  end
 
-  match 'leagues/:id/change' => 'leagues#change', :via => :get, :as => 'change_league'
+  resources :games, only: [:show]
+  match '/games(/:season(/:week))' => "games#index", as: :games
+
+  resources :clubs, only: [:index, :show]
+
+  match 'leagues/:id/change' => 'leagues#change', via: :get, as: 'change_league'
 
   devise_for :admins
 
   # Remember add path for default route with translations
-  devise_for :users, :path => "usuarios", :controllers => { :registrations => 'users/registrations', :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, path: "usuarios", controllers: { registrations: 'users/registrations', omniauth_callbacks: "users/omniauth_callbacks" }
   as :user do
-    delete 'users/auth/:provider/delete' => 'users/omniauth_callbacks#delete', :as => :user_omniauth_delete
+    delete 'users/auth/:provider/delete' => 'users/omniauth_callbacks#delete', as: :user_omniauth_delete
   end
 
   resources :auth_providers
 
-  root :to => "home#index"
+  root to: "home#index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

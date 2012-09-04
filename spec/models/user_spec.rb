@@ -42,13 +42,13 @@ describe User do
 
       subject { user }
 
-      its(:email) { should == omniauth.info.email }
-      its(:name) { should == omniauth.info.name }
+      its(:email) { should eq omniauth.info.email }
+      its(:name) { should eq omniauth.info.name }
       its(:confirmed_at) { should_not be_nil }
       it { should have(1).oauth_providers }
-      it { provider.provider.should == omniauth.provider }
-      it { provider.uemail.should == omniauth.info.email }
-      it { provider.uname.should == omniauth.info.name }
+      it { provider.provider.should eq omniauth.provider }
+      it { provider.uemail.should eq omniauth.info.email }
+      it { provider.uname.should eq omniauth.info.name }
     end
 
     context "with exist user" do
@@ -61,12 +61,12 @@ describe User do
 
       subject { user }
 
-      its(:email) { should == email }
-      its(:name) { should == name }
+      its(:email) { should eq email }
+      its(:name) { should eq name }
       it { should have(1).oauth_providers }
-      it { provider.provider.should == omniauth.provider }
-      it { provider.uemail.should == omniauth.info.email }
-      it { provider.uname.should == omniauth.info.name }
+      it { provider.provider.should eq omniauth.provider }
+      it { provider.uemail.should eq omniauth.info.email }
+      it { provider.uname.should eq omniauth.info.name }
     end
   end
 
@@ -75,11 +75,29 @@ describe User do
 
     before { users }
 
-    it { User.latest.should == users.first(10) }
-    it { User.latest(1).should == users.first(1) }
-    it { User.latest(5).should == users.first(5) }
-    it { User.latest(15).should == users.first(15) }
-    it { User.latest(20).should == users }
-    it { User.latest(25).should == users }
+    it { User.latest.should eq users.first(10) }
+    it { User.latest(1).should eq users.first(1) }
+    it { User.latest(5).should eq users.first(5) }
+    it { User.latest(15).should eq users.first(15) }
+    it { User.latest(20).should eq users }
+    it { User.latest(25).should eq users }
+  end
+
+  context "when get remaining teams in league" do
+    let(:user) { create(:user) }
+    let(:league) { create(:league) }
+
+    subject { user.remaining_teams_in_league league }
+
+    it { should eq 2 }
+    it { should eq Team::MAX_TEAMS }
+
+    context "with some team" do
+      let(:team) { create(:team, user: user, league: league) }
+      before { team }
+
+      it { should eq 1 }
+      it { should eq Team::MAX_TEAMS - 1 }
+    end
   end
 end

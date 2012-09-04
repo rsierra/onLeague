@@ -1,0 +1,30 @@
+<div class="player-file-modal">
+  <%= jersey_with_number player_file, :normal %>
+  <dl class="dl-horizontal player-info">
+    <dt><%= Player.human_attribute_name(:born) %></dt>
+    <dd><%= l player_file.player.born, format: :default %></dd>
+    <dt><%= Player.human_attribute_name(:age) %></dt>
+    <dd><%= distance_of_time_in_words_to_now player_file.player.born %></dd>
+    <dt><%= Player.human_attribute_name(:country) %></dt>
+    <dd>
+      <%= player_file.player.country.name %>
+      <%= country_flag player_file %>
+    </dd>
+    <dt><%= Club.model_name.human %></dt>
+    <dd><%= player_file.club_name %></dd>
+    <dt><%= ClubFile.human_attribute_name(:position) %></dt>
+    <dd><%= player_file.position.text %></dd>
+    <dt><%= ClubFile.human_attribute_name(:value) %></dt>
+    <dd><%= number_to_human(player_file.value_million) %></dd>
+  </dl>
+  <div class="player-points">
+    <span><%= player_file.player.season_stats(:points, @current_league) %></span>
+    <h3><%= PlayerStat.human_attribute_name(:points) %></h3>
+  </div>
+
+  <%= render partial: 'shared/player_games', object: player_file.player %>
+
+  <%= render partial: 'shared/player_stats', object: player_file.player,
+              locals: { goalkeeper: player_file.position.goalkeeper? } %>
+
+</div>

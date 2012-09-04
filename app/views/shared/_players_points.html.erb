@@ -1,0 +1,11 @@
+<table class="table table-striped player-rank">
+<tbody>
+<% players_points.each do |player_file| %>
+  <tr>
+    <td><%= jersey_with_number player_file %></td>
+    <td class="name"><%= link_to_modal_player_file player_file %></td>
+    <td class="points"><%= player_file.points %></td>
+  </tr>
+<% end %>
+</tbody>
+</table>

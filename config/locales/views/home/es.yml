@@ -2,4 +2,8 @@ es:
   home:
     index:
       title: onLeague
+      top_players: Jugadores de la jornada
+      top_teams: Equipos de la jornada
       welcome: Bienvenido a onLeage
+    top_teams:
+      no_teams: No hay equipos esta jornada

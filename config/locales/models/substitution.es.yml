@@ -1,7 +1,7 @@
 es:
   activerecord:
     models:
-      substitution: Cambios
+      substitution: Cambio
     attributes:
       substitution:
         created_at: Creado e
