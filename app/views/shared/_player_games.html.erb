@@ -4,7 +4,7 @@
     <% last_game = player_games.last_game_on_league(@current_league) %>
     <% if last_game %>
     <%= last_game.is_visible? ? link_to(last_game.name, game_path(last_game)) : last_game.name %>
-    (<%= player_games.week_stats(:points, @current_league, @current_league.season, @current_league.current_week) %>
+    (<%= player_games.week_stats(:points, last_game.league, last_game.season, last_game.week) %>
     <%= PlayerStat.human_attribute_name(:points) %>)
     <% end %>
   </dd>
