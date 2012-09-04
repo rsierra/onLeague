@@ -87,7 +87,7 @@ class Player < ActiveRecord::Base
   end
 
   def played_on_league? league, time = Time.now
-    file.club.played_on_league? league, time
+    file.club.played_on_league?(league, time) if file
   end
 
   def last_game_on_league league
