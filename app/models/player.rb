@@ -99,4 +99,8 @@ class Player < ActiveRecord::Base
   def next_game_on_league league
     club.next_game_on_league league
   end
+
+  def popularity
+    files.count * 100 / Team.active.count
+  end
 end
