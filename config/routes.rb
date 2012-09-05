@@ -1,4 +1,6 @@
 OnLeague::Application.routes.draw do
+  resources :rankings, only: [:index]
+
   resources :club_files, :team_files, only: [:show]
 
   resources :teams, only: [:index, :new, :create, :show] do
