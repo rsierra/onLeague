@@ -1,0 +1,22 @@
+<div id="rankings" class="row">
+  <div id="rankings-types" class="span2 offset1 well">
+    <h3><%= t '.rankings' %></h3>
+  </div>
+
+  <div id="rankings-index" class="span5 offset1">
+
+    <% if @rankings.blank? %>
+    <div class="alert">
+      <strong><%= t '.no_rankings' %></strong>
+    </div>
+    <% else %>
+
+      <div>
+        <%= paginate @rankings %>
+      </div>
+
+      <%= render partial: "teams", object: @rankings %>
+
+    <% end %>
+  </div>
+</div>
