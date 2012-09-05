@@ -5,6 +5,8 @@ class Player < ActiveRecord::Base
 
   has_many :club_files
   has_one :file, :class_name => 'ClubFile', :conditions => 'date_out is null'
+  has_many :team_files
+  has_many :files, :class_name => 'TeamFile', :conditions => 'date_out is null'
   has_one :club, :through => :file
   has_many :lineups
   has_many :goals, foreign_key: :scorer_id
