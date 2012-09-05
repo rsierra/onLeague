@@ -23,7 +23,7 @@ module PlayerHelper
   def link_to_modal_player_file player_file
     modal_id = "#{player_file.class.name.underscore.dasherize}-#{player_file.id}-info"
     content_for(:modals) do
-      content_tag(:div, class: "modal hide", id: modal_id) do
+      content_tag(:div, class: "modal hide fade", id: modal_id) do
         content_tag(:div, class: "modal-header") do
           button_tag('x', class: "close", 'data-dismiss' => "modal") +
           content_tag(:h3, player_file.player_name)
