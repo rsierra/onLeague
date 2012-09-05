@@ -49,6 +49,10 @@
 
     </div> <!-- /container -->
 
+    <div id="modals">
+      <%= yield :modals %>
+    </div>
+
     <%= render partial: 'shared/footer' %>
 
     <%= javascript_include_tag "application" %>
