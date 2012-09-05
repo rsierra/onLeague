@@ -27,4 +27,10 @@ module ApplicationHelper
     end.compact.to_sentence
     "#{t('.players_needed_at_least')} #{sentence}." unless sentence.blank?
   end
+
+  def collection_index colletion, element
+    per_page = colletion.total_count.next / colletion.num_pages if colletion.respond_to?(:total_count) && colletion.respond_to?(:num_pages)
+    page_offset = (colletion.current_page - 1) * per_page.to_i if colletion.respond_to? :current_page
+    colletion.index(element).next + page_offset.to_i
+  end
 end
