@@ -69,6 +69,7 @@ class Team < ActiveRecord::Base
   validate :max_per_user, on: :create, unless: 'user_id.blank? || league_id.blank?'
   validate :activation, if: 'active'
 
+  scope :active, where(active: true)
   scope :of_league, ->(league) { where(league_id: league) }
   scope :of_league_season, ->(league, season = league.season) { where(league_id: league, season: season) }
 
