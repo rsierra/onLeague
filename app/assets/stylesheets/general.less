@@ -78,73 +78,80 @@ img.avatar {
 //---------------------------------------------------------
 // PLAYER INFO MODAL
 
-.modal-header {
-  h3 {
-    text-align: center;
+#modals {
+  .modal {
+    width: 525px;
   }
-}
-
-.player-file-modal {
-  text-align: left;
-
-  .jersey-normal {
-    float: left;
-  }
-
-  dl {
-    margin-bottom: 10px;
-  }
-
-  dl.player-info {
-    display: inline-block;
-
-    dt {
-      width: 140px;
-    }
-
-    dd {
-      margin-left: 150px;
-    }
-  }
-
-  .player-points {
-    float: right;
-    text-align: center;
-    margin: 20px;
-
-    span {
-      font-family: @numberFont;
-      font-size: 4em;
-    }
+  .modal-header {
+    #gradient > .vertical(@greenDark,@greenDarker);
+    .border-radius(2px 2px 0 0);
+    color: @white;
 
     h3 {
-      border-top: 1px black solid;
-      margin-top: 5px;
+      text-align: center;
     }
   }
 
-  .player-games {
-    margin: 0 0 0 105px;
-  }
+  .player-file-modal {
+    text-align: left;
 
-  .player-stats {
-    dl.dl-horizontal {
-      margin-left: 20px;
-    }
-
-    table {
+    .jersey-normal {
+      display: inline-block;
       vertical-align: middle;
-      width: 50%;
-      float: right;
-      margin-right: 20px;
+    }
 
-      th{
-        text-align: center;
+    dl {
+      margin-bottom: 10px;
+    }
+
+    dl.player-info {
+      display: inline-block;
+      vertical-align: middle;
+      min-width: 55%;
+      margin: 0;
+    }
+
+    .player-points {
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+      margin: 20px;
+
+      span {
+        font-family: @numberFont;
+        font-size: 4em;
       }
 
-      td {
-        font-family: @numberFont;
-        font-size: 1.1em;
+      h3 {
+        border-top: 1px black solid;
+        margin-top: 5px;
+      }
+    }
+
+    .player-games {
+      margin: 0 0 0 87px;
+    }
+
+    .player-stats {
+      dl.dl-horizontal {
+        margin-left: 20px;
+      }
+
+      table {
+        vertical-align: middle;
+        width: 50%;
+        float: right;
+        margin-right: 20px;
+
+        th{
+          text-align: center;
+        }
+
+        td {
+          text-align: center;
+          font-family: @numberFont;
+          font-size: 1.1em;
+        }
       }
     }
   }
