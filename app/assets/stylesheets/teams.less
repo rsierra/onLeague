@@ -72,7 +72,7 @@
 
       #sale-files, #buy-files {
         display: inline-block;
-        vertical-align: middle;
+        vertical-align: top;
         width: 49%;
 
         h3 {
@@ -80,6 +80,10 @@
           line-height: 24px;
           margin: 5px;
           padding-left: 30px;
+        }
+
+        .table {
+          margin-bottom: 10px;
         }
       }
 
@@ -100,9 +104,12 @@
 
       #file-cart-buttons {
         text-align: center;
+        border-bottom: 1px solid @grayLight;
+
         form {
           display: inline-block;
           vertical-align: middle;
+          margin: 0px 10px 10px 10px;
         }
       }
     }
