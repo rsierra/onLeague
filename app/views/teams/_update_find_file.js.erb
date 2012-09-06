@@ -12,3 +12,4 @@ $('#find_file').find('.pagination').fadeOut("slow", function() {
   $(this).fadeIn("slow");
 });
 
+$('#modals').append("<%= escape_javascript(yield :modals) %>");
