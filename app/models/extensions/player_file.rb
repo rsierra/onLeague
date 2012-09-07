@@ -37,13 +37,17 @@ module Extensions
       self::SQL_JOINS = "LEFT OUTER JOIN player_stats ON #{self.table_name}.player_id = player_stats.player_id " +
                   "LEFT OUTER JOIN games ON player_stats.game_id = games.id"
       scope :with_points, joins(self::SQL_JOINS)
+            .select("#{self::SQL_ATTRIBUTES}, COALESCE(player_stats.points,0) as points")
+
+      scope :with_sum_points, joins(self::SQL_JOINS)
             .select("#{self::SQL_ATTRIBUTES}, COALESCE(sum(player_stats.points),0) as points")
             .group(self::SQL_ATTRIBUTES)
 
       scope :with_points_on_season, ->(season) {
-            with_points
+            with_sum_points
             .where(["games.season = ? OR games.season IS NULL",season])
           }
+
       scope :with_points_on_season_week, ->(season, week) {
             with_points_on_season(season)
             .where(["games.week = ? OR games.week IS NULL",week])
@@ -57,9 +61,23 @@ module Extensions
             .where(["games.week = ? OR games.week IS NULL",week])
           }
 
+      scope :with_points_on_season_by_week, ->(season) {
+            with_points
+            .select("games.week as week")
+            .where(["games.season = ? OR games.season IS NULL",season])
+          }
+
       validate :validate_date_out_blank, if: "new_record?"
       validate :validate_out_after_in, unless: "date_out.blank?"
       validate :validate_in_after_last_out, unless: "player.blank?"
+    end
+
+    module ClassMethods
+      def season_avg_points_by_week_hash league, season = league.season
+        avg_points = {}
+        PlayerStat.league_season_avg_points_by_week(league, season).each { |file| avg_points[file.week] = file.points }
+        avg_points
+      end
     end
 
     def current?
