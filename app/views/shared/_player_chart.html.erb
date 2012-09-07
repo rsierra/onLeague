@@ -1,0 +1,26 @@
+<div class="player-chart">
+  <% points_chart_id = "#{player_chart.class.name.underscore.dasherize}-#{player_chart.id}-points-chart" %>
+  <div id="<%= points_chart_id %>"></div>
+
+  <script type='text/javascript'>
+
+    $(function() {
+       drawAreaChart();
+    });
+
+    function drawAreaChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['<%= League.human_attribute_name(:week) %>', '<%= t ".average" %>', '<%= Player.model_name.human %>'],
+        <%= player_chart.season_week_points_array_for_chart(@current_league) %>
+      ]);
+
+      var options = {
+        vAxis: { minValue: 0, maxValue: 10 },
+        legend: { position: 'top', alignment: 'end' }
+      };
+
+      var chart = new google.visualization.AreaChart(document.getElementById('<%= points_chart_id %>'));
+      chart.draw(data, options);
+    }
+  </script>
+</div>

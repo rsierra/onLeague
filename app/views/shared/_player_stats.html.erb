@@ -33,5 +33,7 @@
     <dd><%= player_stats.season_average_stats(:minutes_played,@current_league) %>'</dd>
     <dt><%= PlayerStat.human_attribute_name(:points_per_game) %></dt>
     <dd><%= player_stats.season_average_stats(:points,@current_league) %></dd>
+    <dt><%= Player.human_attribute_name(:popularity) %></dt>
+    <dd><%= player_stats.popularity %>%</dd>
   </dl>
 </div>

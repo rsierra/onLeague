@@ -102,6 +102,9 @@ img.avatar {
 
     dl {
       margin-bottom: 10px;
+      dt, dd {
+        line-height: 15px;
+      }
     }
 
     dl.player-info {
@@ -126,6 +129,17 @@ img.avatar {
         border-top: 1px black solid;
         margin-top: 5px;
       }
+    }
+
+    .nav-tabs > li, .nav-pills > li {
+      float:none;
+      display:inline-block;
+      *display:inline; /* ie7 fix */
+      zoom:1; /* hasLayout ie7 trigger */
+    }
+
+    .nav-tabs {
+      text-align:center;
     }
 
     .player-games {
@@ -153,6 +167,10 @@ img.avatar {
           font-size: 1.1em;
         }
       }
+    }
+
+    .player-chart {
+      text-align: center;
     }
   }
 }

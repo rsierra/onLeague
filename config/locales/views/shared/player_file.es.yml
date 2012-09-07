@@ -1,5 +1,10 @@
 es:
   shared:
+    player_chart:
+      average: Media de jugadores
+    player_file:
+      points_per_week: Puntos por jornada
     player_games:
       last_game: Último partido
       next_game: Siguiente partido
+

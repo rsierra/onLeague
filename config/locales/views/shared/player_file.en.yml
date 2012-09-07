@@ -1,5 +1,10 @@
-es:
+en:
   shared:
+    player_chart:
+      average: Players average
+    player_file:
+      points_per_week: Points per week
     player_games:
       last_game: Last game
       next_game: Next game
+

@@ -22,9 +22,24 @@
     <h3><%= PlayerStat.human_attribute_name(:points) %></h3>
   </div>
 
-  <%= render partial: 'shared/player_games', object: player_file.player %>
+  <% stats_tab_id = "#{player_file.class.name.underscore.dasherize}-#{player_file.id}-stats-tab" %>
+  <% chart_tab_id = "#{player_file.class.name.underscore.dasherize}-#{player_file.id}-chart-tab" %>
+  <ul class="nav nav-tabs">
+    <li><a href="#<%= stats_tab_id %>" data-toggle="tab"><%= PlayerStat.model_name.human %></a></li>
+    <li><a href="#<%= chart_tab_id %>" data-toggle="tab"><%= t '.points_per_week' %></a></li>
+  </ul>
 
-  <%= render partial: 'shared/player_stats', object: player_file.player,
+  <div class="tab-content">
+    <div class="tab-pane active" id="<%= stats_tab_id %>">
+      <%= render partial: 'shared/player_games', object: player_file.player %>
+
+      <%= render partial: 'shared/player_stats', object: player_file.player,
               locals: { goalkeeper: player_file.position.goalkeeper? } %>
+
+    </div>
+    <div class="tab-pane" id="<%= chart_tab_id %>">
+      <%= render partial: 'shared/player_chart', object: player_file %>
+    </div>
+  </div>
 
 </div>

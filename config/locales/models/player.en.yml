@@ -14,4 +14,5 @@ en:
         file: File
         name: Name
         points: Points
+        popularity: Popularity
         updated_at: Updated at
