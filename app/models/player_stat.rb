@@ -19,4 +19,9 @@ class PlayerStat < ActiveRecord::Base
   scope :season, ->(season) { joins(:game).where(games: { season: season }) }
   scope :in_league, ->(league_id) { joins(:game).where(games: { league_id: league_id }) }
   scope :in_game, ->(game_id) { where(game_id: game_id) }
+  scope :league_season_avg_points_by_week, ->(league, season = league.season) {
+    select("games.week, avg(player_stats.points) as points")
+    .in_league(league).season(season)
+    .group("games.week")
+  }
 end
