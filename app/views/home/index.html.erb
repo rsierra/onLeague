@@ -1,19 +1,24 @@
-<div class="row">
-  <div id="main_home" class="span12">
-    <%= image_tag 'logo.png', :id => 'home_logo' %>
-    <h1><%= t '.title'  %></h1>
-    <p><%= t '.welcome' %></p>
-  </div>
-</div>
-
-<div class="row">
-  <div class="span4 offset1">
-    <h2><%= t('.top_players') %></h2>
-    <%= render partial: "shared/players_points", object: @top_players %>
-  </div>
-  <div class="span5 offset1">
-    <h2><%= t('.top_teams') %></h2>
-    <%= render partial: "rankings/teams", object: @top_teams %>
+<div id="main_home">
+  <div class="row">
+    <div id="home-description" class="span8 offset2">
+      <%= image_tag 'onleague-logo.png', :id => 'home-logo' %>
+      <div class="description">
+        <h1><%= t '.title'  %></h1>
+        <p><%= t '.welcome' %></p>
+        <p><%= t '.join' %></p>
+      </div>
+    </div>
   </div>
 
+  <div class="row">
+    <div class="span4 offset1">
+      <h2><%= t('.top_players') %></h2>
+      <%= render partial: "shared/players_points", object: @top_players %>
+    </div>
+    <div class="span5 offset1">
+      <h2><%= t('.top_teams') %></h2>
+      <%= render partial: "rankings/teams", object: @top_teams %>
+    </div>
+
+  </div>
 </div>

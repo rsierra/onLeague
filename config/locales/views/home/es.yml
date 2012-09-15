@@ -4,6 +4,10 @@ es:
       title: onLeague
       top_players: Jugadores de la jornada
       top_teams: Equipos de la jornada
-      welcome: Bienvenido a onLeage
+      welcome: Bienvenido a onLeage, una liga fantástica donde puedes crear un
+        equipo con tus jugadores favoritos, gestionarlo jornada y ganar putos
+        con las actuaciones reales de tus jugadores.
+      join: Únete desde tus redes sociales y compite contra tus
+        amigos para quedar lider de la clasificación.
     top_teams:
       no_teams: No hay equipos esta jornada

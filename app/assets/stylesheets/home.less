@@ -2,11 +2,20 @@
 // HOME
 
 #main_home {
-  padding: 10px;
-  background-color: @successBackground;
-  .border-radius(20px);
+  #home-description {
+    .description {
+      display: inline-block;
+      vertical-align: middle;
+      max-width: 500px;
+      h1 {
+        margin-bottom: 20px;
+        border-bottom: 1px solid @black;
+      }
 
-  img#home_logo {
-    float: right;
+      p {
+        text-indent: 1.5em;
+        font-size: 1.3em;
+      }
+    }
   }
 }
