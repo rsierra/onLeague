@@ -75,7 +75,7 @@ module Extensions
     module ClassMethods
       def season_avg_points_by_week_hash league, season = league.season
         avg_points = {}
-        PlayerStat.league_season_avg_points_by_week(league, season).each { |file| avg_points[file.week] = file.points }
+        PlayerStat.league_season_avg_points_by_week(league, season).each { |file| avg_points[file.week.to_i] = file.points.to_i }
         avg_points
       end
     end
@@ -88,22 +88,16 @@ module Extensions
       value * 1000000
     end
 
-    def self.season_avg_points_by_week_hash league, season = league.season
-      avg_points = {}
-      PlayerStat.league_season_avg_points_by_week(league, season).each { |file| avg_points[file.week] = file.points.to_i }
-      avg_points
-    end
-
     def season_points_by_week_hash league, season = league.season
       points = {}
-      self.class.where(id: id).with_points_on_season_by_week(season).each {|file| points[file.week] = file.points.to_i }
+      self.class.where(id: id).with_points_on_season_by_week(season).each { |file| points[file.week.to_i] = file.points.to_i }
       points
     end
 
     def season_week_points_array_for_chart league, season = league.season
       avg_points = self.class.season_avg_points_by_week_hash league, season
       points = season_points_by_week_hash league, season
-      avg_points.map { |key, value| "['#{key}', #{value.to_i}, #{points[key].to_i}]" }.join(',')
+      avg_points.sort.map { |week_points| "['#{week_points.first}', #{week_points.last}, #{points[week_points.first].to_i}]" }.join(',')
     end
 
     private
