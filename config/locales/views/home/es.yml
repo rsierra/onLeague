@@ -1,13 +1,21 @@
 es:
   home:
     index:
+      clubs_description: Revisa la evolución de los clubs de la liga.
+      congrats: Enhorabuena a %{user}, en entrenador de %{team}, ganador de la jornada %{week}.
+      current_week: Se está disputando actualmente la jornada %{week}.
+      games_description: Consulta los todos los datos de los partidos.
+      join: Únete desde tus redes sociales y compite contra tus amigos para
+        quedar lider de la clasificación.
+      latest_news: Últimas noticias
+      rankings: Puntuaciones
+      rankings_description: Comprueba las puntuaciones de los equipos
+      teams_description: Crea y gestiona tus equipos.
       title: onLeague
-      top_players: Jugadores de la jornada
-      top_teams: Equipos de la jornada
+      top_players: Jugadores de la jornada %{week}
+      top_teams: Equipos de la jornada %{week}
       welcome: Bienvenido a onLeage, una liga fantástica donde puedes crear un
         equipo con tus jugadores favoritos, gestionarlo jornada y ganar putos
         con las actuaciones reales de tus jugadores.
-      join: Únete desde tus redes sociales y compite contra tus
-        amigos para quedar lider de la clasificación.
     top_teams:
       no_teams: No hay equipos esta jornada

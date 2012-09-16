@@ -11,14 +11,59 @@
   </div>
 
   <div class="row">
+    <div id="home-news" class="span4 offset1">
+      <h2><%= t '.latest_news' %></h2>
+      <div class="home-new">
+        <%= image_tag 'icons/news.png' %>
+        <p><%= t '.current_week', week: @current_league.current_week %></p>
+      </div>
+      <div class="home-new">
+        <%= image_tag 'icons/place-1.png' %>
+        <p><%= t '.congrats', user: @last_winner.user.name, team: @last_winner.name, week: @current_league.last_week %></p>
+      </div>
+    </div>
+    <div id="home-sections" class="span6">
+      <ul>
+        <li>
+          <%= link_to teams_path do %>
+            <%= image_tag 'icons/stadium.png', :class => 'home-buttons' %>
+          <% end %>
+          <h2><%= Team.model_name.human.pluralize %></h2>
+          <p><%= t '.teams_description' %></p>
+        </li>
+        <li class="home-section">
+          <%= link_to rankings_path do %>
+            <%= image_tag 'icons/trophy.png', :class => 'home-buttons' %>
+          <% end %>
+          <h2><%= t '.rankings' %></h2>
+          <p><%= t '.rankings_description' %></p>
+        </li>
+        <li class="home-section">
+          <%= link_to games_path do %>
+            <%= image_tag 'icons/calendar.png', :class => 'home-buttons' %>
+          <% end %>
+          <h2><%= Game.model_name.human.pluralize %></h2>
+          <p><%= t '.games_description' %></p>
+        </li>
+        <li class="home-section">
+          <%= link_to clubs_path do %>
+            <%= image_tag 'icons/charts.png', :class => 'home-buttons' %>
+          <% end %>
+          <h2><%= Club.model_name.human.pluralize %></h2>
+          <p><%= t '.clubs_description' %></p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="span4 offset1">
-      <h2><%= t('.top_players') %></h2>
+      <h2><%= t('.top_players', week: @current_league.current_week) %></h2>
       <%= render partial: "shared/players_points", object: @top_players %>
     </div>
     <div class="span5 offset1">
-      <h2><%= t('.top_teams') %></h2>
+      <h2><%= t('.top_teams', week: @current_league.current_week) %></h2>
       <%= render partial: "rankings/teams", object: @top_teams %>
     </div>
-
   </div>
 </div>

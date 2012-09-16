@@ -1,14 +1,21 @@
 en:
   home:
     index:
+      clubs_description: Check the evolution of league clubs.
+      congrats: Congrats tu %{user}, coach of %{team}, winner of the week %{week}.
+      current_week: Week %{week} is currently playing.
+      games_description: Find all data about the games.
+      join: Join us form your social networks and challenge your friends for get
+        the first place in the ranking.
+      latest_news: Latest news
+      rankings: Rankings
+      rankings_description: Check teams points.
+      teams_description: Create and manage your teams.
       title: onLeague
-      top_players: Players of the week
-      top_teams: Teams of the week
+      top_players: Players of the week %{week}
+      top_teams: Teams of the week %{week}
       welcome: Welcome to onLeage, a fantasy league where you can create a team
         with your favorite players, manage it week by week and win points with
         their real games.
-      join: Join us form your social networks and challenge your friends for get
-        the first place in the ranking.
-
     top_teams:
       no_teams: No teams this week

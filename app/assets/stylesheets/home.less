@@ -19,4 +19,62 @@
       }
     }
   }
+
+  #home-news {
+    display: inline-block;
+    vertical-align: middle;
+    h2 {
+      color: @greenDark;
+      margin-bottom: 20px;
+      border-bottom: 1px solid @greenDark;
+    }
+
+    .home-new {
+      margin: 10px;
+      border-bottom: 1px solid @grayLight;
+      @icon-size: 32px;
+      @new-size: 36px;
+      min-height: @new-size;
+
+      img {
+        float: left;
+        max-width: @icon-size;
+        max-height: @icon-size;
+      }
+
+      p {
+        margin-left: @new-size;
+        text-indent: 1.5em;
+        font-size: 1.1em;
+      }
+    }
+  }
+
+  #home-sections {
+    display: inline-block;
+    vertical-align: middle;
+    ul {
+      list-style: none;
+      li {
+        width: 49%;
+        float: left;
+        margin-bottom: 10px;
+
+        img {
+          float: left;
+        }
+        h2 {
+          margin: 0 20px 5px 80px;
+          line-height: 25px;
+          color: @greenDark;
+          font-size: 1.5em;
+          border-bottom: 1px solid @greenDark;
+        }
+        p {
+          margin: 0 20px 0 80px;
+          padding-right: 10px;
+        }
+      }
+    }
+  }
 }
