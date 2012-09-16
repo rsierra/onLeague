@@ -25,9 +25,9 @@ class User < ActiveRecord::Base
     provider = oauth_providers.first
     provider_name = provider ? provider.provider : nil
     case provider_name
-      when 'google' then GooglePlus::Person.get(provider.uid).image.url
-      when 'twitter' then Twitter.user(provider.uid.to_i).profile_image_url
-      when 'facebook' then Koala::Facebook::API.new.get_picture(provider.uid)
+      when 'google' then GooglePlus::Person.get(provider.uid).image.url rescue gravatar_url
+      when 'twitter' then Twitter.user(provider.uid.to_i).profile_image_url rescue gravatar_url
+      when 'facebook' then Koala::Facebook::API.new.get_picture(provider.uid) rescue gravatar_url
       else gravatar_url
     end
   end
