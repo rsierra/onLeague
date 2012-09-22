@@ -1,4 +1,6 @@
 en:
   rankings:
     index:
-      rankings: Rankings
+      select_ranking: Select a ranking
+      seasonal: Seasonal
+      weekly: Weekly

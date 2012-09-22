@@ -1,4 +1,6 @@
 es:
   rankings:
     index:
-      rankings: Puntuaciones
+      select_ranking: Elige la puntiación
+      seasonal: Por temporada
+      weekly: Por jornada
