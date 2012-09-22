@@ -32,6 +32,29 @@ class User < ActiveRecord::Base
     end
   end
 
+  def provider_friends provider
+    send("#{provider}_friends") if respond_to?("#{provider}_friends")
+  end
+
+  def facebook_friends
+    provider = oauth_providers.where(provider: 'facebook').first
+    Koala::Facebook::API.new.get_connections(provider.uid, "friends") rescue [] if provider
+  end
+
+  def twitter_friends
+    provider = oauth_providers.where(provider: 'twitter').first
+    if provider
+      cursor = -1
+      ids = []
+      while cursor != 0 do
+        followers = Twitter.follower_ids(provider.uid.to_i, { cursor: cursor })
+        cursor = followers.next_cursor
+        ids += followers.ids.map(&:to_s)
+      end
+      ids
+    end
+  end
+
   def has_provider?(provider)
     oauth_providers.exists?(:provider => provider)
   end
