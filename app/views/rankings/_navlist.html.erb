@@ -1,0 +1,13 @@
+<ul class="nav nav-list well span2 offset1">
+  <li class="nav-header"><%= t '.select_ranking' %></li>
+  <li class="divider"></li>
+  <%= ranking_nav_item @ranking_kind, 'seasonal', 'icon-globe' %>
+  <%= ranking_nav_item @ranking_kind, 'seasonal_twitter', 'icon-user', { provider: 'twitter'} %>
+  <%= ranking_nav_item @ranking_kind, 'seasonal_facebook', 'icon-user', { provider: 'facebook'} %>
+
+  <li class="divider"></li>
+  <% path_options = { season: @current_league.season, week: @current_league.current_week } %>
+  <%= ranking_nav_item @ranking_kind, 'weekly', 'icon-time' , path_options %>
+  <%= ranking_nav_item @ranking_kind, 'weekly_twitter', 'icon-user', path_options.merge({ provider: 'twitter'}) %>
+  <%= ranking_nav_item @ranking_kind, 'weekly_facebook', 'icon-user', path_options.merge({ provider: 'facebook'}) %>
+</ul>

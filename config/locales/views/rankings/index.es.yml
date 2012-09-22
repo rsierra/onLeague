@@ -1,6 +1,10 @@
 es:
   rankings:
-    index:
+    navlist:
       select_ranking: Elige la puntiación
       seasonal: Por temporada
+      seasonal_twitter: Twitter
+      seasonal_facebook: Facebook
       weekly: Por jornada
+      weekly_twitter: Twitter
+      weekly_facebook: Facebook

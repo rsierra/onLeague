@@ -1,6 +1,10 @@
 en:
   rankings:
-    index:
+    navlist:
       select_ranking: Select a ranking
       seasonal: Seasonal
+      seasonal_twitter: Twitter
+      seasonal_facebook: Facebook
       weekly: Weekly
+      weekly_twitter: Twitter
+      weekly_facebook: Facebook
