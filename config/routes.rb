@@ -1,5 +1,5 @@
 OnLeague::Application.routes.draw do
-  resources :rankings, only: [:index]
+  match '/rankings(/:season(/:week))' => "rankings#index", as: :rankings
 
   resources :club_files, :team_files, only: [:show]
 
