@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
       cursor = -1
       ids = []
       while cursor != 0 do
-        followers = Twitter.follower_ids(provider.uid.to_i, { cursor: cursor }) rescue return []
+        (followers = Twitter.follower_ids(provider.uid.to_i, { cursor: cursor })) rescue return []
         cursor = followers.next_cursor
         ids += followers.ids.map(&:to_s)
       end
