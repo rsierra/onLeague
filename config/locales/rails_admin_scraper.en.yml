@@ -1,0 +1,10 @@
+en:
+  admin:
+    actions:
+      scrap_lineups:
+        breadcrumb: Load lineups
+        title: Load lineups
+      scraper_lineups:
+        breadcrumb: Load lineups
+        menu: Load lineups
+        title: Load lineups

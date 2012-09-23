@@ -97,3 +97,5 @@ gem 'ransack'
 gem 'google_plus'
 gem 'twitter'
 gem 'koala'
+
+gem 'text'

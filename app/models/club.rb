@@ -5,6 +5,7 @@ class Club < ActiveRecord::Base
 
   has_many :club_files
   has_many :files, class_name: 'ClubFile', conditions: 'date_out is null', order: :number
+  has_many :players, through: :files
   accepts_nested_attributes_for :files
   validates_associated :files
 

@@ -21,6 +21,8 @@ class Ability
       can :write, Player
       can :write, ClubFile
       can :write, Game
+      can :scraper_lineups, Game
+      can :scrap_lineups, Game
       can :update, Goal
       can :destroy, Goal
       can :update, Card

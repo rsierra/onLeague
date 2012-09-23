@@ -1,0 +1,10 @@
+es:
+  admin:
+    actions:
+      scrap_lineups:
+        breadcrumb: Cargar alineaciones
+        title: Cargar alineaciones
+      scraper_lineups:
+        breadcrumb: Cargar alineaciones
+        menu: Cargar alineaciones
+        title: Cargar alineaciones
