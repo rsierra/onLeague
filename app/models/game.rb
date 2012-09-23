@@ -1,3 +1,7 @@
+# encoding: UTF-8
+
+require 'nokogiri'
+
 class Game < ActiveRecord::Base
   STATUS_TYPES = %w(active inactive evaluated revised closed)
   TIME_BEFORE = 30.minutes
@@ -335,7 +339,86 @@ class Game < ActiveRecord::Base
     restore_defenders_stats(club_away, home_goals) if home_goals < 2
   end
 
+  def scrap_lineups url
+    home_players = self.club_home.players
+    away_players = self.club_away.players
+
+    doc = Nokogiri::HTML(open(url))
+
+    doc.css("#team1_players_lineup .player_name_lineup").each do |item|
+      name_player = item.at_css("a").text
+      player = Utils::Text.get_best_rate home_players, name_player
+      self.lineups.build(player: player)
+
+      rating = item.parent.css('.player_rating_lineup').text.to_f
+      mark = Game.rating_to_mark rating
+      self.marks.build(player: player, mark: mark) unless mark.zero?
+    end
+
+    doc.css("#substitutes_team1 .player_name_lineup").each do |item|
+      name_player = item.at_css("a").text
+      player = Utils::Text.get_best_rate home_players, name_player
+
+      rating = item.parent.css('.player_rating_lineup').text.to_f
+      mark = Game.rating_to_mark rating
+      self.marks.build(player: player, mark: mark) unless mark.zero?
+    end
+
+    doc.css("#team2_players_lineup .player_name_lineup").each do |item|
+      name_player = item.at_css("a").text
+      player = Utils::Text.get_best_rate away_players, name_player
+      self.lineups.build(player: player)
+
+      rating = item.parent.css('.player_rating_lineup').text.to_f
+      mark = Game.rating_to_mark rating
+      self.marks.build(player: player, mark: mark) unless mark.zero?
+    end
+
+    doc.css("#substitutes_team2 .player_name_lineup").each do |item|
+      name_player = item.at_css("a").text
+      player = Utils::Text.get_best_rate away_players, name_player
+
+      rating = item.parent.css('.player_rating_lineup').text.to_f
+      mark = Game.rating_to_mark rating
+      self.marks.build(player: player, mark: mark) unless mark.zero?
+    end
+  end
+
+  def scrap_events url
+    players = self.club_home.players + self.club_away.players
+
+    doc = Nokogiri::HTML(open(url))
+
+    doc.css(".live_comments_item").each do |item|
+      event = item.css(".live_comments_text span")
+      unless event.text == ''
+        kind = event.text
+        player_name = item.css(".live_comments_text").text.gsub(kind,'').strip
+
+        player = Utils::Text.get_best_rate home_players + away_players, player_name
+        minute = item.css(".live_comments_minute").at_css("strong").text.gsub('′','').strip
+        #puts "#{kind} - #{minute} - #{player} : #{player.name if player}"
+        case kind
+        when 'Yellow Card'
+          self.cards.build(player: player, minute: minute)
+        end
+      end
+    end
+  end
+
   private
+
+  def self.rating_to_mark rating
+    mark = 0
+    if rating >= 3 && rating <= 3.5
+      mark = 1
+    elsif rating >= 4 && rating <= 4.5
+      mark = 2
+    elsif rating >= 5
+      mark = 3
+    end
+    mark
+  end
 
   def club_valid_lineups_count? club
     player_ids = club.player_ids_on_date(date)
