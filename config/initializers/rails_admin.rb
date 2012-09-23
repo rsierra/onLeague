@@ -2,6 +2,8 @@
 # See github.com/sferik/rails_admin for more informations
 
 require "rails_admin/config/actions/close_week"
+require "rails_admin/config/actions/scraper_lineups"
+require "rails_admin/config/actions/scrap_lineups"
 
 RailsAdmin.config do |config|
 
@@ -12,6 +14,8 @@ RailsAdmin.config do |config|
     show
     edit
     close_week
+    scraper_lineups
+    scrap_lineups
     delete
   end
 
