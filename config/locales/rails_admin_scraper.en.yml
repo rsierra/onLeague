@@ -15,3 +15,10 @@ en:
         breadcrumb: Load cards
         menu: Load cards
         title: Load cards
+      scrap_substitutions:
+        breadcrumb: Load substitutions
+        title: Load substitutions
+      scraper_substitutions:
+        breadcrumb: Load substitutions
+        menu: Load substitutions
+        title: Load substitutions

@@ -25,6 +25,8 @@ class Ability
       can :scrap_lineups, Game
       can :scraper_cards, Game
       can :scrap_cards, Game
+      can :scraper_substitutions, Game
+      can :scrap_substitutions, Game
       can :update, Goal
       can :destroy, Goal
       can :update, Card

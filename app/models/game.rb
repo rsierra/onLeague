@@ -393,11 +393,36 @@ class Game < ActiveRecord::Base
       event = item.css(".live_comments_text span")
       unless event.text == ''
         kind = event.text
-        player_name = item.css(".live_comments_text").text.gsub(kind,'').strip
+        if kind == 'Yellow Card'
+          player_name = item.css(".live_comments_text").text.gsub(kind,'').strip
 
-        player = Utils::Text.get_best_rate players, player_name
-        minute = item.css(".live_comments_minute").at_css("strong").text.gsub('′','').strip
-        self.cards.build(player: player, minute: minute) if kind == 'Yellow Card'
+          player = Utils::Text.get_best_rate players, player_name
+          minute = item.css(".live_comments_minute").at_css("strong").text.gsub('′','').strip
+          self.cards.build(player: player, minute: minute)
+        end
+      end
+    end
+  end
+
+  def scrap_substitutions url
+    players = self.club_home.players + self.club_away.players
+
+    doc = Nokogiri::HTML(open(url))
+
+    doc.css(".live_comments_item").each do |item|
+      event = item.css(".live_comments_text span")
+      unless event.text == ''
+        kind = event.text
+        if kind == 'Substitution'
+          player_names = item.css(".live_comments_text").text.gsub(kind,'').strip.split('  ')
+
+          if player_names.length == 2
+            player_out = Utils::Text.get_best_rate players, player_names.first
+            player_in = Utils::Text.get_best_rate players, player_names.last
+            minute = item.css(".live_comments_minute").at_css("strong").text.gsub('′','').strip
+            self.substitutions.build(player_out: player_out, player_in: player_in, minute: minute)
+          end
+        end
       end
     end
   end

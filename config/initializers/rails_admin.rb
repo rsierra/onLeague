@@ -6,6 +6,8 @@ require "rails_admin/config/actions/scraper_lineups"
 require "rails_admin/config/actions/scrap_lineups"
 require "rails_admin/config/actions/scraper_cards"
 require "rails_admin/config/actions/scrap_cards"
+require "rails_admin/config/actions/scraper_substitutions"
+require "rails_admin/config/actions/scrap_substitutions"
 
 RailsAdmin.config do |config|
 
@@ -20,6 +22,8 @@ RailsAdmin.config do |config|
     scrap_lineups
     scraper_cards
     scrap_cards
+    scraper_substitutions
+    scrap_substitutions
     delete
   end
 

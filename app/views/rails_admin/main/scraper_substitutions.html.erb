@@ -1,0 +1,5 @@
+<%= rails_admin_form_for @object, :url => scrap_substitutions_path(@abstract_model, @object.id), :as => @abstract_model.param_key, :html => { :method => "get", :class => "form-horizontal denser", :data => { :title => @page_name } } do |form| %>
+  <%= label_tag :scrap_url, 'URL' %>
+  <%= text_field_tag :scrap_url, '', class: 'input-large' %>
+  <%= submit_tag t("admin.actions.scrap_substitutions.title"), class: "btn btn-primary", 'data-disable-with' => t("admin.actions.scrap_substitutions.title") %>
+<% end %>

@@ -15,3 +15,10 @@ es:
         breadcrumb: Cargar tarjetas
         menu: Cargar tarjetas
         title: Cargar tarjetas
+      scrap_substitutions:
+        breadcrumb: Cargar cambios
+        title: Cargar cambios
+      scraper_substitutions:
+        breadcrumb: Cargar cambios
+        menu: Cargar cambios
+        title: Cargar cambios
