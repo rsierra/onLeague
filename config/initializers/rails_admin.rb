@@ -8,6 +8,8 @@ require "rails_admin/config/actions/scraper_cards"
 require "rails_admin/config/actions/scrap_cards"
 require "rails_admin/config/actions/scraper_substitutions"
 require "rails_admin/config/actions/scrap_substitutions"
+require "rails_admin/config/actions/scraper_goals"
+require "rails_admin/config/actions/scrap_goals"
 
 RailsAdmin.config do |config|
 
@@ -24,6 +26,8 @@ RailsAdmin.config do |config|
     scrap_cards
     scraper_substitutions
     scrap_substitutions
+    scraper_goals
+    scrap_goals
     delete
   end
 

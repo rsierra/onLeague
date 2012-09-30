@@ -390,16 +390,13 @@ class Game < ActiveRecord::Base
     doc = Nokogiri::HTML(open(url))
 
     doc.css(".live_comments_item").each do |item|
-      event = item.css(".live_comments_text span")
-      unless event.text == ''
-        kind = event.text
-        if kind == 'Yellow Card'
-          player_name = item.css(".live_comments_text").text.gsub(kind,'').strip
+      kind = item.css(".live_comments_text span").text
+      if kind == 'Yellow Card'
+        player_name = item.css(".live_comments_text").text.gsub(kind,'').strip
 
-          player = Utils::Text.get_best_rate players, player_name
-          minute = item.css(".live_comments_minute").at_css("strong").text.gsub('′','').strip
-          self.cards.build(player: player, minute: minute)
-        end
+        player = Utils::Text.get_best_rate players, player_name
+        minute = item.css(".live_comments_minute").at_css("strong").text.gsub('′','').strip
+        self.cards.build(player: player, minute: minute)
       end
     end
   end
@@ -410,19 +407,52 @@ class Game < ActiveRecord::Base
     doc = Nokogiri::HTML(open(url))
 
     doc.css(".live_comments_item").each do |item|
-      event = item.css(".live_comments_text span")
-      unless event.text == ''
-        kind = event.text
-        if kind == 'Substitution'
-          player_names = item.css(".live_comments_text").text.gsub(kind,'').strip.split('  ')
+      kind = item.css(".live_comments_text span").text
+      if kind == 'Substitution'
+        player_names = item.css(".live_comments_text").text.gsub(kind,'').strip.split('  ')
 
-          if player_names.length == 2
-            player_out = Utils::Text.get_best_rate players, player_names.first
-            player_in = Utils::Text.get_best_rate players, player_names.last
-            minute = item.css(".live_comments_minute").at_css("strong").text.gsub('′','').strip
-            self.substitutions.build(player_out: player_out, player_in: player_in, minute: minute)
+        if player_names.length == 2
+          player_out = Utils::Text.get_best_rate players, player_names.first
+          player_in = Utils::Text.get_best_rate players, player_names.last
+          minute = item.css(".live_comments_minute").at_css("strong").text.gsub('′','').strip
+          self.substitutions.build(player_out: player_out, player_in: player_in, minute: minute)
+        end
+      end
+    end
+  end
+
+  def scrap_goals url
+    players = self.club_home.players + self.club_away.players
+
+    doc = Nokogiri::HTML(open(url))
+
+    doc.css(".live_comments_item").each do |item|
+      kind = item.css(".live_comments_text span").text
+      if kind == 'Goal' || kind == 'Own Goal' || kind == 'Penalty Goal'
+        goal_kind = case kind
+        when 'Goal' then 'regular'
+        when 'Own Goal' then 'own'
+        when 'Penalty Goal' then 'penalty'
+        end
+
+        scorer_name = item.css(".live_comments_text").inner_html.gsub("<span>#{kind}</span>",'').gsub(/<br>.*/,'').strip
+        scorer = Utils::Text.get_best_rate players, scorer_name
+
+        assistant_name = nil
+        assistant = nil
+        assist = item.previous_element.css(".live_comments_text span").text
+        if assist == 'Assist'
+          assistant_name = item.previous_element.css(".live_comments_text").text.gsub(assist,'').strip
+        else
+          next_assist = item.next_element.css(".live_comments_text span").text
+          if next_assist == 'Assist'
+            assistant_name = item.next_element.css(".live_comments_text").text.gsub(next_assist,'').strip
           end
         end
+        assistant = Utils::Text.get_best_rate players, assistant_name if assistant_name.present?
+
+        minute = item.css(".live_comments_minute").at_css("strong").text.gsub('′','').strip
+        self.goals.build(scorer: scorer, assistant: assistant, minute: minute, kind: goal_kind)
       end
     end
   end

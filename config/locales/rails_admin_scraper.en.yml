@@ -22,3 +22,10 @@ en:
         breadcrumb: Load substitutions
         menu: Load substitutions
         title: Load substitutions
+      scrap_goals:
+        breadcrumb: Load goals
+        title: Load goals
+      scraper_goals:
+        breadcrumb: Load goals
+        menu: Load goals
+        title: Load goals

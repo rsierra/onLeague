@@ -22,3 +22,10 @@ es:
         breadcrumb: Cargar cambios
         menu: Cargar cambios
         title: Cargar cambios
+      scrap_goals:
+        breadcrumb: Cargar goles
+        title: Cargar goles
+      scraper_goals:
+        breadcrumb: Cargar goles
+        menu: Cargar goles
+        title: Cargar goles
