@@ -4,6 +4,8 @@
 require "rails_admin/config/actions/close_week"
 require "rails_admin/config/actions/scraper_lineups"
 require "rails_admin/config/actions/scrap_lineups"
+require "rails_admin/config/actions/scraper_cards"
+require "rails_admin/config/actions/scrap_cards"
 
 RailsAdmin.config do |config|
 
@@ -16,6 +18,8 @@ RailsAdmin.config do |config|
     close_week
     scraper_lineups
     scrap_lineups
+    scraper_cards
+    scrap_cards
     delete
   end
 

@@ -384,7 +384,7 @@ class Game < ActiveRecord::Base
     end
   end
 
-  def scrap_events url
+  def scrap_cards url
     players = self.club_home.players + self.club_away.players
 
     doc = Nokogiri::HTML(open(url))
@@ -395,7 +395,7 @@ class Game < ActiveRecord::Base
         kind = event.text
         player_name = item.css(".live_comments_text").text.gsub(kind,'').strip
 
-        player = Utils::Text.get_best_rate home_players + away_players, player_name
+        player = Utils::Text.get_best_rate players, player_name
         minute = item.css(".live_comments_minute").at_css("strong").text.gsub('′','').strip
         #puts "#{kind} - #{minute} - #{player} : #{player.name if player}"
         case kind

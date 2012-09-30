@@ -8,3 +8,10 @@ en:
         breadcrumb: Load lineups
         menu: Load lineups
         title: Load lineups
+      scrap_cards:
+        breadcrumb: Load cards
+        title: Load cards
+      scraper_cards:
+        breadcrumb: Load cards
+        menu: Load cards
+        title: Load cards

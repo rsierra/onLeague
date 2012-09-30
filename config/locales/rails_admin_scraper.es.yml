@@ -8,3 +8,10 @@ es:
         breadcrumb: Cargar alineaciones
         menu: Cargar alineaciones
         title: Cargar alineaciones
+      scrap_cards:
+        breadcrumb: Cargar tarjetas
+        title: Cargar tarjetas
+      scraper_cards:
+        breadcrumb: Cargar tarjetas
+        menu: Cargar tarjetas
+        title: Cargar tarjetas
