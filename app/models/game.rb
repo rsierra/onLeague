@@ -440,13 +440,17 @@ class Game < ActiveRecord::Base
 
         assistant_name = nil
         assistant = nil
-        assist = item.previous_element.css(".live_comments_text span").text
-        if assist == 'Assist'
-          assistant_name = item.previous_element.css(".live_comments_text").text.gsub(assist,'').strip
-        else
-          next_assist = item.next_element.css(".live_comments_text span").text
-          if next_assist == 'Assist'
-            assistant_name = item.next_element.css(".live_comments_text").text.gsub(next_assist,'').strip
+        if previous_element = item.previous_element
+          assist = previous_element.css(".live_comments_text span").text
+          if assist == 'Assist'
+            assistant_name = previous_element.css(".live_comments_text").text.gsub(assist,'').strip
+          else
+            if next_element = item.next_element
+              next_assist = item.next_element.css(".live_comments_text span").text
+              if next_assist == 'Assist'
+                assistant_name = item.next_element.css(".live_comments_text").text.gsub(next_assist,'').strip
+              end
+            end
           end
         end
         assistant = Utils::Text.get_best_rate players, assistant_name if assistant_name.present?
