@@ -397,11 +397,7 @@ class Game < ActiveRecord::Base
 
         player = Utils::Text.get_best_rate players, player_name
         minute = item.css(".live_comments_minute").at_css("strong").text.gsub('′','').strip
-        #puts "#{kind} - #{minute} - #{player} : #{player.name if player}"
-        case kind
-        when 'Yellow Card'
-          self.cards.build(player: player, minute: minute)
-        end
+        self.cards.build(player: player, minute: minute) if kind == 'Yellow Card'
       end
     end
   end
