@@ -350,7 +350,7 @@ class Game < ActiveRecord::Base
       player = Utils::Text.get_best_rate home_players, name_player
       self.lineups.build(player: player)
 
-      rating = item.parent.css('.player_rating_lineup').text.to_f
+      rating = get_rating item
       mark = Game.rating_to_mark rating
       self.marks.build(player: player, mark: mark) unless mark.zero?
     end
@@ -359,7 +359,7 @@ class Game < ActiveRecord::Base
       name_player = item.at_css("a").text
       player = Utils::Text.get_best_rate home_players, name_player
 
-      rating = item.parent.css('.player_rating_lineup').text.to_f
+      rating = get_rating item
       mark = Game.rating_to_mark rating
       self.marks.build(player: player, mark: mark) unless mark.zero?
     end
@@ -369,7 +369,7 @@ class Game < ActiveRecord::Base
       player = Utils::Text.get_best_rate away_players, name_player
       self.lineups.build(player: player)
 
-      rating = item.parent.css('.player_rating_lineup').text.to_f
+      rating = get_rating item
       mark = Game.rating_to_mark rating
       self.marks.build(player: player, mark: mark) unless mark.zero?
     end
@@ -378,7 +378,7 @@ class Game < ActiveRecord::Base
       name_player = item.at_css("a").text
       player = Utils::Text.get_best_rate away_players, name_player
 
-      rating = item.parent.css('.player_rating_lineup').text.to_f
+      rating = get_rating item
       mark = Game.rating_to_mark rating
       self.marks.build(player: player, mark: mark) unless mark.zero?
     end
@@ -407,6 +407,17 @@ class Game < ActiveRecord::Base
   end
 
   private
+
+  def get_rating item
+    rating = item.parent.css('.player_rating_lineup').text.to_f
+    flop_star = item.parent.xpath(".//img[contains(@src,'d4.gif')]").first
+    gold_star = item.parent.xpath(".//img[contains(@src,'d5.gif')]").first
+    rating += 0.5 if item.parent.get_attribute('class').include?('manOfTheMatch')
+    rating += 0.5 if flop_star
+    rating -= 0.5 if item.parent.get_attribute('class').include?('flopOfTheMatch')
+    rating -= 0.5 if gold_star
+    rating
+  end
 
   def self.rating_to_mark rating
     mark = 0
