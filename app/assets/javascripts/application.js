@@ -14,6 +14,9 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require jquery.grayscale
+//= require raphael
+//= require morris
+//= require charts
 //= require_self
 
 $("a[rel=popover]").popover()
