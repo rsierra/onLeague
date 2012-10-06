@@ -9,5 +9,7 @@
         ylabels: [PlayerStat.human_attribute_name(:points), t('.average')]
       } %>
 <script type="text/javascript">
-  chartDrawer.drawChart('<%= points_chart_id %>');
+  $(document).ready(function () {
+    chartDrawer.drawPlayerPointsChart('<%= points_chart_id %>');
+  });
 </script>

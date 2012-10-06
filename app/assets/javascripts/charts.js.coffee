@@ -1,5 +1,5 @@
 class ChartDrawer
-  drawChart: (id) ->
+  drawPlayerPointsChart: (id) ->
     element = $('#'+id)
     Morris.Line
       element: id
@@ -10,5 +10,7 @@ class ChartDrawer
       ymax: 'auto 10'
       ymin: 'auto 0'
       dateFormat: (x) -> "#{element.data('xlabel')} #{x}"
+      hideHover: true
+
 
 window.chartDrawer = new ChartDrawer
