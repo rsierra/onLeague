@@ -65,6 +65,11 @@ class Team < ActiveRecord::Base
         order_by_points_on_season(season)
         .where(["games.week IS NULL OR games.week = ?",week])
       }
+  scope :with_points_on_season_by_week, ->(season) {
+        with_points
+        .select("games.week as week").group("games.week")
+        .where(["games.season = ? OR games.season IS NULL",season])
+      }
 
   validate :max_per_user, on: :create, unless: 'user_id.blank? || league_id.blank?'
   validate :activation, if: 'active'
@@ -290,6 +295,21 @@ class Team < ActiveRecord::Base
     rescue Exception => e
       return e.message
     end
+  end
+
+  def season_points_by_week_hash league, season = league.season
+    points = {}
+    self.class.where(id: id).with_points_on_season_by_week(season).each { |file| points[file.week.to_i] = file.points.to_i }
+    points
+  end
+
+  def season_week_points_array_for_chart league, season = league.season
+    points = season_points_by_week_hash league, season
+    points.sort.map { |week_points| { week: week_points.first, points: week_points.last } }
+  end
+
+  def season_points(league, season=league.season)
+    self.class.where(id: id).with_points_on_season(season).first.points
   end
 
   private
