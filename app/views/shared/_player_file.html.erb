@@ -25,7 +25,7 @@
   <% stats_tab_id = "#{player_file.class.name.underscore.dasherize}-#{player_file.id}-stats-tab" %>
   <% chart_tab_id = "#{player_file.class.name.underscore.dasherize}-#{player_file.id}-chart-tab" %>
   <ul class="nav nav-tabs">
-    <li><a href="#<%= stats_tab_id %>" data-toggle="tab"><%= PlayerStat.model_name.human %></a></li>
+    <li class="active"><a href="#<%= stats_tab_id %>" data-toggle="tab"><%= PlayerStat.model_name.human %></a></li>
     <li><a href="#<%= chart_tab_id %>" data-toggle="tab"><%= t '.points_per_week' %></a></li>
   </ul>
 
