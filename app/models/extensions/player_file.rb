@@ -97,7 +97,7 @@ module Extensions
     def season_week_points_array_for_chart league, season = league.season
       avg_points = self.class.season_avg_points_by_week_hash league, season
       points = season_points_by_week_hash league, season
-      avg_points.sort.map { |week_points| "['#{week_points.first}', #{week_points.last}, #{points[week_points.first].to_i}]" }.join(',')
+      avg_points.sort.map { |week_points| { week: week_points.first, points: points[week_points.first].to_i, average_points: week_points.last } }
     end
 
     private
