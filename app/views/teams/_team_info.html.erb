@@ -1,16 +1,45 @@
-<div class="team_info well">
+<div id="team-info" class="well">
   <% unless team_info.active %>
   <div id="inactive_team">
     <span><%= t('.inactive') %></span>
     <%= image_tag 'icons/cancel.png', alt: t('.inactive') %>
   </div>
   <% end %>
-  <h2><%= team_info.name %></h2>
 
-  <dl class="dl-horizontal">
-    <dt><%= Team.human_attribute_name(:user) %></dt>
-    <dd><%= team_info.user.name %></dd>
-    <dt><%= Team.human_attribute_name(:created_at) %></dt>
-    <dd><%= l team_info.created_at.to_date, format: :default %></dd>
-  </dl>
+  <div class="team-points">
+    <span><%= team_info.season_points(@current_league) %></span>
+    <h3><%= PlayerStat.human_attribute_name(:points) %></h3>
+  </div>
+
+  <div class="team-data">
+    <h2><%= team_info.name %></h2>
+    <dl class="dl-horizontal">
+      <dt><%= Team.human_attribute_name(:user) %></dt>
+      <dd><%= team_info.user.name %></dd>
+      <dt><%= Team.human_attribute_name(:created_at) %></dt>
+      <dd><%= l team_info.created_at.to_date, format: :default %></dd>
+      <dt><%= Team.human_attribute_name(:value) %></dt>
+      <dd><%= number_to_human(@team.real_value_million) %></dd>
+    </dl>
+  </div>
+
+  <div id="team-points-per-week">
+    <h3><%= t '.points_per_week' %></h3>
+    <% points_chart_id = "team-points-chart" %>
+    <%= content_tag :div, "",
+          id: points_chart_id,
+          class: "collapse",
+          data: {
+            points: team_info.season_week_points_array_for_chart(@current_league),
+            xlabel: League.human_attribute_name(:week),
+            ylabels: [PlayerStat.human_attribute_name(:points)]
+          } %>
+    <% content_for :javascripts do %>
+      <script type="text/javascript">
+        $(document).ready(function () {
+          chartDrawer.drawTeamPointsChart('<%= points_chart_id %>');
+        });
+      </script>
+    <% end %>
+  </div>
 </div>

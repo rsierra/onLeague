@@ -30,6 +30,7 @@ es:
         other: Aún tienes %{count} fichajes disponibles.
     team_info:
       inactive: Inactivo
+      points_per_week: Puntos por jornada
     search_form:
       search: Buscar
       searching: Buscando...

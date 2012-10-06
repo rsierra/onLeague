@@ -30,6 +30,7 @@ en:
         other: You have %{count} remaining signings yet.
     team_info:
       inactive: Inactive
+      points_per_week: Points per week
     search_form:
       search: Search
       searching: Searching...
