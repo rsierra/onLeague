@@ -1,3 +1,55 @@
+#team-info {
+  padding-top: 5px;
+  padding-bottom: 0;
+
+  #inactive_team {
+    color: @red;
+    float: right;
+    font-weight: bolder;
+    font-size: 1.2em;
+    span {
+      margin-right: 5px;
+    }
+  }
+
+  .team-data dl {
+    margin-bottom: 10px;
+  }
+
+  .team-points {
+    float: right;
+    text-align: center;
+    margin: 30px 20px 0 0;
+
+    span {
+      font-family: @numberFont;
+      font-size: 4em;
+    }
+
+    h3 {
+      border-top: 1px black solid;
+      margin-top: 5px;
+    }
+  }
+
+  #team-points-per-week {
+    text-align: center;
+
+    h3 {
+      margin: auto;
+      border-bottom: 1px solid @gray;
+      color: @gray;
+      font-size: 1.3em;
+    }
+
+    #team-points-chart {
+      margin: auto;
+      width: 470px;
+      height: 200px;
+    }
+  }
+}
+
 #teams_index {
   #new_team_info {
     margin: 20px 0;
@@ -23,58 +75,6 @@
     form {
       text-align: center;
       margin: 10px 0 0;
-    }
-  }
-
-  #team-info {
-    padding-top: 5px;
-    padding-bottom: 0;
-
-    #inactive_team {
-      color: @red;
-      float: right;
-      font-weight: bolder;
-      font-size: 1.2em;
-      span {
-        margin-right: 5px;
-      }
-    }
-
-    .team-data dl {
-      margin-bottom: 10px;
-    }
-
-    .team-points {
-      float: right;
-      text-align: center;
-      margin: 20px;
-
-      span {
-        font-family: @numberFont;
-        font-size: 4em;
-      }
-
-      h3 {
-        border-top: 1px black solid;
-        margin-top: 5px;
-      }
-    }
-
-    #team-points-per-week {
-      text-align: center;
-
-      h3 {
-        margin: auto;
-        border-bottom: 1px solid @gray;
-        color: @gray;
-        font-size: 1.3em;
-      }
-
-      #team-points-chart {
-        margin: auto;
-        width: 470px;
-        height: 200px;
-      }
     }
   }
 

@@ -1,1 +1,31 @@
-<%= link_to team.name, team_path(team) %><br/>
+<div id="team-info" class="well">
+  <% unless team.active %>
+  <div id="inactive_team">
+    <span><%= t('.inactive') %></span>
+    <%= image_tag 'icons/cancel.png', alt: t('.inactive') %>
+  </div>
+  <% end %>
+
+  <div class="team-points">
+    <span><%= team.season_points(@current_league) %></span>
+    <h3><%= PlayerStat.human_attribute_name(:points) %></h3>
+  </div>
+
+  <div class="team-data">
+    <h2><%= link_to team.name, team_path(team) %></h2>
+    <dl class="dl-horizontal">
+      <dt><%= Team.human_attribute_name(:created_at) %></dt>
+      <dd><%= l team.created_at.to_date, format: :default %></dd>
+      <dt><%= Team.human_attribute_name(:value) %></dt>
+      <dd><%= number_to_human(team.real_value_million) %></dd>
+      <dt><%= Team.human_attribute_name(:remaining_money) %></dt>
+      <dd><%= number_to_human(team.remaining_money_million) %></dd>
+      <dt><%= Team.human_attribute_name(:formation) %></dt>
+      <dd><%= team.formation %></dd>
+      <% if team.active %>
+        <dt><%= Team.human_attribute_name(:remaining_changes) %></dt>
+        <dd><%= team.remaining_changes %></dd>
+      <% end %>
+    </dl>
+  </div>
+</div>
