@@ -4,12 +4,12 @@
     <span><%= t('.inactive') %></span>
     <%= image_tag 'icons/cancel.png', alt: t('.inactive') %>
   </div>
-  <% end %>
-
+  <% else %>
   <div class="team-points">
     <span><%= team_info.season_points(@current_league) %></span>
     <h3><%= PlayerStat.human_attribute_name(:points) %></h3>
   </div>
+  <% end %>
 
   <div class="team-data">
     <h2><%= team_info.name %></h2>
