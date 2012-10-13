@@ -309,7 +309,8 @@ class Team < ActiveRecord::Base
   end
 
   def season_points(league, season=league.season)
-    self.class.where(id: id).with_points_on_season(season).first.points
+    points = self.class.where(id: id).with_points_on_season(season).first
+    points.present? ? points.points : 0
   end
 
   private
