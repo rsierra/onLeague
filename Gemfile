@@ -61,7 +61,7 @@ group :development do
   gem 'rb-fsevent'
 end
 
-group :production do
+group :production, :staging do
   gem 'thin'
 end
 
@@ -99,3 +99,5 @@ gem 'twitter'
 gem 'koala'
 
 gem 'text'
+
+gem 'airbrake'
