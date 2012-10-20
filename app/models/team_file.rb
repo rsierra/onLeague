@@ -50,4 +50,9 @@ class TeamFile < ActiveRecord::Base
   def minimum_files
     errors.add(:player, :cant_valid_minimums) unless team.valid_minimums? position
   end
+
+  # Override player_file method, this validation only needs be checked on the player team.
+  def player_last_date_out_before
+    team.team_files.exclude_id(id || 0).of(player).maximum(:date_out) if team
+  end
 end
