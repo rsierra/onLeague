@@ -101,3 +101,5 @@ gem 'koala'
 gem 'text'
 
 gem 'airbrake'
+
+gem 'turbo-sprockets-rails3'
