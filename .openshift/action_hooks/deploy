@@ -4,6 +4,10 @@
 # up again.  This script gets executed directly, so it could be python, php,
 # ruby, etc.
 
+echo "Link shared database.yml"
+rm -f ${OPENSHIFT_REPO_DIR}config/database.yml
+ln -s ${OPENSHIFT_DATA_DIR}shared/config/database.yml ${OPENSHIFT_REPO_DIR}config/database.yml
+
 # Run db:migrate
 pushd ${OPENSHIFT_REPO_DIR} > /dev/null
 bundle exec rake db:migrate RAILS_ENV="production"
