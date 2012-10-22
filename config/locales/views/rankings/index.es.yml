@@ -1,7 +1,7 @@
 es:
   rankings:
     navlist:
-      select_ranking: Elige la puntiación
+      select_ranking: Elige la puntuación
       seasonal: Por temporada
       seasonal_twitter: Twitter
       seasonal_facebook: Facebook
