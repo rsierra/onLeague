@@ -75,6 +75,7 @@ class Team < ActiveRecord::Base
   validate :activation, if: 'active'
 
   scope :active, where(active: true)
+  scope :inactive, where(active: false)
   scope :of_league, ->(league) { where(league_id: league) }
   scope :of_league_season, ->(league, season = league.season) { where(league_id: league, season: season) }
   scope :of_user, ->(user_id) { where(user_id: user_id) }
