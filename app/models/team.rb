@@ -298,18 +298,18 @@ class Team < ActiveRecord::Base
     end
   end
 
-  def season_points_by_week_hash league, season = league.season
+  def season_points_by_week_hash season = league.season
     points = {}
     self.class.where(id: id).with_points_on_season_by_week(season).each { |file| points[file.week.to_i] = file.points.to_i }
     points
   end
 
-  def season_week_points_array_for_chart league, season = league.season
-    points = season_points_by_week_hash league, season
+  def season_week_points_array_for_chart season = league.season
+    points = season_points_by_week_hash season
     points.sort.map { |week_points| { week: week_points.first, points: week_points.last } }
   end
 
-  def season_points(league, season=league.season)
+  def season_points season = league.season
     points = self.class.where(id: id).with_points_on_season(season).first
     points.present? ? points.points : 0
   end

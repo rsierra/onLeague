@@ -6,7 +6,7 @@
   </div>
   <% else %>
   <div class="team-points">
-    <span><%= team_info.season_points(@current_league) %></span>
+    <span><%= team_info.season_points %></span>
     <h3><%= PlayerStat.human_attribute_name(:points) %></h3>
   </div>
   <% end %>
@@ -30,7 +30,7 @@
           id: points_chart_id,
           class: "collapse",
           data: {
-            points: team_info.season_week_points_array_for_chart(@current_league),
+            points: team_info.season_week_points_array_for_chart,
             xlabel: League.human_attribute_name(:week),
             ylabels: [PlayerStat.human_attribute_name(:points)]
           } %>
