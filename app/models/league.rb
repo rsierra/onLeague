@@ -83,4 +83,16 @@ class League < ActiveRecord::Base
       [game.club_home.id, game.club_away.id]
     end.flatten
   end
+
+  def notify_team_points
+    teams.active.where(season: season).each do |team|
+      UserMailer.points_notification(team).deliver
+    end
+  end
+
+  def notify_inactive_teams
+    teams.inactive.where(season: season).each do |team|
+      UserMailer.inactive_notification(team).deliver
+    end
+  end
 end
