@@ -77,12 +77,12 @@ OnLeague::Application.configure do
     :authentication => :plain,
     :user_name      => ENV['SENDGRID_USERNAME'],
     :password       => ENV['SENDGRID_PASSWORD'],
-    :domain         => 'heroku.com'
+    :domain         => 'onleague.org'
   }
 
   ActionMailer::Base.delivery_method = :smtp
 
-  config.action_mailer.default_url_options = { :host => 'onleague.org' }
+  config.action_mailer.default_url_options = { :host => 'www.onleague.org' }
 end
 
 # S3 AWS-SDK FIX
