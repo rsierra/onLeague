@@ -17,6 +17,8 @@ module RailsAdmin
         register_instance_option :controller do
           Proc.new do
             if @object.close_week
+              @object.notify_team_points
+              @object.notify_inactive_teams
               flash[:notice] = I18n.t('admin.actions.close_week.done')
             else
               flash[:error] = I18n.t('admin.actions.close_week.error')
