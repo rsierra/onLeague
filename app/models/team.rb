@@ -314,6 +314,11 @@ class Team < ActiveRecord::Base
     points.present? ? points.points : 0
   end
 
+  def season_week_points season = league.season, week = league.week
+    points = self.class.where(id: id).with_points_on_season_week(season,week).first
+    points.present? ? points.points : 0
+  end
+
   private
 
   def max_per_user
