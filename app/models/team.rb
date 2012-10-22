@@ -75,6 +75,7 @@ class Team < ActiveRecord::Base
   validate :activation, if: 'active'
 
   scope :active, where(active: true)
+  scope :inactive, where(active: false)
   scope :of_league, ->(league) { where(league_id: league) }
   scope :of_league_season, ->(league, season = league.season) { where(league_id: league, season: season) }
   scope :of_user, ->(user_id) { where(user_id: user_id) }
@@ -297,19 +298,24 @@ class Team < ActiveRecord::Base
     end
   end
 
-  def season_points_by_week_hash league, season = league.season
+  def season_points_by_week_hash season = league.season
     points = {}
     self.class.where(id: id).with_points_on_season_by_week(season).each { |file| points[file.week.to_i] = file.points.to_i }
     points
   end
 
-  def season_week_points_array_for_chart league, season = league.season
-    points = season_points_by_week_hash league, season
+  def season_week_points_array_for_chart season = league.season
+    points = season_points_by_week_hash season
     points.sort.map { |week_points| { week: week_points.first, points: week_points.last } }
   end
 
-  def season_points(league, season=league.season)
+  def season_points season = league.season
     points = self.class.where(id: id).with_points_on_season(season).first
+    points.present? ? points.points : 0
+  end
+
+  def season_week_points season = league.season, week = league.week
+    points = self.class.where(id: id).with_points_on_season_week(season,week).first
     points.present? ? points.points : 0
   end
 

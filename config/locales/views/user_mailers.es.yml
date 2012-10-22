@@ -1,0 +1,5 @@
+es:
+  mailers:
+    user_mailers:
+      points_notification_subject: '[onLeague] Puntuación de %{team_name}'
+      inactive_notification_subject: '[onLeague] %{team_name} está inactivo'

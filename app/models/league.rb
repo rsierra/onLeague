@@ -1,6 +1,7 @@
 class League < ActiveRecord::Base
   has_and_belongs_to_many :clubs
   has_many :games
+  has_many :teams
 
   validates :name, :presence => true, :uniqueness => true
   validates :week, :presence => true,
@@ -81,5 +82,17 @@ class League < ActiveRecord::Base
     games.includes(:club_home, :club_away).season(season).week(1).map do |game|
       [game.club_home.id, game.club_away.id]
     end.flatten
+  end
+
+  def notify_team_points
+    teams.active.where(season: season).each do |team|
+      UserMailer.points_notification(team).deliver
+    end
+  end
+
+  def notify_inactive_teams
+    teams.inactive.where(season: season).each do |team|
+      UserMailer.inactive_notification(team).deliver
+    end
   end
 end

@@ -1,0 +1,10 @@
+Hi <%= @user_name %>,
+
+  the <%= @league_name %> week <%= @week %> is over and the points has been calculated.
+
+  Your team <%= @team_name %> has <%= pluralize @points, 'point' %>.
+
+  You can see your ranking at <%= rankings_url %> and you can make substitutions for the next week.
+
+Thanks for playing!
+<%= root_url %>
