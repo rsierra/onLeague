@@ -1,8 +1,23 @@
-Hola <%= @user_name %>,
-
-  la jornada <%= @week %> de la <%= @league_name %> ha finalizado y tu equipo <%= @team.name %> no estaba activado.
-
-  Recuerda que ya puedes realizar fichajes en <%= team_url(@team) %> y activar tu equipo para puntuar la próxima semana. ¡Mucha suerte!
-
-¡Gracias por jugar y un saludo!
-<%= root_url %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p>
+      Hola <%= @user_name %>,
+    </p>
+    <p>
+      la jornada <%= @week %> de la <%= @league_name %> ha finalizado
+      y tu equipo <%= @team.name %> no estaba activado.
+    </p>
+    <p>
+      Recuerda que ya puedes realizar fichajes <%= link_to 'aquí', team_url(@team) %>
+      y activar tu equipo para puntuar la próxima semana. ¡Mucha suerte!
+    </p>
+    <p>
+      ¡Gracias por jugar!</br>
+      <%= link_to root_url, root_url %>
+    </p>
+  </body>
+</html>
