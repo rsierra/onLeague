@@ -2,9 +2,9 @@ es:
   home:
     index:
       clubs_description: Revisa la evolución de los clubs de la liga.
-      congrats: Enhorabuena a %{user}, en entrenador de %{team}, ganador de la jornada %{week}.
+      congrats: Enhorabuena a %{user}, entrenador de %{team}, ganador de la jornada %{week}.
       current_week: Se está disputando actualmente la jornada %{week}.
-      games_description: Consulta los todos los datos de los partidos.
+      games_description: Consulta los todos datos de los partidos.
       join: Únete desde tus redes sociales y compite contra tus amigos para
         quedar lider de la clasificación.
       latest_news: Últimas noticias
