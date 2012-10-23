@@ -22,10 +22,10 @@ RailsAdmin.config do |config|
     close_week
     scraper_lineups
     scrap_lineups
-    scraper_cards
-    scrap_cards
     scraper_substitutions
     scrap_substitutions
+    scraper_cards
+    scrap_cards
     scraper_goals
     scrap_goals
     delete

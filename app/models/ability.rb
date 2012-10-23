@@ -23,10 +23,10 @@ class Ability
       can :write, Game
       can :scraper_lineups, Game
       can :scrap_lineups, Game
-      can :scraper_cards, Game
-      can :scrap_cards, Game
       can :scraper_substitutions, Game
       can :scrap_substitutions, Game
+      can :scraper_cards, Game
+      can :scrap_cards, Game
       can :scraper_goals, Game
       can :scrap_goals, Game
       can :update, Goal
