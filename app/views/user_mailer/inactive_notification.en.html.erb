@@ -1,8 +1,23 @@
-Hi <%= @user_name %>,
-
-  the <%= @league_name %> week <%= @week %> is over and your team <%= @team.name %> was inactive.
-
-  You can buy players now, at <%= team_url(@team) %> and activate your team to get points next week. Good luck!
-
-Thanks for playing!
-<%= root_url %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p>
+      Hi <%= @user_name %>,
+    </p>
+    <p>
+      the <%= @league_name %> week <%= @week %> is over
+      and your team <%= @team.name %> was inactive.
+    </p>
+    <p>
+      You can buy players now <%= link_to 'here', team_url(@team) %>
+      and activate your team to get points next week. Good luck!
+    </p>
+    <p>
+      Thanks for playing!</br>
+      <%= link_to root_url, root_url %>
+    </p>
+  </body>
+</html>

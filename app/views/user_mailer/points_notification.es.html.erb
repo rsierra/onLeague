@@ -1,10 +1,28 @@
-Hola <%= @user_name %>,
-
-  la jornada <%= @week %> de la <%= @league_name %> ha finalizado y los puntos han sido calculados.
-
-  Tu equipo <%= @team_name %> ha conseguido <%= pluralize @points, 'punto' %>.
-
-  Puedes consultar tu posición en <%= rankings_url %> y recuerda que ya puedes hacer cambios para la próxima jornada.
-
-¡Gracias por jugar y un saludo!
-<%= root_url %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p>
+      Hola <%= @user_name %>,
+    </p>
+    <p>
+      la jornada <%= @week %> de la <%= @league_name %> ha finalizado y ya hemos calculado todos los puntos.
+    </p>
+    <p>
+      Tu equipo <%= @team.name %> ha conseguido <%= pluralize @points, 'punto' %>.
+    </p>
+    <p>
+      Puedes consultar tu posición
+      <%= link_to 'aquí', rankings_url(season: @season, week: @week) %>
+      y recuerda que ya puedes hacer
+      <%= link_to 'cambios', team_url(@team) %>
+      para la próxima jornada.
+    </p>
+    <p>
+      ¡Gracias por jugar!</br>
+      <%= link_to root_url, root_url %>
+    </p>
+  </body>
+</html>
