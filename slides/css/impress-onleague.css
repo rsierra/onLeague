@@ -293,6 +293,9 @@ a:focus {
     margin: 20px;
 }
 
+.fantasy-league ul {
+    margin: 50px 200px;
+    line-height: 70px;
 }
 
 /*
@@ -715,3 +718,7 @@ a:focus {
     Thanks for reading. I hope you enjoyed it at least as much as I enjoyed writing it
     for you.
 */
+
+li.hide-bullet {
+    visibility: hidden;
+}
