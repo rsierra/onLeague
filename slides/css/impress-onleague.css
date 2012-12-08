@@ -238,17 +238,61 @@ a:focus {
 }
 
 #title h1 {
-    font-size: 190px;
+    font-size: 90px;
+    margin-top: 50px;
+    margin-bottom: 20px;
 
     -webkit-transform: translateZ(50px);
     -moz-transform:    translateZ(50px);
     -ms-transform:     translateZ(50px);
     -o-transform:      translateZ(50px);
     transform:         translateZ(50px);
+
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
 }
 
 #title .footnote {
-    font-size: 32px;
+    font-size: 22px;
+    text-align: center;
+}
+
+#title #subtitle {
+    text-align: center;
+    font-size: 40px;
+    margin: 25px 0;
+}
+
+#title img#logo-onleague {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    margin-left: 100px;
+}
+
+#title #author {
+    text-align: center;
+    margin: 80px auto 30px auto;
+    font-size: 25px;
+}
+
+#title .footnote span {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#title .footnote img.logo {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    height: 120px;
+    margin: 20px;
+}
+
 }
 
 /*
