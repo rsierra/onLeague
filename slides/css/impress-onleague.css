@@ -28,7 +28,7 @@ body {
     line-height: 1;
 }
 ol, ul {
-    list-style: none;
+    list-style: disc;
 }
 blockquote, q {
     quotes: none;
@@ -295,8 +295,9 @@ a:focus {
     margin: 20px;
 }
 
-.fantasy-league ul {
-    margin: 50px 200px;
+.fantasy-league ul,
+.agile ul {
+    margin: 50px 150px;
     line-height: 70px;
 }
 
