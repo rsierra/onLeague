@@ -735,6 +735,11 @@ body pre code {
     padding-bottom: 0.2em;
 }
 
+.slide img.spring {
+    width: 400px;
+    margin-left: 200px;
+}
+
 .slide h2.header {
     float: right;
     border-bottom: 1px solid black;
