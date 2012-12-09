@@ -726,6 +726,15 @@ li.hide-bullet {
     visibility: hidden;
 }
 
+body pre code {
+    background: rgba(0, 0, 0, 0.6);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
 .slide h2.header {
     float: right;
     border-bottom: 1px solid black;

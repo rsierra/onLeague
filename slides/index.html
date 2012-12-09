@@ -13,6 +13,7 @@
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
 
     <link href="css/impress-onleague.css" rel="stylesheet" />
+    <link href="css/sunburst.css" rel="stylesheet" />
 
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -131,6 +132,34 @@
             <li>Integración continua</li>
         </ul>
     </div>
+
+    <div id="ruby" class="step slide" data-x="4500" data-y="0">
+        <h2 class="header">Metodología</h2>
+        <q>Ruby on Rails</q>
+    </div>
+
+    <div id="ruby-code" class="step slide" data-x="6000" data-y="0">
+        <h2 class="header">Metodología</h2>
+        <h2>Código Ruby on Rails</h2>
+        <pre>
+            <code class="ruby">
+    <span class="keyword">class</span> Game < <span class="symbol">ActiveRecord::Base</span>
+        <span class="keyword">belongs_to</span> :league
+        <span class="comment">#...</span>
+        <span class="keyword">has_many</span> :goals
+        <span class="keyword">accepts_nested_attributes_for</span> :goals
+        <span class="keyword">validates</span> :club_home, :club_away, <span class="keyword">presence:</span> <span class="symbol">true</span>
+        <span class="comment">#...</span>
+        <span class="keyword">validates</span> :week,  <span class="keyword">presence:</span> <span class="symbol">true</span>,
+            <span class="keyword">numericality:</span> { <span class="keyword">only_integer:</span> <span class="symbol">true</span>, <span class="keyword">greater_than:</span> <span class="symbol">0</span> },
+        <span class="comment">#...</span>
+        <span class="keyword">scope</span> :evaluated, <span class="keyword">where</span>(status: <span class="string">'evaluated'</span>)
+        <span class="comment">#...</span>
+        <span class="keyword">before_save</span> :trigger_status_events
+            </code>
+        </pre>
+    </div>
+
 </div>
 
 <!--
