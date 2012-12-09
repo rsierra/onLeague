@@ -724,3 +724,10 @@ a:focus {
 li.hide-bullet {
     visibility: hidden;
 }
+
+.slide h2.header {
+    float: right;
+    border-bottom: 1px solid black;
+    width: 400px;
+    text-align: right;
+}
