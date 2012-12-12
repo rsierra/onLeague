@@ -9,13 +9,8 @@
       <strong><%= t '.no_rankings' %></strong>
     </div>
     <% else %>
-
-      <div>
-        <%= paginate @rankings %>
-      </div>
-
       <%= render partial: "teams", object: @rankings %>
-
+      <%= paginate @rankings %>
     <% end %>
   </div>
 </div>
