@@ -28,7 +28,7 @@ body {
     line-height: 1;
 }
 ol, ul {
-    list-style: disc;
+    list-style: none;
 }
 blockquote, q {
     quotes: none;
@@ -295,10 +295,23 @@ a:focus {
     margin: 20px;
 }
 
-.fantasy-league ul,
-.agile ul {
-    margin: 50px 150px;
+.bullets ul,
+.bullets ol {
+    list-style: disc;
+    margin: 50px 0 0 150px;
     line-height: 70px;
+}
+
+.bullets ul {
+    list-style: disc;
+}
+
+.bullets ol {
+    list-style: decimal;
+}
+
+.bullets li.hide-bullet {
+    visibility: hidden;
 }
 
 /*
@@ -721,10 +734,6 @@ a:focus {
     Thanks for reading. I hope you enjoyed it at least as much as I enjoyed writing it
     for you.
 */
-
-li.hide-bullet {
-    visibility: hidden;
-}
 
 body pre code {
     background: rgba(0, 0, 0, 0.6);
