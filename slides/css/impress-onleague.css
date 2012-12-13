@@ -746,13 +746,22 @@ body pre code {
 
 .slide img.spring {
     width: 400px;
-    margin-left: 200px;
+    float: right;
+}
+
+.slide img.right-logo {
+    width: 300px;
+    float: right;
+}
+
+.slide img.full {
+    width: 800px;
 }
 
 .slide h2.header {
     float: right;
     border-bottom: 1px solid black;
-    width: 400px;
+    width: 500px;
     text-align: right;
 }
 
