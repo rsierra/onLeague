@@ -755,3 +755,14 @@ body pre code {
     width: 400px;
     text-align: right;
 }
+
+.section .title {
+    margin-top: 250px;
+    text-align: center;
+    color: #444444;
+    font-family: 'MEgalopolisExtraRegular';
+    font-weight: bold;
+    font-size: 3em;
+    text-transform: uppercase;
+    text-shadow: -1px -1px 1px #000000, 1px 1px 1px #CCCCCC;
+}
