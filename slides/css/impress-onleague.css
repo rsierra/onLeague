@@ -750,7 +750,7 @@ body pre code {
 }
 
 .slide img.right-logo {
-    width: 300px;
+    width: 250px;
     float: right;
 }
 
@@ -774,4 +774,18 @@ body pre code {
     font-size: 3em;
     text-transform: uppercase;
     text-shadow: -1px -1px 1px #000000, 1px 1px 1px #CCCCCC;
+}
+
+
+#ruby.bullets ul {
+    margin: 30px 0 0 50px;
+    line-height: 50px;
+}
+
+#points.bullets ul {
+    margin: 50px 0 0 30px;
+}
+
+#conclusions-1.bullets ul {
+    margin: 50px 0 0 50px;
 }
