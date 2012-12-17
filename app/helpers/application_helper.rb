@@ -33,7 +33,11 @@ module ApplicationHelper
       per_page = collection.length
     else
       if collection.respond_to?(:total_count) && collection.respond_to?(:num_pages)
-        per_page = collection.total_count - collection.length / collection.num_pages.pred
+        if collection.num_pages == 1
+          per_page = collection.length
+        else
+          per_page = collection.total_count - collection.length / collection.num_pages.pred
+        end
       end
     end
     page_offset = (collection.current_page - 1) * per_page.to_i if collection.respond_to? :current_page
