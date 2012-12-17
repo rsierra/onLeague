@@ -57,11 +57,11 @@
   </div>
 
   <div class="row">
-    <div class="span4 offset1">
+    <div id="players-top" class="span4 offset1 points-top">
       <h2><%= t('.top_players', week: @current_league.current_week) %></h2>
       <%= render partial: "shared/players_points", object: @top_players %>
     </div>
-    <div class="span5 offset1">
+    <div id="teams-top" class="span5 offset1 points-top">
       <h2><%= t('.top_teams', week: @current_league.current_week) %></h2>
       <%= render partial: "rankings/teams", object: @top_teams %>
     </div>
