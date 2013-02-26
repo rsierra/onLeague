@@ -230,7 +230,7 @@ class Game < ActiveRecord::Base
       goalkeeper = goalkeeper_lineup.player
       goalkeeper_substitution = substitutions.of_players_in(club_goalkeeper_ids).before(minute).last
       goalkeeper = goalkeeper_substitution.player_in unless goalkeeper_substitution.blank?
-      goalkeeper = nil if goalkeeper.cards.red.before(minute).exists?
+      goalkeeper = nil if cards.of(goalkeeper).red.before(minute).exists?
     end
     goalkeeper
   end
